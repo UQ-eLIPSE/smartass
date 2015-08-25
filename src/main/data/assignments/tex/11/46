@@ -1,0 +1,50 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf Year 8 Algebra} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf Year 8 Algebra \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf Year 8 Algebra \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL CancelPowersInFractionTemplate.tex
+%%CALL FractionEquation1Template.tex
+%%CALL FractionEquation2Template.tex
+%%CALL SimpleEquation1Template.tex
+%%CALL FractionAddFractionTemplate.tex
+%%CALL FractionsTemplate.tex
+%%CALL PrimesCompositeTemplate.tex
+%%REPEAT 5
+%%CALL FunctionGraphsCompositeTemplate.tex
+%%ENDREPEAT
+\end{document}

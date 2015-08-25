@@ -1,0 +1,25 @@
+%Substitute first value and find a value of a second variable: y=c, find x if y=ax+b.
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+SubstituteValueModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Let $#<v1.vartosubstitutename#>=#<v1.valuetosubstitute#>$. Find #<v1.varname#>, if  #<v1.question#> 
+%%END QUESTION
+
+%%BEGIN SOLUTION
+Substituting for #<v1.vartosubstitutename#> into the equation  gives
+#<v1.solution#> \\[1.6mm]
+Hence #<v1.shortanswer#> 
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+#<v1.shortanswer#>
+%%END SHORTANSWER
+
+\end{document}

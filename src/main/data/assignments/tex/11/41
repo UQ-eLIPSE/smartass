@@ -1,0 +1,48 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf Year 8 Fractions} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf Year 8 Fractions \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf Year 8 Fractions \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL FractionAddFractionTemplate.tex
+%%CALL FractionsTemplate.tex
+%%CALL AbsEquationTemplate.tex
+%%CALL AbsTemplate.tex
+%%REPEAT 5
+%%CALL AbsTemplate.tex
+%%CALL AddPowersTemplate.tex
+%%ENDREPEAT
+\end{document}

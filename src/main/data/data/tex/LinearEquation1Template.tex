@@ -1,0 +1,28 @@
+%Find the equation of the line with gradient m and passing through the point (x1, y1)
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+LineInterceptModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Find the equation of the straight line with gradient $m=#<v1.m#>$ 
+passing through the point $(#<v1.x1#>,#<v1.y1#>)$.
+%%END QUESTION
+
+%%BEGIN SOLUTION
+Thus the equation of the line is $y=#<v1.m#>x+c$ and we can substitute the coordinates of the point
+$(x_{1}, y_{1})=(#<v1.x1#>,#<v1.y1#>)$ into this equation to get the value for $c$.
+Hence $#<v1.substituted#>$ , so $#<v1.c#>=c$.
+
+Hence the equation of the line is   $#<v1.equation#>$.
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+$#<v1.equation#>$
+%%END SHORTANSWER
+
+\end{document}

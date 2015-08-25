@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:aop="http://www.springframework.org/schema/aop"
+   xmlns:flow="http://www.springframework.org/schema/webflow-config"
+   
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+      http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+      http://www.springframework.org/schema/webflow-config
+      http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
+      
+
+	<bean id="viewResolver"
+	      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+
+<!-- Repository data -->
+
+	<bean id="authorsDao"
+	      class="au.edu.uq.smartass.web.jdbc.AuthorsDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="classificationsDao"
+	      class="au.edu.uq.smartass.web.jdbc.ClassificationsDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="filesDao"
+	      class="au.edu.uq.smartass.web.jdbc.FilesDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="modulesDao"
+	      class="au.edu.uq.smartass.web.jdbc.ModulesDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="updatesDao"
+	      class="au.edu.uq.smartass.web.jdbc.UpdatesDao">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorsDao" ref="authorsDao" />
+	</bean>
+
+	<bean id="templatesDao"
+	      class="au.edu.uq.smartass.web.jdbc.TemplatesDao">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorsDao" ref="authorsDao" />
+		<property name="updatesDao" ref="updatesDao" />
+	</bean>
+
+<!-- Assignments data -->
+
+	<bean id="usersDao"
+	      class="au.edu.uq.smartass.web.jdbc.UsersDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="assignmentsDao"
+	      class="au.edu.uq.smartass.web.jdbc.AssignmentsDao">
+		<property name="dataSource" ref="dataSource" />
+		<property name="usersDao" ref="usersDao" />
+	</bean>
+	
+<!-- Help data -->
+
+	<bean id="helpDao" class="au.edu.uq.smartass.web.jdbc.HelpPagesDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+<!-- View-controller beans -->
+
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+
+	<bean name="/index.htm"
+	      class="au.edu.uq.smartass.web.mvc.HomePageController">
+		<property name="templatesDao" ref="templatesDao" />
+		<property name="assignmentsDao" ref="assignmentsDao" />
+		<property name="usersDao" ref="usersDao" />
+	</bean>
+	
+	<bean name="/repository.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryListTemplatesController">
+		<property name="templatesDao" ref="templatesDao" />
+		<property name="classificationsDao" ref="classificationsDao" />
+	</bean>
+	
+	<bean name="/template.htm"
+	      class="au.edu.uq.smartass.web.mvc.TemplateDetailesController">
+		<property name="templatesDao" ref="templatesDao" />
+	</bean>
+	
+	<bean name="/download.htm"
+	      class="au.edu.uq.smartass.web.mvc.DownloadController">
+		<property name="repositoryStorage" ref="repositoryStorage" />
+		<property name="templatesDao" ref="templatesDao" />
+		<property name="filesDao" ref="filesDao" />
+	</bean>
+
+	<bean name="/view.htm"
+	      class="au.edu.uq.smartass.web.mvc.TemplateViewController">
+		<property name="repositoryStorage" ref="repositoryStorage" />
+		<property name="templatesDao" ref="templatesDao" />
+	</bean>
+
+	<bean name="/download-assignment.htm"
+	      class="au.edu.uq.smartass.web.composer.DownloadAssignmentController">
+	</bean>
+
+	<bean id ="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>	
+	
+	<bean name="/register.htm"
+	        class="au.edu.uq.smartass.web.mvc.RegisterUserFormController">
+		<property name="formView" value="registerUser" />
+		<property name="successView" value="userRegistered" />
+		<property name="usersDao" ref="usersDao" />
+		<property name="validator">
+			<bean class="au.edu.uq.smartass.web.mvc.UserRegistrationValidator">
+				<property name="usersDao" ref="usersDao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/login.htm"
+	        class="au.edu.uq.smartass.web.mvc.UserLoginController	">
+		<property name="formView" value="userLogin" />
+		<property name="usersDao" ref="usersDao" />
+		<property name="validator">
+			<bean class="au.edu.uq.smartass.web.mvc.UserLoginValidator">
+				<property name="usersDao" ref="usersDao" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/logout.htm"
+	      class="au.edu.uq.smartass.web.mvc.UserLogoutController">
+		<property name="templatesDao" ref="templatesDao" />
+	</bean>
+
+	<bean name="/edituser.htm"
+	        class="au.edu.uq.smartass.web.mvc.UserSettingsController	">
+		<property name="formView" value="userSettings" />
+		<property name="usersDao" ref="usersDao" />
+		<property name="validator">
+			<bean class="au.edu.uq.smartass.web.mvc.UserSettingsValidator"/>
+		</property>
+	</bean>
+	
+	<bean name="/users.htm"
+	        class="au.edu.uq.smartass.web.mvc.ListUsersController	">
+		<property name="usersDao" ref="usersDao" />
+	</bean>
+
+	<bean name="/userdetails.htm"
+	        class="au.edu.uq.smartass.web.mvc.UserDetailsController	">
+		<property name="dao" ref="usersDao" />
+	</bean>
+	
+	<bean name="/adminuser.htm"
+	        class="au.edu.uq.smartass.web.mvc.AdministrateUserController">
+		<property name="formView" value="adminUser" />
+		<property name="usersDao" ref="usersDao" />
+	</bean>
+	
+	<bean name="/user-delete.htm"
+	        class="au.edu.uq.smartass.web.mvc.DeleteUserController	">
+		<property name="usersDao" ref="usersDao" />
+	</bean>
+
+	<bean name="/user-delete-confirm.htm"
+	        class="au.edu.uq.smartass.web.mvc.ConfirmDeleteUserController	">
+		<property name="dao" ref="usersDao" />
+	</bean>
+
+	<bean name="/user-edit-password.htm"
+	        class="au.edu.uq.smartass.web.mvc.ChangeUserPasswordController	">
+		<property name="formView" value="changeUserPassword" />
+		<property name="dao" ref="usersDao" />
+		<property name="validator">
+			<bean class="au.edu.uq.smartass.web.mvc.ChangeUserPasswordValidtor"/>
+		</property>
+	</bean>
+
+	<bean name="/repository-authors.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryListAuthorsController">
+		<property name="dao" ref="authorsDao" />
+	</bean>
+
+	<bean name="/repository-author.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryEditAuthorController">
+		<property name="formView" value="repositoryAuthorEdit" />
+		<property name="dao" ref="authorsDao" />
+	</bean>
+
+	<bean name="/repository-author-delete-confirm.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteAuthorController">
+		<property name="dao" ref="authorsDao" />
+	</bean>
+
+	<bean name="/repository-author-delete.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteAuthorController">
+		<property name="dao" ref="authorsDao" />
+	</bean>
+
+	<bean name="/repository-modules.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryListModulesController">
+		<property name="dao" ref="modulesDao" />
+	</bean>
+
+	<bean name="/repository-module.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryEditModuleController">
+		<property name="formView" value="repositoryModuleEdit" />
+		<property name="dao" ref="modulesDao" />
+	</bean>
+
+	<bean name="/repository-module-delete-confirm.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteModuleController">
+		<property name="dao" ref="modulesDao" />
+	</bean>
+
+	<bean name="/repository-module-delete.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteModuleController">
+		<property name="dao" ref="modulesDao" />
+	</bean>
+	
+	<bean name="/repository-classs.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryListClassificationsController">
+		<property name="dao" ref="classificationsDao" />
+	</bean>
+
+	<bean name="/repository-class.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryEditClassificationController">
+		<property name="formView" value="repositoryClassEdit" />
+		<property name="dao" ref="classificationsDao" />
+	</bean>
+
+	<bean name="/repository-class-delete-confirm.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteClassificationController">
+		<property name="dao" ref="classificationsDao" />
+	</bean>
+
+	<bean name="/repository-class-delete.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteClassificationController">
+		<property name="dao" ref="classificationsDao" />
+	</bean>
+
+	<bean name="/repository-files.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryListFilesController">
+		<property name="dao" ref="filesDao" />
+	</bean>
+
+	<bean name="/repository-file.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryEditFileController">
+		<property name="formView" value="repositoryFileEdit" />
+		<property name="dao" ref="filesDao" />
+		<property name="repository" ref="repositoryStorage" />
+	</bean>
+
+	<bean name="/repository-file-delete-confirm.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteFileController">
+		<property name="dao" ref="filesDao" />
+	</bean>
+
+	<bean name="/repository-file-delete.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteFileController">
+		<property name="dao" ref="filesDao" />
+		<property name="storage" ref="repositoryStorage" />
+	</bean>
+
+	<bean name="/repository-template-delete-confirm.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteTemplateController">
+		<property name="dao" ref="templatesDao" />
+	</bean>
+
+	<bean name="/repository-template-delete.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteTemplateController">
+		<property name="dao" ref="templatesDao" />
+		<property name="storage" ref="repositoryStorage" />
+	</bean>
+
+	<bean name="/repository-export.htm"
+	      class="au.edu.uq.smartass.web.mvc.ExportRepositoryController">
+		<property name="repositoryStorage" ref="repositoryStorage" />
+		<property name="templatesDao" ref="templatesDao" />
+	</bean>
+
+	<bean name="/repository-import.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryImportController">
+		<property name="formView" value="repositoryImport" />
+	</bean>
+
+	<bean name="/repository-import-confirm.htm"
+	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmImportController">
+		<property name="formView" value="repositoryConfirmImport" />
+		<property name="templateEditor" ref="templateEditor"/>
+		<property name="templatesDao" ref="templatesDao" />
+		<property name="classificationsDao" ref="classificationsDao" />
+		<property name="storage" ref="repositoryStorage" />
+	</bean>
+
+	<bean name="/assignment-delete-confirm.htm"
+	      class="au.edu.uq.smartass.web.mvc.AssignmentConfirmDeleteController">
+		<property name="dao" ref="assignmentsDao" />
+	</bean>
+
+	<bean name="/assignment-delete.htm"
+	      class="au.edu.uq.smartass.web.mvc.AssignmentDeleteController">
+		<property name="dao" ref="assignmentsDao" />
+		<property name="storage" ref="assignmentsStorage" />
+	</bean>
+
+	<bean name="/backups.htm"
+	      class="au.edu.uq.smartass.web.mvc.ListBackupsController">
+		<property name="backupStorage" ref="backupStorage" />
+	</bean>
+
+	<bean name="/backup-file.htm"
+	      class="au.edu.uq.smartass.web.mvc.DownloadBackupController">
+		<property name="backupStorage" ref="backupStorage" />
+	</bean>
+
+	<bean name="/contacts.htm"
+	      class="au.edu.uq.smartass.web.mvc.ContactsController"/>
+
+	<bean name="/no-page-redirect.htm"
+	      class="au.edu.uq.smartass.web.mvc.PageNotFoundRedirectController"/>
+
+	<bean name="/help.htm"
+	      class="au.edu.uq.smartass.web.mvc.HelpPageController">
+ 		<property name="dao" ref="helpDao" /> 
+	</bean>
+	
+	<bean name="/do-backup.htm" class="au.edu.uq.smartass.web.mvc.CreateBackupController">
+		<property name="backupCreator" ref="backupCreator"/>
+	</bean>
+<!-- InteractiveApp related beans -->
+
+	<bean name="/interactive.htm"
+	        class="au.edu.uq.smartass.web.iapp.InteractiveAppController">
+	</bean>
+
+	<bean name="/interactive-template-tree.htm"
+	        class="au.edu.uq.smartass.web.iapp.ParseTemplateTreeController">
+	    <property name="repository" ref="repositoryStorage"/>
+	</bean>
+
+	<bean name="/interactive-code-post-node.htm"
+	        class="au.edu.uq.smartass.web.iapp.UpdateTemplateNodeController">
+	    <property name="repository" ref="repositoryStorage"/>
+	</bean>
+
+	<bean name="/interactive-result-post-node.htm"
+	        class="au.edu.uq.smartass.web.iapp.UpdateResultNodeController">
+	    <property name="repository" ref="repositoryStorage"/>
+	</bean>
+
+	<bean name="/interactive-template-execute.htm"
+	        class="au.edu.uq.smartass.web.iapp.ExecuteTemplateController">
+	    <property name="repository" ref="repositoryStorage"/>
+	</bean>
+
+	<bean name="/interactive-template-sections.htm"
+	        class="au.edu.uq.smartass.web.iapp.SectionListController">
+	    <property name="repository" ref="repositoryStorage"/>
+	</bean>
+
+	<bean name="/interactive-pdf.htm"
+	        class="au.edu.uq.smartass.web.iapp.NodePdfCreatorController">
+	    <property name="repository" ref="repositoryStorage"/>
+	    <property name="creator" ref="dviPdfCreator"/>
+	</bean>
+
+<!-- Flow-related beans -->
+
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+		<property name="flowExecutor" ref="flowExecutor" />
+	</bean> 
+	
+	<flow:flow-executor id="flowExecutor"/>
+	
+	<flow:flow-registry id="flowRegistry">
+		<flow:flow-location path="/WEB-INF/flows/composer.xml" />
+		<flow:flow-location path="/WEB-INF/flows/template.xml" />
+		<flow:flow-location path="/WEB-INF/flows/template-edit.xml" />
+	</flow:flow-registry>
+	
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/> 
+
+	<bean id="flowUrlMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+        	<value>
+				/composer.htm=composerFlowHandler
+				/repository-template-new.htm=templateFlowHandler
+				/repository-template-edit.htm=templateEditFlowHandler
+			</value>
+    	</property>
+	</bean>  
+
+	
+
+<!-- Composer flow-related beans -->
+	
+	<bean id="addChoiceAction" class="au.edu.uq.smartass.web.composer.AddChoiceAction"/>
+	
+	<bean id="editSelectedAction" class="au.edu.uq.smartass.web.composer.EditSelectedAction"/>
+	
+	<bean id="addCallsAction" class="au.edu.uq.smartass.web.composer.AddCallsAction">
+		<property name="templatesDao" ref="templatesDao" />
+	</bean>
+	
+	<bean id="searchTemplateAction" class="org.springframework.webflow.action.FormAction">
+		<property name="formObjectName" value="search" />
+		<property name="formObjectScope" value="FLOW" />
+		<property name="formObjectClass" value="au.edu.uq.smartass.web.composer.SelectTemplatesControl" />
+	</bean>
+
+	<bean id="assignmentEditor" class="au.edu.uq.smartass.web.composer.AssignmentEditor">
+		<property name="dao" ref="assignmentsDao" />
+		<property name="storage" ref="assignmentsStorage" />
+	</bean>
+	
+	<bean id="executeTemplateAction" class="au.edu.uq.smartass.web.composer.ExecuteTemplateAction"/>
+
+	<bean id="clearResultsAction" class="au.edu.uq.smartass.web.composer.ClearResultsAction"/>
+
+	<bean id="dviPdfCreator" class="au.edu.uq.smartass.web.composer.DviPdfCreator"/>
+
+	<bean id="composerFlowHandler" class="au.edu.uq.smartass.web.composer.ComposerFlowHandler" />
+	
+	<bean id="assignmentWizardController" class="au.edu.uq.smartass.web.composer.AssignmentWizardController">
+		<property name="templates" ref="assignmentTemplatesStorage"/>
+	</bean>
+
+<!-- Template import flow related beans -->
+
+	<bean id="templateFlowHandler" class="au.edu.uq.smartass.web.template.TemplateFlowHandler" />
+
+	<bean id="templateEditor" class="au.edu.uq.smartass.web.template.TemplateEditor" >
+		<property name="authorsDao" ref="authorsDao"/>
+		<property name="modulesDao" ref="modulesDao"/>
+		<property name="filesDao" ref="filesDao"/>
+		<property name="templatesDao" ref="templatesDao"/>
+		<property name="classificationsDao" ref="classificationsDao"/>
+		<property name="storage" ref="repositoryStorage"/>
+	</bean>
+	
+
+	<bean id="resolveAuthorController" class="au.edu.uq.smartass.web.template.ResolveAuthorController" >
+		<property name="dao" ref="authorsDao"/>
+	</bean>
+
+	<bean id="resolveModuleController" class="au.edu.uq.smartass.web.template.ResolveModuleController" >
+		<property name="dao" ref="modulesDao"/>
+	</bean>
+
+	<bean id="resolveUpdateController" class="au.edu.uq.smartass.web.template.ResolveUpdateController" >
+	</bean>
+
+	<bean id="resolveFileController" class="au.edu.uq.smartass.web.template.ResolveFileController" >
+		<property name="dao" ref="filesDao"/>
+		<property name="storage" ref="repositoryStorage" />
+	</bean>
+
+	<bean id="resolveUpdAuthorController" class="au.edu.uq.smartass.web.template.ResolveUpdAuthorController" >
+		<property name="dao" ref="authorsDao"/>
+	</bean>
+
+	<bean id="newUpdateController" class="au.edu.uq.smartass.web.template.NewUpdateController" >
+		<property name="dao" ref="authorsDao"/>
+	</bean>
+
+	<bean id="selectAuthorController" class="au.edu.uq.smartass.web.template.SelectAuthorController" >
+		<property name="dao" ref="authorsDao"/>
+	</bean>
+	
+	<bean id="resolveClassificationController" class="au.edu.uq.smartass.web.template.ResolveClassificationController" >
+	</bean>
+	
+<!--	<bean id="itemValidator" class="au.edu.uq.smartass.web.template.ItemValidator" >
+	</bean> -->
+	
+	
+
+
+<!-- Template edit flow related beans -->
+
+	<bean id="templateEditFlowHandler" class="au.edu.uq.smartass.web.template.TemplateEditFlowHandler" />
+
+
+
+</beans>

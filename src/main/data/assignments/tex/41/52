@@ -1,0 +1,43 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+\underline{{\bf Mid Sem 2 Exam Practice} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+\underline{{\bf Mid Sem 2 Exam Practice \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+\underline{{\bf Mid Sem 2 Exam Practice \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+Mid Sem 2 Exam Practice
+
+%%END QUESTION
+%%BEGIN SOLUTION
+Mid Sem 2 Exam Practice
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+Mid Sem 2 Exam Practice
+
+%%END SHORTANSWER
+
+%%REPEAT 3
+%%BEGIN QUESTION
+Answer each of the following questions, showing all working:
+%%END QUESTION
+%%CALL AbsEquationTemplate.tex
+%%CALL AbsTemplate.tex
+%%CALL DegreesIntoRadiansTemplate.tex
+%%CALL TrigFunctionGraphTemplate.tex
+%%ENDREPEAT
+\end{document}

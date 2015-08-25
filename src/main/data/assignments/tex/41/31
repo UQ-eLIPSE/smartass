@@ -1,0 +1,57 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf Mid Sem 4 Exam} }
+
+KAPS
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf Mid Sem 4 Exam \qquad\qquad SOLUTIONS} }
+
+KAPS
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf Mid Sem 4 Exam \qquad\qquad ANSWERS} }
+
+KAPS
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL Derivatives4Template.tex
+%%CALL Derivatives5Template.tex
+%%CALL Derivatives6Template.tex
+%%CALL DerivativesChainSimpleTemplate.tex
+%%CALL DerivativesCompositeTemplate.tex
+%%CALL DerivativesProductSimpleTemplate.tex
+%%CALL DerivativesQuotientSimple2Template.tex
+%%CALL DerivativesQuotientSimple3Template.tex
+%%CALL DerivativesQuotientSimpleTemplate.tex
+%%CALL TrigDefiniteIntegrationTemplate.tex
+%%CALL CompInterestCompositeTemplate.tex
+%%CALL LogarithmsTemplate.tex
+%%CALL PopulationGrowthLog1Template.tex
+%%CALL PopulationGrowthLog2Template.tex
+\end{document}

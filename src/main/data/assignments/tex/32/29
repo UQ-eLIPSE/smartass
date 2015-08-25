@@ -1,0 +1,47 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf Trig Functions} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf Trig Functions \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf Trig Functions \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%REPEAT 10
+%%BEGIN QUESTION
+Answer each of the following questions, showing all working:
+%%END QUESTION
+%%CALL TrigFunctionGraphTemplate.tex
+%%ENDREPEAT
+%%CALL TrigFunctionGraphTemplate.tex
+\end{document}

@@ -1,0 +1,39 @@
+%Continuously compounding interest- find the future value.
+%Template for exponential growth.
+\input{smartass.tex}
+\begin{document}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+ExpGrowthModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+I invest \$#<v1.I#> in a bank account earning #<v1.rpercent#> percent
+interest per year for #<v1.t#> years, continuously compounding. 
+ 
+Ignoring taxes and fees, what is the final account balance?
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+Let $F$ be the final account balance. Then
+\begin{eqnarray*}
+F&=&#<v1.I#>e^{#<v1.r#>\times #<v1.t#>}\\
+&=&#<v1.I#>e^{#<v1.rt#>}\\
+&\approx&#<v1.growthsol#>
+\end{eqnarray*}
+Hence the final account balance is approximately \$#<v1.growthsol#> .
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+\$#<v1.growthsol#> 
+
+%%END SHORTANSWER
+\end{document}

@@ -1,0 +1,52 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf ass 2} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf ass 2 \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf ass 2 \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL AbsEquationTemplate.tex
+%%CALL AddPowersTemplate.tex
+%%CALL CancelPowersInFractionTemplate.tex
+%%CALL FractionEquation1Template.tex
+%%CALL FractionEquation2Template.tex
+%%CALL FractionEquation3Template.tex
+%%CALL InequalityToIntervalTemplate.tex
+%%CALL IntervalToInequalityTemplate.tex
+%%CALL SolveInequalityTemplate.tex
+%%CALL SqrtEquation1Template.tex
+%%CALL SqrtEquationTemplate.tex
+%%CALL SqrtMultiplyTemplate.tex
+\end{document}

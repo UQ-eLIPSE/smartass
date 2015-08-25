@@ -1,0 +1,71 @@
+%Solve each of the following four equations without using the quadratic formula. Equations are of the form:
+%  1) ax(bx+c) = 0
+%  2) (ax+b)(cx+d)= 0
+%  3) e(ax+b)(cx+d)= 0
+%  4) (ax+x)^k = 0 (actually, this is not quadratic one) 
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+%Possible parameter - type of question (see above)
+%QuadraticNoFormulaModule v1(2); would generate (ax+b)(cx+d)=0 equation
+#<
+QuadraticNoFormulaModule v1(1);
+QuadraticNoFormulaModule v2(2);
+QuadraticNoFormulaModule v3(3);
+QuadraticNoFormulaModule v4(4);
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Solve each of the following equations {\bf without} using the quadratic formula:
+\begin{enumerate}
+\item
+#<v1.question#>
+\item
+#<v2.question#>
+\item
+#<v3.question#>
+\item
+#<v4.question#>
+\end{enumerate}
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+To solve each of these, remember that if $a \times b=0$ , then either $a=0$ or $b=0$;  
+and also that $0^{n}=0$ for any natural number $n$. Then:
+\begin{enumerate}
+\item
+#<v1.question#>,  so
+#<v1.solution#>
+\item
+#<v2.question#>, so
+#<v2.solution#>
+\item
+#<v3.question#>, so
+#<v3.solution#>
+\item
+#<v4.question#>, so
+#<v4.solution#>
+\end{enumerate}
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+\begin{enumerate}
+\item
+#<v1.shortanswer#>
+\item
+#<v2.shortanswer#>
+\item
+#<v3.shortanswer#>
+\item
+#<v4.shortanswer#>
+
+\end{enumerate}
+%%END SHORTANSWER
+
+\end{document}

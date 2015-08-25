@@ -1,0 +1,37 @@
+%Solve the quadratic equation using the quadratic formula. 
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+%Possible parameters - coefficient a, b, c (a!=0)
+%QuadraticModule v1(1 , 5 , 2);
+#<
+QuadraticModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Solve \hspace{3mm} #<v1.question#>.
+%%END QUESTION
+
+%%BEGIN SOLUTION
+\ifthenelse{#<v1.b#>=0}{
+Rearranging the original equation gives
+}{
+#<v1.quadraticform#>, so we use $a=#<v1.a#>, b=#<v1.b#>, c=#<v1.c#>$ in the quadratic formula. Hence 
+}
+#<v1.solution#>
+\if #<v1.numberofsolutions#>0
+Hence there is no solution.
+\fi
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+\if #<v1.numberofsolutions#>0
+no solution
+\else
+#<v1.shortanswer#>
+\fi
+%%END SHORTANSWER
+
+\end{document}

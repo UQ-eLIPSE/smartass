@@ -1,0 +1,52 @@
+%Write a program investigating the Collatz Conjecture
+\input{smartass}
+\begin{document}
+%%BEGIN DEF
+%definition of variables/modules used
+#<
+CollatzModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+In the vain hope of achieving everlasting immortality (at least
+amongst mathematicians), Peter has made his own Collatz-style
+conjecture:
+
+Consider an arbitrary integer #<v1.var#>.
+\begin{itemize}
+\item If #<v1.var#> is divisible by #<v1.mod#>, then divide it by #<v1.mod#>.
+\item Otherwise, assign #<v1.var#> the value of #<v1.expr#>
+\end{itemize}
+
+Peter proposes that -- just like with the Collatz Conjecture -- if you
+start with any arbitrary positive integer and repeatedly keep applying
+the above rule, then you will eventually reach 1.
+
+Write a Python program to experimentally investigate this by
+implementing the above rule as a function \emph{#<v1.func#>}, then
+starting with an initial value of #<v1.start#> use a loop to
+repeatedly apply the function on the result, printing out the value at
+each iteration of the loop.  In case Peter's conjecture doesn't work,
+you should ensure that the loop iterates no more than #<v1.max#>
+times.  Finally, print a message stating whether or not a value of 1
+was reached, and how many iterations of the loop it took (if the value
+of 1 wasn't reached, then say that).
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+The full Python inputs and results are shown below.  #<v1.resultwarning#>
+
+#<v1.code#>
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+#<v1.resultwarning#>
+
+#<v1.answer#>
+
+%%END SHORTANSWER
+
+\end{document}

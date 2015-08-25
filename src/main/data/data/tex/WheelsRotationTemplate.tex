@@ -1,0 +1,32 @@
+%Text question for highest common factor of several numbers.
+%Text from Pendlebury C. (1906). Arithmetic (nineteenth edition). London: George Bell and Sons. 
+%Template for highest common factor of several numbers.
+\input{smartass.tex}
+\begin{document}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+HCFOfManyModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+A machine has #<v1.number#> wheels, making #<v1.question#> revolutions (respectively)
+per minute. At time 0, each of the wheels starts with a certain marked point on
+its circumference pointing directly downwards. At what time will all of the wheels first 
+come back together in the same starting position?
+%%END QUESTION
+
+%%BEGIN SOLUTION
+The highest common factor of #<v1.question#> is #<v1.hcf#>. 
+This means that in #<v1.oneoverhcf#> 
+(that is, in #<v1.seconds#> seconds) the wheels will all come back together
+to their starting positions. 
+%%END SOLUTION
+
+
+%%BEGIN SHORTANSWER
+#<v1.seconds#> seconds
+%%END SHORTANSWER
+\end{document}

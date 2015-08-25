@@ -1,0 +1,35 @@
+%Does the line ay+bx+c=0  pass through the point (x1, y1) ?
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+LineAndPointModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Does the line \hspace{2mm} #<v1.equation#> \hspace{2mm} 
+pass through the point $(#<v1.x1#>,#<v1.y1#>)$ ?
+%%END QUESTION
+
+%%BEGIN SOLUTION
+To determine whether the given line passes through the point $(x_{1}, y_{1})=(#<v1.x1#>,#<v1.y1#>)$, 
+ we need to substitute the coordinates of the point into the equation of the line. Now, 
+#<v1.solution#>
+\if y#<v1.yorn#>
+The last statement is {\bf true}, so our line {\bf does} pass through the point $(#<v1.x1#>,#<v1.y1#>)$.  
+\else
+The last statement is {\bf not true}, so our line {\bf does not} pass through the point $(#<v1.x1#>,#<v1.y1#>)$.  
+\fi
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+\if y#<v1.yorn#>
+Yes  
+\else
+No  
+\fi
+%%END SHORTANSWER
+
+\end{document}

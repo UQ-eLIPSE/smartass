@@ -1,0 +1,170 @@
+%Solve a physics floating problem.
+%Template 
+\input{smartass.tex}
+\begin{document}
+
+
+%\ifx \@testmacro \@empty
+%Code to be executed if the macro is undefined
+%\else
+%Code to be executed if the macro IS defined
+
+
+\providecommand{\surfboardtemplatecommands}{defined}
+\providecommand{\kg}{\ensuremath{\text{kg}}}
+\providecommand{\metre}{\ensuremath{\text{m}}}
+\providecommand{\volume}{\ensuremath{\metre^3}}
+\providecommand{\density}{\ensuremath{\kg/\volume}}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+%possible parameters:
+% params[0] - string representing integer density of the block material,
+% params[1] - mass of the person,
+% params[2] - part of the block, that will remain underwater,
+% params[3] (optional) - water density - double number.
+%for instance, for the person of 
+%if there are no parameters - smartass will generate them randomly
+#<
+SurfboardModule v1;
+#>
+%%END DEF
+
+
+%%BEGIN QUESTION
+\begin{enumerate}
+
+\item Ben wants to build his own surfboard.  He is going to use foam
+  that has a density of #<v1.blockdensity#> \density.  Using
+  Archimede's principle, what's the minimum mass of foam required to
+  \emph{two decimal places} if Ben has a mass of #<v1.objectmass#>
+  \kg{} (i.e. the foam is just at the surface of the water: remove any
+  foam and the block will sink)?
+
+\item Ben has worked out that for his surfboard to work properly, he
+  has to have at least #<v1.percentabovewaterrandom#>\% of the block
+  above water.  Using the same requirements as above, how much foam
+  does he need now?
+
+\end{enumerate}
+
+Hints: 
+\begin{itemize}
+\item $1 \volume$ of foam will displace $1 \volume$ of water.
+\item $1 \kg$ of water can support $1 \kg$ of another object.
+\item Water has a density of #<v1.liquiddensity#> \density.
+\item Ignore the shape of the board: consider the foam to be just a
+  solid block.  However, don't forget to take the mass of the block
+  into account!
+\end{itemize}
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+\begin{enumerate}
+
+\item Let us denote the mass and volume of the block as $b$ and $V$
+  respectively, the mass of Ben as $m$, the density of water as
+  $\rho_w$ and the density of the block as $\rho_b$.  The mass of
+  water $w$ displaced by the block is then:
+
+  \begin{eqnarray*}
+    w & = & \rho_w \times V\\
+      & = & \rho_w \times \dfrac{b}{\rho_b}\\
+      & = & \dfrac{\rho_w}{\rho_b} \times b
+  \end{eqnarray*}
+
+  The minimum amount of foam needed will be that which keeps the
+  system in equilibrium (i.e. any more and the block will rise, any
+  less and it will sink).  Thus, the mass of water displaced must
+  equal Ben's mass \emph{as well as the mass of the block!}.
+
+  \begin{equation*}
+    \begin{array}{lrcl}
+      & w & = & m + b\\
+      \Longrightarrow & \dfrac{\rho_w}{\rho_b} \times b & = & m + b\\
+      \Longrightarrow & \dfrac{\rho_w}{\rho_b} \times b - b & = & m\\
+      \Longrightarrow & \left(\dfrac{\rho_w}{\rho_b} - 1\right) \times b 
+      & = & m\\
+      \Longrightarrow & b & = & \dfrac{m}{\dfrac{\rho_w}{\rho_b} - 1}
+    \end{array}
+  \end{equation*}
+
+  Substituting in the values and rounding off to two decimal places,
+  we have:
+
+  \begin{eqnarray*}
+    b & = & \dfrac{#<v1.objectmass#>}{ \dfrac{ #<v1.liquiddensity#> }{%
+        \;#<v1.blockdensity#> } - 1\;}\\
+      & = & #<v1.blockmassall#> \kg
+  \end{eqnarray*}
+
+Thus, Ben will need at least $#<v1.blockmassall#> \kg$ of foam to
+support his weight.
+
+\item Using the same symbols as above, let us further denote the
+  percentage of the block that is \emph{underwater} by $p$.  That is:
+
+  \begin{equation*}
+    p = 100 \% - #<v1.percentabovewaterrandom#> \% 
+    = #<v1.percentunderwaterrandom#> \% 
+    = #<v1.decimalunderwaterrandom#>
+  \end{equation*}
+
+
+  The mass of water that is displaced is now thus dependent upon how
+  much of the block is underwater, $V'$, where:
+
+  \begin{equation*}
+    V' = p \times V
+  \end{equation*}
+
+  Thus, the mass of water $w'$ displaced with this reduced volume will
+  be:
+
+  \begin{eqnarray*}
+    w' & = & \rho_w \times V'\\
+       & = & \rho_w \times \left(p \times V\right)\\
+       & = & p \rho_w \times \dfrac{b}{\rho_b}\\
+       & = & \dfrac{p \rho_w}{\rho_b} \times b
+  \end{eqnarray*}
+
+  Again, we want the block to be in equilibrium, so:
+
+  \begin{displaymath}
+    \begin{array}{lrcl}
+      & w' & = & m + b\\
+      \Longrightarrow & \dfrac{p \rho_w}{\rho_b} \times b & = & m + b\\
+      \Longrightarrow & \dfrac{p \rho_w}{\rho_b} \times b - b & = & m\\
+      \Longrightarrow & \left(\dfrac{p \rho_w}{\rho_b} - 1\right) \times b 
+      & = &  m\\
+      \Longrightarrow & b & = & \dfrac{m}{\dfrac{p \rho_w}{\rho_b} - 1}
+    \end{array}
+  \end{displaymath}
+
+  Substituting in the values and rounding off to two decimal places,
+  we have:
+
+  \begin{eqnarray*}
+    b & = & \dfrac{#<v1.objectmass#>}{\dfrac{ #<v1.decimalunderwaterrandom#>
+        \times #<v1.liquiddensity#> }{\;#<v1.blockdensity#> } - 1\;}\\
+      & = & #<v1.blockmassrandom#> \kg
+  \end{eqnarray*}
+
+Thus, Ben will need at least $#<v1.blockmassrandom#> \kg$ of foam to
+support his weight if he wants to ensure that at least
+$#<v1.percentabovewaterrandom#> \%$ of it remains above water.
+
+\end{enumerate}
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+\begin{enumerate}
+\item #<v1.blockmassall#> \kg
+\item #<v1.blockmassrandom#> \kg
+\end{enumerate}
+%%END SHORTANSWER
+
+\end{document}

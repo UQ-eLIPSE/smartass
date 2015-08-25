@@ -1,0 +1,53 @@
+%Find an intersection of two sets
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+
+#<
+IntersectionOfTwoSetsModule v1;
+#>
+%Parameteres for IntersectionOfTwoSetsModule: (name of first set, name of second set, elements of first set in {} 
+%separated by comma, elements by second set in {} separated by comma.
+%A, B, { -3,-2,-1, 0, 1, 2, 3, 4, 5, 6},{-3, -2, 9, 10, 11, 12, 13, 14, 15, 16});
+%For correct display of Venn diagram size of sets must be <=10, each element - no more than 2 symbols.
+%%END DEF
+
+%%BEGIN QUESTION
+Given two sets: \\
+#<v1.name1#>=#<v1.set1#> and #<v1.name2#>=#<v1.set2#> ,\\
+find \ensuremath{#<v1.name1#>\cap #<v1.name2#>} .\\
+Illustrate your answer with Venn diagram.
+%%END QUESTION
+
+%%BEGIN SOLUTION
+#<v1.solution#>\\
+On Venn diagram:\\
+\\
+\begin{overpic}[scale=1]
+{IntersectionOf2Sets.pdf}
+\put(15,-13){\huge $#<v1.name1#>$}
+\put(70,-13){\huge $#<v1.name2#>$}
+\put(15,45){#<v1.set1minusset2line0#>}
+\put(10,35){#<v1.set1minusset2line1#>}
+\put(10,25){#<v1.set1minusset2line2#>}
+\put(15,15){#<v1.set1minusset2line3#>}
+\put(45,45){#<v1.set1intersectset2line0#>}
+\put(41,35){#<v1.set1intersectset2line1#>}
+\put(41,25){#<v1.set1intersectset2line2#>}
+\put(45,15){#<v1.set1intersectset2line3#>}
+\put(70,45){#<v1.set2minusset1line0#>}
+\put(66,35){#<v1.set2minusset1line1#>}
+\put(66,25){#<v1.set2minusset1line2#>}
+\put(70,15){#<v1.set2minusset1line3#>}
+
+\end{overpic}\\
+\\
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+#<v1.shortanswer#>
+\\
+%%END SHORTANSWER
+
+\end{document}

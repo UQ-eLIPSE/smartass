@@ -1,0 +1,46 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf 1040 sem 2 ass 8} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf 1040 sem 2 ass 8 \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf 1040 sem 2 ass 8 \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL Derivatives3Template.tex
+%%CALL Derivatives6Template.tex
+%%CALL DerivativesCompositeTemplate.tex
+%%CALL DerivativesProductSimpleTemplate.tex
+%%CALL DerivativesQuotientSimple3Template.tex
+%%CALL DerivativesQuotientSimpleTemplate.tex
+\end{document}

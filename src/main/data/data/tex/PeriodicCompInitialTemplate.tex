@@ -1,0 +1,45 @@
+%Choose initial value to invest in periodic compounding interest example.
+\input{smartass.tex}
+\begin{document}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+PeriodicCompoundingModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Peter the Mathematician is invited to attend the First International Congress of Mathematical Shoemaking to be held in Hawaii in #<v1.ttime#> time. 
+The problem is that Peter would be required to wear shoes but currently he doesn't have any. 
+Clever Peter has  a bank account earning #<v1.annualpercent#>\% p.a., compounding #<v1.periodInWords#>.  How much money does he need
+to invest now in order to buy a pair of shoes and go to Hawaii, assuming the price of a pair 
+of decent shoes is \$#<v1.I#> ?
+Ignore fees and taxes, and round your answer appropriately.
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+Let $B$ be the price of the shoes, $I$ be the amount Peter needs to invest, $n$ be the number of compounding
+periods before the Congress,
+$r$ be the interest compounding #<v1.periodInWords#> .  Then\\[1.8mm]
+$r=#<v1.rsolution#>#<v1.rpercent#>$ percent $=#<v1.r#>$, and\\[1.8mm]
+$n=#<v1.nsolution#>#<v1.n#>$ \\[1.8mm]
+$B=I\left(1+r\right)^{n}$, so $I=\dfrac{B}{\left(1+r\right)^{n}}$. Therefore\\
+\begin{eqnarray*}
+I&=&\frac{#<v1.I#>}{\left(1+#<v1.r#>\right)^{#<v1.n#>}}\\
+&=&\frac{#<v1.I#>}{#<v1.OnePlusrIntoN#>}\\
+&\approx&#<v1.decaysol#>
+\end{eqnarray*}
+Hence he needs to invest approximately \$#<v1.decaysol#> .
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+\$#<v1.decaysol#>
+
+%%END SHORTANSWER
+\end{document}

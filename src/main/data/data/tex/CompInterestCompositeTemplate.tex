@@ -1,0 +1,81 @@
+% A few simple questions on compounding interest.
+%Given initial amount, interest rate, time. Find the final value.
+\input{smartass.tex}
+\begin{document}
+%Parameters could be (initial amount, annual interest rate, number of years, for example,CompoundingCompositeModule v1(100, 0.24, 3);
+ 
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+CompoundingCompositeModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+If \$#<v1.P#> is invested for #<v1.ttime#> at a rate of #<v1.percentannual#>\% per annum, find the final balance if interest compounds: 
+\begin{enumerate}
+\item
+annually?
+\item
+every six months?
+\item
+quarterly?
+\item
+monthly?
+\item
+continuously?
+\end{enumerate}
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+Let $P$ be the amount invested, $r$ be the interest rate per time period, $n$ be the number of time periods and $F$ be the final value.
+In each case, $P=#<v1.P#>$. Then:
+\begin{enumerate}
+\item
+Interest compounds annually, so we use the rate and number of time periods given in the question.\\
+Hence $r=#<v1.percentannual#>\%=#<v1.rannual#>$ and $n=#<v1.t#>$, so $F=#<v1.P#>\times (1+#<v1.rannual#>)^{#<v1.t#>}=#<v1.P#>\times #<v1.rplus1annual#>^{#<v1.t#>}
+#<v1.annualsign#>#<v1.fannual#>$. \\
+The final balance is \$$#<v1.fannual#>$.
+\item
+Interest compounds twice a year, so we need to halve the rate and double the number of time periods given in the question.\\
+Hence $r=#<v1.percentsixmonths#>\%=#<v1.rsixmonths#>$ and $n=#<v1.nsixmonths#>$, so $F=#<v1.P#>\times (1+#<v1.rsixmonths#>)^{#<v1.nsixmonths#>}
+=#<v1.P#>\times #<v1.rplus1sixmonths#>^{#<v1.nsixmonths#>}#<v1.sixmonthssign#>#<v1.fsixmonths#>$. \\
+The final balance is \$$#<v1.fsixmonths#>$.
+\item
+Interest compounds 4 times a year, so we need to divide the given rate by 4 and multiply the given number of years by 4.\\
+Hence $r=#<v1.percentquarterly#>\%=#<v1.rquarterly#>$ and $n=#<v1.nquarterly#>$, so $F=#<v1.P#>\times (1+#<v1.rquarterly#>)^{#<v1.nquarterly#>}
+=#<v1.P#>\times #<v1.rplus1quarterly#>^{#<v1.nquarterly#>}#<v1.quarterlysign#>#<v1.fquarterly#>$. \\
+The final balance is \$$#<v1.fquarterly#>$.
+\item
+Interest compounds 12 times a year, so we need to divide the given rate by 12 and multiply the given number of years by 12.\\
+Hence $r=#<v1.percentmonthly#>\%=#<v1.rmonthly#>$ and $n=#<v1.nmonthly#>$, so $F=#<v1.P#>\times (1+#<v1.rmonthly#>)^{#<v1.nmonthly#>}
+=#<v1.P#>\times #<v1.rplus1monthly#>^{#<v1.nmonthly#>}#<v1.monthlysign#>#<v1.fmonthly#>$. \\
+The final balance is \$$#<v1.fmonthly#>$.
+\item
+Interest compounds continuously, so $F=#<v1.P#>e^{#<v1.rannual#>\times#<v1.t#>}
+=#<v1.P#>e^{#<v1.tXr#>}#<v1.contsign#>#<v1.fcont#>$. \\
+The final balance is \$$#<v1.fcont#>$.
+\end{enumerate}
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+\begin{enumerate}
+\item
+\$$#<v1.fannual#>$ 
+\item
+\$$#<v1.fsixmonths#>$
+\item
+\$$#<v1.fquarterly#>$
+\item
+\$$#<v1.fmonthly#>$
+\item
+\$$#<v1.fcont#>$
+\end{enumerate}
+
+%%END SHORTANSWER
+\end{document}

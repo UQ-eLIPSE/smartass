@@ -1,0 +1,54 @@
+%Question on definite integration of trig functions
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+% no parameters.
+#<
+TrigDefiniteIntegrationModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Evaluate $ #<v1.question#> $
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+\global\def\flagvar{1}
+\global\def\showLine{#<v1.showLine#>}
+
+\ifx\flagvar\showLine
+
+	\begin{eqnarray*}
+	& \; & #<v1.question#> \\
+	&=& #<v1.solution1#> \\
+	&=& #<v1.solution2#> \\
+	&=& #<v1.solution3#> \\
+	&=& #<v1.solution4#> \\
+	&=& #<v1.solution5#> \\
+	&=& #<v1.answer#> 
+	\end{eqnarray*}
+	
+\else
+
+	\begin{eqnarray*}
+	& \; & #<v1.question#> \\
+	&=& #<v1.solution1#> \\
+	&=& #<v1.solution2#> \\
+	&=& #<v1.solution4#> \\
+	&=& #<v1.solution5#> \\
+	&=& #<v1.answer#> 
+	\end{eqnarray*}
+
+\fi
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+$ #<v1.question#> = #<v1.answer#> $
+
+%%END SHORTANSWER
+\end{document}

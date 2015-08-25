@@ -1,0 +1,336 @@
+@charset "utf-8";
+/* CSS Document */
+/* HTML5 MIN ============================================================================= */
+/* smartass home page styles*/
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	margin : 0 auto;
+	padding : 0;
+	font : 100%/1.4 'lucida sans unicode', 'lucida grande', 'Trebuchet MS', verdana, arial, helvetica, helve, sans-serif;
+	color : #000;
+	text-align: center;
+}
+header {
+	float: left;
+	width: 100%;
+	padding: 1.6em 0 0.2em 0;
+	font-size: 0.8em;
+	font-family : 'lucida sans unicode', 'lucida grande', 'Trebuchet MS', verdana, arial, helvetica, helve, sans-serif;
+	text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.6);
+	background: url("../img/uq-logo.png") no-repeat top right;
+}
+a#logo {
+	width: 151px;
+	height: 103px;
+}
+header strong {
+	color: #000;
+	font-weight: normal;
+}
+header em {
+	font-style: normal;
+}
+header .left {
+	float: left;
+	width: 40%;
+	padding-top: 3em;
+}
+header .right {
+	float: right;
+	width: 40%;
+	padding-top: 3.5em;
+	text-align: right;
+}
+header span {
+	padding-top: 3px;
+}
+header .left .col {
+	margin-right: 0.4em;
+}
+header .right .btn_gen {
+	float: right;
+	margin-left: 1em;
+}
+header .right img {
+	float: left;
+	padding: 0px 6px 0 0;
+}
+h1.pagetitle {
+	margin: 0 0 0.4em 0;
+	display: block;
+	clear: both;
+}
+#wrapper {
+	width: 80%;
+	position: relative;
+	text-align: left;
+	margin: 0 auto;
+}
+#maincontentcontainer {
+	width: 100%;
+}
+
+#maincontent {
+	clear: both;
+	width: 80%; /* 1000px / 1250px */
+	font-size: 0.8125em; /* 13 / 16 */
+	max-width: 92.3em; /* 1200px / 13 */
+	margin: 0 auto;
+	padding: 1em 0px;
+	color: #333;
+	line-height: 1.5em;
+	position: relative;
+}
+
+.container {
+	width: 85%;
+	max-width: 1260px;
+	min-width: 780px;
+	background-color: #FFF;
+	margin: 0 auto;
+}
+/* Font Sizes */
+
+h1 {
+	font-size: 2.125em; /* 16px / 34px */
+	line-height: 1.2;
+}
+h2 {
+	font-size: 1.25em; /* 16px / 20px */
+	line-height: 1.4;
+	color: #333;
+	padding-bottom:0.4em;
+}
+h3 {
+	font-size: 1.125em; /* 16px / 18px */
+}
+h4 {
+	font-size: 1em; /* 16px */
+}
+h5 {
+	font-size: 0.875em; /* 16px / 14px */
+}
+/*.container h1 {
+	font:50px/50px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	margin:10px 0;
+	display:inline;
+}
+
+.container h2 {
+	font:20px/20px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	margin:10px 0;
+}
+
+.container p {
+	margin:10px 0;
+}*/
+
+
+
+.content {
+	padding: 10px 0;
+	width: 75%;
+	float: left;
+}
+.introduction {
+	float: right;
+	width: 44%;
+	padding: 0.4em 0 0 0;
+	position: relative;
+}
+.introduction h1 {
+	margin: 0;
+}
+.introduction h2 {
+	margin: 0.3em 0 0.6em 0;
+}
+.introduction .btn_gen {
+	margin-top: 0.4em;
+}
+/*NAV */
+nav {
+	float: left;
+	width: 100%;
+	padding: 0.5em 0;
+	background: #90bb38; /* Old browsers */
+	background: -moz-linear-gradient(top, #90bb38 0%, #5b9d3a 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #90bb38), color-stop(100%, #5b9d3a)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #90bb38 0%, #5b9d3a 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #90bb38 0%, #5b9d3a 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #90bb38 0%, #5b9d3a 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #90bb38 0%, #5b9d3a 100%); /* W3C */
+}
+nav {
+	border: 0;
+	margin: 0 0 1em 0;
+	clear: both;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.2);
+	box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: inset 2px 2px 4px 0px rgba(255, 255, 255, 0.5);
+	box-shadow: inset 2px 2px 4px 0px rgba(255, 255, 255, 0.5);
+}
+nav ul {
+	padding: 0;
+	margin: 0 1em;
+	float: none;
+	width: auto;
+	list-style:none;
+}
+nav li {
+	float: left;
+	margin: 0 0.2em 0 0;
+}
+nav li a {
+	float: left;
+	padding: 0.6em 0.8em;
+	color: #fff;
+	text-transform: uppercase;
+	text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	letter-spacing: 0.4px;
+}
+nav li a:hover, nav li a.active {
+	color: #fff;
+	background: #5b9d3a;
+	-webkit-box-shadow: inset 4px 0px 8px 4px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 4px 0px 8px 4px rgba(0, 0, 0, 0.1);
+	text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.2);
+}
+
+/*  SECTIONS  */
+.group:before,  .group:after {
+	content: "";
+	display: table;
+}
+.group:after {
+	clear: both;
+}
+.group {
+	zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+}
+.grant_details {
+	float: left;
+	width: 100%;
+	background: #eee;
+	color: #555;
+	margin-top:1em;
+	padding: 0.7em 0 0 1em;
+	-webkit-box-shadow: inset 0px 6px 8px 4px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0px 6px 8px 4px rgba(0, 0, 0, 0.1);
+	text-shadow: 1px 1px 0px #fff;
+}
+
+.grant_details h3 { float:left;  padding:0.5em 0 0 0; margin:0; }
+
+.grant_details p { clear:both; }
+
+.section {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+
+.section ul {
+	margin-left:5em;
+	padding: 1em 0 1em 0;
+}
+/*  COLUMN SETUP  */
+.col {
+	display: block;
+	float: left;
+	margin: 1% 0 1% 3%;
+}
+.col:first-child {
+	margin-left: 0;
+}
+/*  GROUPING  */
+.group:before, .group:after {
+	content: "";
+	display: table;
+}
+.group:after {
+	clear: both;
+}
+.group {
+	zoom: 1; /* For IE 6/7 */
+}
+/*  GRID OF FOUR  */
+.span_4_of_4 {
+	width: 100%; 
+}
+
+.span_3_of_4 {
+	width: 74.6%; 
+}
+
+.span_2_of_4 {
+	width: 49.2%; 
+}
+
+.span_1_of_4 {
+	width: 23.8%; 
+}
+
+/*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
+
+@media only screen and (max-width: 480px) {
+	.span_4_of_4 {
+		width: 100%; 
+	}
+	.span_3_of_4 {
+		width: 100%; 
+	}
+	.span_2_of_4 {
+		width: 100%; 
+	}
+	.span_1_of_4 {
+		width: 100%; 
+	}
+}
+a[href$=".pdf"] {
+	background: url("../img/icon-pdf.gif") 0 40% no-repeat;
+	padding:5px 0 5px 20px;
+}
+
+/*=======================================end first page styles==============================*/
+

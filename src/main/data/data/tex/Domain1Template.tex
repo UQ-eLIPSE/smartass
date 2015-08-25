@@ -1,0 +1,34 @@
+%Find the domain of the given function. Operations used are abs, sqrt, sqr, fraction, multiplication, addition, excluding sum in the denominator
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+#<
+FindDomainModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Find the domain of $f(#<v1.varname#>)=#<v1.question#>$ .
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+$f(#<v1.varname#>)=#<v1.question#>$\\
+#<v1.solution_d#>
+Hence, the domain of this function is $#<v1.domain#>$
+\if y#<v1.anydomain#>
+, i.e. any value of $#<v1.varname#>$ can be substituted into $f$
+\else
+, i.e. #<v1.inequality_d#>
+\fi 
+.
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+$#<v1.varname#>\in #<v1.domain#>$
+
+%%END SHORTANSWER
+
+\end{document}

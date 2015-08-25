@@ -1,0 +1,47 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf quadratic} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf quadratic \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf quadratic \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%REPEAT 5
+%%CALL DistanceTemplate.tex
+%%CALL Line2PointsTemplate.tex
+%%ENDREPEAT
+%%REPEAT 3
+%%CALL GradientInterceptTemplate.tex
+%%ENDREPEAT
+\end{document}

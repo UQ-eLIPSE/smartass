@@ -1,0 +1,44 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf assignment 5} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf assignment 5 \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf assignment 5 \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL FunctionGraphsCompositeTemplate.tex
+%%CALL CompInterestCompositeTemplate.tex
+%%CALL LogarithmsTemplate.tex
+%%CALL PeriodicCompInitialTemplate.tex
+\end{document}

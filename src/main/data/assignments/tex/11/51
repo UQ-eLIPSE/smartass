@@ -1,0 +1,47 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf Mid-sem exam revision} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf Mid-sem exam revision \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf Mid-sem exam revision \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL DefiniteIntegralBetweenGraphTemplate.tex
+%%CALL DefiniteIntegralGraphTemplate.tex
+%%CALL Derivatives1Template.tex
+%%CALL Derivatives2Template.tex
+%%CALL Derivatives3Template.tex
+%%CALL Derivatives4Template.tex
+%%CALL Derivatives5Template.tex
+\end{document}

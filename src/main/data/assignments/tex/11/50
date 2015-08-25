@@ -1,0 +1,43 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf WEEK 13 QUIZ} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf WEEK 13 QUIZ \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf WEEK 13 QUIZ \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%REPEAT 12
+%%CALL DerivativesProductSimpleTemplate.tex
+%%ENDREPEAT
+\end{document}

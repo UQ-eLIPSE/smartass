@@ -1,0 +1,32 @@
+%Find y', where y is a product of two functions, use product rule, only simple example
+%of kind y=(ax^k+bx^l)*(cx^o+dx^p)
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+ProductRuleSimpleModule v1;
+#>
+%%END DEF
+%%BEGIN QUESTION
+
+Let $y=#<v1.y#>$. Find $y'$ using the product rule. 
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+Let $u=#<v1.u#>$, then $u'=#<v1.du#>$.\\
+Let $v=#<v1.v#>$, then $v'=#<v1.dv#>$.\\ \vspace{1.3mm}
+Product rule: $y'=u'v+uv'$.\\
+Substitute $u,u', v \mbox{ and } v'$ into the product rule:
+#<v1.solution#>
+Hence $y'=#<v1.shortanswer#>$.
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+$#<v1.shortanswer#>$
+
+%%END SHORTANSWER
+
+\end{document}

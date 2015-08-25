@@ -1,0 +1,52 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf MATH1040 ASSIGNMENT 3} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf MATH1040 ASSIGNMENT 3 \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf MATH1040 ASSIGNMENT 3 \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL GradientInterceptTemplate.tex
+%%CALL Line2PointsTemplate.tex
+%%CALL LinearGraphTemplate.tex
+%%CALL LinearParallelEquationTemplate.tex
+%%CALL LinearPerpendicularTemplate.tex
+%%CALL LineThroughPointTemplate.tex
+%%CALL SimultaneousEquationsLines1Template.tex
+%%CALL SimultaneousEquationsLines2Template.tex
+%%CALL DistanceTemplate.tex
+%%CALL Domain1Template.tex
+%%CALL Domain2Template.tex
+%%CALL Range1Template.tex
+\end{document}

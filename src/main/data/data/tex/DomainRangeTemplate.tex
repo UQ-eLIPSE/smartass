@@ -1,0 +1,42 @@
+%Find the domain and the range of the given function. Operations used are abs, sqrt, sqr, fraction, multiplication, addition, excluding sum in the denominator
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+#<
+FindDomainModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Find the domain and the range of $f(#<v1.varname#>)=#<v1.question#>$ .
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+$f(#<v1.varname#>)=#<v1.question#>$\\
+\vspace{1mm}
+#<v1.solution_d#>
+Hence, the domain of this function is $#<v1.domain#>$
+\if y#<v1.anydomain#>
+, i.e. any value of $#<v1.varname#>$ can be substituted into $f$
+\else
+, i.e. #<v1.inequality_d#>
+\fi 
+.
+
+#<v1.solution_r#>
+Hence, the range of this function is $#<v1.range#>$
+\if y#<v1.anyrange#>
+, i.e. all numbers
+\fi 
+.
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+The domain is $#<v1.domain#>$; the range is $#<v1.range#>$
+
+%%END SHORTANSWER
+
+\end{document}

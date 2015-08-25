@@ -1,0 +1,36 @@
+%Solve simultaneous non-linear equations. Solution given is by substituting a non-linear term with new variable, and then 
+% solving resulting linear equations using elimination.
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+SimultaneousEliminationNonLinearModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Solve \begin{align*}
+#<v1.equation1#>\\
+#<v1.equation2#>
+\end{align*}
+#<v1.domain#> %domain given for trigonometrical functions
+%%END QUESTION
+
+%%BEGIN SOLUTION
+#<v1.solution#>
+
+Hence the simultaneous solution to equations (1) and (2) is 
+$x=#<v1.x#>$; \hspace{3mm}
+$y=#<v1.y#>$.
+\\
+(As good boys and girls always do, check your answers by substituting into equations (1) and (2): 
+#<v1.check#>) 
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+$x=#<v1.x#>$; \hspace{3mm} $y=#<v1.y#>$
+%%END SHORTANSWER
+
+\end{document}

@@ -1,0 +1,44 @@
+%Choose time period for investment in a continuously compounding interest example.
+%Template for exponential growth.
+\input{smartass.tex}
+\begin{document}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+ExpGrowthModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Before Damien can marry Celeste, he must prove to her father that he can save the deposit for
+a house. He has \$#<v1.I#> to invest, his account pays #<v1.rpercent#> percent interest per annum, compounding
+continuously, and he needs to have a total of \$#<v1.Fwant#> before he can get married. 
+He is currently #<v1.now#> years old. At what age can he get married?
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+Let $F$ be the final amount he needs, $I$ be the amount he has to invest, $r$ be the
+interest rate and $t$ be the number of years.  Then
+$F=Ie^{rt}$ so $e^{rt}=\frac{F}{I}$, so $rt=\ln{\frac{F}{I}}$, 
+and $t=\left(\ln{\frac{F}{I}}\right)\div r$ . Then
+\begin{eqnarray*}
+t&=&\left(\ln{\frac{#<v1.Fwant#>}{#<v1.I#>}}\right)\div#<v1.r#>\\
+&=&\left(\ln{#<v1.foni#>}\right)\div#<v1.r#>\\
+&\approx&#<v1.logfoni#>\div#<v1.r#>\\
+&\approx&#<v1.tsol#>
+\end{eqnarray*}
+Hence he needs to invest \$#<v1.I#> for approximately #<v1.tsol#> years. Therefore Damien can marry 
+Celeste when he is about #<v1.tage#> years old.
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+#<v1.tage#> 
+
+%%END SHORTANSWER
+\end{document}

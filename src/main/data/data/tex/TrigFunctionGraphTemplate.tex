@@ -1,0 +1,36 @@
+%On a set of axes sketch a graph of y=sin(x) (cos(x)) and y=k sin(nx)(k cos(nx))
+
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+
+#<
+TrigFunctionGraphModule v1;
+#>
+
+%%END DEF
+
+%%BEGIN QUESTION
+
+On a set of axes sketch the graphs of $y=#<v1.basefunction#>$ and $y_{1}=#<v1.derivedfunction#>$ for $x\in [-2\pi, 2\pi]$.
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+\ifthenelse{\equal{#<v1.filename#>}{graphcos-x}}
+{The two graphs are superimposed because $\cos x= \cos(-x)$.}
+{The graph of $y=#<v1.basefunction#>$ is dashed; the graph of $y_{1}=#<v1.derivedfunction#>$ is solid.}\\
+\includegraphics[height=60mm,width=90mm]{#<v1.filename#>.pdf}
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+\ifthenelse{\equal{#<v1.filename#>}{graphcos-x}}
+{The two graphs are superimposed.}
+{The graph of $y=#<v1.basefunction#>$ is dashed; the graph of $y_{1}=#<v1.derivedfunction#>$ is solid.}\\
+\includegraphics[height=60mm,width=90mm]{#<v1.filename#>.pdf}
+
+%%END SHORTANSWER
+
+\end{document}

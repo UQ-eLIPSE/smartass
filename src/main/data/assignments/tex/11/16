@@ -1,0 +1,49 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf 1040 week 8} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf 1040 week 8 \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf 1040 week 8 \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL Domain1Template.tex
+%%CALL Domain2Template.tex
+%%CALL FunctionGraphsCompositeTemplate.tex
+%%CALL Quadratic1Template.tex
+%%CALL Quadratic2CompositeTemplate.tex
+%%CALL Quadratic3Template.tex
+%%CALL Quadratic4Template.tex
+%%CALL QuadraticGraphTemplate.tex
+%%CALL Range1Template.tex
+\end{document}

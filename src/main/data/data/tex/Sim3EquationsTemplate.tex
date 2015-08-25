@@ -1,0 +1,79 @@
+% Question on solving a system of three linear equations in three unknowns simulatenously using the matrix inverse.
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+Sim3EquationsModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+(a) Evaluate
+
+$$#<v1.productEq#> \mbox{.}$$ \\
+
+(b) Use Part (a) to calculate
+
+$$#<v1.inverseEq#> \mbox{.}$$ \\
+
+(c) Use Part (b) to solve the following three simultaneous equations
+
+\begin{eqnarray*}
+#<v1.lhs1#> &=& #<v1.rhs1#> \\
+#<v1.lhs2#> &=& #<v1.rhs2#> \\
+#<v1.lhs3#> &=& #<v1.rhs3#>
+\end{eqnarray*}
+%%END QUESTION
+
+%%BEGIN SOLUTION
+(a) \begin{eqnarray*}
+& \; & #<v1.productEq#> \\
+#<v1.solution1#> \\
+&=& #<v1.solution2#>
+\end{eqnarray*}
+
+(b) From Part (a) we have that
+
+$$#<v1.productEq#> = #<v1.simpleProduct#> \mbox{.}$$ \\
+
+\ifnum #<v1.rearranged#> = 1
+	After a slight rearrangement we have that
+
+	$$#<v1.bSolution1#> \mbox{.}$$ \\
+\fi
+
+The above allows us to deduce that
+
+$$#<v1.solution4#> \mbox{.}$$ \\
+
+(c) The set of simultaneous equations can be written in matrix form as
+
+$$#<v1.solution3#> \mbox{.}$$ \\
+
+From Part (b) we know that
+
+$$#<v1.solution4#> \mbox{.}$$ \\
+
+So,
+\begin{eqnarray*}
+\left(\begin{array}{rr}
+x \\ 
+y \\ 
+z\end{array}\right) &=& #<v1.solution5#> \\
+&=& #<v1.solution6#> \\
+&=& #<v1.solution7#> \mbox{.} \\
+\end{eqnarray*}
+
+So the solution to the simultaneous equations is $x = #<v1.xSoln#>$, $y = #<v1.ySoln#>$ and $z = #<v1.zSoln#>$.
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+(a) The product of the two matrices is $#<v1.simpleProduct#>$.
+
+(b) The inverse is $#<v1.solution4#>$. \\
+
+(c) The solution to the simultaneous equations is $x = #<v1.xSoln#>$, $y = #<v1.ySoln#>$ and $z = #<v1.zSoln#>$.
+%%END SHORTANSWER
+
+\end{document}

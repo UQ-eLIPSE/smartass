@@ -1,0 +1,47 @@
+%The question: do two given lines intersect? Solve simultaneous linear equations. Solution given is by elimination. 
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+SimultaneousEliminationLinearModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Do the lines $#<v1.equation1#>$ and $#<v1.equation2#>$ intersect? 
+If so, find the point of intersection.
+%%END QUESTION
+
+%%BEGIN SOLUTION
+We need to find a solution for two simultaneous linear equations.\\ 
+#<v1.solution#>
+\if o#<v1.numberofsolutions#>
+Hence the simultaneous solution to equations (1) and (2) is \hspace{1.5mm}$(#<v1.x#>,#<v1.y#>)$.\\
+\\
+(As good boys and girls always do, check your answers by substituting into equations (1) and (2): 
+#<v1.check#>
+Both equations turned into true statements, as required. Hence the answer is correct.) \\
+
+\fi 
+\if n#<v1.numberofsolutions#>
+
+\fi
+\if i#<v1.numberofsolutions#>
+The lines are superimposed.
+\fi
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+\if o#<v1.numberofsolutions#>
+The lines intersect at the point $(#<v1.x#>,#<v1.y#>)$
+\fi
+\if i#<v1.numberofsolutions#>
+The lines are superimposed.
+\fi
+\if n#<v1.numberofsolutions#>
+The lines do not interset; they  are parallel.
+\fi
+%%END SHORTANSWER
+
+\end{document}

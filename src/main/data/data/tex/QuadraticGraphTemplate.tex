@@ -1,0 +1,63 @@
+%Question on quadratic functions.
+%Given a quadratic function.
+%Draw graph of the function and calculate intercept points etc...
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+%parameters:
+#<
+QuadraticGraphModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Given the quadratic equation $y = #<v1.quadratic#>$:
+
+(a) Find the roots of $y$.
+
+(b) Find the $y$-intercept of the quadratic.
+
+(c) Sketch the graph of the quadratic.
+%%END QUESTION
+
+%%BEGIN SOLUTION
+(a) The roots of $y = #<v1.quadratic#>$ are the $x$ values that satisfy 
+$#<v1.quadratic#> = 0$. You can solve this equation either by using the quadratic formula or by factoring. 
+Here we will use factoring. \\
+
+\ifnum #<v1.coeff2#> = -1
+First multiply through by $-1$ to get $#<v1.normQuadratic#> = 0$.
+\else
+	\ifnum #<v1.coeff2#> = 1
+	\else
+	First divide through by $#<v1.coeff2#>$ to get $#<v1.normQuadratic#> = 0$.
+	\fi
+\fi
+Now because $#<v1.normQuadratic#> = #<v1.factQuadratic#>$,
+\ifnum #<v1.root1#> = #<v1.root2#>
+	the root of the quadratic equation is $x = #<v1.root1#>$.
+\else
+	the two roots of the quadratic equation are $x = #<v1.root1#>$, $#<v1.root2#>$.
+\fi
+\\
+
+(b) The $y$-intercept occurs when $x = 0$, so substituting this into $y = #<v1.quadratic#>$ gives
+$y = #<v1.yIntercept#>$. \\
+
+(c) #<v1.graph#>
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+(a) 
+\ifnum #<v1.root1#> = #<v1.root2#>
+	The root of the quadratic equation is $x = #<v1.root1#>$.
+\else
+	The two roots of the quadratic equation are $x = #<v1.root1#>$, $#<v1.root2#>$.
+\fi
+
+(b) The $y$-intercept is at $y = #<v1.yIntercept#>$.
+
+(c) #<v1.graph#>
+%%END SHORTANSWER
+\end{document}

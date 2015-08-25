@@ -1,0 +1,64 @@
+%Question on symmetric matrices.
+%Given a matrix
+%calculate a symmetric matrix from it
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+#<
+MatrixSymmetricModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+A matrix $A$ is said to be symmetric if $A^{T} = A$.
+Given any matrix $Y$ we can construct a symmetric matrix $X$ by calculating $X = Y^{T} Y$.
+Calculate $X$ for each of the following choices of $Y$:
+
+(a) $#<v1.matrix1#>$
+
+(b) $#<v1.matrix2#>$
+
+(c) $#<v1.matrix3#>$
+%%END QUESTION
+
+%%BEGIN SOLUTION
+(a) Because $Y = #<v1.matrix1#>$, we have $Y^{T} = #<v1.matrix1T#>$.
+
+\begin{eqnarray*}
+\mbox{Hence, } X &=&  #<v1.matrix1T#> #<v1.matrix1#> \vspace{0.3cm} \\
+&=&  #<v1.symmetricWorking1#> \vspace{0.3cm} \\
+&=&  #<v1.symmetric1#> \mbox{.} \vspace{0.3cm}
+\end{eqnarray*}
+\\
+
+(b) Because $Y = #<v1.matrix2#>$, we have $Y^{T} = #<v1.matrix2T#>$.
+
+\begin{eqnarray*}
+\mbox{Hence, } X &=&  #<v1.matrix2T#> #<v1.matrix2#> \vspace{0.3cm} \\
+&=&  #<v1.symmetricWorking2#> \vspace{0.3cm} \\
+&=&  #<v1.symmetric2#> \mbox{.} \vspace{0.3cm}
+\end{eqnarray*}
+\\
+
+(c)  Because $Y = #<v1.matrix3#>$, we have $Y^{T} = #<v1.matrix3T#>$.
+
+\begin{eqnarray*}
+\mbox{Hence, } X &=&  #<v1.matrix3T#> #<v1.matrix3#> \vspace{0.3cm} \\
+&=&  #<v1.symmetricWorking3#> \vspace{0.3cm} \\
+&=&  #<v1.symmetric3#> \mbox{.} \vspace{0.3cm}
+\end{eqnarray*}
+\\
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+(a) $X = #<v1.symmetric1#>$. \vspace{0.3cm} \\
+
+(b) $X = #<v1.symmetric2#>$. \vspace{0.3cm} \\
+
+(c) $X = #<v1.symmetric3#>$.
+
+%%END SHORTANSWER
+
+\end{document}

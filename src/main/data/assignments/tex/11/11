@@ -1,0 +1,47 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf MATH1040/7040 ASSIGNMENT 1 2011} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf MATH1040/7040 ASSIGNMENT 1 2011 \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf MATH1040/7040 ASSIGNMENT 1 2011 \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL FractionsTemplate.tex
+%%CALL AddPowersTemplate.tex
+%%CALL Expand1Template.tex
+%%CALL Expand2Template.tex
+%%CALL FractionEquation1Template.tex
+%%CALL FractionEquation2Template.tex
+%%CALL FractionEquation3Template.tex
+\end{document}

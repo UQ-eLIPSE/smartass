@@ -1,0 +1,98 @@
+%Generates a random 3x3 matrix and then calculates the determinant (20% chance rigs it so gets determinant zero)
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+%parameters:
+%params[0] - the enrty of the matrix in (1,1)
+%params[1] - the enrty of the matrix in (1,2)
+%params[2] - the enrty of the matrix in (1,3)
+%params[3] - the enrty of the matrix in (2,1)
+%params[4] - the enrty of the matrix in (2,2)
+%params[5] - the enrty of the matrix in (2,3)
+%params[6] - the enrty of the matrix in (3,1)
+%params[7] - the enrty of the matrix in (3,2)
+%params[8] - the enrty of the matrix in (3,3)
+%For example, Matrix3x3DetModule v1(1, 2, 3, 4, 5, 6, 7, 8, 9);
+#<
+Matrix3x3DetModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Let $ A = #<v1.matrix#> $. \\
+
+Calculate $det(A)$ and state whether or not $A$ is invertible.
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+\global\def\flagvar{0}
+\global\def\oneZero{one}
+\global\def\isCol{#<v1.isRow#>}
+\global\def\noZero{#<v1.nZeroes#>}
+
+\ifx\flagvar\noZero
+Since the matrix contains no zeroes we will expand about the first row. \\
+\else
+
+	\ifx\flagvar\isCol
+		\ifx\oneZero\noZero
+		Since the #<v1.index#> column contains #<v1.nZeroes#> zero we will expand about that column. \\
+		\else
+		Since the #<v1.index#> column contains #<v1.nZeroes#> zeroes we will expand about that column. \\
+		\fi
+	\else
+		\ifx\oneZero\noZero
+		Since the #<v1.index#> row contains #<v1.nZeroes#> zero we will expand about that row. \\
+		\else
+		Since the #<v1.index#> row contains #<v1.nZeroes#> zeroes we will expand about that row. \\
+		\fi
+	\fi
+
+\fi
+
+\global\def\displayThree{#<v1.display3#>}
+\global\def\displayFour{#<v1.display4#>}
+
+$\; \; \; \; \; #<v1.matrixDet#>$ \vspace{0.3cm} \\ 
+$= #<v1.solution1#>$ \vspace{0.3cm} \\ 
+$= #<v1.solution2#>$  \vspace{0.3cm} \\ 
+\ifx\flagvar\displayThree
+$= #<v1.solution3#>$  \vspace{0.3cm} \\ 
+\fi
+\ifx\flagvar\displayFour
+$= #<v1.solution4#>$  \vspace{0.3cm} \\ 
+\fi
+$= #<v1.det#>$ \vspace{0.3cm} \\
+
+\global\def\showLine{#<v1.det#>}
+
+\ifx\flagvar\showLine
+Since $|A|$ is zero the matrix is singular and hence not invertible.	
+\else
+Since $|A|$ is non-zero the matrix is non-singular and hence invertible.
+\fi
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+\global\def\flagvar{0}
+\global\def\showLine{#<v1.det#>}
+
+\ifx\flagvar\showLine
+
+$ #<v1.matrixDet#> = #<v1.det#> $. So $A$ is not invertible.
+	
+\else
+
+$ #<v1.matrixDet#> = #<v1.det#> $. So $A$ is invertible.
+
+\fi
+
+%%END SHORTANSWER
+
+\end{document}

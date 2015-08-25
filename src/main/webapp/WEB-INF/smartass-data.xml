@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+                        http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">      
+        <property name="locations" value="./WEB-INF/smartass.properties"/>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+      <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+      <property name="url" value="jdbc:mysql://localhost/SmartAssignments?autoReconnect=true" />
+      <property name="username" value="smartass" />
+      <property name="password" value="SmartAss" />
+      <property name="initialSize" value="0" />
+      <property name="maxActive" value="100" />
+      <property name="maxWait" value="2" />
+      <property name="testOnBorrow" value="true" />
+      <property name="validationQuery" value="select * from web_users limit 1" />
+    </bean>
+
+    <bean id="repositoryStorage" class="au.edu.uq.smartass.web.FilesystemRepositoryStorage">
+      <property name="paths">
+        <list>
+            <value>${smartass.data}/tex</value>
+            <value>${smartass.data}/pdf</value>
+            <value>${smartass.data}/files</value>
+        </list>
+      </property>
+    </bean>
+    
+    <bean id="assignmentsStorage" class="au.edu.uq.smartass.web.FilesystemRepositoryStorage">
+        <property name="paths">
+            <list>
+                <value>${smartass.assignments}/tex</value>
+                <value>${smartass.assignments}/pdf</value>
+                <value>${smartass.assignments}/files</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="assignmentTemplatesStorage" class="au.edu.uq.smartass.web.composer.AssignmentTemplatesStorage">
+        <property name="path">
+			<value>${smartass.assignments}/astempl</value>
+		</property>
+    </bean>
+
+    
+    <bean id="engineSettings" class = "au.edu.uq.smartass.web.EngineSettings">
+        <property name="templatesRoot">
+			<value>${smartass.data}/tex</value>
+		</property>
+        <property name="modulesRoot">
+			<value>./WEB-INF/classes</value>
+		</property>
+        <property name="outputPath">
+			<value>${smartass.html}/download</value>
+		</property>
+        <property name="templateHeader">
+            <value>\input{smartass.tex}</value>
+        </property>
+        <property name="texSearchPath">
+			<value>:${smartass.data}/files</value>
+		</property>
+    </bean> 
+
+    <bean id="backupStorage" class="au.edu.uq.smartass.web.BackupStorage">
+        <property name="backupPath">
+			<value>${smartass.backup}</value>
+		</property>
+    </bean>
+    
+    <bean id="backupCreator" class="au.edu.uq.smartass.web.BackupCreator">
+        <property name="dbName" value="SmartAssignments" />
+        <property name="hostName" value="localhost" />
+        <property name="mysqldumpCommand" value="mysqldump" />
+        <property name="username" value="smartass" />
+        <property name="password" value="SmartAss" />
+        <property name="repositoryPath">
+			<value>${smartass.data}</value>
+		</property>
+        <property name="assignmentsPath">
+			<value>${smartass.assignments}</value>
+		</property>
+        <property name="backups" ref="backupStorage" />
+        <property name="key" value="lalalala" />
+    </bean>
+
+</beans>

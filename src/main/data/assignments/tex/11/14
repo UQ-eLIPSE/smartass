@@ -1,0 +1,46 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf MATH1040/7040 simultaneous equations questions} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf MATH1040/7040 simultaneous equations questions \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf MATH1040/7040 simultaneous equations questions \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%REPEAT 5
+%%CALL SimultaneousEquationsElimination1Template.tex
+%%CALL SimultaneousEquationsLines1Template.tex
+%%CALL SimultaneousEquationsLines2Template.tex
+%%CALL SimultaneousEquationsSubstitution1Template.tex
+%%ENDREPEAT
+\end{document}

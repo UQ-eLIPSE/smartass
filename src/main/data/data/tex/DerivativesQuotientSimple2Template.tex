@@ -1,0 +1,31 @@
+%Find y', where y is a fraction, use quotient rule, only simple example
+%of kind (ax^2+bx+c)/(dx^2+ex+f)
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+QuotientRuleSimple2Module v1;
+#>
+%%END DEF
+%%BEGIN QUESTION
+If $y=#<v1.y#>$, find $y'$. \\
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+Let $u=#<v1.u#>$, then $u'=#<v1.du#>$.\\
+Let $v=#<v1.v#>$, then $v'=#<v1.dv#>$.\\ \vspace{1.3mm}
+Quotient rule: $y'=\dfrac{u'v-uv'}{v^{2}}$ ,  
+so 
+#<v1.solution#>
+Hence $y'=#<v1.shortanswer#>$.
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+$#<v1.shortanswer#>$
+
+%%END SHORTANSWER
+
+\end{document}

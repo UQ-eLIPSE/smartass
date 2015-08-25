@@ -1,0 +1,43 @@
+%DEFINES THE PREAMBLE FOR STANDARD SMARTASS ASSIGNMENT
+
+\documentclass[10pt,fleqn]{article}
+
+%\usepackage{epsf}
+\usepackage{amsmath}
+\usepackage{amssymb} 
+\usepackage{cancel} %cancelled numbers 
+%\usepackage{lcg} %random numbers generator
+\usepackage{ifthen} %logical constructs
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse
+\else
+\pdfoutput=1
+\pdftrue
+\fi
+
+\ifpdf
+\usepackage[pdftex]{overpic}
+\usepackage[pdftex]{graphicx}
+\pdfcompresslevel=9
+\pdfpagewidth=215truemm 
+\pdfpageheight=297truemm
+\pdfhorigin=1truein
+\pdfvorigin=1truein
+\else
+\usepackage{overpic}
+\usepackage{graphicx}
+\fi
+
+
+\setlength{\textwidth}{185.0mm}
+\setlength{\textheight}{660pt}
+\setlength{\oddsidemargin}{-15.0mm}
+\setlength{\evensidemargin}{-15.0mm}
+\setlength{\headsep}{0pt}
+%\setlength{\topmargin}{-29.0truemm}
+\setlength{\parindent}{0.0truemm}
+
+\renewcommand {\theenumi}{\bf \arabic{enumi}}
+\renewcommand {\theenumii} {\textbf{\arabic {enumii}}}
+\renewcommand {\theenumiii} {\textbf {\roman{enumiii}}}

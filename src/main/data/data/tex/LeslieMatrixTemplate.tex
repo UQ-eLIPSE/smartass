@@ -1,0 +1,62 @@
+%Simple question on the usage of Leslie matrix. 
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+%/**
+%* Constructor LeslieMatrixModule initialises the question
+%* with parameters passing.
+%* In case of "values" as a first parameter:
+%* @params  params[0] - string "values", indicates types of parameters passing,
+%*		params[1] - number of age groups,
+%*          params[2] - number of generations,
+%*          params[from 3 to number number_of_ages+2] - the numbers of individuals in each age group in initial population,
+%*          params[from number_of_ages+3 to 2number_of_ages+2] - the fertility of the corresponding age groups,
+%*          params[from 2number_of_ages+3 to 3number_of_ages+1] - the fraction of individuals that survives from the corresponding age group,   
+% for instance, v1(values,3,5,10,0,0,0,4,1,0.8,0.9);
+%* or
+%@params  params[0] - string "limits", indicating that there are limits being passed
+%*		params[1] - number of age groups,
+%*          parmas[2-3] - min and max limits for number of generations (including initial generation) required, 
+%*          params[from 4 to 2number_of_ages+3] - limits for numbers of individuals in each age group in initial population,
+%*		params[from 2number_of_ages+4 to 4number_of_ages+3] - limits for fertility of each age group,
+%*          params[from 4number_of_ages+4 to 6number_of_ages+1] - limits for the fraction of individuals that survives from the corresponding age group.
+%v1(limits,2,2,8,5,10,0,1,0,1,10,15,0.1,0.3);
+#<
+LeslieMatrixModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+A particular organism's population is modelled using a simple Leslie model with #<v1.number_of_ages#> life stages.
+
+The fertility of each life stage is:\; #<v1.fecundity_string#>.\\
+The survival rate from each life stage to the next is:\; #<v1.survival_string#>.\\ 
+The initial population is:\; #<v1.initial_population_string#>.
+
+Find the Leslie matrix $L$ and initial population vector $P_0$, then
+estimate the population at times $t=1$ to $t=#<v1.number_of_steps#>$.
+(Round your answers to 1 decimal place at each time step.)
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+The initial population vector $P_0$ and the Leslie matrix $L$ are: 
+$$P_0=#<v1.population0#>\quad\mbox{and}\quad
+L=#<v1.leslie_matrix#>.$$\\
+Then to find the population at time step $t+1$ we calculate $P_{t+1}=L\times P_t$, as follows:\\
+#<v1.working#>\\
+
+%%END SOLUTION
+
+
+%%BEGIN SHORTANSWER
+
+The initial population vector $P_0$, the Leslie matrix $L$, and the final
+population vector $P_{#<v1.number_of_steps#>}$ are: 
+$$P_0=#<v1.population0#>\quad\mbox{and}\quad
+L=#<v1.leslie_matrix#>\quad\mbox{and}\quad
+P_{#<v1.number_of_steps#>}=#<v1.last_population_vector#>.$$
+
+%%END SHORTANSWER
+\end{document}

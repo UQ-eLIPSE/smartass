@@ -1,0 +1,31 @@
+%Find y', where y is a composite function, use chain rule, only simple example
+%of kind (ax^n+b)^k
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+ChainRuleSimpleModule v1;
+#>
+%%END DEF
+%%BEGIN QUESTION
+Find $\dfrac{dy}{dx}$, if $y=#<v1.question#>$. \\
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+Let $u=#<v1.u#>$, so $y=#<v1.y#>$.\\ \vspace{1.3mm}
+Now $\dfrac{dy}{dx}=\dfrac{dy}{du} \times \dfrac{du}{dx}$.\\ \vspace{1.3mm}
+$\dfrac{dy}{du}=#<v1.dy#>$\\ \vspace{1.3mm}
+$\dfrac{du}{dx}=#<v1.du#>$\\ \vspace{1.3mm}
+So, $\dfrac{dy}{dx}=#<v1.solution#>$.\\[1.5mm]
+Hence $\dfrac{dy}{dx}=#<v1.shortanswer#>$.
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+$\dfrac{dy}{dx}=#<v1.shortanswer#>$
+
+%%END SHORTANSWER
+
+\end{document}

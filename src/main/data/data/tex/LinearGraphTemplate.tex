@@ -1,0 +1,111 @@
+%%Question on linear functions.
+%%Given a linear function.
+%%Draw graph of the function and calculate intercept points etc...
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+%parameters:
+#<
+LinearGraphModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Given the linear equation $#<v1.linear#> = 0$:
+
+(a) Find the $y$-intercept of the line.
+
+(b) Find the $x$-intercept of the line.
+
+(c) Sketch the graph of the line.
+%%END QUESTION
+
+%%BEGIN SOLUTION
+(a) First we rearrange the equation to get $#<v1.rearranged#>$.
+\ifnum #<v1.coeff0#> = 0
+	\ifnum #<v1.coeff2#> = 0
+		Therefore, $x = 0$ regardless of the value of $y$. The
+		line doesn't intercept the $y$-axis in a single point, but does
+		so in every point.
+	\else
+		Therefore, $#<v1.rearranged#>$ regardless of the value
+		of $y$. Hence, the line does not intercept the $y$-axis at all and there
+		is no $y$-intercept.
+	\fi	
+\else
+	\ifnum #<v1.coeff1#> = 0
+		The line $#<v1.rearranged#>$ has constant $y$-value. Hence,
+		the $y$-intercept is $y = #<v1.yIntercept#>$.
+	\else
+		The $y$-intercept of $#<v1.rearranged#>$ may be found by substituting $x = 0$ into
+		the equation giving $y = #<v1.yIntercept#>$ as the $y$-intercept.
+	\fi
+\fi
+\\
+
+
+(b) 
+\ifnum #<v1.coeff1#> = 0
+	\ifnum #<v1.coeff2#> = 0
+		For the line $#<v1.rearranged#>$, regardless of the value of $x$, $y$ is zero. The
+		line does not intercept the $x$-axis in a single point, but does
+		so in every point.
+	\else
+		For the line $#<v1.rearranged#>$, regardless of the value of $x$, $y$ is $#<v1.yIntercept#>$. 
+		Hence, the line does not intercept the $x$-axis at all and there is no $x$-intercept.
+	\fi	
+\else
+	\ifnum #<v1.coeff0#> = 0
+		The line $#<v1.rearranged#>$ has constant $x$-value. Hence,
+		the $x$-intercept is $x = #<v1.xIntercept#>$.
+	\else
+		The $x$-intercept of $#<v1.rearranged#>$ may be found by substituting $y = 0$ into
+		the equation giving $x = #<v1.xIntercept#>$ as the $x$-intercept.
+	\fi
+\fi
+\\
+
+\ifnum #<v1.equalScale#> = 1
+	(c) #<v1.graph#>
+\else
+	(c) (Note that the scaling of the axes on the graph below are not equal.)
+
+	#<v1.graph#>
+\fi
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+(a)
+\ifnum #<v1.coeff0#> = 0
+	\ifnum #<v1.coeff2#> = 0
+		The line does not intercept the $y$-axis in a single point it does
+		so in every point.
+	\else
+		The line does not intercept the $y$-axis at all.
+	\fi	
+\else
+	The y-intercept is $y = #<v1.yIntercept#>$.
+\fi
+
+(b) 
+\ifnum #<v1.coeff1#> = 0
+	\ifnum #<v1.coeff2#> = 0
+		The line does not intercept the $x$-axis in a single point it does
+		so in every point.
+	\else
+		The line does not intercept the $x$-axis at all.
+	\fi	
+\else
+	The x-intercept is $x = #<v1.xIntercept#>$.
+\fi
+
+\ifnum #<v1.equalScale#> = 1
+	(c) #<v1.graph#>
+\else
+	(c) (Note that the scaling of the axes on the graph below are not equal.)
+
+	#<v1.graph#>
+\fi
+%%END SHORTANSWER
+\end{document}

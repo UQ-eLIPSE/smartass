@@ -1,0 +1,42 @@
+%Population growth.
+%Template for exponential growth.
+\input{smartass.tex}
+\begin{document}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+ExpGrowthModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Populations of bacteria (and indeed many other organisms) exhibit population
+growth that can be modelled using continuous compounding. The rate of population
+growth depends on such factors as fertility, temperature, level of interactions and so on. 
+
+A certain type of bacterium has a population growth rate of #<v1.r#> per hour. If there are 
+#<v1.I#> million bacteria in a petri dish at time 0, how many will there be after
+#<v1.t#> hours? (Give your answer in millions, rounded to two decimal places.)
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+Let $P$ be the final population in millions. Then
+\begin{eqnarray*}
+P&=&#<v1.I#>e^{#<v1.r#>\times #<v1.t#>}\\
+&=&#<v1.I#>e^{#<v1.rt#>}\\
+&\approx&#<v1.growthsol#>
+\end{eqnarray*}
+Hence the final population is approximately #<v1.growthsol#> million bacteria.
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+#<v1.growthsol#> 
+
+%%END SHORTANSWER
+\end{document}

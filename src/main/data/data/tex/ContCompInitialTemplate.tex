@@ -1,0 +1,41 @@
+%Choose initial value to invest in a continuously compounding interest example.
+%Template for exponential growth.
+\input{smartass.tex}
+\begin{document}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+ExpGrowthModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Peter needs to pay a bill of \$#<v1.I#>  in #<v1.t#> years' time. His bank account
+earns #<v1.rpercent#> percent interest each year, compounding continuously. How much money does he need
+to invest now in order to exactly cover his bill in #<v1.t#> years? Ignore fees and taxes,
+and round your answer to cents.
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+Let $B$ be the amount of the bill, $I$ be the amount he needs to invest, $r$ be the
+interest rate and $t$ be the number of years.  Then
+$B=Ie^{rt}$ so $I=\displaystyle\frac{B}{e^{rt}}$, so $I=Be^{-rt}$. Then
+\begin{eqnarray*}
+I&=&#<v1.I#>e^{-#<v1.r#>\times #<v1.t#>}\\
+&=&#<v1.I#>e^{-#<v1.rt#>}\\
+&\approx&#<v1.decaysol#>
+\end{eqnarray*}
+Hence he needs to invest approximately \$#<v1.decaysol#> .
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+\$#<v1.decaysol#> 
+
+%%END SHORTANSWER
+\end{document}

@@ -1,0 +1,61 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf 1040 week 6 2013} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf 1040 week 6 2013 \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf 1040 week 6 2013 \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL DistanceTemplate.tex
+%%CALL GradientInterceptSimpleTemplate.tex
+%%CALL GradientInterceptTemplate.tex
+%%CALL Line2PointsTemplate.tex
+%%CALL LinearEquation1Template.tex
+%%CALL LinearGraphTemplate.tex
+%%CALL LinearParallelEquationTemplate.tex
+%%CALL LinearParallelSimpleTemplate.tex
+%%CALL LinearPerpendicularTemplate.tex
+%%CALL LineParallelToHorizontalTemplate.tex
+%%CALL LineParallelToVerticalTemplate.tex
+%%CALL LinePerpendicularToHorizontalTemplate.tex
+%%CALL LinePerpendicularToVerticalTemplate.tex
+%%CALL LineThroughPointTemplate.tex
+%%CALL SimultaneousEquationsElimination1Template.tex
+%%CALL SimultaneousEquationsLines1Template.tex
+%%CALL SimultaneousEquationsLines2Template.tex
+%%CALL SimultaneousEquationsSubstitution1Template.tex
+%%CALL FindXInSummation2Template.tex
+%%CALL FindXInSummationTemplate.tex
+%%CALL WriteAsSummationTemplate.tex
+\end{document}

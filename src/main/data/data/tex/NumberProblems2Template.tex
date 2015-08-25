@@ -1,0 +1,33 @@
+%Solve a simple number problem of the form n + (n + 1) = a, where a is known
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+NumberProblems2Module v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+What two integers that differ by #<v1.diff#> add together to give #<v1.solution#>?
+%%END QUESTION
+
+%%BEGIN SOLUTION
+We know that there is a difference of #<v1.diff#> between the the two
+integers.  Let the smaller integer be represented by #<v1.var1#>, so
+the larger integer will then be #<v1.var2#>.  We thus have:
+
+#<v1.working#>
+
+Note that this gives us the value of the \emph{lower} integer only!
+We need \emph{both} integers!
+
+So if the smaller number is #<v1.num1#>, then the larger number must
+be #<v1.num2#>.
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+#<v1.num1#> and #<v1.num2#>
+%%END SHORTANSWER
+
+\end{document}

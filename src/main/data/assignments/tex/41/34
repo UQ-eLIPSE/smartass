@@ -1,0 +1,64 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+\underline{{\bf Rates of Change and Intro to Functions} }
+\BR
+\underline {{\BF ~ End of Semester 2 ~ C grade questions ~}}
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf Derivatives \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf Derivatives \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%REPEAT 3
+%%CALL Derivatives2Template.tex
+%%CALL Derivatives3Template.tex
+%%ENDREPEAT
+%%CALL DerivativesProductSimpleTemplate.tex
+%%CALL DerivativesQuotientSimple2Template.tex
+%%CALL DerivativesQuotientSimple3Template.tex
+%%CALL DerivativesQuotientSimpleTemplate.tex
+%%CALL DerivativesChainSimpleTemplate.tex
+%%CALL DerivativesProductSimpleTemplate.tex
+%%REPEAT 4
+%%CALL DomainRangeTemplate.tex
+%%CALL Range1Template.tex
+%%CALL Range2Template.tex
+%%ENDREPEAT
+%%REPEAT 3
+%%BEGIN QUESTION
+Answer each of the following questions, showing all working:
+%%END QUESTION
+%%CALL LinearEquation1Template.tex
+%%CALL LinearParallelEquationTemplate.tex
+%%CALL LinearParallelSimpleTemplate.tex
+%%CALL LinearPerpendicularTemplate.tex
+%%ENDREPEAT
+\end{document}

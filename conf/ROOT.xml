@@ -1,0 +1,8 @@
+<!-- 
+     	[PSW]: 
+  -->
+<Context 
+	docBase="smartass"
+	path="" 	
+	reloadable="true"
+/>

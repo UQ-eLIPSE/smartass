@@ -1,0 +1,39 @@
+%Find inverse of 2 x 2 matrix, if it's invertible 
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+% possible parameters - the elements of the matrix, for instance v1(2,3,1,2); would produce
+%2 3
+%1 2
+#<
+MatrixInverseModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Let $A= #<v1.matrix#>$. Find $A^{-1}.$
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+\begin{align*}
+#<v1.matrix#>^{-1}&=\dfrac{1}{#<v1.determinantexpression#>}#<v1.adjoint#>\\[1.5mm]
+&=\dfrac{1}{#<v1.determinant#>}#<v1.adjoint#>\\[1.5mm]
+\if y#<v1.invertible#>
+&=#<v1.inverse#>
+\else
+\mbox{The matrix is not invertible.}
+\fi
+\end{align*}
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+#<v1.inverse#>
+
+%%END SHORTANSWER
+
+\end{document}

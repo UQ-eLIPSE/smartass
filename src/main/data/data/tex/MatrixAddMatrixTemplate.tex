@@ -1,0 +1,36 @@
+%Add two matrices together 
+%In some cases generates matrices, that could not be defined
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+%possible parameters: (m1, n1, m2, n2, matrices than), for instance v1(1,1,1,2,1,2,3); will produce (1) + (2 3) - sum is not defined
+#<
+MatrixAddMatrixModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Evaluate: \hspace{3mm} $#<v1.matrix1#>+#<v1.matrix2#>$
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+\if y#<v1.isdefined#> 
+$#<v1.matrix1#>+#<v1.matrix2#>=#<v1.sum#>$
+\else
+\mbox{The answer is not defined because of different dimensions. }
+\fi
+
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+#<v1.sum#>
+
+%%END SHORTANSWER
+
+\end{document}

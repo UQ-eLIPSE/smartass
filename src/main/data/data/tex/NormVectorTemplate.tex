@@ -1,0 +1,49 @@
+%Given a vector with three elements normalize the vector.
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+NormVectorModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+Given the vector ${\bf a} = #<v1.vec#>$ find ${\bf \hat{a}}$ (that is, normalize ${\bf a}$).
+%%END QUESTION
+
+%%BEGIN SOLUTION
+Firstly, calculate the norm of ${\bf a}$:
+\ifnum #<v1.sqrtSimplifies#> = 1
+	\begin{eqnarray*}
+	|{\bf a}| &=& #<v1.norm1#> \\
+	|{\bf a}| &=& #<v1.norm2#> \\
+	|{\bf a}| &=& #<v1.norm3#>
+	\end{eqnarray*}
+\else
+	\begin{eqnarray*}
+	|{\bf a}| &=& #<v1.norm1#> \\
+	|{\bf a}| &=& #<v1.norm2#>
+	\end{eqnarray*}
+\fi
+
+Now, 
+\ifnum #<v1.normSimplifies#> = 1
+	\begin{eqnarray*}
+	{\bf \hat{a} } &=& #<v1.normalizedVec1#> \\
+	{\bf \hat{a} } &=& #<v1.normalizedVec2#> \\
+	{\bf \hat{a} } &=& #<v1.normalizedVec3#>
+	\end{eqnarray*}
+\else
+	\begin{eqnarray*}
+	{\bf \hat{a} } &=& #<v1.normalizedVec1#> \\
+	{\bf \hat{a} } &=& #<v1.normalizedVec2#>
+	\end{eqnarray*}
+\fi
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+${\bf \hat{a} } = #<v1.normalizedVec3#>$
+%%END SHORTANSWER
+
+\end{document}

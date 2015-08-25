@@ -1,0 +1,104 @@
+%Simple question on ideal gas equation p1v1/t1=p2v2/t2. Given an initial volume of the gas v1, initial pressure p1, 
+%and initial temperature t1, find the volume v2 (temperature, pressure) if two other parameters changed (and given). 
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+%parameters IdealGasEquationModule vi(pvt, MIN_P, MAX_P, MIN_V, MAX_V, MIN_T, MAX_T); where
+%In case of 7 parameters (limits are set by passing parameters):
+%	   pvt indicates which parameter is unknown, if "p" find pressure, "v" - find volume, "t" - find temperature
+%	   MIN_P - minimum pressure, double value, 
+%        MAX_P - maximum pressure, double
+%	   MIN_V - minimum volume, double x 10^-3
+%        MAX_V - maximum volume, double
+%        MIN_T - minimum temperature in K,
+%        MAX_T - maximum temperature	   
+%
+% or In case of 6 parameters (everything is set by passing parameters):
+%        pvt indicates which parameter is unknown if "p" find pressure p2, "v" - find volume, "t" - find temperature
+%	   p1 - initial pressure,
+%	   v1 - initial volume, times 10^-3
+%        t1 - initial temperature in K,
+%        p2 or v2 (depending on pvt passed),
+%        v2 or t2 (depending on pvt passed).
+%vi(t,45.8,3.48,258,62.2,3.07);
+#<
+IdealGasEquationModule vi;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+A sample of diborane gas (B$_{2}$H$_{6}$) has a pressure of $#<vi.p1#>$ kPa at a temperature of $#<vi.t1c#>^{\circ}$C and
+a volume of $#<vi.v1#>$ m$^{3}$. If conditions are changed such that the
+\if p#<vi.pvt#>
+temperature is $#<vi.t2c#>^{\circ}$C and the volume is $#<vi.v2#>$ m$^{3}$, what will be the pressure of the sample? 
+\fi
+\if v#<vi.pvt#>
+temperature is $#<vi.t2c#>^{\circ}$C and the pressure is $#<vi.p2#>$ kPa, what will be the volume of the sample? 
+\fi
+\if t#<vi.pvt#>
+pressure is $#<vi.p2#>$ kPa and the volume is $#<vi.v2#>$ m$^{3}$, what will be the temperature of the sample? 
+\fi
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+The number of moles of the gas remains constant, so $\dfrac{P_{1}V_{1}}{T_{1}}=\dfrac{P_{2}V_{2}}{T_{2}}$ \\
+$\therefore$ 
+\if v#<vi.pvt#>
+$V_{2}=\dfrac{P_{1}V_{1}}{T_{1}}\times \dfrac{T_{2}}{P_{2}}$ 
+
+Here,
+\begin{alignat*}{3}
+&P_{1}=#<vi.p1#> \mbox{kPa}& \hspace{30mm} &P_{2}=#<vi.p2#> \mbox{kPa}\\
+&T_{1}=#<vi.t1c#>^{\circ}\mbox{C}+273=#<vi.t1k#> \mbox{K}& \hspace{30mm} &T_{2}=#<vi.t2c#>^{\circ}\mbox{C}+273=#<vi.t2k#> \mbox{K}\\ 
+&V_{1}=#<vi.v1#> \mbox{m}^{3}&  \hspace{30mm} &V_{2}= ?
+\end{alignat*}
+\vspace{1mm}
+So $V_{2}=\dfrac{#<vi.p1#> \mbox{kPa}\cdot #<vi.v1#> \mbox{m}^{3} \cdot #<vi.t2k#> \mbox{K}}
+{#<vi.t1k#> \mbox{K} \cdot #<vi.p2#> \mbox{kPa}} = #<vi.v2#> \mbox{m}^{3}$ \\  
+\fi
+\if p#<vi.pvt#>
+$P_{2}=\dfrac{P_{1}V_{1}}{T_{1}}\times \dfrac{T_{2}}{V_{2}}$ 
+
+Here,
+\begin{alignat*}{3}
+&V_{1}=#<vi.v1#> \mbox{m}^{3}&  \hspace{30mm} &V_{2}=#<vi.v2#> \mbox{m}^{3}\\ 
+&T_{1}=#<vi.t1c#>^{\circ}\mbox{C}+273=#<vi.t1k#> \mbox{K}& \hspace{30mm} &T_{2}=#<vi.t2c#>^{\circ}\mbox{C}+273=#<vi.t2k#> \mbox{K}\\ 
+&P_{1}=#<vi.p1#> \mbox{kPa}& \hspace{30mm} &P_{2}= ?
+\end{alignat*}
+\vspace{1mm}
+So $P_{2}=\dfrac{#<vi.p1#> \mbox{kPa}\cdot #<vi.v1#> \mbox{m}^{3} \cdot #<vi.t2k#> \mbox{K}}
+{#<vi.t1k#>\mbox{K} \cdot #<vi.v2#> \mbox{m}^{3}} = #<vi.p2#> \mbox{kPa}$ \\  
+\fi
+\if t#<vi.pvt#>
+$T_{2}=P_{2}V_{2} \times \dfrac{T_{1}}{P_{1}V_{1}}$ 
+
+Here,
+\begin{alignat*}{3}
+&P_{1}=#<vi.p1#> \mbox{kPa}& \hspace{30mm} &P_{2}=#<vi.p2#> \mbox{kPa}\\
+&V_{1}=#<vi.v1#> \mbox{m}^{3}&  \hspace{30mm} &V_{2}=#<vi.v2#> \mbox{m}^{3}\\ 
+&T_{1}=#<vi.t1c#>^{\circ}\mbox{C}+273=#<vi.t1k#> \mbox{K}& \hspace{30mm} &T_{2}= ?
+\end{alignat*}
+\vspace{1mm}
+So $T_{2}=\dfrac{#<vi.p2#> \mbox{kPa}\cdot #<vi.v2#> \mbox{m}^{3} \cdot #<vi.t1k#> \mbox{K}}
+{#<vi.p1#> \mbox{kPa}\cdot #<vi.v1#> \mbox{m}^{3}} = #<vi.t2k#> \mbox{K}$\\[2.4mm]
+and converting this to Celsius gives $T_{2}=#<vi.t2k#> \mbox{K}-273=#<vi.t2c#>^{\circ}\mbox{C}$  
+\fi
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+\if v#<vi.pvt#>
+$#<vi.v2#> \mbox{m}^{3}$ 
+\fi
+\if p#<vi.pvt#>
+$#<vi.p2#> \mbox{kPa}$ 
+\fi
+\if t#<vi.pvt#>
+$#<vi.t2c#>^{\circ}\mbox{C}$  
+\fi
+%%END SHORTANSWER
+\end{document}

@@ -1,0 +1,66 @@
+%Simple question on Boyle's Law. Given initial pressure p1, and volume v1, and resulting v2,
+%find p2 (assume temperature remains constant). 
+\input{smartass.tex}
+\begin{document}
+%parameters BoylesLawModule va(p1, units of p1, v1, v2); , where units of p1 could be m (for mmHg) or k (for kPa)
+%or different set of parameters va(limits, pressure minimum, pressure maximum, volume min, volume max); limits is a word, 
+%others are integer numbers  
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+BoylesLawModule va;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+\ifthenelse{\equal{#<va.punit#>}{m}}
+{
+A sample of chlorine gas occupies a volume of #<va.v1#> mL at a pressure of #<va.p1mmhg#> mmHg. 
+Calculate the pressure of the gas if the volume is 
+\ifthenelse{#<va.v1#> > #<va.v2#>}{reduced}{increased} to #<va.v2#> mL (assume temperature remains constant).  
+}
+{
+A sample of chlorine gas occupies a volume of #<va.v1#> mL at a pressure of #<va.p1kpa#> kPa. 
+Calculate the pressure of the gas if the volume is 
+\ifthenelse{#<va.v1#> > #<va.v2#>}{reduced}{increased} to #<va.v2#> mL (assume temperature remains constant).  
+}
+%%END QUESTION
+
+%%BEGIN SOLUTION
+\ifthenelse{\equal{#<va.punit#>}{m}}
+{
+Since $PV$=constant,
+\begin{eqnarray*}
+P_{1}V_{1}&=&P_{2}V_{2} \mbox{, \; so}\\[1mm]
+P_{2}&=&\dfrac{P_{1}V_{1}}{V_{2}}\\
+&=&#<va.p1mmhg#>\mbox{ mmHg}\times \dfrac{#<va.v1#> \mbox{ mL}}{#<va.v2#> \mbox{ mL}}\\
+&=&#<va.p2mmhg#> \mbox{ mmHg}
+\end{eqnarray*}
+or to convert to Pa:
+\begin{eqnarray*}
+P_{2}&=&\dfrac{#<va.p2mmhg#>\mbox{ mmHg}}{760\mbox{ mmHg}} \times 101.325 \mbox{ kPa}\\[1mm]
+&=&#<va.p2kpa#>\mbox{ kPa}
+\end{eqnarray*}
+}
+{
+Since $PV$=constant,
+\begin{eqnarray*}
+P_{1}V_{1}&=&P_{2}V_{2} \mbox{, \; so}\\[1mm]
+P_{2}&=&\dfrac{P_{1}V_{1}}{V_{2}}\\
+&=&#<va.p1kpa#>\mbox{ kPa}\times \dfrac{#<va.v1#> \mbox{ mL}}{#<va.v2#> \mbox{ mL}}\\
+&=&#<va.p2kpa#> \mbox{ kPa}
+\end{eqnarray*}
+or to convert to mmHg:
+\begin{eqnarray*}
+P_{2}&=&\dfrac{#<va.p2kpa#>\mbox{ kPa}}{101.325 \mbox{kPa}}\times 760\mbox{ mmHg} \\[1mm]
+&=&#<va.p2mmhg#>\mbox{ mmHg}
+\end{eqnarray*}
+}
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+$#<va.p2kpa#>$ kPa
+
+%%END SHORTANSWER
+\end{document}

@@ -1,0 +1,52 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf MATH1040 WEEK 4 TUTORIAL QUESTIONS} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf MATH1040 WEEK 4 TUTORIAL QUESTIONS \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf MATH1040 WEEK 4 TUTORIAL QUESTIONS \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%CALL AbsEquationTemplate.tex
+%%REPEAT 3
+%%CALL AddPowersTemplate.tex
+%%BEGIN QUESTION
+Answer each of the following questions, showing all working:
+%%END QUESTION
+%%ENDREPEAT
+%%CALL CancelPowersInFractionTemplate.tex
+%%CALL SqrtEquationTemplate.tex
+%%CALL SqrtMultiply1Template.tex
+%%CALL SqrtMultiplyTemplate.tex
+%%CALL AbsTemplate.tex
+\end{document}

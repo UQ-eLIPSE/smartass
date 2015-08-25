@@ -1,0 +1,40 @@
+%Population growth.
+%Template for exponential growth, use of logarithm.
+\input{smartass.tex}
+\begin{document}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+ExpGrowthLogsModule v1;
+#>
+%possible parameters ExpGrowthLogsModule v1(h,k), where h is a doubling time and k is a growth rate;
+%%END DEF
+
+%%BEGIN QUESTION
+
+A population of bacteria is growing with a growth rate of $k=#<v1.k#>$ per hour.
+Find the doubling time. 
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+Let doubling time be $t$. Then
+\begin{eqnarray*}
+2&=&e^{t\times k} , \hspace{2mm} \mbox{so}\\
+\ln 2&=&tk , \hspace{2mm}\mbox{so}\\
+t&=&\frac{\ln 2}{k}\\
+&=&\frac{\ln 2}{#<v1.k#>}\\
+&\approx&#<v1.round_h#>
+\end{eqnarray*}
+Hence the doubling time is approximately #<v1.round_h#> hour(s).
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+#<v1.round_h#>
+
+%%END SHORTANSWER
+\end{document}

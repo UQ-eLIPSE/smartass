@@ -1,0 +1,52 @@
+%Given function f(x)=ax^3+bx^2+cx+d find:1) f'(x);2)solve f'(x)=0;3)f''(x);4)f'(k)
+
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+DerivativesCompositeModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+Let $f(x)=#<v1.f#>$. 
+\begin{enumerate}
+\item[Q1] Find $f'(x)$. \item[Q2] Solve $f'(x)=0$. \item[Q3] Find $f''(x)$. \item[Q4] Find $f'(#<v1.xvalue#>)$.
+\end{enumerate}
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+\begin{enumerate}
+\item[Q1]
+$f'(x)=#<v1.df#>$
+\item[Q2]
+$f'(x)=0$, so from Q1 , $#<v1.df#>=0$, so 
+#<v1.quadratic#>
+\item[Q3]
+$f''(x)=$#<v1.ddf#>
+\item[Q4]
+$f'(#<v1.xvalue#>)=$#<v1.df_x#>
+\end{enumerate}
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+\begin{enumerate}
+\item[Q1]
+$f'(x)=#<v1.df#>$
+\item[Q2]
+#<v1.quadratic_shortanswer#>
+\item[Q3]
+$f''(x)=$#<v1.ddf#>
+\item[Q4]
+$f'(#<v1.xvalue#>)=$#<v1.df_x_shortanswer#>
+\end{enumerate}
+
+%%END SHORTANSWER
+
+\end{document}

@@ -1,0 +1,44 @@
+\input{smartass.tex}
+\begin{document}
+
+\begin{center}
+%%BEGIN QUESTION
+
+\underline{{\bf Week 6 quiz} }
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+\underline{{\bf Week 6 quiz \qquad\qquad SOLUTIONS} }
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+\underline{{\bf Week 6 quiz \qquad\qquad ANSWERS} }
+
+%%END SHORTANSWER
+
+\end{center}
+\vskip 0.3cm
+
+%%BEGIN QUESTION
+
+
+
+%%END QUESTION
+%%BEGIN SOLUTION
+
+
+
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+
+
+
+%%END SHORTANSWER
+
+%%REPEAT 10
+%%CALL Line2PointsTemplate.tex
+%%CALL LinearGraphTemplate.tex
+%%ENDREPEAT
+\end{document}

@@ -1,0 +1,40 @@
+%Radioactive decay.
+%Template for exponential growth.
+\input{smartass.tex}
+\begin{document}
+
+%%BEGIN DEF 
+%definition of variables/modules used
+#<
+ExpGrowthModule v1;
+#>
+%%END DEF
+
+%%BEGIN QUESTION
+
+#<v1.r#> of a certain radioactive substance decays 
+every 1000 years. If the initial quantity of the substance is
+#<v1.I#> units, how many units will remain after #<v1.t#> thousand years?
+(Round your answer to two decimal places.) 
+
+%%END QUESTION
+
+%%BEGIN SOLUTION
+
+Let $A$ be the final amount of the material remaining.  Then
+\begin{eqnarray*}
+A&=&#<v1.I#>e^{-#<v1.r#>\times #<v1.t#>}\\
+&=&#<v1.I#>e^{-#<v1.rt#>}\\
+&\approx&#<v1.decaysol#>
+\end{eqnarray*}
+Hence the amount of material remaining after #<v1.t#> thousand years is approximately #<v1.decaysol#>
+units.
+
+%%END SOLUTION
+
+%%BEGIN SHORTANSWER
+
+#<v1.decaysol#> 
+
+%%END SHORTANSWER
+\end{document}
