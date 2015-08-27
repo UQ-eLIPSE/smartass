@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+        "http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<var name="premeta"
+    	class="au.edu.uq.smartass.web.template.PreparsedMetadataModel"/>
+	<var name="template"
+    	class="au.edu.uq.smartass.web.template.TemplateImportModel"/>
+	<var name="user"
+    	class="au.edu.uq.smartass.web.UserItemModel"/>
+	<var name="mode" 
+    	class="java.lang.String" />
+
+	<input name="classId" />
+    	
+    <on-start>
+   		<evaluate expression="'new'" result="flowScope.mode"/>
+   		<evaluate expression="templateEditor.startRepositoryTransaction(flowScope.template)" />
+    </on-start>
+
+	<decision-state id="testUserLoggedIn">
+	    <if test="(externalContext.sessionMap.user==null) || (!externalContext.sessionMap.user.editRepositoryRight)" then="errorNoUser" else="uploadNewTemplate"/>
+    </decision-state>
+
+    <view-state id="uploadNewTemplate" view="templateUpload.jsp">
+    	<on-render>
+			<evaluate expression="new au.edu.uq.smartass.web.template.UploadTemplateModel()" result="viewScope.item" />
+		</on-render>
+    	<transition on="ok" to="reviewMetadata">
+     		<evaluate expression="viewScope.item.setFileMultipart(flowRequestContext.getRequestParameters().getMultipartFile('file'))"/>
+    		<evaluate expression="viewScope.item.setName(flowRequestContext.getRequestParameters().getMultipartFile('file').getOriginalFilename())"/>
+			<evaluate expression="templateEditor.prepareImport(template, viewScope.item.getFile())" result="flowScope.premeta" />
+			<evaluate expression="flowScope.premeta.setName(viewScope.item.getName())"/>
+		</transition>
+	</view-state>
+
+    <view-state id="reviewMetadata" view="templateReviewMetadata.jsp" model="flowScope.premeta"> 
+    	<transition on="ok" to="selectMetadata">
+     		<evaluate expression="templateEditor.parseMetadata(template, premeta, classId)" /> 
+    	</transition>
+    	<transition on="skip" to="finishWithCancel"/>
+	</view-state>
+	
+    <view-state id="selectMetadata" view="templateSelectMetadata.jsp" model="template"> 
+    	<on-render>
+    		<evaluate expression="flowScope.template" result="viewScope.template"></evaluate>
+    	</on-render>
+    	<transition on="ok" to="testResolveAuthor">
+    		<evaluate expression="templateEditor.afterSelectMetadata(template, messageContext)" ></evaluate>
+    	</transition>
+	</view-state>
+	
+	<decision-state id="testResolveAuthor">
+	    <if test="(template.author==null) || (template.author.id==0) || (!template.importAuthor)" 
+	    	then="resolveAuthor" else="testResolveModule"/>
+    </decision-state>
+	
+    <view-state id="resolveAuthor" view="templateResolveAuthor.jsp" model="item">
+    	<on-entry>
+    		<evaluate expression="resolveAuthorController.prepareModel(template)" 
+    			result="viewScope.item"/>
+    	</on-entry>
+    	<on-render>
+			<evaluate expression="resolveAuthorController.getSuggestions(viewScope.item.author.name)" 
+				result="viewScope.suggestions" />
+		</on-render>
+    	<transition on="ok" to="testResolveModule">
+    		<evaluate expression="resolveAuthorController.resolve(template, viewScope.item, messageContext)"/>
+		</transition>
+    	<transition on="search">
+    		<evaluate expression="0" result="viewScope.item.pageNo" />
+    		<evaluate expression="resolveAuthorController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="page">
+    		<evaluate expression="resolveAuthorController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+	</view-state>
+
+	<decision-state id="testResolveModule">
+	    <if test="template.modulesResolver.advance()" then="resolveModule" else="testResolveFile"/>
+    </decision-state>
+	
+    <view-state id="resolveModule" view="templateResolveModule.jsp" model="item">
+    	<on-entry>
+    		<evaluate expression="resolveModuleController.prepareModel(template)" 
+    			result="viewScope.item"/>
+    	</on-entry>
+    	<on-render>
+			<evaluate expression="resolveModuleController.getSuggestions(item.module.name)" 
+				result="viewScope.suggestions" />
+		</on-render>
+    	<transition on="ok" to="testResolveModule">
+    		<evaluate expression="resolveModuleController.resolve(template, viewScope.item, messageContext)"/>
+		</transition>
+    	<transition on="search">
+    		<evaluate expression="0" result="viewScope.item.pageNo" />
+    		<evaluate expression="resolveModuleController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="page">
+    		<evaluate expression="resolveModuleController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+	</view-state>
+
+	<decision-state id="testResolveFile">
+	    <if test="template.filesResolver.advance()" then="resolveFile" else="testResolveUpdAuthor"/>
+    </decision-state>
+	
+    <view-state id="resolveFile" view="templateResolveFile.jsp" model="item">
+    	<on-entry>
+    		<evaluate expression="resolveFileController.prepareModel(template)" 
+    			result="viewScope.item"/>
+    	</on-entry>
+    	<on-render>
+			<evaluate expression="resolveFileController.getSuggestions(item.file.name)" 
+				result="viewScope.suggestions" />
+		</on-render>
+    	<transition on="ok" to="testResolveFile">
+    		<evaluate expression="viewScope.item.setFileMultipart(flowRequestContext.getRequestParameters().getMultipartFile('fileMultipart'))"/>
+    		<evaluate expression="resolveFileController.resolve(template, viewScope.item, messageContext)"/>
+		</transition>
+    	<transition on="search">
+    		<evaluate expression="0" result="viewScope.item.pageNo" />
+    		<evaluate expression="resolveFileController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="page">
+    		<evaluate expression="resolveFileController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+    	</transition>
+	</view-state>
+
+	<decision-state id="testResolveUpdAuthor">
+	    <if test="template.updAuthorsResolver.advance()" then="resolveUpdAuthor" else="testResolveUpdate"/>
+    </decision-state>
+	
+    <view-state id="resolveUpdAuthor" view="templateResolveUpdAuthor.jsp" model="item">
+    	<on-entry>
+    		<evaluate expression="resolveUpdAuthorController.prepareModel(template)" 
+    			result="viewScope.item"/>
+    	</on-entry>
+    	<on-render>
+			<evaluate expression="resolveUpdAuthorController.getSuggestions(item.author.name)" 
+				result="viewScope.suggestions" />
+		</on-render>
+    	<transition on="ok" to="testResolveUpdAuthor">
+    		<evaluate expression="resolveUpdAuthorController.resolve(template, viewScope.item, messageContext)"/>
+		</transition>
+    	<transition on="search">
+    		<evaluate expression="0" result="viewScope.item.pageNo" />
+    		<evaluate expression="resolveUpdAuthorController.search(viewScope.item.search)" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="page">
+    		<evaluate expression="resolveUpdAuthorController.search(viewScope.item.search)" 
+    			result="viewScope.found"/>
+		</transition>
+	</view-state>
+
+	<decision-state id="testResolveUpdate">
+	    <if test="template.updatesResolver.advance()" then="resolveUpdate" else="uploadExamples"/>
+    </decision-state>
+	
+    <view-state id="resolveUpdate" view="templateResolveUpdate.jsp" model="item">
+    	<on-render>
+    		<evaluate expression="resolveUpdateController.prepareModel(template)" 
+    			result="viewScope.item"/>
+		</on-render>
+    	<transition on="ok" to="testResolveUpdate">
+		</transition>
+	</view-state>
+
+    <view-state id="uploadExamples" view="templateUploadExamples.jsp">
+    	<on-render>
+    		<evaluate expression="new au.edu.uq.smartass.web.template.UploadExamplesModel()" 
+    			result="viewScope.item"/>
+		</on-render>
+    	<transition on="ok" to="saveTemplate">
+    		<evaluate expression="viewScope.item.setQuestionsMultipart(flowRequestContext.getRequestParameters().getMultipartFile('questions'))"/>
+    		<evaluate expression="viewScope.item.setSolutionsMultipart(flowRequestContext.getRequestParameters().getMultipartFile('solutions'))"/>
+    		<evaluate expression="viewScope.item.setShortanswersMultipart(flowRequestContext.getRequestParameters().getMultipartFile('shortanswers'))"/>
+    		<evaluate expression="templateEditor.uploadExamples(template, viewScope.item)"></evaluate>
+	</transition>
+	</view-state>
+
+    <view-state id="saveTemplate" view="templateSave.jsp" model="template">
+    	<on-entry>
+			<evaluate expression="templateEditor.prepareSave(template)" />
+    	</on-entry>
+    	<transition on="ok" to="finish">
+			<evaluate expression="templateEditor.save(template)" />
+		</transition>
+    	<transition on="edit" to="finishAndEdit">
+			<evaluate expression="templateEditor.save(template)" />
+		</transition>
+	</view-state>
+
+     <end-state id="finish">
+     	<output name="classId" value="template.classifications[0].id"/> 
+     </end-state>
+
+     <end-state id="finishWithCancel">
+     	<output name="classId" value="classId"/> 
+     </end-state>
+
+     <end-state id="finishAndEdit" >
+     	<output name="templateId" value="template.id"/> 
+     </end-state>
+
+<!--    
+	<end-state id="finish" view="externalRedirect:http://smartassignments.virtual.vps-host.net/repository-template-edit.htm?id=${template.id}" />  
+
+     <end-state id="finishAndEdit" view="externalRedirect:http://smartassignments.virtual.vps-host.net/repository-template-edit.htm?id=${template.id}" />
+-->
+
+    <view-state id="errorNoUser" view="errorNoUserAlert.jsp" >
+    	<on-entry>
+    		<evaluate expression="'add a new template'" result="viewScope.description"/>
+    	</on-entry>
+    </view-state>
+
+ 	<global-transitions>
+		<transition on="cancel" to="finishWithCancel" bind="false">
+			<evaluate expression="templateEditor.rollbackRepositoryTransaction(template)"/>
+		</transition>
+	</global-transitions>
+			
+</flow>

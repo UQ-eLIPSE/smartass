@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+        "http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+        
+ 	<var name="template"
+    	class="au.edu.uq.smartass.web.TemplatesItemModel"/>
+
+	<var name="user" 
+    	class="au.edu.uq.smartass.web.UserItemModel" />
+
+	<var name="mode" 
+    	class="java.lang.String" />
+
+	<input name="id" type="java.lang.Integer"/>
+    	
+	<input name="classid" type="java.lang.Integer"/>
+
+    <on-start>
+   		<evaluate expression="templatesDao.getItem(id)" result="flowScope.template"/>
+   		<evaluate expression="'edit'" result="flowScope.mode"/>
+   		<evaluate expression="templateEditor.startRepositoryTransaction(flowScope.template)" />
+    </on-start>
+
+	<decision-state id="testUserLoggedIn">
+	    <if test="(externalContext.sessionMap.user==null) || (!externalContext.sessionMap.user.editRepositoryRight)" then="errorNoUser" else="editMetadata"/>
+    </decision-state>
+
+    <view-state id="editMetadata" view="templateEditMetadata.jsp" model="template">
+    	<on-render>
+    		<evaluate expression="template.classifications.size()" result="viewScope.classCount"></evaluate>
+    		<evaluate expression="flowScope.template" result="viewScope.template"></evaluate>
+    	</on-render> 
+    	<transition on="ok" to="finish">
+    	</transition>
+    	<transition on="selectAuthor" to="selectAuthor" />
+    	<transition on="addClass" to="addClass" >
+    		<evaluate expression="new au.edu.uq.smartass.web.template.ResolveClassificationModel(null)" 
+    			result="flowScope.resolveClass" />
+    	</transition>
+    	<transition on="removeClass" to="onRemove">
+    		<evaluate expression="templateEditor.removeFromListNotLast(template.classifications, 
+    				flowRequestContext.requestParameters.get('i'))" />
+    	</transition>
+    	<transition on="addModule" to="addModule" />
+    	<transition on="removeModule" to="onRemove">
+    		<evaluate expression="templateEditor.removeFromList(template.modules, 
+    				flowRequestContext.requestParameters.get('i'))" />
+    	</transition>
+    	<transition on="addFile" to="addFile"/>
+    	<transition on="removeFile" to="onRemove">
+    		<evaluate expression="templateEditor.removeFromList(template.files, 
+    				flowRequestContext.requestParameters.get('i'))" />
+    	</transition>
+    	<transition on="addUpdate" to="addUpdate"/>
+	   	<transition on="removeUpdate"  to="onRemove">
+    		<evaluate expression="templateEditor.removeFromList(template.updates, 
+    				flowRequestContext.requestParameters.get('i'))" />
+    	</transition>
+    	<transition on="uploadExamples" to="uploadExamples"/>
+    	<transition on="save" to="finish">
+    		<evaluate expression="templateEditor.checkTemplateName(template.name, template.id, messageContext)"/>
+     		<evaluate expression="templateEditor.save(template)"/>  
+    	</transition>
+	   	<transition on="deleteExample">
+    		<evaluate expression="templateEditor.deleteExample(template, 
+    				flowRequestContext.requestParameters.get('kind'))" />
+    	</transition>
+		<transition on="cancel" to="finish" bind="false">
+			<evaluate expression="templateEditor.rollbackRepositoryTransaction(template)"/>
+		</transition>
+	</view-state>
+
+	<action-state id="onRemove">
+		<evaluate expression="'editMetadata'"/>
+		<transition to="editMetadata"/>
+	</action-state>
+
+	
+    <view-state id="selectAuthor" view="templateResolveAuthor.jsp" model="item">
+    	<on-entry>
+    		<evaluate expression="selectAuthorController.newModel()" 
+    			result="viewScope.item"/>
+		</on-entry>
+    	<transition on="ok" to="editMetadata">
+    		<evaluate expression="selectAuthorController.resolve(template, viewScope.item, messageContext)"/>
+		</transition>
+    	<transition on="search">
+    		<evaluate expression="0" result="viewScope.item.pageNo" />
+    		<evaluate expression="selectAuthorController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="page">
+    		<evaluate expression="selectAuthorController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+	</view-state>
+
+    <view-state id="addClass" view="templateAddClass.jsp" model="item">
+     	<on-entry>
+    		<evaluate expression="flowScope.resolveClass" 
+    			result="viewScope.item" />
+    		<evaluate expression="classificationsDao.getItem(viewScope.item.parentid)" result="viewScope.parent"/>
+     	</on-entry>
+    	<transition on="ok" to="editMetadata">
+    		<evaluate expression="resolveClassificationController.validate(viewScope.item, messageContext)"/>
+    		<evaluate expression="flowScope.template.getClassifications().add(classificationsDao.getItem(viewScope.item.solution))"/>
+    	</transition>
+    	<transition on="search">
+    		<evaluate expression="classificationsDao.getItems(flowScope.resolveClass.parentId, '%' + viewScope.item.search + '%')" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="goDeep" to="addClass">
+		</transition>
+    	<transition on="back" to="editMetadata"/>
+	</view-state>
+	
+	<action-state id="subClass">
+		<evaluate expression="'addClass'"/>
+		<transition to="addClass"/>
+	</action-state>
+	
+    <view-state id="addModule" view="templateResolveModule.jsp" model="item"> 
+    	<on-entry>
+    		<evaluate expression="resolveModuleController.newModel()" result="viewScope.item"/>
+    	</on-entry>
+    	<transition on="ok" to="editMetadata">
+    		<evaluate expression="resolveModuleController.resolve(flowScope.template, viewScope.item, -1, messageContext)"/>
+    	</transition>
+    	<transition on="search">
+    		<evaluate expression="0" result="viewScope.item.pageNo" />
+    		<evaluate expression="resolveModuleController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="page">
+    		<evaluate expression="resolveModuleController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+	</view-state>
+	
+    <view-state id="addFile" view="templateResolveFile.jsp" model="item"> 
+    	<on-entry>
+    		<evaluate expression="resolveFileController.newModel()" result="viewScope.item"/>
+    	</on-entry>
+    	<transition on="ok" to="editMetadata">
+    		<evaluate expression="viewScope.item.setFileMultipart(flowRequestContext.getRequestParameters().getMultipartFile('fileMultipart'))"/>
+    		<evaluate expression="resolveFileController.resolve(flowScope.template, viewScope.item, -1, messageContext)"/>
+    	</transition>
+    	<transition on="search">
+    		<evaluate expression="0" result="viewScope.item.pageNo" />
+    		<evaluate expression="resolveFileController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="page">
+    		<evaluate expression="resolveFileController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+	</view-state>
+	
+    <view-state id="addUpdate" view="templateResolveUpdate.jsp" model="item"> 
+    	<on-entry>
+    		<evaluate expression="newUpdateController.newModel()" result="viewScope.item"/>
+    	</on-entry>
+    	<transition on="ok" to="editMetadata">
+    		<evaluate expression="newUpdateController.resolve(flowScope.template, viewScope.item,messageContext)"/>
+    	</transition>
+    	<transition on="search">
+    		<evaluate expression="0" result="viewScope.item.pageNo" />
+    		<evaluate expression="newUpdateController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+    	<transition on="page">
+    		<evaluate expression="newUpdateController.search(viewScope.item)" 
+    			result="viewScope.found"/>
+		</transition>
+	</view-state>
+	
+    <view-state id="uploadExamples" view="templateUploadExamples.jsp"> 
+    	<on-render>
+    		<evaluate expression="new au.edu.uq.smartass.web.template.UploadExamplesModel()" 
+    			result="viewScope.item"/>
+		</on-render>
+    	<transition on="ok" to="editMetadata">
+    		<evaluate expression="viewScope.item.setQuestionsMultipart(flowRequestContext.getRequestParameters().getMultipartFile('questions'))"/>
+    		<evaluate expression="viewScope.item.setSolutionsMultipart(flowRequestContext.getRequestParameters().getMultipartFile('solutions'))"/>
+    		<evaluate expression="viewScope.item.setShortanswersMultipart(flowRequestContext.getRequestParameters().getMultipartFile('shortanswers'))"/>
+    		<evaluate expression="templateEditor.uploadExamples(template, viewScope.item)"></evaluate>
+		</transition>
+	</view-state>
+	
+    <end-state id="finish" >
+     	<output name="classId" value="template.classifications[0].id"/> 
+    </end-state>
+
+<!--     <end-state id="finish" view="externalRedirect:http://smartassignments.virtual.vps-host.net/repository.htm" >
+    	<output name="classId" value="template.classifications[0].id"/>
+    </end-state>
+ -->
+    <view-state id="errorNoUser" view="errorNoUserAlert.jsp" >
+    	<on-entry>
+    		<evaluate expression="'edit the template'" result="viewScope.description"/>
+    	</on-entry>
+    </view-state>
+
+ 	<global-transitions>
+		<transition on="cancel" to="editMetadata" bind="false"/>
+	</global-transitions>
+			
+</flow>
