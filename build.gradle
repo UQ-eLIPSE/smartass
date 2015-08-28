@@ -5,6 +5,11 @@
 apply plugin: 'maven'
 apply plugin: 'java'
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//	. Dependencies .
+//
+
 repositories {
 	mavenCentral()		// repo1.maven.org
 }
@@ -27,18 +32,94 @@ dependencies {
 	 compile (group: 'org.springframework.webflow',	name: 'org.springframework.js',		version: '2.0.3.RELEASE')
 	 compile (group: 'org.springframework.webflow',	name: 'org.springframework.webflow',	version: '2.0.3.RELEASE')
 
-	 compile (group: 'org.springframework', 		name: 'spring', 		version: '2.5.5')
-	 compile (group: 'org.springframework', 		name: 'spring-web', 		version: '2.5.5')
-	 compile (group: 'org.springframework', 		name: 'spring-webmvc', 		version: '2.5.5')
+	 compile (group: 'org.springframework', 	name: 'spring', 		version: '2.5.5')
+	 compile (group: 'org.springframework', 	name: 'spring-web', 		version: '2.5.5')
+	 compile (group: 'org.springframework', 	name: 'spring-webmvc', 		version: '2.5.5')
 
 	 compile (group: 'org.apache.taglibs', 		name: 'taglibs-standard',	version: '1.2.1')
 }
 
-task copyRuntimeLibs(type: Copy) {
-	into "${buildDir}/output/lib"
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//	. Properties .
+//
+
+ext.buildRuntimeLibDir = ${buildDir}/output/lib
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//	. Tasks .
+//
+
+defaultTasks 'mkdevEnvironment'
+
+
+task copyRuntimeLibs(type: Copy) << {
+	into buildRuntimeLibDir
 	from configurations.runtime
 }
 
-task mkdevEnvironment {
-	
+task mkdevEnvironment << {
+
+	dependsOn copyRuntimeLibs
+
+	createSymlink("${projectDir}/conf/ROOT.xml", tomcatConfig)
+	createSymlink("${projectDir}/conf/nginx.conf", nginxConfig)
+	createSymlink("${projectDir}/src/main/webapp", webappDir)
+	createSymlink("${projectDir}/resource/data", webappData)
+
+	createSymlink("${projectDir}/src/main/webapp/jsp", "${projectDir}/src/main/webapp/WEB-INF/jsp")
+
+	createSymlink(buildRuntimeLibDir, "${projectDir}/src/main/webapps/WEB-INF/lib"
+
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//	. Utility Functions .
+//
+
+def isSymlink(linkFile) {	// probably?
+	def canon = new File( linkFile.getParentFile().getCanonicalFile(), linkFile.getName() )
+	return !canon.getCanonicalFile().equals(canon.getAbsoluteFile())
+}
+
+def createSymlink(resource, link) {
+	def srcFile = new File(resource)
+	if ( !srcFile.exists() ) { 
+		printf("ERROR: source file '%s' does not exist!\n", resource.getName())
+		return
+	}
+
+	def dstLink = new File(link)
+	if ( !dstLink.exists() ) {
+		if (!dstLink.getParentFile().exists()) dstLink.getParentFile().mkdirs()
+		printf("INFO: created directory '%s'.", dstLink.getParentFile())
+	}
+	else if ( !isSymlink(dstLink) ) {
+		printf("WARN: destination link '%s' exists!\n", dstLink.getName())
+		printf("WARN: attempting to backup!\n")
+		if (!backupFile(dstLink)) return
+	}
+
+	ant.symlink ( resource: resource, link: link, overwrite: 'true' )
+	printf("INFO: resource '%s' symlinked to '%s'\n", resource, link)
+}
+
+def backupFile(resource) {
+	def dstFile = new File( resource.getParentFile(), sprintf("%s.000", resource.getName()) );
+	if ( dstFile.exists() ) {
+		printf("ERROR: destination link '%s' exists!", dstLink.getName())
+		return false
+	}
+	resource.renameTo(dstFile)
+	printf("INFO: resource '%s' backed up to '%s'\n", resource.getPath(), dstFile.getName())
+	return true;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
