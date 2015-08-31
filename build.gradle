@@ -45,7 +45,7 @@ dependencies {
 //	. Properties .
 //
 
-ext.buildRuntimeLibDir = ${buildDir}/output/lib
+ext.buildRuntimeLibDir = "${buildDir}/output/lib"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,13 +55,12 @@ ext.buildRuntimeLibDir = ${buildDir}/output/lib
 
 defaultTasks 'mkdevEnvironment'
 
-
 task copyRuntimeLibs(type: Copy) << {
 	into buildRuntimeLibDir
 	from configurations.runtime
 }
 
-task mkdevEnvironment << {
+task mkdevEnvironment.doLast() {
 
 	dependsOn copyRuntimeLibs
 
@@ -72,9 +71,10 @@ task mkdevEnvironment << {
 
 	createSymlink("${projectDir}/src/main/webapp/jsp", "${projectDir}/src/main/webapp/WEB-INF/jsp")
 
-	createSymlink(buildRuntimeLibDir, "${projectDir}/src/main/webapps/WEB-INF/lib"
+	createSymlink(buildRuntimeLibDir, "${projectDir}/src/main/webapps/WEB-INF/lib")
 
 }
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
