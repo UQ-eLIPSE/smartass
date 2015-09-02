@@ -76,6 +76,11 @@
 		</property>
     </bean>
     
+<!--
+	.
+	. @TODO: MISSING SOURCE
+  	. BackupCreator.java is missing from source distribution.
+	.
     <bean id="backupCreator" class="au.edu.uq.smartass.web.BackupCreator">
         <property name="dbName" value="SmartAssignments" />
         <property name="hostName" value="localhost" />
@@ -91,5 +96,6 @@
         <property name="backups" ref="backupStorage" />
         <property name="key" value="lalalala" />
     </bean>
+-->
 
 </beans>

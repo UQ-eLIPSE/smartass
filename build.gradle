@@ -1,13 +1,17 @@
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'maven-publish'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
+
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.6'
 }
+
 
 repositories {
 	mavenCentral()
@@ -41,10 +45,12 @@ dependencies {
 	testCompile fileTree('tstLib')
 }
 
+
 jar {
 	baseName = 'smartass'
 	version = '0.1.0'
 }
+
 
 allprojects {
 	gradle.projectsEvaluated {
@@ -53,4 +59,8 @@ allprojects {
 		}
 	}
 }
+
+httpPort = 8080
+stopPort = 9080
+stopKey = 'stopKey'
 
