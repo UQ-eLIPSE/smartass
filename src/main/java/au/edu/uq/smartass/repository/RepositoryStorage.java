@@ -30,7 +30,6 @@ import java.io.StringWriter;
 import java.util.Vector;
 import java.util.prefs.Preferences;
 
-import sun.security.x509.Extension;
 
 /**
  * The RepositoryStorage class is used to store template-related files 

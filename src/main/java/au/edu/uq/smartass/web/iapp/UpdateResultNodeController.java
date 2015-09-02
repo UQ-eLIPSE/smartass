@@ -21,7 +21,6 @@ package au.edu.uq.smartass.web.iapp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.edu.uq.smartass.app.RSectionsTextNode;
@@ -47,7 +46,6 @@ public class UpdateResultNodeController extends TemplateAwareController {
 	 */
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse responce) throws Exception {
-		//Logger l = Logger.getLogger(getClass());
 		
 		String nodePathS = request.getParameter("node");
 		String name = request.getParameter("name");

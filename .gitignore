@@ -1,5 +1,28 @@
-.gradle/
-build/
+#	. Vim swap files .
 *.swp
-origin/
+*.swo
+
+#	. Mac OS X orperating system files .
 .DS_Store
+
+#	. Supplied files .
+origin/
+3rd/
+
+#	. Build logs .
+*.log
+
+#
+.gradle/
+
+#	. Gradle Wrapper .
+gradlew
+gradlew.bat
+gradle/
+
+#	. Library Dependencies (not under Maven) .
+lib/
+tstLib/
+
+#	. Build Process Generated .
+build/
