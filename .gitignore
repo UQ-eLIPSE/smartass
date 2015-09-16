@@ -26,3 +26,8 @@ tstLib/
 
 #	. Build Process Generated .
 build/
+
+#	. Bash resource file
+smartass.rc
+
+#	> > >  New Stuff Here  < < <
