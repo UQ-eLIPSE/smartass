@@ -25,6 +25,9 @@ import java.util.zip.ZipOutputStream;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import au.edu.uq.smartass.engine.Engine;
 import au.edu.uq.smartass.templates.TexReader;
 import au.edu.uq.smartass.templates.texparser.ResultNode;
@@ -39,6 +42,8 @@ import au.edu.uq.smartass.web.Zip;
  *
  */
 public class ExecuteTemplateAction  {
+
+	private static final Logger LOG = LoggerFactory.getLogger( ExecuteTemplateAction.class );
 	
 	/**
 	 * This function is called by Spring framework. It calls doExecute to process assignment code to create
@@ -62,11 +67,8 @@ public class ExecuteTemplateAction  {
 	 * @throws Exception
 	 */
 	public Event doExecute(String prepared_code, String code, RequestContext context) throws Exception {
-		//Logger log = Logger.getLogger(getClass());
-		//File questions, answers, solutions, zipfile;
-
+		
 		String tex = prepared_code;
-		//log.debug(code);
 		if(tex==null || tex.length()==0) {
 			tex = code;
 			if(tex==null)
@@ -85,6 +87,7 @@ public class ExecuteTemplateAction  {
 		output_path = saveExecutionResults(tr, output_path);
 		engine = null;
 		context.getFlowScope().put("resultPath", output_path);
+
 		return new Event(this, "ok");
 	}
 	
