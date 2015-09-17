@@ -31,6 +31,7 @@ import au.edu.uq.smartass.web.composer.AssignmentConstruct;
  *
  */
 public class AssignmentsDao extends JdbcDaoSupport {
+
 	ItemRowMapper mapper;
 	UsersDao usersDao;
 	
