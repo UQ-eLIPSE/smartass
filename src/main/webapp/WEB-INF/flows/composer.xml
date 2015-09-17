@@ -230,7 +230,8 @@
 
 	<action-state id="execute">
 		<evaluate expression="executeTemplateAction.doExecute(flowScope.code, assignmentEditor.preprocessCode(template), flowRequestContext)"/>
-		<transition on="ok" to="executionResult"/>
+		<transition on="success" to="executionResult"/>
+		<transition on="error" />	<!-- TODO: report error condition to user -->
 	</action-state>
 
     <view-state id="executionResult" view="executionResultForm.jsp">
