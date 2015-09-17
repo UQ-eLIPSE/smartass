@@ -54,7 +54,9 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	ASTAnyText header_node;
 	/** Assignment constructions collection */
 	Vector<AbstractTemplateConstruction> rows = new Vector<AbstractTemplateConstruction>();
+
 	int selectedRowIndex;
+
 	boolean decorateWithLatex;
 
 	/** Default constructor */
@@ -72,7 +74,6 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	
 	/**
 	 * Creates empty assignment and sets its initial and default data
-	 *
 	 */
 	private void initTemplate() {
 		template_node = new ASTTemplate(0);

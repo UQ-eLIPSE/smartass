@@ -65,8 +65,7 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<bean id="assignmentsDao"
-	      class="au.edu.uq.smartass.web.jdbc.AssignmentsDao">
+	<bean id="assignmentsDao" class="au.edu.uq.smartass.web.jdbc.AssignmentsDao">
 		<property name="dataSource" ref="dataSource" />
 		<property name="usersDao" ref="usersDao" />
 	</bean>
@@ -82,8 +81,7 @@
 
 	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
 
-	<bean name="/index.htm"
-	      class="au.edu.uq.smartass.web.mvc.HomePageController">
+	<bean name="/index.htm" class="au.edu.uq.smartass.web.mvc.HomePageController">
 		<property name="templatesDao" ref="templatesDao" />
 		<property name="assignmentsDao" ref="assignmentsDao" />
 		<property name="usersDao" ref="usersDao" />
@@ -308,35 +306,28 @@
 		<property name="storage" ref="repositoryStorage" />
 	</bean>
 
-	<bean name="/assignment-delete-confirm.htm"
-	      class="au.edu.uq.smartass.web.mvc.AssignmentConfirmDeleteController">
+	<bean name="/assignment-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.AssignmentConfirmDeleteController">
 		<property name="dao" ref="assignmentsDao" />
 	</bean>
 
-	<bean name="/assignment-delete.htm"
-	      class="au.edu.uq.smartass.web.mvc.AssignmentDeleteController">
+	<bean name="/assignment-delete.htm" class="au.edu.uq.smartass.web.mvc.AssignmentDeleteController">
 		<property name="dao" ref="assignmentsDao" />
 		<property name="storage" ref="assignmentsStorage" />
 	</bean>
 
-	<bean name="/backups.htm"
-	      class="au.edu.uq.smartass.web.mvc.ListBackupsController">
+	<bean name="/backups.htm" class="au.edu.uq.smartass.web.mvc.ListBackupsController">
 		<property name="backupStorage" ref="backupStorage" />
 	</bean>
 
-	<bean name="/backup-file.htm"
-	      class="au.edu.uq.smartass.web.mvc.DownloadBackupController">
+	<bean name="/backup-file.htm" class="au.edu.uq.smartass.web.mvc.DownloadBackupController">
 		<property name="backupStorage" ref="backupStorage" />
 	</bean>
 
-	<bean name="/contacts.htm"
-	      class="au.edu.uq.smartass.web.mvc.ContactsController"/>
+	<bean name="/contacts.htm" class="au.edu.uq.smartass.web.mvc.ContactsController"/>
 
-	<bean name="/no-page-redirect.htm"
-	      class="au.edu.uq.smartass.web.mvc.PageNotFoundRedirectController"/>
+	<bean name="/no-page-redirect.htm" class="au.edu.uq.smartass.web.mvc.PageNotFoundRedirectController"/>
 
-	<bean name="/help.htm"
-	      class="au.edu.uq.smartass.web.mvc.HelpPageController">
+	<bean name="/help.htm" class="au.edu.uq.smartass.web.mvc.HelpPageController">
  		<property name="dao" ref="helpDao" /> 
 	</bean>
 	
@@ -490,19 +481,13 @@
 		<property name="dao" ref="authorsDao"/>
 	</bean>
 	
-	<bean id="resolveClassificationController" class="au.edu.uq.smartass.web.template.ResolveClassificationController" >
-	</bean>
+	<bean id="resolveClassificationController" class="au.edu.uq.smartass.web.template.ResolveClassificationController" />
 	
-<!--	<bean id="itemValidator" class="au.edu.uq.smartass.web.template.ItemValidator" >
-	</bean> -->
-	
-	
+<!--	<bean id="itemValidator" class="au.edu.uq.smartass.web.template.ItemValidator" /> -->
 
 
 <!-- Template edit flow related beans -->
 
 	<bean id="templateEditFlowHandler" class="au.edu.uq.smartass.web.template.TemplateEditFlowHandler" />
-
-
 
 </beans>
