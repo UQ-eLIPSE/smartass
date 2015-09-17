@@ -19,14 +19,20 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+//import java.text.ParseException;
 import java.util.prefs.Preferences;
 import java.util.zip.ZipOutputStream;
 
+import org.springframework.binding.message.MessageBuilder;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import au.edu.uq.smartass.engine.Engine;
 import au.edu.uq.smartass.templates.TexReader;
+import au.edu.uq.smartass.templates.texparser.ParseException;
 import au.edu.uq.smartass.templates.texparser.ResultNode;
 import au.edu.uq.smartass.web.Zip;
 
@@ -39,6 +45,8 @@ import au.edu.uq.smartass.web.Zip;
  *
  */
 public class ExecuteTemplateAction  {
+
+	private static final Logger LOG = LoggerFactory.getLogger( ExecuteTemplateAction.class );
 	
 	/**
 	 * This function is called by Spring framework. It calls doExecute to process assignment code to create
@@ -48,7 +56,7 @@ public class ExecuteTemplateAction  {
 	 * @return				{@link Event} to Spring webflow transition to the new state
 	 * @throws Exception
 	 */
-	public Event execute(RequestContext context) throws Exception {
+	public String execute(RequestContext context) {
 		return doExecute(null, null, context);
 	}
 	
@@ -61,31 +69,52 @@ public class ExecuteTemplateAction  {
 	 * @return				{@link Event} to Spring webflow transition to the new state
 	 * @throws Exception
 	 */
-	public Event doExecute(String prepared_code, String code, RequestContext context) throws Exception {
-		//Logger log = Logger.getLogger(getClass());
-		//File questions, answers, solutions, zipfile;
-
-		String tex = prepared_code;
-		//log.debug(code);
-		if(tex==null || tex.length()==0) {
-			tex = code;
-			if(tex==null)
-				tex = ((AssignmentConstruct) context.getFlowScope().get("template")).getCode();
-		}
-
-		//context.getRequestParameters().get("code");
+	public String doExecute(String prepared_code, String code, RequestContext context) {
 		
-		Engine engine = new Engine();
-		TexReader tr = (TexReader) engine.getTemplateReader("tex");
-		tr.loadTemplate(new ByteArrayInputStream(tex.getBytes("UTF-8")));
-		tr.setPredefinedNames(new String[]{"DEF", "QUESTION", "SHORTANSWER", "SOLUTION"});
-		tr.execute();
-		String output_path = engine.getPreference("output_path");
-		engine.close();
-		output_path = saveExecutionResults(tr, output_path);
-		engine = null;
-		context.getFlowScope().put("resultPath", output_path);
-		return new Event(this, "ok");
+		LOG.debug( "doExecute()[ {} , {} , {} ]", "<prepared_code>", "<code>", context.toString() );
+
+		try {
+			String tex = prepared_code;
+			if(tex==null || tex.length()==0) {
+				tex = code;
+				if(tex==null)
+					tex = ((AssignmentConstruct) context.getFlowScope().get("template")).getCode();
+			}
+
+			//context.getRequestParameters().get("code");
+			
+			Engine engine = new Engine();
+			TexReader tr = (TexReader) engine.getTemplateReader("tex");
+
+			// ParseException
+			tr.loadTemplate(new ByteArrayInputStream(tex.getBytes("UTF-8")));
+
+			tr.setPredefinedNames(new String[]{"DEF", "QUESTION", "SHORTANSWER", "SOLUTION"});
+			tr.execute();
+			String output_path = engine.getPreference("output_path");
+			engine.close();
+
+			// IOException
+			LOG.debug("calling saveExecutionResults()[ {} , {} ]", tr, output_path);
+			output_path = saveExecutionResults(tr, output_path);
+
+			engine = null;
+			context.getFlowScope().put("resultPath", output_path);
+
+			return "success";
+
+		} catch (IOException ex) {
+			context.getMessageContext().addMessage(new MessageBuilder().error().defaultText(ex.getMessage()).build());
+			LOG.error( "An IOException occured: {}", ex.getMessage() );
+			LOG.error( "Stack: ", ex );
+			return "error";
+
+		} catch (ParseException ex) {
+			context.getMessageContext().addMessage(new MessageBuilder().error().defaultText(ex.getMessage()).build());
+			LOG.error( "A ParseException  occured: {}", ex.getMessage() );
+			LOG.error( "Stack: ", ex );
+			return "error";
+		}
 	}
 	
 	/**
