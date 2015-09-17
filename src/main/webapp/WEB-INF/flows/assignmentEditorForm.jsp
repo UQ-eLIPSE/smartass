@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html>
 
   <head>
@@ -59,24 +60,23 @@
           </td>
           <td valign="top" colspan="2">
             <table border=0 frame=0 cellpadding=0>
-              <c:forEach items="${template.rows}" var="t" varStatus="pos">
-                <tr>
-                  <td bgcolor="#f0f0f0">
-                    <form:radiobutton path="selectedIndex" value="${pos.index}" onclick="setControlsState('${t.kind}', '${t.parent.kind}')"/>
-                  </td>
-                  <td>
-                    <table border=0 frame=0 cellspacing=0>
-                      <tr>
-                        <td bgcolor="#f0f0ff" width='<c:out value="${t.level*10}"/>' >
-                          <c:if test="${t.kind == 'text'}"><pre></c:if>
-                            <c:out value="${t.html}" />
-                          <c:if test="${t.kind == 'text'}"></pre></c:if>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </c:forEach>
+              <tr>
+                <c:set var='last' value='${template.rowCount-1}' />
+                <c:set var='lastrow' value='${template.rows[last]}' />
+                <td bgcolor='#f0f0f0'>
+                  <form:radiobutton path='selectedIndex' value='${last}' onclick='setControlsState("${lastrow.kind}", "${lastrow.parent.kind}")' />
+                </td>
+                <td>
+                  <table border=0 frame=0 cellspacing=0>
+                    <tr>
+                      <td bgcolor="#f0f0ff" width='<c:out value="${lastrow.level*10}"/>' >
+                        <c:if test="${lastrow.kind == 'text'}"><pre></c:if>
+                          <c:out value="${lastrow.html}" />
+                        <c:if test="${lastrow.kind == 'text'}"></pre></c:if>
+                      </td>
+                    </tr>
+                  </table>
+              </tr>
             </table>
           </td>
         </tr>
