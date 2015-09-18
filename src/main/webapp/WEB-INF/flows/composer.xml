@@ -5,35 +5,35 @@
         "http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
         
-	<var name="template" class="au.edu.uq.smartass.web.composer.AssignmentConstruct"/>
+  <var name="template" class="au.edu.uq.smartass.web.composer.AssignmentConstruct"/>
 
-	<input name="id" type="java.lang.Integer"/>
+  <input name="id" type="java.lang.Integer"/>
 
-	<input name="mode" type="java.lang.Integer"/>
-    	
+  <input name="mode" type="java.lang.Integer"/>
+      
   <on-start>
     <evaluate expression="assignmentEditor.initAssignment(flowScope.template, flowScope.id, flowScope.mode, externalContext.sessionMap.user)"/>
   </on-start>
 
-	<decision-state id="testUserLoggedIn">
+  <decision-state id="testUserLoggedIn">
     <if test="(mode==1) &amp;&amp; (externalContext.sessionMap.user==null || !externalContext.sessionMap.user.editAssignmentsRight || flowScope.template.user.id!=externalContext.sessionMap.user.id)" 
       then="errorNoUser" else="testNeedWizard"/>
   </decision-state>
 
-	<decision-state id="testNeedWizard">
+  <decision-state id="testNeedWizard">
     <if test="id==null || id==0" then="wizard" else="assignmentEditor"/>
   </decision-state>
 
   <view-state id="wizard" view="newAssignmentWizardForm.jsp" model="items">
     <on-entry>
       <evaluate expression="assignmentWizardController.prepareWizard()" result="viewScope.items" />
-		</on-entry>
+    </on-entry>
     <transition on="ok" to="assignmentEditor">
-			<evaluate expression="assignmentWizardController.createAssignment(flowScope.template, 'default.tex', viewScope.items.items, messageContext)" />
-		</transition>
-	</view-state>
+      <evaluate expression="assignmentWizardController.createAssignment(flowScope.template, 'default.tex', viewScope.items.items, messageContext)" />
+    </transition>
+  </view-state>
 
-	<view-state id="assignmentEditor" view="assignmentEditorForm.jsp" model="template">
+  <view-state id="assignmentEditor" view="assignmentEditorForm.jsp" model="template">
     <on-render>
       <evaluate expression="!flowScope.template.isContentEmpty()" result="viewScope.canExecute" />
     </on-render>
@@ -63,242 +63,242 @@
     </transition>
     <transition on="save" to="confirmSave"/>
     <transition on="finish" to="finish" bind="false"/>
-	</view-state>
+  </view-state>
 
   <view-state id="addText" view="editTextForm.jsp" model="item">
     <on-render>
-			<evaluate expression="new au.edu.uq.smartass.web.composer.TextConstruction()" result="viewScope.item" />
-		</on-render>
+      <evaluate expression="new au.edu.uq.smartass.web.composer.TextConstruction()" result="viewScope.item" />
+    </on-render>
     <transition on="ok" to="assignmentEditor">
-			<evaluate expression="flowScope.template.addRow(viewScope.item)" />
-		</transition>
-	</view-state>
-    	
+      <evaluate expression="flowScope.template.addRow(viewScope.item)" />
+    </transition>
+  </view-state>
+      
     <view-state id="addRepeat" view="editRepeatForm.jsp" model="item">
-    	<on-render>
-			<evaluate expression="true" result="viewScope.isNew" />
-			<evaluate expression="new au.edu.uq.smartass.web.composer.RepeatConstruction()" result="viewScope.item" />
-			<evaluate expression="assignmentWizardController.prepareNewRepeat(viewScope.item)" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor">
-			<evaluate expression="flowScope.template.addRow(viewScope.item)" />
-			<evaluate expression="assignmentWizardController.afterAddNewRepeat(flowScope.template, viewScope.item.addons)" />
-		</transition>
-	</view-state>
+      <on-render>
+      <evaluate expression="true" result="viewScope.isNew" />
+      <evaluate expression="new au.edu.uq.smartass.web.composer.RepeatConstruction()" result="viewScope.item" />
+      <evaluate expression="assignmentWizardController.prepareNewRepeat(viewScope.item)" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor">
+      <evaluate expression="flowScope.template.addRow(viewScope.item)" />
+      <evaluate expression="assignmentWizardController.afterAddNewRepeat(flowScope.template, viewScope.item.addons)" />
+    </transition>
+  </view-state>
 
     <view-state id="addMulti" view="editMultiForm.jsp" model="item">
-    	<on-render>
-			<evaluate expression="new au.edu.uq.smartass.web.composer.MultiConstruction()" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor">
-			<evaluate expression="flowScope.template.addRow(viewScope.item)" />
-		</transition>
-	</view-state>
+      <on-render>
+      <evaluate expression="new au.edu.uq.smartass.web.composer.MultiConstruction()" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor">
+      <evaluate expression="flowScope.template.addRow(viewScope.item)" />
+    </transition>
+  </view-state>
 
     <view-state id="addSection" view="editSectionForm.jsp" model="item">
-    	<on-render>
-			<evaluate expression="new au.edu.uq.smartass.web.composer.SectionConstruction()" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor">
-			<evaluate expression="flowScope.template.addRow(viewScope.item)" />
-		</transition>
-	</view-state>
+      <on-render>
+      <evaluate expression="new au.edu.uq.smartass.web.composer.SectionConstruction()" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor">
+      <evaluate expression="flowScope.template.addRow(viewScope.item)" />
+    </transition>
+  </view-state>
 
-	<decision-state id="editSelected">
-	    <if test="template.selectedRow.kind.equals('text')" then="editText"/>
-	    <if test="template.selectedRow.kind.equals('repeat')" then="editRepeat"/>
-	    <if test="template.selectedRow.kind.equals('repeat-end')" then="editRepeatEnd"/>
-	    <if test="template.selectedRow.kind.equals('multi')" then="editMulti"/>
-	    <if test="template.selectedRow.kind.equals('multi-end')" then="editMultiEnd"/>
-	    <if test="template.selectedRow.kind.equals('section')" then="editSection"/>
-	    <if test="template.selectedRow.kind.equals('section-end')" then="editSectionEnd"/>
+  <decision-state id="editSelected">
+      <if test="template.selectedRow.kind.equals('text')" then="editText"/>
+      <if test="template.selectedRow.kind.equals('repeat')" then="editRepeat"/>
+      <if test="template.selectedRow.kind.equals('repeat-end')" then="editRepeatEnd"/>
+      <if test="template.selectedRow.kind.equals('multi')" then="editMulti"/>
+      <if test="template.selectedRow.kind.equals('multi-end')" then="editMultiEnd"/>
+      <if test="template.selectedRow.kind.equals('section')" then="editSection"/>
+      <if test="template.selectedRow.kind.equals('section-end')" then="editSectionEnd"/>
     </decision-state>
     
    <view-state id="editText" view="editTextForm.jsp" model="item">
-		<on-render>
-			<evaluate expression="template.selectedRow" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor"/>
-	</view-state>
+    <on-render>
+      <evaluate expression="template.selectedRow" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor"/>
+  </view-state>
 
     <view-state id="editRepeat" view="editRepeatForm.jsp" model="item">
-		<on-render>
-			<evaluate expression="template.selectedRow" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor"/>
-	</view-state>
+    <on-render>
+      <evaluate expression="template.selectedRow" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor"/>
+  </view-state>
 
     <view-state id="editRepeatEnd" view="editRepeatForm.jsp" model="item">
-		<on-render>
-			<evaluate expression="template.selectedRow.begin" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor"/>
-	</view-state>
+    <on-render>
+      <evaluate expression="template.selectedRow.begin" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor"/>
+  </view-state>
 
     <view-state id="editMulti" view="editMultiForm.jsp"  model="item">
-		<on-render>
-			<evaluate expression="template.selectedRow" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor"/>
-	</view-state>
+    <on-render>
+      <evaluate expression="template.selectedRow" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor"/>
+  </view-state>
 
     <view-state id="editMultiEnd" view="editMultiForm.jsp"  model="item">
-		<on-render>
-			<evaluate expression="template.selectedRow.begin" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor"/>
-	</view-state>
+    <on-render>
+      <evaluate expression="template.selectedRow.begin" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor"/>
+  </view-state>
 
     <view-state id="editSection" view="editSectionForm.jsp" model="item">
-		<on-render>
-			<evaluate expression="template.selectedRow" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor"/>
-	</view-state>
+    <on-render>
+      <evaluate expression="template.selectedRow" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor"/>
+  </view-state>
 
     <view-state id="editSectionEnd" view="editSectionForm.jsp" model="item">
-		<on-render>
-			<evaluate expression="template.selectedRow.begin" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor"/>
-	</view-state>
+    <on-render>
+      <evaluate expression="template.selectedRow.begin" result="viewScope.item" />
+    </on-render>
+      <transition on="ok" to="assignmentEditor"/>
+  </view-state>
 
     <view-state id="addCall" view="selectTemplatesForm.jsp"  model="search">
-		<on-render>
-			<evaluate expression="(externalContext.sessionMap.user==null) ?20 : externalContext.sessionMap.user.rowsPerPage" result="search.rowsPerPage"/>
-			<evaluate expression="classificationsDao.select(0)" result="viewScope.classs" />
-			<evaluate expression="classificationsDao.select(search.topclassid)" result="viewScope.sub_classs" />
- 			<evaluate expression="templatesDao.countRows(search.nameFilter, search.keywordsFilter,search.classid)" result="flowScope.search.rowsNum" /> 
- 			<evaluate expression="templatesDao.select(search.nameFilter, search.keywordsFilter,search.classid, search.pageNo*search.rowsPerPage, search.rowsPerPage, 'name')" result="flowScope.search.templates" /> 
-		</on-render>
-    	<transition on="add" to="assignmentEditor" bind="false">
-			<evaluate expression="searchTemplateAction.bind(flowRequestContext)"/>
-			<evaluate expression="addCallsAction.execute(search, template), true"/>
-    	</transition>
-    	<transition on="search" to="addCall">
-<!-- 			<evaluate expression="searchTemplateAction.bind(flowRequestContext)"/> -->
-<!--  			<evaluate expression="templatesDao.select(search.nameFilter, search.keywordsFilter,search.classid, search.pageNo*search.rowsPerPage, search.rowsPerPage)" result="flowScope.search.templates" />  
- 			<evaluate expression="templatesDao.countRows(search.nameFilter, search.keywordsFilter,search.classid)" result="flowScope.search.rowsNum" /> -->
-    	</transition>
-	</view-state>
+    <on-render>
+      <evaluate expression="(externalContext.sessionMap.user==null) ?20 : externalContext.sessionMap.user.rowsPerPage" result="search.rowsPerPage"/>
+      <evaluate expression="classificationsDao.select(0)" result="viewScope.classs" />
+      <evaluate expression="classificationsDao.select(search.topclassid)" result="viewScope.sub_classs" />
+      <evaluate expression="templatesDao.countRows(search.nameFilter, search.keywordsFilter,search.classid)" result="flowScope.search.rowsNum" /> 
+      <evaluate expression="templatesDao.select(search.nameFilter, search.keywordsFilter,search.classid, search.pageNo*search.rowsPerPage, search.rowsPerPage, 'name')" result="flowScope.search.templates" /> 
+    </on-render>
+      <transition on="add" to="assignmentEditor" bind="false">
+      <evaluate expression="searchTemplateAction.bind(flowRequestContext)"/>
+      <evaluate expression="addCallsAction.execute(search, template), true"/>
+      </transition>
+      <transition on="search" to="addCall">
+<!--      <evaluate expression="searchTemplateAction.bind(flowRequestContext)"/> -->
+<!--        <evaluate expression="templatesDao.select(search.nameFilter, search.keywordsFilter,search.classid, search.pageNo*search.rowsPerPage, search.rowsPerPage)" result="flowScope.search.templates" />  
+      <evaluate expression="templatesDao.countRows(search.nameFilter, search.keywordsFilter,search.classid)" result="flowScope.search.rowsNum" /> -->
+      </transition>
+  </view-state>
 
     <view-state id="view" view="viewCodeForm.jsp">
-    	<transition on="execute" to="execute">
-    		<evaluate expression="flowRequestContext.getFlowScope().put('code', flowRequestContext.getRequestParameters().get('code')),true" />
-    	</transition>
-    	<transition on="save" to="assignmentEditor">
-			<evaluate expression="template.setDecorateWithLatex(false)"/>
-			<evaluate expression="template.setCode(flowRequestContext.getRequestParameters().get('code'))"/>
-    		<evaluate expression="flowRequestContext.getFlowScope().put('code', null),true" />
-    	</transition>
-    	<transition on="interactive" to="editInteractive">
-			<evaluate expression="template.setCode(flowRequestContext.getRequestParameters().get('code'))"/>
-    		<evaluate expression="flowRequestContext.getFlowScope().put('code', null),true" />
-    	</transition>
-	</view-state>
-	
-	<view-state id="editInteractive" view="interactiveApp1.jsp">
-		<on-entry>
-			<evaluate expression="template.setDecorateWithLatex(false)"/>
-			<evaluate expression="executeTemplateAction.prepareInteractive(flowScope.code, template.getCode(), flowRequestContext)"/>
-		</on-entry>
-		<transition on="save" to="executionResult">
-			<evaluate expression="executeTemplateAction.extractInteractive(flowRequestContext)"/>
-		</transition>
-		<transition on="edit" to="assignmentEditor">
-			<evaluate expression="executeTemplateAction.extractInteractiveCode(flowRequestContext)"/>
-		</transition>
-		<transition on="reExecute" to="editInteractive">
-			<evaluate expression="executeTemplateAction.extractInteractiveCode(flowRequestContext)"/>
-		</transition>
-	</view-state>
+      <transition on="execute" to="execute">
+        <evaluate expression="flowRequestContext.getFlowScope().put('code', flowRequestContext.getRequestParameters().get('code')),true" />
+      </transition>
+      <transition on="save" to="assignmentEditor">
+      <evaluate expression="template.setDecorateWithLatex(false)"/>
+      <evaluate expression="template.setCode(flowRequestContext.getRequestParameters().get('code'))"/>
+        <evaluate expression="flowRequestContext.getFlowScope().put('code', null),true" />
+      </transition>
+      <transition on="interactive" to="editInteractive">
+      <evaluate expression="template.setCode(flowRequestContext.getRequestParameters().get('code'))"/>
+        <evaluate expression="flowRequestContext.getFlowScope().put('code', null),true" />
+      </transition>
+  </view-state>
+  
+  <view-state id="editInteractive" view="interactiveApp1.jsp">
+    <on-entry>
+      <evaluate expression="template.setDecorateWithLatex(false)"/>
+      <evaluate expression="executeTemplateAction.prepareInteractive(flowScope.code, template.getCode(), flowRequestContext)"/>
+    </on-entry>
+    <transition on="save" to="executionResult">
+      <evaluate expression="executeTemplateAction.extractInteractive(flowRequestContext)"/>
+    </transition>
+    <transition on="edit" to="assignmentEditor">
+      <evaluate expression="executeTemplateAction.extractInteractiveCode(flowRequestContext)"/>
+    </transition>
+    <transition on="reExecute" to="editInteractive">
+      <evaluate expression="executeTemplateAction.extractInteractiveCode(flowRequestContext)"/>
+    </transition>
+  </view-state>
 
-	<view-state id="upload" view="uploadAssignmentForm.jsp">
-		<on-render>
-			<evaluate expression="new au.edu.uq.smartass.web.composer.UploadAssignmentModel()" result="viewScope.uploadAssignmentModel" />
- 		</on-render>
-		<transition on="ok" to="assignmentEditor" >
-			<evaluate expression="uploadAssignmentModel.setFileMultipart(flowRequestContext.getRequestParameters().getMultipartFile('file'))"/>
-			<evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
-			<evaluate expression="template.setCode(uploadAssignmentModel.getFile())"/>
-    	</transition>
-	</view-state>
+  <view-state id="upload" view="uploadAssignmentForm.jsp">
+    <on-render>
+      <evaluate expression="new au.edu.uq.smartass.web.composer.UploadAssignmentModel()" result="viewScope.uploadAssignmentModel" />
+    </on-render>
+    <transition on="ok" to="assignmentEditor" >
+      <evaluate expression="uploadAssignmentModel.setFileMultipart(flowRequestContext.getRequestParameters().getMultipartFile('file'))"/>
+      <evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
+      <evaluate expression="template.setCode(uploadAssignmentModel.getFile())"/>
+      </transition>
+  </view-state>
 
-	<action-state id="execute">
-		<evaluate expression="executeTemplateAction.doExecute(flowScope.code, assignmentEditor.preprocessCode(template), flowRequestContext)"/>
-		<transition on="success" to="executionResult"/>
-		<transition on="error" />	<!-- TODO: report error condition to user -->
-	</action-state>
+  <action-state id="execute">
+    <evaluate expression="executeTemplateAction.doExecute(flowScope.code, assignmentEditor.preprocessCode(template), flowRequestContext)"/>
+    <transition on="success" to="executionResult"/>
+    <transition on="error" /> <!-- TODO: report error condition to user -->
+  </action-state>
 
     <view-state id="executionResult" view="executionResultForm.jsp">
-    	<transition on="makePdf" to="pdf">
-			<evaluate expression="dviPdfCreator.makePdfs(flowScope.resultPath)" />
-    	</transition>
-    	<transition on="makeDvi" to="dvi">
-			<evaluate expression="dviPdfCreator.makeDvis(flowScope.resultPath)" />
-    	</transition>
-    	<transition on="clear" to="assignmentEditor">
-			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-			<evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
-    	</transition>
-		<transition on="cancel" to="assignmentEditor" bind="false">
-			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-    	</transition>
-    	<transition on="finish" to="finish" bind="false">
-			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-    	</transition>
-	</view-state>
+      <transition on="makePdf" to="pdf">
+      <evaluate expression="dviPdfCreator.makePdfs(flowScope.resultPath)" />
+      </transition>
+      <transition on="makeDvi" to="dvi">
+      <evaluate expression="dviPdfCreator.makeDvis(flowScope.resultPath)" />
+      </transition>
+      <transition on="clear" to="assignmentEditor">
+      <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
+      <evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
+      </transition>
+    <transition on="cancel" to="assignmentEditor" bind="false">
+      <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
+      </transition>
+      <transition on="finish" to="finish" bind="false">
+      <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
+      </transition>
+  </view-state>
 
     <view-state id="pdf" view="pdfResultForm.jsp">
-    	<transition on="clear" to="assignmentEditor">
-			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-			<evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
-    	</transition>
-		<transition on="cancel" to="assignmentEditor" bind="false">
-			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-    	</transition>
-    	<transition on="finish" to="finish" bind="false">
-			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-    	</transition>
-	</view-state>
+      <transition on="clear" to="assignmentEditor">
+      <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
+      <evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
+      </transition>
+    <transition on="cancel" to="assignmentEditor" bind="false">
+      <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
+      </transition>
+      <transition on="finish" to="finish" bind="false">
+      <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
+      </transition>
+  </view-state>
 
     <view-state id="dvi" view="dviResultForm.jsp">
-    	<transition on="clear" to="assignmentEditor">
-			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-			<evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
-    	</transition>
-		<transition on="cancel" to="assignmentEditor" bind="false">
-			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-    	</transition>
-	</view-state>
+      <transition on="clear" to="assignmentEditor">
+      <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
+      <evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
+      </transition>
+    <transition on="cancel" to="assignmentEditor" bind="false">
+      <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
+      </transition>
+  </view-state>
 
     <view-state id="confirmSave" view="saveAssignmentForm.jsp" model="template">
-    	<transition on="ok" to="finish">
-    		<evaluate expression="assignmentEditor.saveAssignment(template, externalContext.sessionMap.user, messageContext)"/>
-    	</transition>
-	</view-state>
+      <transition on="ok" to="finish">
+        <evaluate expression="assignmentEditor.saveAssignment(template, externalContext.sessionMap.user, messageContext)"/>
+      </transition>
+  </view-state>
 
     <view-state id="errorNoUser" view="errorNoUserAlert.jsp" >
-    	<on-entry>
-    		<evaluate expression="'edit this template'" result="viewScope.description"/>
-    	</on-entry>
+      <on-entry>
+        <evaluate expression="'edit this template'" result="viewScope.description"/>
+      </on-entry>
     </view-state>
 
-<!-- 	<end-state id="finish" view="externalRedirect:http://localhost:8180/smartass/index.htm" /> --> 
+<!--  <end-state id="finish" view="externalRedirect:http://localhost:8180/smartass/index.htm" /> --> 
 
 <!--     <end-state id="finish" view="externalRedirect:http://smartassignments.virtual.vps-host.net/index.htm" /> --> 
 
     <end-state id="finish" /> 
 
-	<global-transitions>
-		<transition on="cancel" to="assignmentEditor" bind="false"/>
-		<transition on="new" to="wizard" bind="false"/>
-	</global-transitions>
-			
+  <global-transitions>
+    <transition on="cancel" to="assignmentEditor" bind="false"/>
+    <transition on="new" to="wizard" bind="false"/>
+  </global-transitions>
+      
   <!-- 
   
-	<action-state id="saveAssignment">
-    	<action bean="saveAssignmentAction" />
-    	<transition on="ok" to="finish" />
-	</action-state> -->
+  <action-state id="saveAssignment">
+      <action bean="saveAssignmentAction" />
+      <transition on="ok" to="finish" />
+  </action-state> -->
 </flow>
