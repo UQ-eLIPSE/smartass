@@ -46,187 +46,199 @@ import au.edu.uq.smartass.web.Zip;
  */
 public class ExecuteTemplateAction  {
 
-	private static final Logger LOG = LoggerFactory.getLogger( ExecuteTemplateAction.class );
-	
-	/**
-	 * This function is called by Spring framework. It calls doExecute to process assignment code to create
-	 * question, solution and short answers files.
-	 * 
-	 * @param context		Spring webflow request context
-	 * @return				{@link Event} to Spring webflow transition to the new state
-	 * @throws Exception
-	 */
-	public String execute(RequestContext context) {
-		return doExecute(null, null, context);
-	}
-	
-	/**
-	 * Processes assignment code to create question, solution and short answers files.
-	 * 
-	 * @param prepared_code		prepared code with decoration added as String
-	 * @param code				code without decorations as String
-	 * @param context			Spring webflow request context
-	 * @return				{@link Event} to Spring webflow transition to the new state
-	 * @throws Exception
-	 */
-	public String doExecute(String prepared_code, String code, RequestContext context) {
-		
-		LOG.debug( "doExecute()[ {} , {} , {} ]", "<prepared_code>", "<code>", context.toString() );
+    private static final Logger LOG = LoggerFactory.getLogger( ExecuteTemplateAction.class );
+    
+    /**
+     * This function is called by Spring framework. It calls doExecute to process assignment code to create
+     * question, solution and short answers files.
+     * 
+     * @param context       Spring webflow request context
+     * @return              {@link Event} to Spring webflow transition to the new state
+     * @throws Exception
+     */
+    public String execute(RequestContext context) {
+        return doExecute(null, null, context);
+    }
+    
+    /**
+     * Processes assignment code to create question, solution and short answers files.
+     * 
+     * @param prepared_code     prepared code with decoration added as String
+     * @param code              code without decorations as String
+     * @param context           Spring webflow request context
+     * @return              {@link Event} to Spring webflow transition to the new state
+     * @throws Exception
+     */
+    public String doExecute(String prepared_code, String code, RequestContext context) {
+        
+        LOG.debug( "doExecute()[ {} , {} , {} ]", "<prepared_code>", "<code>", context.toString() );
 
-		try {
-			String tex = prepared_code;
-			if(tex==null || tex.length()==0) {
-				tex = code;
-				if(tex==null)
-					tex = ((AssignmentConstruct) context.getFlowScope().get("template")).getCode();
-			}
+        try {
+            String tex = prepared_code;
+            if(tex==null || tex.length()==0) {
+                tex = code;
+                if(tex==null)
+                    tex = ((AssignmentConstruct) context.getFlowScope().get("template")).getCode();
+            }
 
-			//context.getRequestParameters().get("code");
-			
-			Engine engine = new Engine();
-			TexReader tr = (TexReader) engine.getTemplateReader("tex");
+            //context.getRequestParameters().get("code");
+            
+            Engine engine = new Engine();
+            TexReader tr = (TexReader) engine.getTemplateReader("tex");
 
-			// ParseException
-			tr.loadTemplate(new ByteArrayInputStream(tex.getBytes("UTF-8")));
+            // ParseException
+            tr.loadTemplate(new ByteArrayInputStream(tex.getBytes("UTF-8")));
 
-			tr.setPredefinedNames(new String[]{"DEF", "QUESTION", "SHORTANSWER", "SOLUTION"});
-			tr.execute();
-			String output_path = engine.getPreference("output_path");
-			engine.close();
+            tr.setPredefinedNames(new String[]{"DEF", "QUESTION", "SHORTANSWER", "SOLUTION"});
+            tr.execute();
+            String output_path = engine.getPreference("output_path");
+            engine.close();
 
-			// IOException
-			LOG.debug("calling saveExecutionResults()[ {} , {} ]", tr, output_path);
-			output_path = saveExecutionResults(tr, output_path);
+            // IOException
+            LOG.debug("calling saveExecutionResults()[ {} , {} ]", tr, output_path);
+            output_path = saveExecutionResults(tr, output_path);
 
-			engine = null;
-			context.getFlowScope().put("resultPath", output_path);
+            engine = null;
 
-			return "success";
+            LOG.debug( "doExecute --> set \"resultPath\" = {} ", output_path );
+            context.getFlowScope().put("resultPath", output_path);
 
-		} catch (IOException ex) {
-			context.getMessageContext().addMessage(new MessageBuilder().error().defaultText(ex.getMessage()).build());
-			LOG.error( "An IOException occured: {}", ex.getMessage() );
-			LOG.error( "Stack: ", ex );
-			return "error";
+            return "success";
 
-		} catch (ParseException ex) {
-			context.getMessageContext().addMessage(new MessageBuilder().error().defaultText(ex.getMessage()).build());
-			LOG.error( "A ParseException  occured: {}", ex.getMessage() );
-			LOG.error( "Stack: ", ex );
-			return "error";
-		}
-	}
-	
-	/**
-	 * Saves assignment execution results as files and pack them to the zip file
-	 * 
-	 * @param tr			{@link TexReader} that contains execution results
-	 * @param outputRoot	the path where result files will be saved 
-	 * @return				the output directory name
-	 * @throws IOException
-	 */
-	protected String saveExecutionResults(TexReader tr, String outputRoot) throws IOException {
-		ResultNode result = tr.getResultNode();
-		
-		File output_root = new File(outputRoot);
-		File output_path = File.createTempFile("ass", "", output_root);
-		output_path.delete();
-		output_path.mkdir();
-		output_path.mkdir();
-		
-		File questions = new File(output_path, "questions.tex");
-		File answers = new File(output_path, "answers.tex");
-		File solutions = new File(output_path, "solutions.tex");
-		File zipfile = new File(output_path, "assignments.zip");
-		
-		writeFile(questions, result.getSection("QUESTION"));
-		writeFile(answers, result.getSection("SHORTANSWER"));
-		writeFile(solutions, result.getSection("SOLUTION"));
-		
-		ZipOutputStream zip = Zip.createZip(zipfile);
-		try {
-			Zip.addToZip(zip, "questions.tex", result.getSection("QUESTION"));
-			Zip.addToZip(zip, "answers.tex", result.getSection("SHORTANSWER"));
-			Zip.addToZip(zip, "solutions.tex", result.getSection("SOLUTION"));
-		} finally {
-			zip.close();
-		}
-		return output_path.getName();
-	}
+        } catch (IOException ex) {
+            context.getMessageContext().addMessage(new MessageBuilder().error().defaultText(ex.getMessage()).build());
+            LOG.error( "An IOException occured: {}", ex.getMessage() );
+            LOG.error( "Stack: ", ex );
+            return "error";
 
-	/**
-	 * Assists the InteractiveApp - the java applet that can be embedded into the web page
-	 * to provide highly interactive assignments execution and edit.
-	 * Processes assignment code to create question, solution and short answers files.
-	 * 
-	 * @param prepared_code		prepared code with decoration added as String
-	 * @param code				code without decorations as String
-	 * @param context			Spring webflow request context
-	 * @throws Exception
-	 */
-	public void prepareInteractive(String prepared_code, String code, RequestContext context) throws Exception {
-		String tex = prepared_code;
-		if(tex==null || tex.length()==0) {
-			tex = code;
-			if(tex==null)
-				tex = ((AssignmentConstruct) context.getFlowScope().get("template")).getCode();
-		}
+        } catch (ParseException ex) {
+            context.getMessageContext().addMessage(new MessageBuilder().error().defaultText(ex.getMessage()).build());
+            LOG.error( "A ParseException  occured: {}", ex.getMessage() );
+            LOG.error( "Stack: ", ex );
+            return "error";
+        }
+    }
+    
+    /**
+     * Saves assignment execution results as files and pack them to the zip file
+     * 
+     * @param tr            {@link TexReader} that contains execution results
+     * @param outputRoot    the path where result files will be saved 
+     * @return              the output directory name
+     * @throws IOException
+     */
+    protected String saveExecutionResults(TexReader tr, String outputRoot) throws IOException {
+        ResultNode result = tr.getResultNode();
+        
+        File output_root = new File(outputRoot);
+        File output_path = File.createTempFile("ass", "", output_root);
+        output_path.delete();
+        
+        LOG.info( "creating new directory for execution results: {}", output_path.getAbsolutePath() );
+        output_path.mkdir();
+        
+        File questions = new File(output_path, "questions.tex");
+        File answers = new File(output_path, "answers.tex");
+        File solutions = new File(output_path, "solutions.tex");
+        File zipfile = new File(output_path, "assignments.zip");
+        
+        LOG.info( "Writing Questions : {}", questions.getAbsolutePath() );
+        writeFile(questions, result.getSection("QUESTION"));
+        LOG.info( "Writing Answers : {}", answers.getAbsolutePath() );
+        writeFile(answers, result.getSection("SHORTANSWER"));
+        LOG.info( "Writing Solutions : {}", solutions.getAbsolutePath() );
+        writeFile(solutions, result.getSection("SOLUTION"));
+        
+        LOG.info( "Creating Zip Archive : {}", zipfile.getAbsolutePath() );
+        ZipOutputStream zip = Zip.createZip(zipfile);
+        try {
+            Zip.addToZip(zip, "questions.tex", result.getSection("QUESTION"));
+            Zip.addToZip(zip, "answers.tex", result.getSection("SHORTANSWER"));
+            Zip.addToZip(zip, "solutions.tex", result.getSection("SOLUTION"));
+        } finally {
+            zip.close();
+        }
+        return output_path.getAbsolutePath();
+    }
 
-		context.getExternalContext().getSessionMap().put("TEMPLATE_NAME", "COMPOSER");
-		context.getExternalContext().getSessionMap().put("TEMPLATE_EXECUTED", null);
-		Engine engine = new Engine();
-		TexReader tr =  (TexReader) engine.getTemplateReader("tex");
-		tr.loadTemplate(tex);
-		//l.debug("pp-tr: " + tr);
-		engine.close();
-		context.getExternalContext().getSessionMap().put("TEMPLATE_OBJECT", tr);
-		//context.getExternalContext().getSessionMap().put("TEMPLATE_CODE", tex);
-	}
-	
-	/**
-	 * Assists the InteractiveApp - the java applet that can be embedded into the web page
-	 * to provide highly interactive assignments execution and edit.
-	 * Returns assignment execution results
-	 * 
-	 * @param context
-	 * @throws Exception
-	 */
-	public void extractInteractive(RequestContext context) throws Exception {
-		TexReader tr =  (TexReader)context.getExternalContext().getSessionMap().get("TEMPLATE_OBJECT");
-		if(tr!=null) {
-			((AssignmentConstruct)context.getFlowScope().get("template")).setCode(tr.getRootNode().getCode());
-			Preferences prefs = Preferences.userRoot().node("au/edu/uq/smartass");
-			String output_path = prefs.get("output_path", "aaa");
-			if(output_path!=null) {
-				context.getFlowScope().put("resultPath", saveExecutionResults(tr, output_path));
-			}
-		}
-	}
+    /**
+     * Assists the InteractiveApp - the java applet that can be embedded into the web page
+     * to provide highly interactive assignments execution and edit.
+     * Processes assignment code to create question, solution and short answers files.
+     * 
+     * @param prepared_code     prepared code with decoration added as String
+     * @param code              code without decorations as String
+     * @param context           Spring webflow request context
+     * @throws Exception
+     */
+    public void prepareInteractive(String prepared_code, String code, RequestContext context) throws Exception {
+        String tex = prepared_code;
+        if(tex==null || tex.length()==0) {
+            tex = code;
+            if(tex==null)
+                tex = ((AssignmentConstruct) context.getFlowScope().get("template")).getCode();
+        }
 
-	/**
-	 * Assists the InteractiveApp - the java applet that can be embedded into the web page
-	 * to provide highly interactive assignments execution and edit.
-	 * Returns the assignment code
-	 * 
-	 * @param context
-	 * @throws Exception
-	 */
-	public void extractInteractiveCode(RequestContext context) throws Exception {
-		TexReader tr =  (TexReader)context.getExternalContext().getSessionMap().get("TEMPLATE_OBJECT");
-		if(tr!=null) 
-			((AssignmentConstruct)context.getFlowScope().get("template")).setCode(tr.getRootNode().getCode());
-	}
-	
-	/**
-	 * Utility function to write string to the given {@link File}
-	 */
-	private static void  writeFile(File file, String data) throws IOException {
-			FileWriter file_writer = new FileWriter(file);
-			BufferedWriter out = new BufferedWriter(file_writer);
-			if(data==null)
-				out.write("");
-			else
-				out.write(data);
-			out.close();
-	}
+        context.getExternalContext().getSessionMap().put("TEMPLATE_NAME", "COMPOSER");
+        context.getExternalContext().getSessionMap().put("TEMPLATE_EXECUTED", null);
+        Engine engine = new Engine();
+        TexReader tr =  (TexReader) engine.getTemplateReader("tex");
+        tr.loadTemplate(tex);
+        //l.debug("pp-tr: " + tr);
+        engine.close();
+        context.getExternalContext().getSessionMap().put("TEMPLATE_OBJECT", tr);
+        //context.getExternalContext().getSessionMap().put("TEMPLATE_CODE", tex);
+    }
+    
+    /**
+     * Assists the InteractiveApp - the java applet that can be embedded into the web page
+     * to provide highly interactive assignments execution and edit.
+     * Returns assignment execution results
+     * 
+     * @param context
+     * @throws Exception
+     */
+    public void extractInteractive(RequestContext context) throws Exception {
+        TexReader tr =  (TexReader)context.getExternalContext().getSessionMap().get("TEMPLATE_OBJECT");
+
+        if (null == tr) return;
+
+        ((AssignmentConstruct)context.getFlowScope().get("template")).setCode(tr.getRootNode().getCode());
+        Preferences prefs = Preferences.userRoot().node("au/edu/uq/smartass");
+        String output_path = prefs.get("output_path", "aaa");
+
+        if (null == output_path) return;
+
+        LOG.debug( "extractInteractive --> \"output_path\" == {} ", output_path );
+        output_path = saveExecutionResults(tr, output_path);
+        LOG.debug( "extractInteractive --> set \"resultPath\" = {} ", output_path );
+        context.getFlowScope().put("resultPath", output_path);
+    }
+
+    /**
+     * Assists the InteractiveApp - the java applet that can be embedded into the web page
+     * to provide highly interactive assignments execution and edit.
+     * Returns the assignment code
+     * 
+     * @param context
+     * @throws Exception
+     */
+    public void extractInteractiveCode(RequestContext context) throws Exception {
+        TexReader tr =  (TexReader)context.getExternalContext().getSessionMap().get("TEMPLATE_OBJECT");
+        if(tr!=null) 
+            ((AssignmentConstruct)context.getFlowScope().get("template")).setCode(tr.getRootNode().getCode());
+    }
+    
+    /**
+     * Utility function to write string to the given {@link File}
+     */
+    private static void  writeFile(File file, String data) throws IOException {
+            FileWriter file_writer = new FileWriter(file);
+            BufferedWriter out = new BufferedWriter(file_writer);
+            if(data==null)
+                out.write("");
+            else
+                out.write(data);
+            out.close();
+    }
 }

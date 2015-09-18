@@ -63,7 +63,15 @@ allprojects {
 	}
 }
 
+//
+// 	. plugin: 'jetty'
+//
+
 httpPort = 8080
 stopPort = 9080
 stopKey = 'stopKey'
 
+jettyRun {
+	reload = "automatic"
+	scanIntervalSeconds = 10
+}

@@ -230,23 +230,23 @@
     <transition on="error" /> <!-- TODO: report error condition to user -->
   </action-state>
 
-    <view-state id="executionResult" view="executionResultForm.jsp">
-      <transition on="makePdf" to="pdf">
+  <view-state id="executionResult" view="executionResultForm.jsp">
+    <transition on="makePdf" to="pdf">
       <evaluate expression="dviPdfCreator.makePdfs(flowScope.resultPath)" />
-      </transition>
-      <transition on="makeDvi" to="dvi">
+    </transition>
+    <transition on="makeDvi" to="dvi">
       <evaluate expression="dviPdfCreator.makeDvis(flowScope.resultPath)" />
-      </transition>
-      <transition on="clear" to="assignmentEditor">
+    </transition>
+    <transition on="clear" to="assignmentEditor">
       <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
       <evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
-      </transition>
+    </transition>
     <transition on="cancel" to="assignmentEditor" bind="false">
       <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-      </transition>
-      <transition on="finish" to="finish" bind="false">
+    </transition>
+    <transition on="finish" to="finish" bind="false">
       <evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
-      </transition>
+    </transition>
   </view-state>
 
     <view-state id="pdf" view="pdfResultForm.jsp">

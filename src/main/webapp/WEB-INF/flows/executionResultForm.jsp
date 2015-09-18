@@ -13,11 +13,11 @@
 
       <table>
         <tr class="header"><td><h3>Latex results:</h3></td></tr>
-        <tr><td><a href='<c:out value="download/${resultPath}/questions.tex"/>' target="_blank">Questions</a></td></tr>
-        <tr><td><a href='<c:out value="download/${resultPath}/solutions.tex"/>' target="_blank">Solutions</a></td></tr>
-        <tr><td><a href='<c:out value="download/${resultPath}/answers.tex"/>' target="_blank">Answers</a></td></tr>
+        <tr><td><a href='<c:out value="${resultPath}/questions.tex"/>' target="_blank">Questions</a></td></tr>
+        <tr><td><a href='<c:out value="${resultPath}/solutions.tex"/>' target="_blank">Solutions</a></td></tr>
+        <tr><td><a href='<c:out value="${resultPath}/answers.tex"/>' target="_blank">Answers</a></td></tr>
         <tr class="header"><br><td></td></tr>
-        <tr><td><a href='<c:out value="download/${resultPath}/assignments.zip"/>'>Download all as .zip archive</a></td></tr>
+        <tr><td><a href='<c:out value="${resultPath}/assignments.zip"/>'>Download all as .zip archive</a></td></tr>
         <tr class="header"><br><td></td></tr>
         <tr><td>
           To save a file without opening - right click and choose "Save target"<br><br>
@@ -26,7 +26,9 @@
         
         <tr><td><br>
           <input style="width:125" type="submit" class="button" name="_eventId_makePdf" value="Make PDF"/>
-      <!--    <input style="width:125" type="submit" class="button" name="_eventId_makeDvi" value="Make DVI"/>  -->
+<!--    
+          <input style="width:125" type="submit" class="button" name="_eventId_makeDvi" value="Make DVI"/>  
+-->
           <input style="width:125" type="submit" class="button" name="_eventId_cancel" value="Back to editor"/>
           <input style="width:125" type="submit" class="button" name="_eventId_new" value="New assignment"/>
           <input style="width:125" type="submit" class="button" name="_eventId_finish" value="Exit"/>
