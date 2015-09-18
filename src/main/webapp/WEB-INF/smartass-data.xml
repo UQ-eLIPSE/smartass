@@ -46,41 +46,27 @@
     </bean>
     
     <bean id="assignmentTemplatesStorage" class="au.edu.uq.smartass.web.composer.AssignmentTemplatesStorage">
-        <property name="path">
-			<value>${smartass.assignments}/astempl</value>
-		</property>
+        <property name="path"><value>${smartass.assignments}/astempl</value></property>
     </bean>
 
     
     <bean id="engineSettings" class = "au.edu.uq.smartass.web.EngineSettings">
-        <property name="templatesRoot">
-			<value>${smartass.data}/tex</value>
-		</property>
-        <property name="modulesRoot">
-			<value>./WEB-INF/classes</value>
-		</property>
-        <property name="outputPath">
-			<value>${smartass.html}/download</value>
-		</property>
-        <property name="templateHeader">
-            <value>\input{smartass.tex}</value>
-        </property>
-        <property name="texSearchPath">
-			<value>:${smartass.data}/files</value>
-		</property>
+        <property name="templatesRoot"><value>${smartass.data}/tex</value></property>
+        <property name="modulesRoot"><value>./WEB-INF/classes</value></property>
+        <property name="outputPath"><value>${smartass.html}/download</value></property>
+        <property name="templateHeader"><value>\input{smartass.tex}</value></property>
+        <property name="texSearchPath"><value>:${smartass.data}/files</value></property>
     </bean> 
 
     <bean id="backupStorage" class="au.edu.uq.smartass.web.BackupStorage">
-        <property name="backupPath">
-			<value>${smartass.backup}</value>
-		</property>
+        <property name="backupPath"><value>${smartass.backup}</value></property>
     </bean>
     
 <!--
-	.
-	. @TODO: MISSING SOURCE
-  	. BackupCreator.java is missing from source distribution.
-	.
+  .
+  . @TODO: MISSING SOURCE
+  . BackupCreator.java is missing from source distribution.
+  .
     <bean id="backupCreator" class="au.edu.uq.smartass.web.BackupCreator">
         <property name="dbName" value="SmartAssignments" />
         <property name="hostName" value="localhost" />
@@ -88,11 +74,11 @@
         <property name="username" value="smartass" />
         <property name="password" value="SmartAss" />
         <property name="repositoryPath">
-			<value>${smartass.data}</value>
-		</property>
+      <value>${smartass.data}</value>
+    </property>
         <property name="assignmentsPath">
-			<value>${smartass.assignments}</value>
-		</property>
+      <value>${smartass.assignments}</value>
+    </property>
         <property name="backups" ref="backupStorage" />
         <property name="key" value="lalalala" />
     </bean>
