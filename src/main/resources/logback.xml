@@ -2,23 +2,23 @@
 <configuration>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <layout class="ch.qos.logback.classic.PatternLayout">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-    </layout>
+    </encoder>
   </appender>
   
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <file>smartass.log</file>
-    <layout class="ch.qos.logback.classic.PatternLayout">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-    </layout>
+    </encoder>
   </appender>
   
   <logger name="au.edu.uq.smartass" level="TRACE"/>
-  
 
   <root level="debug">
     <appender-ref ref="STDOUT" />
     <appender-ref ref="FILE" />
   </root>
+
 </configuration>
