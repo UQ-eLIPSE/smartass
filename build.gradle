@@ -99,7 +99,6 @@ allprojects {
 	}
 }
 
-
 task printClasspath<< {
         configurations.runtime.each { println it }
 }
