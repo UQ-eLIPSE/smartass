@@ -37,6 +37,9 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hp.hpl.jena.util.FileUtils;
 
 import au.edu.uq.smartass.web.ClassificationsItemModel;
@@ -60,6 +63,10 @@ import au.edu.uq.smartass.web.template.TemplateImportModel;
  * confirmation of import when some collisions or errors are found.
  */
 public class RepositoryConfirmImportController extends UserRequieredFormController {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( RepositoryConfirmImportController.class );
+	
 	TemplateEditor templateEditor;
 	TemplatesDao templatesDao;
 	RepositoryStorage storage;
@@ -169,13 +176,26 @@ public class RepositoryConfirmImportController extends UserRequieredFormControll
 	 * Evaluate the integrity of data to be imported and prepares the information about errors
 	 * and collisions to ask user for confirmation.
 	 */
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
+	protected Object formBackingObject(HttpServletRequest request) throws Exception {
+
+		LOG.debug("formBackingObject()[ request=>{} ]", "--");
+		LOG.debug("formBackingObject()[ request=>{} ]", request.toString());
+		LOG.debug("formBackingObject()[ request.session=>{} ]", request.getSession().toString());
+		LOG.debug("formBackingObject()[ request.session.importPath=>{} ]", request.getSession().getAttribute("importPath"));
+		LOG.debug("formBackingObject()[ request.session.importPath.class=>{} ]", request.getSession().getAttribute("importPath").getClass().getName());
+
 		Command cmd = new Command();
-		File import_path = (File) request.getSession().getAttribute("importPath");
-		if(import_path==null)
+		File import_path = (File)(request.getSession().getAttribute("importPath"));
+
+		// @TODO:
+		// 	import_path : should be set, but where?
+		// 	- is set but (File) cast producting null 
+		// 	- don't really need test for this as already throws NullPointerExecption
+		if (import_path == null) {
+			// @TODO: do NOT throw unless going to catch - currently ends up in browser
 			throw new Exception("Import path does not spesified. Can't import");
-		
+		}
+
 		//get the list of files to import
 		File tex_path = new File(import_path, "tex");
 		File pdf_path = new File(import_path, "pdf");
@@ -233,8 +253,14 @@ public class RepositoryConfirmImportController extends UserRequieredFormControll
 	/**
 	 * Do actual changes to the repository depending on user decision.  
 	 */
-	protected ModelAndView doUpdate(Object command, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	protected ModelAndView doUpdate(
+			Object command, 
+			HttpServletRequest request,
+			HttpServletResponse response
+	) throws Exception {
+
+		LOG.debug("doUpdate()[ command=>{}, request=>{}, response=>{}, ]", "-", "-", "-");
+
 		File import_path = (File) request.getSession().getAttribute("importPath");
 		//TODO: what if import_path doesn't exists?
 		File tex_path = new File(import_path, "tex");
@@ -258,9 +284,16 @@ public class RepositoryConfirmImportController extends UserRequieredFormControll
 		
 		List<String> imported_files = new ArrayList<String>();
 		for(File tf : tex_list) {
+
+			LOG.debug("doUpdate() : Template File => {}", tf.getAbsolutePath());
+
 			TemplateImportModel template = readTemplate(tf);
 			TemplatesItemModel ex_template = templatesDao.getItem(template.getName());
+
+			LOG.debug("doUpdate() : Template Import Model => {}", template.getName());
+
 			if(ex_template!=null) {
+				LOG.debug("doUpdate() : Template Items Model => {}", ex_template.getName());
 				templatesDao.deleteItem(ex_template.getId()); 
 				//delete files from the repository
 				storage.deleteFile(0, "", ex_template.getName()+".tex");
@@ -295,7 +328,9 @@ public class RepositoryConfirmImportController extends UserRequieredFormControll
 						imported_files.add(fi.getName());
 					}
 				}
-			} catch (Exception e) {	}
+			} catch (Exception e) {	
+				LOG.debug("doUpdate() : Exception => {}\n{}", e.getMessage(), e.getStackTrace());
+			}
 
 			for(ClassificationsItemModel c: template.getClassifications()) {
 				if(c.getId()==0)
