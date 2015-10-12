@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.util.FileCopyUtils;
 
 /**
@@ -30,6 +33,10 @@ import org.springframework.util.FileCopyUtils;
  *
  */
 public class FilesystemRepositoryStorage implements RepositoryStorage {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( FilesystemRepositoryStorage.class );
+	
 	/**
 	 * The list of paths to containers of 
 	 * [0] - templates
@@ -72,12 +79,18 @@ public class FilesystemRepositoryStorage implements RepositoryStorage {
 	 * @param stream	{@link InputStream} with the object content data
 	 */
 	public void setFile(int scope, String path, String name, InputStream stream) throws IOException {
+
+		LOG.debug("setFile()[ scope=>{}, path=>{}, name=>{}, stream=>{} ]", scope, path, name, "-");
+
 		if(path==null)
 			path = "";
 		File target_dir = new File(new File(paths.get(scope)), path);
 		if(!target_dir.exists())
 			target_dir.mkdirs();
 		File target = new File(target_dir, name);
+
+		LOG.debug("setFile() : target => {}", target.getAbsolutePath());
+
 		if(target.exists())
 			target.delete();
 		
@@ -184,11 +197,15 @@ public class FilesystemRepositoryStorage implements RepositoryStorage {
 	 * @param path		path to the object inside the given scope
 	 * @param name		object name
 	 */
-	public void deleteFile(int scope, String path, String name)
-			throws IOException {
+	public void deleteFile(int scope, String path, String name) throws IOException {
+
+		LOG.debug("deleteFile()[ scope=>{}, path=>{}, name=>{} ]", scope, path, name);
+
 		File file = new File(new File(new File(paths.get(scope)), path), name);
-		if(file.exists())
-			file.delete();	
+
+		LOG.debug("deleteFile() : FILE => {}", file.getAbsolutePath());
+
+		if(file.exists()) file.delete();	
 	}
 	
 	/**

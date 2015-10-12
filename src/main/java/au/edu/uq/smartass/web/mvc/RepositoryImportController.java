@@ -26,6 +26,10 @@ import java.util.zip.ZipInputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
@@ -40,6 +44,9 @@ import au.edu.uq.smartass.web.UserItemModel;
  * and prepares them to analysis and import that RepositoryConfirmImportController performs.
  */
 public class RepositoryImportController extends UserRequieredFormController {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( RepositoryImportController.class );
 	
 	public RepositoryImportController() {
 		rightsMask = UserItemModel.RIGHT_ADMIN;
@@ -51,7 +58,14 @@ public class RepositoryImportController extends UserRequieredFormController {
 	 * Reads data to import sent by user and prepares them to analysis and import 
 	 * that RepositoryConfirmImportController performs.
 	 */
-	protected ModelAndView doUpdate(Object command, HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws Exception {
+	protected ModelAndView doUpdate(
+			Object command, 
+			HttpServletRequest request, 
+			HttpServletResponse response
+	) throws Exception {
+
+		LOG.debug("doUpdate()[ command=>{}, request=>{}, response=>{} ]", "-", "-", "-");
+
 		RepositoryImportFileModel item = (RepositoryImportFileModel) command;
 		
 		//create temporary directory
@@ -65,6 +79,14 @@ public class RepositoryImportController extends UserRequieredFormController {
 		pdf_path.mkdir();
 		File files_path = new File(import_path, "files");
 		files_path.mkdir();
+
+
+		LOG.debug("doUpdate(): temp Import Path => {}", import_path.getAbsolutePath());
+		LOG.debug("doUpdate(): temp Template Path => {}", tex_path.getAbsolutePath());
+		LOG.debug("doUpdate(): temp Samples Path => {}", pdf_path.getAbsolutePath());
+		LOG.debug("doUpdate(): temp Associated Path => {}", files_path.getAbsolutePath());
+
+		LOG.debug("doUpdate(): Extract ZIP archive => {}", "--");
 		
 		//unzip uploaded import package into the temporary directory
 		ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(item.getFile()));
@@ -73,17 +95,24 @@ public class RepositoryImportController extends UserRequieredFormController {
 		int count;
 		try {
 			while((entry=zip.getNextEntry())!=null) {
+
+				LOG.debug("doUpdate(): Extract FILE => {}", entry.getName());
+
 				try {
 					OutputStream out = new BufferedOutputStream(new FileOutputStream(new File(import_path, entry.getName())), 2048);
 					try {
 						while ((count = zip.read(data, 0, 2048)) != -1) {
 							   out.write(data, 0, count);
 							}
+					} catch (Exception e) {	
+						LOG.error("doUpdate(): Cannot READ zip archive file => {}", e.getMessage());
 					} finally {
 						out.flush();
 						out.close();
 					}
-				} catch (FileNotFoundException e) {	}
+				} catch (FileNotFoundException e) {	
+					LOG.error("doUpdate(): Extract FileNotFoundException  => {}", e.getMessage());
+				}
 			}
 		} finally {
 			zip.close();
