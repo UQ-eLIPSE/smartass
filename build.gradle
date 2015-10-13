@@ -61,6 +61,25 @@ dependencies {
 	compile 'org.codehaus.groovy:groovy:2.4.4'
 }
 
+test{
+	testLogging {
+
+		// 	. Log Level LIFECYCLE .
+		events 'started', 'skipped', 'failed', 'passed'
+		//events 'failed'
+		exceptionFormat 'short'
+
+		// 	. Log Level DEBUG .
+		debug {
+			events 'started', 'skipped', 'failed'
+			exceptionFormat 'full'
+		}
+		
+		// 	. Log Level INFO .
+		info.events = ['failed', 'skipped']
+
+	}
+}
 
 jar {
 	baseName = 'smartass'
