@@ -30,6 +30,9 @@ import java.io.StringWriter;
 import java.util.Vector;
 import java.util.prefs.Preferences;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * The RepositoryStorage class is used to store template-related files 
@@ -37,6 +40,10 @@ import java.util.prefs.Preferences;
  * in the repository.
  */
 public class RepositoryStorage {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( RepositoryStorage.class );
+	
 	public static final int SCOPE_TEMPLATE = 0;
 	public static final int SCOPE_PDF = 1;
 	public static final int SCOPE_FILES = 2;
@@ -90,31 +97,45 @@ public class RepositoryStorage {
 		return meta;
 	}
 	
+	/**
+	 * Imports a template file.
+	 * Copy a file from source location to destination. Removes line(s) containing <code>"%%META END"</code>.
+	 *
+	 * @param 	scope 		.
+	 * @param 	src 		.
+	 * @param 	dst 		.
+	 * @param 	create_dir 	UNUSED
+	 * @return 			int?
+	 * @deprecated 			Not being used?
+	 */
+	@Deprecated
 	public int importTemplate(int scope, String src, String[] dst, boolean create_dir) {
-		File fsrc = new File(src);
-		File fdst = new File(new File(path[scope], dst[0]), dst[1]);
+
+		File fsrc = new File(src); 								// UNUSED
+		File fdst = new File(new File(path[scope], dst[0]), dst[1]);    			// path[]:File
+
+		LOG.info("importTemplate()[ source=>{}, target =>{}]", src, fdst.getAbsolutePath());
 
 		try {
-        	BufferedReader in = new BufferedReader(new FileReader(src));
-            StringWriter tmp = new StringWriter();
-            FileOutputStream out = new FileOutputStream(fdst);
-            
-            String s;
-            while((s=in.readLine())!=null && !(s.contains("%%META"))) 
-            	tmp.write(s + "\n");
-            while((s=in.readLine())!=null && !(s.contains("%%META END")));
-            while((s=in.readLine())!=null)
-            	tmp.write(s + "\n");
-            	
-            copyStream(new StringBufferInputStream(tmp.toString()), out);
-            
-            return OK;
-        } catch (FileNotFoundException e) {
-        	e.printStackTrace();
+			BufferedReader in = new BufferedReader(new FileReader(src));
+			StringWriter tmp = new StringWriter();
+			FileOutputStream out = new FileOutputStream(fdst);
+
+			String s;
+			while((s=in.readLine())!=null && !(s.contains("%%META"))) tmp.write(s + "\n");
+			while((s=in.readLine())!=null && !(s.contains("%%META END")));
+			while((s=in.readLine())!=null) tmp.write(s + "\n");
+
+			copyStream(new StringBufferInputStream(tmp.toString()), out);
+
+			return OK;
+		} catch (FileNotFoundException e) {
+			LOG.info("importTemplate() - FileNotFoundException => {}", e.getMessage());
+			//e.printStackTrace();
 		} catch (IOException e) {
-        	e.printStackTrace();
+			LOG.info("importTemplate() - IOExceptioni => {}", e.getMessage());
+			//e.printStackTrace();
 		}
-		
 		return ERROR_FILE_COPY;
 	}
 	
