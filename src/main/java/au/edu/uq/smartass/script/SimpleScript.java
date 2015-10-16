@@ -123,6 +123,7 @@ public class SimpleScript extends Script {
 	 * @param name		the name for the variable
 	 * @param params	module constructor parameters
 	 */
+        @SuppressWarnings("unchecked")
 	private void createVar(String type, String name, String[] params) {
 		LOG.info( "::createVar()[ type=>{}, name=>{}, params=>{} ]", type, name, Arrays.toString(params) );
 		if ( ! vars.containsKey(name) ) vars.put(name, engine.getQuestionModule(type, params));
