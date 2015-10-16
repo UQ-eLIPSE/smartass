@@ -30,6 +30,7 @@ import au.edu.uq.smartass.web.composer.AssignmentConstruct;
  * The AssignmentsDao class is the database access class for an assignment.
  *
  */
+@SuppressWarnings("unchecked")
 public class AssignmentsDao extends JdbcDaoSupport {
 
 	ItemRowMapper mapper;

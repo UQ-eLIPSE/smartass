@@ -25,6 +25,11 @@ public class Union extends SetBinaryOp implements SetCalculable {
     	super(op1, op2);
     }
  
+        /**
+         *
+         *
+         */
+        @SuppressWarnings("unchecked")
 	public AbstractSet calculate() {
 		HashSet res=(HashSet)(((SetCalculable)op[0]).calculate());
 		res.addAll(((SetCalculable)op[1]).calculate());

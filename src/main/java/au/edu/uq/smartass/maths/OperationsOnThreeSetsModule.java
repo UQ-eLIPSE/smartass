@@ -202,47 +202,47 @@ public class OperationsOnThreeSetsModule extends MathsModule{
  	     
 	}//generate 
 	
-/**
- * Method generates two sets of random size
- * with random integers as their elements.
- * @param      sets   Two sets in format name1, name2, name3, {el, el, el ... el},{el, el, el ... el},{el, el, el ... el}
- *					  quotation marks are not allowed 
- */	
-protected void generate(String[] sets) {
-	            if (sets.length<6) {
-	            	generate();
-	            	return;
-	            }
-	            ListIterator iter;
-	            Vector[] stringSets=new Vector[3];	      
-	            String tempStr;
-	            
-	            int l=0;
-	            for (int k=3; k<sets.length; k++)
-	            {	
-	               stringSets[l]=new Vector<String>();	
-	               tempStr=sets[k].replaceAll("[ {}]","");
-	               if (tempStr.length()!=0){	            	
-	            	stringSets[l].add(tempStr);	              	
-	               }	              
-	               if (sets[k].contains("}") &&(l<2)) l++;
-	            }					
-	        
- 	         	set[0]=new MathsSet(new String(sets[0]));
- 	         	iter=stringSets[0].listIterator();
- 	         	while (iter.hasNext())
- 	         		set[0].add(iter.next());
- 	         	set[1]=new MathsSet(new String(sets[1]));
- 	         	iter=stringSets[1].listIterator();
- 	         	while (iter.hasNext())
- 	         		set[1].add(iter.next());
- 	         	set[2]=new MathsSet(new String(sets[2]));
- 	         	iter=stringSets[2].listIterator();
- 	         	while (iter.hasNext())
- 	         		set[2].add(iter.next());
-                 solve();
- 	            return;
-	}//generate 	
+
+        /**
+         * Method generates two sets of random size with random integers as their elements.
+         *
+         * @param     sets   Two sets in format 
+         *                       name1, name2, name3, {el, el, el ... el},{el, el, el ... el},{el, el, el ... el}
+         *		     quotation marks are not allowed 
+         */	
+        @SuppressWarnings("unchecked")
+        protected void generate(String[] sets) {
+                if (sets.length<6) {
+                        generate();
+                        return;
+                }
+                ListIterator iter;
+                Vector[] stringSets = new Vector[3];	      
+                String tempStr;
+
+                int l=0;
+                for (int k=3; k<sets.length; k++) {	
+                        stringSets[l]=new Vector<String>();	
+                        tempStr=sets[k].replaceAll("[ {}]","");
+                        if (tempStr.length()!=0){	            	
+                                stringSets[l].add(tempStr);	              	
+                        }	              
+                        if (sets[k].contains("}") &&(l<2)) l++;
+                }					
+
+                set[0]=new MathsSet(new String(sets[0]));
+                iter=stringSets[0].listIterator();
+                while (iter.hasNext()) set[0].add(iter.next());
+                set[1]=new MathsSet(new String(sets[1]));
+                iter=stringSets[1].listIterator();
+                while (iter.hasNext()) set[1].add(iter.next());
+                set[2]=new MathsSet(new String(sets[2]));
+                iter=stringSets[2].listIterator();
+                while (iter.hasNext()) set[2].add(iter.next());
+                solve();
+                return;
+        }//generate 	
+
 
 private void solve(){
 	int k=RandomChoice.randInt(0,2);
