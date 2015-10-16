@@ -28,6 +28,7 @@ import au.edu.uq.smartass.web.NamedItemModel;
  * The ModulesDao class is the object-relational mapping class 
  * that maps the ModulesItemModel to the database table(s).
  */
+@SuppressWarnings("unchecked")
 public class ModulesDao extends DictionaryDao {
 
 	/**

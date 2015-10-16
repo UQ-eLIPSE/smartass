@@ -35,6 +35,7 @@ import au.edu.uq.smartass.web.UpdatesItemModel;
  * The TemplatesDao class is the object-relational mapping class 
  * that maps the TemplatesItemModel to the database table(s).
  */
+@SuppressWarnings("unchecked")
 public class TemplatesDao extends JdbcDaoSupport {
 	public static final String TEMPLATES_SELECT = "select * from templates order by name";
 	private ItemRowMapper mapper;

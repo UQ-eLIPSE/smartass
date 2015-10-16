@@ -96,22 +96,23 @@ public class MathsSet extends SetOp implements SetCalculable {
  */		
 	public boolean isEmpty() {return set.isEmpty(); }	
 
-/**
- * Sets container HashSet to s
- * @param s set   	
- */				 
-	public void setSet(AbstractSet s) {
-		this.set = new HashSet(s);
-	}
+
+        /**
+         * Sets container HashSet to s
+         * @param s set   	
+         */				 
+        @SuppressWarnings("unchecked")
+	public void setSet(AbstractSet s) { this.set = new HashSet(s); }
 	
-/**
- * Adds the specified element to this set if it is not already present. 
- * @param  o element to be added
- * @return true if the set did not already contain the specified element.  	
- */				 
-public boolean add(Object o) {
- return set.add(o);
-}
+
+        /**
+         * Adds the specified element to this set if it is not already present. 
+         * @param  o element to be added
+         * @return true if the set did not already contain the specified element.  	
+         */				 
+        @SuppressWarnings("unchecked")
+        public boolean add(Object o) { return set.add(o); }
+
 
 /**
  * Removes the specified element from this set. 

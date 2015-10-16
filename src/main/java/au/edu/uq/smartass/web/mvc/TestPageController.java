@@ -25,9 +25,11 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 public class TestPageController extends AbstractController {
 
-	protected ModelAndView handleRequestInternal(HttpServletRequest arg0,
-			HttpServletResponse arg1) throws Exception {
-		Map model = new HashMap();
+	protected ModelAndView handleRequestInternal(
+                        HttpServletRequest arg0,
+			HttpServletResponse arg1
+        ) throws Exception {
+		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("test", "test");
 		return new ModelAndView("test", model);
 	}

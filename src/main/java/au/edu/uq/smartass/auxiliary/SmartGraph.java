@@ -14,17 +14,20 @@
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
  */
+
 package au.edu.uq.smartass.auxiliary;
+
 import java.math.*;
 import java.util.*;
+
 /**
 * Class SmartGraph describes methods for building pictures using PICTURE environment in Latex 
 *
 * @version 1.0 14.12.2006
 * @author Andriy Kvyatkovskyy
 */
-
 public class SmartGraph {
+	
 /**
  * Returns a String containing Latex code for the interval marked on the number line.
  * Intended for use with SmartAss templates, tuned for SmartAss standard Latex
@@ -328,55 +331,51 @@ public class SmartGraph {
     } // drawInterval
 
 
- /**
- * Returns a String containing elements of three sets,
- * each set is split into parst, proportional to the numbers
- * in int[] shares.
- * Intended for use with SmartAss templates, for dispaying 
- * elements of sets on Venn diagrams. 
- *
- * @param  int[]        		numbers proportional to shares of the numbers of 
- *								elements in the output lines
- * @param  HashSet[] sets 	    sets for the first, second and third row of the output
- *								array of strings
- * @return String[3][]      	lines for outputting parts of 2 sets
- */
- public static String[][] break2Sets (HashSet[] sets, int[] shares){
- 	Vector vs;
- 	int sum=0;
- 	int []totals=new int[shares.length-1];
- 	int cum, index;
- 	String[][] output= new String[3][shares.length];
- 	Iterator itr;
- 	for (int i=0; i<shares.length; i++)
- 		sum+=shares[i];
-    totals[0]=shares[0];
-    for (int i=1; i<totals.length; i++)
-    	totals[i]=totals[i-1]+shares[i];
- 	for (int i=0; i<3; i++){
- 		vs=new Vector(sets[i]); 		
- 		index=0;
- 		for (int k=1; k<shares.length; k++)
- 		{
- 		cum=(int)((double)totals[k-1]/sum*vs.size());
- 			output[i][k-1]="";
- 			while (index<cum){
- 				
- 				output[i][k-1]+=vs.get(index).toString()+" ";
- 				index++;
- 		 }
- 		   output[i][k-1]=output[i][k-1].trim(); 		   		
- 		}
- 			
- 		output[i][shares.length-1]="";	
- 		while (index<vs.size()){ 		
- 			output[i][shares.length-1]+=vs.get(index).toString()+" ";	
- 			index++; 			
- 		}
- 		output[i][shares.length-1]=output[i][shares.length-1].trim();
+	/**
+	 * Returns a String containing elements of three sets,
+	 * each set is split into parst, proportional to the numbers
+	 * in int[] shares.
+	 * Intended for use with SmartAss templates, for dispaying 
+	 * elements of sets on Venn diagrams. 
+	 *
+	 * @param  int[]        		numbers proportional to shares of the numbers of 
+	 *								elements in the output lines
+	 * @param  HashSet[] sets 	    sets for the first, second and third row of the output
+	 *								array of strings
+	 * @return String[3][]      	lines for outputting parts of 2 sets
+	 */
+	@SuppressWarnings("unchecked")
+	public static String[][] break2Sets (HashSet[] sets, int[] shares){
+		Vector vs;
+		int sum=0;
+		int []totals=new int[shares.length-1];
+		int cum, index;
+		String[][] output= new String[3][shares.length];
+		Iterator itr;
+		for (int i=0; i<shares.length; i++) sum+=shares[i];
+		totals[0]=shares[0];
+		for (int i=1; i<totals.length; i++) totals[i]=totals[i-1]+shares[i];
+		for (int i=0; i<3; i++) {
+			vs=new Vector(sets[i]); 		
+			index=0;
+			for (int k=1; k<shares.length; k++) {
+				cum=(int)((double)totals[k-1]/sum*vs.size());
+				output[i][k-1]="";
+				while (index<cum) {
+					output[i][k-1]+=vs.get(index).toString()+" ";
+					index++;
+				}
+				output[i][k-1]=output[i][k-1].trim(); 		   		
+			}
 
- 	} 
- 		
-    return output; 	
- } //break2Sets  
+			output[i][shares.length-1]="";	
+			while (index<vs.size()){ 		
+				output[i][shares.length-1]+=vs.get(index).toString()+" ";	
+				index++; 			
+			}
+			output[i][shares.length-1]=output[i][shares.length-1].trim();
+		} 
+		return output; 	
+	} //break2Sets  
+
 } //SmartGraph

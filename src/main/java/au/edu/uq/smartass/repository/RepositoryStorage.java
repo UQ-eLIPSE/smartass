@@ -16,19 +16,22 @@
 package au.edu.uq.smartass.repository;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringBufferInputStream;
 import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.StringWriter; 			// @TODO: Replace with java.lang.StringBuilder;
 import java.util.Vector;
 import java.util.prefs.Preferences;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -37,6 +40,12 @@ import java.util.prefs.Preferences;
  * in the repository.
  */
 public class RepositoryStorage {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( RepositoryStorage.class );
+
+	private static final char NEWLINE = '\n';
+	
 	public static final int SCOPE_TEMPLATE = 0;
 	public static final int SCOPE_PDF = 1;
 	public static final int SCOPE_FILES = 2;
@@ -90,32 +99,46 @@ public class RepositoryStorage {
 		return meta;
 	}
 	
+	/**
+	 * Imports a template file (any file).
+	 * Copy a file from source location to destination. Removes line(s) containing <code>%%META</code>.
+	 * 
+	 * <p>Uses the platform's default 'charset'.
+	 *
+	 * @param 	scope 		.
+	 * @param 	src 		.
+	 * @param 	dst 		.
+	 * @param 	create_dir 	UNUSED
+	 * @return 			int?
+	 * @deprecated 			Not being used?
+	 */
+	@Deprecated
 	public int importTemplate(int scope, String src, String[] dst, boolean create_dir) {
-		File fsrc = new File(src);
-		File fdst = new File(new File(path[scope], dst[0]), dst[1]);
+		File fdst = new File(new File(path[scope], dst[0]), dst[1]);    			// path[]:File
+
+		LOG.info("importTemplate()[ source=>{}, target =>{}]", src, fdst.getAbsolutePath());
 
 		try {
-        	BufferedReader in = new BufferedReader(new FileReader(src));
-            StringWriter tmp = new StringWriter();
-            FileOutputStream out = new FileOutputStream(fdst);
-            
-            String s;
-            while((s=in.readLine())!=null && !(s.contains("%%META"))) 
-            	tmp.write(s + "\n");
-            while((s=in.readLine())!=null && !(s.contains("%%META END")));
-            while((s=in.readLine())!=null)
-            	tmp.write(s + "\n");
-            	
-            copyStream(new StringBufferInputStream(tmp.toString()), out);
-            
-            return OK;
-        } catch (FileNotFoundException e) {
-        	e.printStackTrace();
+			BufferedReader reader = new BufferedReader(new FileReader(src));
+			StringBuilder builder = new StringBuilder();
+
+			String line;
+			while ( (line = reader.readLine()) != null && ! line.contains("%%META") ) 
+					builder.append(line).append(NEWLINE);
+			while ( (line = reader.readLine()) != null && ! line.contains("%%META END") );
+		        while ( (line = reader.readLine()) != null )
+					builder.append(line).append(NEWLINE);
+
+			copyStream(
+					new ByteArrayInputStream(builder.toString().getBytes()),  // use platform default 'charset'
+					new FileOutputStream(fdst)
+				);
+			return OK;
+
 		} catch (IOException e) {
-        	e.printStackTrace();
+			LOG.info("importTemplate() - {} => {}", e.getClass().getName(), e.getMessage());
+			return ERROR_FILE_COPY;
 		}
-		
-		return ERROR_FILE_COPY;
 	}
 	
 	public int importFile(int scope, String src, String[] dst, boolean create_dir) {
@@ -144,27 +167,35 @@ public class RepositoryStorage {
 		return (new File(new File(path[scope], file_path[0]), file_path[1])).delete();
 	}
 	
+	/**
+	 *
+	 * @param
+	 * @param
+	 * @param
+	 * @param
+	 * @return 		<code>true</code> always!
+	 */
 	public boolean exportFile(int scope, String[] file_path, String dst_path, String metadata) {
 		try {
-			InputStream meta_in = new StringBufferInputStream(metadata);
-	        InputStream in = new FileInputStream(new File(new File(path[SCOPE_TEMPLATE], file_path[0]), file_path[1]));
+			InputStream meta_in = new ByteArrayInputStream(metadata.getBytes());
+			InputStream in = new FileInputStream(
+					new File(new File(path[SCOPE_TEMPLATE], file_path[0]), file_path[1])
+				);
 			OutputStream out = new FileOutputStream(dst_path);
 			
 			copyStream(meta_in, out);
 			copyStream(in, out);
 
-			try {
-				meta_in.close();
+			meta_in.close();
 	        	in.close();
 	        	out.close();
+
 	        } catch(IOException e) {
-	        	e.printStackTrace();
-	        }
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			LOG.info("exportFile(): Exception caught [{}]: => {}", e.getClass().getName(), e.getMessage());
+
+		} finally {
+			return true;
 		}
-		
-		return true;
 	}
 
 	private int processFile(int scope, File fsrc, File fdst, boolean create_dir, boolean delete_src) {
@@ -215,16 +246,20 @@ public class RepositoryStorage {
 		return false;
 	}
 	
+	/**
+	 * Copy an input stream to an output stream.
+	 *
+	 * @param 	in 	source input stream.
+	 * @param 	out 	target output stream.
+	 */
 	private void copyStream(InputStream in, OutputStream out) {
-        byte[] buf = new byte[1024];
-        int len;
-        try {
-	        while ((len = in.read(buf)) > 0) {
-	            out.write(buf, 0, len);
-	        }
-        } catch(IOException e) {
-        	e.printStackTrace();
-        }
+		byte[] buf = new byte[1024];
+		int len;
+		try {
+			while ((len = in.read(buf)) > 0) { out.write(buf, 0, len); }
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private boolean isSrcFileCorrect(File file) {

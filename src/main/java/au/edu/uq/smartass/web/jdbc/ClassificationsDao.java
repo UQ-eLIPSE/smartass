@@ -28,6 +28,7 @@ import au.edu.uq.smartass.web.ClassificationsItemModel;
  * The ClassificationsDao class - the object-relational mapping class for the {@link ClassificationsItemModel}.
  * 
  */
+@SuppressWarnings("unchecked")
 public class ClassificationsDao extends DictionaryDao {
 	ItemRowMapper mapper;
 

@@ -3,6 +3,7 @@ package au.edu.uq.smartass.templates.texparser;
 
 import au.edu.uq.smartass.engine.Engine;
 
+@SuppressWarnings("unchecked")
 public class TexParser/*@bgen(jjtree)*/implements TexParserTreeConstants, TexParserConstants {/*@bgen(jjtree)*/
   protected JJTTexParserState jjtree = new JJTTexParserState();
     Engine engine;
