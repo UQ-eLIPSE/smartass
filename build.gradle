@@ -4,8 +4,8 @@ apply plugin: 'war'
 apply plugin: 'jetty'
 
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+//sourceCompatibility = 1.6
+//targetCompatibility = 1.6
 
 
 task wrapper(type: Wrapper) {
