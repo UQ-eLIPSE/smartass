@@ -47,6 +47,7 @@ public class SelectAuthorController extends AbstractResolveController {
 	 * Returns the list  This function takes care about some additional information
 	 * that web site engine needs to break list of the records to a set of pages.
 	 */
+	@SuppressWarnings("unchecked")
 	public List<AuthorsItemModel> search(ResolveAuthorModel ra) {
 		ra.setRowsNum(dao.countRows("%" + ra.getSearch() + "%"));
 		return dao.getItems("%" + ra.getSearch() + "%", ra.getPageNo()*ra.getRowsPerPage(), ra.getRowsPerPage());

@@ -34,6 +34,7 @@ import au.edu.uq.smartass.web.jdbc.FilesDao;
  * to the corresponding record in the smartass database or create a new one if such record 
  * does not exists.
  */
+@SuppressWarnings("unchecked")
 public class ResolveFileController extends AbstractResolveController {
 	FilesDao dao;
 	RepositoryStorage storage;
