@@ -2,6 +2,7 @@
 
 package au.edu.uq.smartass.templates.texparser;
 
+@SuppressWarnings("unchecked")
 class JJTTexParserState {
   private java.util.Stack nodes;
   private java.util.Stack marks;
