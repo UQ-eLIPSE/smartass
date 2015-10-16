@@ -27,6 +27,7 @@ import au.edu.uq.smartass.web.HelpPageItem;
  * The HelpPagesDao class is the object-relational mapping class 
  * that maps the HelpPageItem to the database table(s).
  */
+@SuppressWarnings("unchecked")
 public class HelpPagesDao extends JdbcDaoSupport {
 	private ItemRowMapper rowMapper;
 	

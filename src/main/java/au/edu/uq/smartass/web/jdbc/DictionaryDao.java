@@ -30,6 +30,7 @@ import au.edu.uq.smartass.web.NamedItemModel;
  * that is ancestor for all dictionary DAO classes. Every dictionary object has at least
  * "id" and "name" fields.
  */
+@SuppressWarnings("unchecked")
 public abstract class DictionaryDao extends JdbcDaoSupport {
 	
 	/**

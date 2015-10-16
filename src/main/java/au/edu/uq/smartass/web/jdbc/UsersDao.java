@@ -27,6 +27,7 @@ import au.edu.uq.smartass.web.UserItemModel;
  * The UsersDao class - the object-relational mapping class 
  * that maps the UsersItemModel to the database table(s).
  */
+@SuppressWarnings("unchecked")
 public class UsersDao extends JdbcDaoSupport {
 	
 	/**

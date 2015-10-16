@@ -591,16 +591,18 @@ public static Vector <MathsOp> subtractFractions(IntegerNumber fraction1_Numerat
 
 
 
-//method factorsIntoOp creates a multiplication of few numbers from array of 
-//numbers
-private static MathsOp factorsIntoOp(Vector<MathsOp> input_factors) {
-    Vector <MathsOp> factors=(Vector<MathsOp>)input_factors.clone();
-	if (factors.size()==1)
-		return factors.get(0);
-	Multiplication	result=new Multiplication(factors.get(0), factors.get(1));
-	for (int i=2; i<factors.size(); i++)
-		result=new Multiplication((Multiplication)result.clone(),factors.get(i));
-	return result;		
-}// factorsIntoOp  
+        /**
+         * method factorsIntoOp creates a multiplication of few numbers from array of 
+         * numbers
+         */
+        private static MathsOp factorsIntoOp(Vector<MathsOp> input_factors) {
+                @SuppressWarnings("unchecked")
+                Vector<MathsOp> factors = (Vector<MathsOp>)input_factors.clone();
+                if (factors.size()==1) return factors.get(0);
+                Multiplication	result = new Multiplication(factors.get(0), factors.get(1));
+                for (int i=2; i<factors.size(); i++)
+                        result=new Multiplication((Multiplication)result.clone(),factors.get(i));
+                return result;		
+        }// factorsIntoOp  
     
 } //FractionArithmetics

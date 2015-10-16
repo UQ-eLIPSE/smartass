@@ -30,6 +30,7 @@ import au.edu.uq.smartass.web.NamedItemModel;
  * The AuthorsDao class is the object-relational mapper class for the AuthorsItemModel.
  *
  */
+@SuppressWarnings("unchecked")
 public class AuthorsDao extends DictionaryDao {
 
 	/**

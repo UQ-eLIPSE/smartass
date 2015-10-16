@@ -113,17 +113,18 @@ public class SimpleScript extends Script {
 	 * @param name		the name for the variable
 	 * @param params	module constructor parameters
 	 */
+        @SuppressWarnings("unchecked")
 	private void createVar(String type, String name, String[] params) {
-		if(!vars.containsKey(name)) {
+		if ( ! vars.containsKey(name) ) {
 			MathsModule var = engine.getMathsModule(type.toLowerCase(), params);
-//			System.out.println("create var: "+var);
-			if(var!=null)
-			{
+			if (var != null) {
 				vars.put(name.toLowerCase(), var);
 			} else {
 				System.out.println("Error: module \"" + type + "\" not found!");
 			}
-		} else ; //var redeclaration, but do nothing with this	
+		} else {
+			; //var redeclaration, but do nothing with this	
+		}
 	}
 
 	/**

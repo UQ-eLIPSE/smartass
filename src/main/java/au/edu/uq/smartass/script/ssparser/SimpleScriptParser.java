@@ -3,6 +3,7 @@ package au.edu.uq.smartass.script.ssparser;
 
 import java.util.Vector;
 
+@SuppressWarnings("unchecked")
 public class SimpleScriptParser implements SimpleScriptParserConstants {
         Vector<ScriptLine> lines = new Vector<ScriptLine>();
         VarCreation tmp_var;

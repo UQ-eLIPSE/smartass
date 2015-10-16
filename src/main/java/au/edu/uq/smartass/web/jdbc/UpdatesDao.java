@@ -31,6 +31,7 @@ import au.edu.uq.smartass.web.UpdatesItemModel;
  * The UpdatesDao class is the object-relational mapping class 
  * that maps the UpdatesItemModel to the datab
  */
+@SuppressWarnings("unchecked")
 public class UpdatesDao extends JdbcDaoSupport {
 	ItemRowMapper mapper;
 	AuthorsDao authorsDao;
