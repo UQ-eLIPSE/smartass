@@ -36,6 +36,7 @@ public class RepositoryStorageTest {
 		LOG.info("scope:files 		{}", REPOSITORY.path[RepositoryStorage.SCOPE_FILES].getAbsolutePath());
 	}
 	
+	@SuppressWarnings("deprecation")
         @Test public void importTemplateTest() throws IOException {
 
 		int result;
