@@ -29,6 +29,7 @@ import au.edu.uq.smartass.web.TemplatesItemModel;
  * the extension of the TemplatesItemModel and add some import-related properties and functionality to it.
  */
 public class TemplateImportModel extends TemplatesItemModel {
+
 	String data = "";
 	Map<String, AuthorsItemModel> updAuthors = new HashMap<String, AuthorsItemModel>();
 	List<AuthorsItemModel> updAuthorsList = new Vector<AuthorsItemModel>();

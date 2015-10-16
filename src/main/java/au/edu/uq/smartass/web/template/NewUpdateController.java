@@ -52,6 +52,7 @@ public class NewUpdateController {
 	 * @param rm		{@link ResolveUpdateModel} with the information for authors search
 	 * @return			the list of the {@link AuthorsItemModel} found
 	 */
+        @SuppressWarnings("unchecked")
 	public List<AuthorsItemModel> search(ResolveUpdateModel rm) {
 		rm.setRowsNum(dao.countRows("%" + rm.getSearch() + "%"));
 		return dao.getItems("%" + rm.getSearch() + "%", rm.getPageNo()*rm.getRowsPerPage(), rm.getRowsPerPage());

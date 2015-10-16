@@ -45,6 +45,7 @@ import au.edu.uq.smartass.web.jdbc.TemplatesDao;
  * The TemplateEditor class contains a set of functions that is used to import and edit a template.
  */
 public class TemplateEditor {
+
 	AuthorsDao authorsDao;
 	FilesDao filesDao;
 	ModulesDao modulesDao;
@@ -240,8 +241,12 @@ public class TemplateEditor {
 	 * @param premeta	pre-parsed metadata
 	 * @param classId	id of the classification to which template will belong 
 	 */
-	public void parseMetadata(TemplateImportModel template, PreparsedMetadataModel premeta, 
-			int classId) {
+        @SuppressWarnings("unchecked")
+	public void parseMetadata(
+                        TemplateImportModel template, 
+                        PreparsedMetadataModel premeta, 
+			int classId
+        ) {
 		DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 		AuthorsItemModel author;
 		

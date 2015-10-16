@@ -24,6 +24,7 @@ import java.util.List;
  * used when import template to the repository to resolve list of items from the metadata
  * received as plain strings to the objects from the repository.
  */
+@SuppressWarnings("unchecked")
 public class ListResolverModel implements Serializable {
 	int itemsToImportNo;
 	int currentItemNo;
@@ -170,12 +171,8 @@ public class ListResolverModel implements Serializable {
 		this.currentItemNo = currentItemNo;
 	}
 
-	public BooleanList getImports() {
-		return imports;
-	}
+	public BooleanList getImports() { return imports; }
 
-	public List<Boolean> getFounds() {
-		return founds;
-	}
+	public List<Boolean> getFounds() { return founds; }
 
 }
