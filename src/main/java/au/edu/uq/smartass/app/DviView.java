@@ -181,7 +181,7 @@ public class DviView extends Panel implements JDviContext {
 	//dialog.setDirectory(file);
 	dialog.setFile(file);
 	}
-	dialog.show();
+	dialog.setVisible(true); 		// deprecated: show();
 	if(dialog.getFile()!= null) {
 	    file = dialog.getDirectory()+dialog.getFile();
 	    System.out.println("Choosen:"+dialog.getDirectory()+dialog.getFile());

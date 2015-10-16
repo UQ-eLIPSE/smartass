@@ -1,31 +1,4 @@
 /* This file is part of SmartAss and describes class Engine - the core of SmartAss.
-/* This file is part of SmartAss and describes class Engine - the core of SmartAss.
- * Copyright (C) 2006 Department of Mathematics, The University of Queensland
- * SmartAss is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2, or
- * (at your option) any later version.
- * GNU program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with program;
- * see the file COPYING. If not, write to the
- * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
- */
-/* This file is part of SmartAss and describes class Engine - the core of SmartAss.
-/* This file is part of SmartAss and describes class Engine - the core of SmartAss.
- * Copyright (C) 2006 Department of Mathematics, The University of Queensland
- * SmartAss is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2, or
- * (at your option) any later version.
- * GNU program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with program;
- * see the file COPYING. If not, write to the
- * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
- */
-/* This file is part of SmartAss and describes class Engine - the core of SmartAss.
-/* This file is part of SmartAss and describes class Engine - the core of SmartAss.
  * Copyright (C) 2006 Department of Mathematics, The University of Queensland
  * SmartAss is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2, or
@@ -48,21 +21,28 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.reflect.Constructor;
-import  java.util.prefs.*;
+import java.util.prefs.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Engine {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( Engine.class );
+
 	Preferences prefs;
 	String[] modulesRoot;
 	String[] templatesRoot;
-	Class<MathsModule> maths_class;
-	HashMap<String, Class> modules;
+	
+	/** Map system installed MathsModule class name to MathsModule class. */
+	Map<String, Class<MathsModule> > mathModuleMap = new HashMap<String, Class<MathsModule> >();
+
 	HashMap<String, Class> readers;
 	HashMap<String, DataSource> datasources;
 
 	public Engine() {
 		prefs = Preferences.userRoot().node("au/edu/uq/smartass");
-		maths_class = MathsModule.class;
-		modules = new HashMap<String, Class>();
 		readers = new HashMap<String, Class>();
 		datasources = new HashMap<String, DataSource>();
 		readPreferences();
@@ -84,36 +64,47 @@ public class Engine {
 	}
 	
 	/**
-	 *  Collects MathsModules that is installed in the system 
+	 * Populates map with installed MathsModules.
+	 *
+	 * Recursively search directory structure looking for class files. If class files represent 
+	 * <code>MathsModule</code> assignable objects they are added to the collection.
+	 *
+	 * <p> It is assumed that:
+	 * <p> 		1) module root is a directory in CLASSPATH
+	 * <p> 		2) the path from the module root specifies package name
+	 * <p> 		3) file names ending with '.class' are Java class files.
+	 *
+	 * @param 	dir 	module root directory to search.
+	 * @param 	pkg 	package name.
 	 */
-	void collectModules(File f, String packg) {
-		File list[] = f.listFiles();
-		if(list==null)
-			return;
-		for (int i=list.length; --i>=0;) {
-			String fname = list[i].getName();
-			if(list[i].isDirectory()) 
-				collectModules(list[i], packg+fname+'.');
-			else if(fname.indexOf(".class")!=-1 && fname.indexOf(".class")==fname.length()-6)
-				try {
-					//Assume that 
-					// a) modulesRoot is a directory included in CLASSPATH; 
-					// b) path from modulesRoot forms package name
-					// c) any file containing ".class" in its name is a Java class
-					//Loading class...
+	void collectModules(File dir, String pkg) {
+		if (! dir.isDirectory()) return;
 
-					Class found_class=Class.forName(packg+fname.substring(0,fname.indexOf(".class")));
-
-					//Test if class is a MathsModule descendant
-					if(maths_class.isAssignableFrom(found_class)) {
-						modules.put(found_class.getSimpleName().toLowerCase(), found_class);
-						System.out.println(found_class.getSimpleName().toLowerCase());
-					}
-				} catch(ClassNotFoundException e)  {
-					System.out.println("ClassNotFoundException with "+packg+fname.substring(0,fname.indexOf(".class")));
-				} catch (Error el) {
-					System.out.println("Error"+el+"with"+packg+fname.substring(0,fname.indexOf(".class")));
+		File[] files = dir.listFiles(new FileFilter() {
+				public boolean accept(File pathname) { 
+					return pathname.isDirectory() || pathname.getName().endsWith(".class"); 
 				}
+			});
+		for (File file : files) {
+			String pkgname = pkg + file.getName().replaceFirst("\\.class$", "");
+
+			if (file.isDirectory()) {
+				collectModules(file, pkgname + '.');
+			}else {
+				LOG.info("Engine::collectModules()[ package=>{} ]", pkgname);
+				try {
+					Class<?> unknown_class = Class.forName(pkgname);
+					if (MathsModule.class.isAssignableFrom(unknown_class)) {
+						LOG.info("Engine::collectModules()[ MathsModule=>{} ]", unknown_class.getName());
+						@SuppressWarnings("unchecked")
+						Class<MathsModule> mathModCls = (Class<MathsModule>)unknown_class;
+						mathModuleMap.put(
+								mathModCls.getSimpleName().toLowerCase(), 
+								mathModCls
+							);
+					}
+				} catch (ClassNotFoundException ex) { /*move along!*/ }
+			}
 		}
 	}
 
@@ -126,7 +117,7 @@ public class Engine {
 
 	public MathsModule getMathsModule(String module_name) 
 	{
-		Class<MathsModule> modc = modules.get(module_name);
+		Class<MathsModule> modc = mathModuleMap.get(module_name);
 		if(modc!=null) 
 			try {
 				Constructor<MathsModule> constr = modc.getConstructor(Engine.class);
@@ -141,7 +132,7 @@ public class Engine {
 
 	public MathsModule getMathsModule(String module_name, String[] param) 
 	{
-		Class<MathsModule> modc = modules.get(module_name);
+		Class<MathsModule> modc = mathModuleMap.get(module_name);
 		if(modc!=null) 
 			try {
 				if(param.length>0)

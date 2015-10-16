@@ -36,6 +36,7 @@ import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A stream based parser for parsing delimited text data from a file or a
@@ -66,6 +67,7 @@ public class CsvReader {
 
 	private String rawRecord = "";
 
+	/** */
 	private HeadersHolder headersHolder = new HeadersHolder();
 
 	// these are all more or less global loop variables
@@ -472,9 +474,7 @@ public class CsvReader {
 	 * @return The count of headers read in by a previous call to
 	 *         {@link com.csvreader.CsvReader#readHeaders readHeaders()}.
 	 */
-	public int getHeaderCount() {
-		return headersHolder.Length;
-	}
+	public int getHeaderCount() { return headersHolder.Length; }
 
 	/**
 	 * Returns the header values as a string array.
@@ -500,19 +500,17 @@ public class CsvReader {
 	}
 
 	public void setHeaders(String[] headers) {
-		headersHolder.Headers = headers;
-
 		headersHolder.IndexByName.clear();
 
-		if (headers != null) {
-			headersHolder.Length = headers.length;
-		} else {
+		if (null == headers) {
+			headersHolder.Headers = null;
 			headersHolder.Length = 0;
-		}
 
-		// use headersHolder.Length here in case headers is null
-		for (int i = 0; i < headersHolder.Length; i++) {
-			headersHolder.IndexByName.put(headers[i], new Integer(i));
+		} else {
+			headersHolder.Headers = headers;
+			headersHolder.Length = headers.length;
+			int i = 0;
+			for (String hdr : headers) headersHolder.IndexByName.put(hdr, i++);
 		}
 	}
 
@@ -1243,6 +1241,7 @@ public class CsvReader {
 			headersHolder.Headers[i] = columnValue;
 
 			// if there are duplicate header names, we will save the last one
+			// @TODO:PSW which will stuff up your length
 			headersHolder.IndexByName.put(columnValue, new Integer(i));
 		}
 
@@ -1750,18 +1749,16 @@ public class CsvReader {
 		}
 	}
 
+	/**
+	 * Utiltiy class to 'hold' header strings.
+	 *
+	 * <p>Utility class treated similarly to a 'C struct'.
+	 * <p>Questionable if this class is necessary?
+	 */
 	private class HeadersHolder {
 		public String[] Headers;
-
 		public int Length;
-
-		public HashMap IndexByName;
-
-		public HeadersHolder() {
-			Headers = null;
-			Length = 0;
-			IndexByName = new HashMap();
-		}
+		public Map<String, Integer> IndexByName = new HashMap<String, Integer>();
 	}
 
 	private class StaticSettings {

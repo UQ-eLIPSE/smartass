@@ -19,7 +19,6 @@ import au.edu.uq.smartass.script.ssparser.SimpleScriptParser;
 
 import java.io.File;
 import java.io.Reader;
-import java.io.StringBufferInputStream;
 import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.util.HashMap;
