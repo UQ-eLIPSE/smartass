@@ -54,7 +54,10 @@ public class HomePageController extends AbstractController {
 	 */
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		LOG.info("HomePageController::handleRequestInternal([ request=>{}, response=>{} ])", "-", "-");
+		LOG.info(
+			"HomePageController::handleRequestInternal\n([-----\n* * *request=>* * *\n{}\n\n* * *response=>* * *\n{}\n-----])", 
+			request.toString(), 
+			response.toString());
 	
 		Map<String, Object> model = new HashMap<String, Object>();
 		String mode = request.getParameter("mode");
