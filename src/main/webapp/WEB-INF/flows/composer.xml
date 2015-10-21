@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<flow xmlns="http://www.springframework.org/schema/webflow"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation=
-        "http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+<flow 
+        xmlns="http://www.springframework.org/schema/webflow"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation=
+                "http://www.springframework.org/schema/webflow
+                http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
         
 	<var name="template" class="au.edu.uq.smartass.web.composer.AssignmentConstruct"/>
 
@@ -11,18 +12,20 @@
 
 	<input name="mode" type="java.lang.Integer"/>
     	
-  <on-start>
-    <evaluate expression="assignmentEditor.initAssignment(flowScope.template, flowScope.id, flowScope.mode, externalContext.sessionMap.user)"/>
-  </on-start>
+        <on-start>
+                <evaluate expression="assignmentEditor.initAssignment(flowScope.template, flowScope.id, flowScope.mode, externalContext.sessionMap.user)"/>
+        </on-start>
 
-	<decision-state id="testUserLoggedIn">
-    <if test="(mode==1) &amp;&amp; (externalContext.sessionMap.user==null || !externalContext.sessionMap.user.editAssignmentsRight || flowScope.template.user.id!=externalContext.sessionMap.user.id)" 
-      then="errorNoUser" else="testNeedWizard"/>
-  </decision-state>
+        <decision-state id="testUserLoggedIn">
+                <if 
+                        test="(mode==1) &amp;&amp; (externalContext.sessionMap.user==null || !externalContext.sessionMap.user.editAssignmentsRight || flowScope.template.user.id!=externalContext.sessionMap.user.id)" 
+                        then="errorNoUser" 
+                        else="testNeedWizard"/>
+        </decision-state>
 
 	<decision-state id="testNeedWizard">
-    <if test="id==null || id==0" then="wizard" else="assignmentEditor"/>
-  </decision-state>
+                <if test="id==null || id==0" then="wizard" else="assignmentEditor"/>
+        </decision-state>
 
   <view-state id="wizard" view="newAssignmentWizardForm.jsp" model="items">
     <on-entry>
