@@ -23,6 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import au.edu.uq.smartass.web.UserItemModel;
 import au.edu.uq.smartass.web.jdbc.AssignmentsDao;
 import au.edu.uq.smartass.web.jdbc.TemplatesDao;
@@ -32,6 +35,10 @@ import au.edu.uq.smartass.web.jdbc.UsersDao;
  * The HomePageController class prepares data for main SmartAss website page.
  */
 public class HomePageController extends AbstractController {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( HomePageController.class );
+
 	protected TemplatesDao templatesDao; 
 	protected AssignmentsDao assignmentsDao;
 	protected UsersDao usersDao;
@@ -46,8 +53,14 @@ public class HomePageController extends AbstractController {
 	 * condition and user activity. 
 	 */
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		LOG.info("HomePageController::handleRequestInternal([ request=>{}, response=>{} ])", "-", "-");
+	
 		Map<String, Object> model = new HashMap<String, Object>();
 		String mode = request.getParameter("mode");
+
+		LOG.info("HomePageController::handleRequestInternal([ mode=>{} ])", mode);
+
 		if(mode==null || mode.length()==0) {
 			model.put("templates", templatesDao.selectLatest(10));
 			model.put("assignments", assignmentsDao.selectLatest(10, 0));
