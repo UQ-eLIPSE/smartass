@@ -292,6 +292,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 				selectedRowIndex++;
 				analyseNode(child, repeat);
 				selectedRowIndex++;
+/* . SMAR-20
 			} else if(child instanceof ASTMulti) {
 				ASTMulti mn = new ASTMulti(0);	//We can't just insert a node that is container in new template code tree
 												//So the new fresh node object has to be created.  
@@ -306,6 +307,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 				MultiChoiceConstruction choice = new MultiChoiceConstruction((MultiConstruction) parent);
 				addRow(choice, parent, selectedRowIndex++);
 				analyseNode(child, parent);
+*/
 			} else if(child instanceof ASTSection) {
 				ASTSection asc = new ASTSection(0);
 				asc.setName(((ASTSection)child).getName());

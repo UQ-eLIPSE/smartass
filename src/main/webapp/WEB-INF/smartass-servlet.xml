@@ -406,9 +406,13 @@
 
 	
 
-<!-- Composer flow-related beans -->
+        <!-- 
+                        Composer flow-related beans 
+          -->
 	
+<!-- . SMAR-20
 	<bean id="addChoiceAction" class="au.edu.uq.smartass.web.composer.AddChoiceAction"/>
+-->
 	
 	<bean id="editSelectedAction" class="au.edu.uq.smartass.web.composer.EditSelectedAction"/>
 	
