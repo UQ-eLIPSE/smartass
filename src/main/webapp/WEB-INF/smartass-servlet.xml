@@ -406,9 +406,9 @@
 
 	
 
-<!-- Composer flow-related beans -->
-	
-	<bean id="addChoiceAction" class="au.edu.uq.smartass.web.composer.AddChoiceAction"/>
+        <!-- 
+                        Composer flow-related beans 
+          -->
 	
 	<bean id="editSelectedAction" class="au.edu.uq.smartass.web.composer.EditSelectedAction"/>
 	

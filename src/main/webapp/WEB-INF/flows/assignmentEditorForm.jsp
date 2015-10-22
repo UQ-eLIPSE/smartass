@@ -49,11 +49,9 @@
           <td class="header" width="10px">
             <br>
             <input id="addText" style="width:125" type="submit" name="_eventId_addText" value="Add text"/><br>
-            <input id="addCall" style="width:125" type="submit" class="button" name="_eventId_addCall" value="Add QUESTION"/><br><hr>
+            <input id="addCall" style="width:125" type="submit" class="button" name="_eventId_addCall" value="Add QUESTION"/><br>
+            <hr>
             <input id="addRepeat" style="width:125" type="submit" class="button" name="_eventId_addRepeat" value="Add REPEAT"/><br>
-            <input id="addMulti" style="width:125" type="submit" class="button" name="_eventId_addMulti" value="Add MULTI"/><br>
-            <input id="addChoice" style="width:125" type="submit" class="button" name="_eventId_addChoice" value="Add CHOICE"/><br>
-            <input id="addSection" style="width:125" type="submit" name="_eventId_addSection" value="Add SECTION"/><br>
             <hr>
             <input id="edit" style="width:125" type="submit" class="button" name="_eventId_edit" value="Edit"/><br><hr>
             <input id="delete" style="width:125" type="submit" class="button" name="_eventId_delete" value="Delete"/><br>
