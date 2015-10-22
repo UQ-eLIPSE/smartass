@@ -36,37 +36,47 @@
 		</transition>
 	</view-state>
 
-	<view-state id="assignmentEditor" view="assignmentEditorForm.jsp" model="template">
-    <on-render>
-      <evaluate expression="!flowScope.template.isContentEmpty()" result="viewScope.canExecute" />
-    </on-render>
-    <transition on="addText" to="addText"/>
-    <transition on="addRepeat" to="addRepeat"/>
-    <transition on="addMulti" to="addMulti"/>
-    <transition on="addChoice" to="assignmentEditor">
-      <evaluate expression="addChoiceAction.execute(flowRequestContext)"/>
-    </transition>
-    <transition on="edit" to="editSelected"/>
-    <transition on="delete" to="assignmentEditor">
-      <evaluate expression="template.removeSelectedRow()"/>
-    </transition>
-    <transition on="addCall" to="addCall">
-      <evaluate expression="new au.edu.uq.smartass.web.composer.SelectTemplatesControl()" result="flowScope.search" />
-    </transition>
-    <transition on="addSection" to="addSection"/>
-    <transition on="view" to="view">
-      <evaluate expression="flowRequestContext.getFlowScope().put('code', assignmentEditor.preprocessCode(template)),true"/>
-    </transition>
-    <transition on="clear">
-      <evaluate expression="flowScope.template.setCode('')"/>
-    </transition>
-    <transition on="upload" to="upload"/>
-    <transition on="execute" to="execute">
-      <evaluate expression="flowRequestContext.getFlowScope().put('code', assignmentEditor.preprocessCode(template)),true"/>
-    </transition>
-    <transition on="save" to="confirmSave"/>
-    <transition on="finish" to="finish" bind="false"/>
-	</view-state>
+        <!--
+                        . Assignment Editor .
+          -->
+        <view-state id="assignmentEditor" view="assignmentEditorForm.jsp" model="template">
+                <on-render>
+                        <evaluate expression="!flowScope.template.isContentEmpty()" result="viewScope.canExecute" />
+                </on-render>
+                <transition on="addText" to="addText" />
+                <!-- . Add Question . -->
+                <transition on="addCall" to="addCall">
+                        <evaluate expression="new au.edu.uq.smartass.web.composer.SelectTemplatesControl()" result="flowScope.search" />
+                </transition>
+
+                <transition on="addRepeat" to="addRepeat" />
+<!-- . SMAR-20 .
+                <transition on="addMulti" to="addMulti" />
+                <transition on="addChoice" to="assignmentEditor">
+                        <evaluate expression="addChoiceAction.execute(flowRequestContext)"/>
+                </transition>
+                <transition on="addSection" to="addSection"/>
+-->
+                <transition on="edit" to="editSelected"/>
+
+                <transition on="delete" to="assignmentEditor">
+                        <evaluate expression="template.removeSelectedRow()"/>
+                </transition>
+
+                <transition on="view" to="view">
+                        <evaluate expression="flowRequestContext.getFlowScope().put('code', assignmentEditor.preprocessCode(template)),true"/>
+                </transition>
+                <transition on="execute" to="execute">
+                        <evaluate expression="flowRequestContext.getFlowScope().put('code', assignmentEditor.preprocessCode(template)),true"/>
+                </transition>
+                <transition on="clear">
+                        <evaluate expression="flowScope.template.setCode('')"/>
+                </transition>
+                <transition on="upload" to="upload"/>
+
+                <transition on="save" to="confirmSave"/>
+                <transition on="finish" to="finish" bind="false"/>
+        </view-state>
 
   <view-state id="addText" view="editTextForm.jsp" model="item">
     <on-render>
@@ -89,23 +99,27 @@
 		</transition>
 	</view-state>
 
-    <view-state id="addMulti" view="editMultiForm.jsp" model="item">
-    	<on-render>
-			<evaluate expression="new au.edu.uq.smartass.web.composer.MultiConstruction()" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor">
-			<evaluate expression="flowScope.template.addRow(viewScope.item)" />
-		</transition>
-	</view-state>
+<!-- . SMAR-20 .
+        <view-state id="addMulti" view="editMultiForm.jsp" model="item">
+                <on-render>
+                        <evaluate expression="new au.edu.uq.smartass.web.composer.MultiConstruction()" result="viewScope.item" />
+                </on-render>
+                <transition on="ok" to="assignmentEditor">
+                        <evaluate expression="flowScope.template.addRow(viewScope.item)" />
+                </transition>
+        </view-state>
+-->
 
-    <view-state id="addSection" view="editSectionForm.jsp" model="item">
-    	<on-render>
-			<evaluate expression="new au.edu.uq.smartass.web.composer.SectionConstruction()" result="viewScope.item" />
-		</on-render>
-    	<transition on="ok" to="assignmentEditor">
-			<evaluate expression="flowScope.template.addRow(viewScope.item)" />
-		</transition>
-	</view-state>
+<!-- . SMAR-20 .
+        <view-state id="addSection" view="editSectionForm.jsp" model="item">
+                <on-render>
+                        <evaluate expression="new au.edu.uq.smartass.web.composer.SectionConstruction()" result="viewScope.item" />
+                </on-render>
+                <transition on="ok" to="assignmentEditor">
+                        <evaluate expression="flowScope.template.addRow(viewScope.item)" />
+                </transition>
+        </view-state>
+-->
 
 	<decision-state id="editSelected">
 	    <if test="template.selectedRow.kind.equals('text')" then="editText"/>
