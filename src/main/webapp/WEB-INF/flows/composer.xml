@@ -50,13 +50,7 @@
                 </transition>
 
                 <transition on="addRepeat" to="addRepeat" />
-<!-- . SMAR-20 .
-                <transition on="addMulti" to="addMulti" />
-                <transition on="addChoice" to="assignmentEditor">
-                        <evaluate expression="addChoiceAction.execute(flowRequestContext)"/>
-                </transition>
-                <transition on="addSection" to="addSection"/>
--->
+
                 <transition on="edit" to="editSelected"/>
 
                 <transition on="delete" to="assignmentEditor">
@@ -98,28 +92,6 @@
 			<evaluate expression="assignmentWizardController.afterAddNewRepeat(flowScope.template, viewScope.item.addons)" />
 		</transition>
 	</view-state>
-
-<!-- . SMAR-20 .
-        <view-state id="addMulti" view="editMultiForm.jsp" model="item">
-                <on-render>
-                        <evaluate expression="new au.edu.uq.smartass.web.composer.MultiConstruction()" result="viewScope.item" />
-                </on-render>
-                <transition on="ok" to="assignmentEditor">
-                        <evaluate expression="flowScope.template.addRow(viewScope.item)" />
-                </transition>
-        </view-state>
--->
-
-<!-- . SMAR-20 .
-        <view-state id="addSection" view="editSectionForm.jsp" model="item">
-                <on-render>
-                        <evaluate expression="new au.edu.uq.smartass.web.composer.SectionConstruction()" result="viewScope.item" />
-                </on-render>
-                <transition on="ok" to="assignmentEditor">
-                        <evaluate expression="flowScope.template.addRow(viewScope.item)" />
-                </transition>
-        </view-state>
--->
 
 	<decision-state id="editSelected">
 	    <if test="template.selectedRow.kind.equals('text')" then="editText"/>
