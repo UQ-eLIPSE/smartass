@@ -22,6 +22,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
 
@@ -32,10 +35,15 @@ import au.edu.uq.smartass.templates.texparser.ParseException;
  * to decorate the assignment with some titles, descriptions etc.   
  */
 public class AssignmentWizardController {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( AssignmentWizardController.class );
+
 	AssignmentTemplatesStorage templates;
-	
-	public void setTemplates(AssignmentTemplatesStorage templates) {
-		this.templates = templates;
+
+	public void setTemplates(AssignmentTemplatesStorage templates) { 
+		LOG.info("setTemplates( AssignmentTemplatesStorage=>{} )", templates.getPath());
+		this.templates = templates; 
 	}
 	
 	/**
@@ -55,6 +63,9 @@ public class AssignmentWizardController {
 	 * @throws IOException
 	 */
 	public Object prepareWizard(String templateName) throws IOException {
+
+		LOG.info("prepareWizard( templateName:String=>{}", templateName);
+
 		List<AssignmentWizardItem> items = new ArrayList<AssignmentWizardItem>();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(templates.getFile(templateName)));
