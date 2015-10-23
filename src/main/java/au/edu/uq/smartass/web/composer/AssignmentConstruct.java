@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.prefs.Preferences;
 
 import au.edu.uq.smartass.engine.Engine;
@@ -42,7 +42,6 @@ import au.edu.uq.smartass.web.AssignmentsItemModel;
  * The AssignmentConstruct class is the Spring bean that represents 
  * the main object of assignment composer. This object stores assignment constructions and provides
  * an assignment editing related functionality.
- *
  */
 public class AssignmentConstruct extends AssignmentsItemModel implements Serializable {
 	
@@ -53,7 +52,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	/** Document header node of the assignment template (see au.edu.uq.smartass.templates.texparser for details) */
 	ASTAnyText header_node;
 	/** Assignment constructions collection */
-	Vector<AbstractTemplateConstruction> rows = new Vector<AbstractTemplateConstruction>();
+	List<AbstractTemplateConstruction> components = new ArrayList<AbstractTemplateConstruction>();
 
 	int selectedRowIndex;
 
@@ -92,8 +91,8 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * @param construct_row	assignment construction to remove
 	 */
 	public void removeRow(AbstractTemplateConstruction construct_row) {
-		if(rows.indexOf(construct_row)>=0) {
-			rows.remove(construct_row);
+		if(components.indexOf(construct_row)>=0) {
+			components.remove(construct_row);
 			construct_row.onRemove();
 		}
 	}
@@ -104,13 +103,10 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * 
 	 * @param construct_row		assignment construction to add
 	 * @param parent_row		parent assignment construction (null if we add top-level construction)
-	 * @param row_index			index of assignment row after wich new construction will be inserted 
+	 * @param row_index		index of assignment row after wich new construction will be inserted 
 	 */
 	public void addRow(AbstractTemplateConstruction construct_row, AbstractTemplateConstruction parent_row, int row_index) {
-		if(row_index<rows.size()-1) 
-			rows.insertElementAt(construct_row, row_index+1);
-		else
-			rows.add(construct_row);
+		components.add(row_index + 1, construct_row);
 
 		//compose hierarchy of control structures
 		if(parent_row!=null)
@@ -135,10 +131,10 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * @param construct_row		assignment construction to add
 	 */
 	public void addRow(AbstractTemplateConstruction construct_row) {
-		boolean is_empty = rows.size()==0; 
+		boolean is_empty = components.size()==0; 
 		AbstractTemplateConstruction sr = null;
-		if(selectedRowIndex<rows.size()) 
-			 sr = rows.get(selectedRowIndex);
+		if (selectedRowIndex<components.size()) 
+			 sr = components.get(selectedRowIndex);
 		
 		addRow(construct_row, sr, selectedRowIndex);
 		if(!is_empty)
@@ -150,15 +146,15 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * 
 	 */
 	public AbstractTemplateConstruction getRow(int index) {
-		if(index>=0 && index<rows.size())
-			return rows.get(index);
+		if(index>=0 && index<components.size())
+			return components.get(index);
 		return null;
 	}
 
-	/** Returns number of rows in the assignment */
-	public int getRowCount() { return rows.size(); }
+	/** Returns number of components in the assignment */
+	public int getRowCount() { return components.size(); }
 	/** Returns the assignment constructions list */
-	public List<AbstractTemplateConstruction> getRows() { return rows; }
+	public List<AbstractTemplateConstruction> getRows() { return components; }
 	
 	/** The setter for the selected index */
 	public void setSelectedIndex(int selectedRow) { this.selectedRowIndex = selectedRow; }
@@ -174,20 +170,20 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * Returns the selected assignment construction
 	 */
 	public AbstractTemplateConstruction getSelectedRow() {
-		if(rows.size()==0)
+		if(components.size()==0)
 			return null;
-		if(selectedRowIndex<rows.size())
-			return rows.get(selectedRowIndex);
+		if(selectedRowIndex<components.size())
+			return components.get(selectedRowIndex);
 		else
-			return rows.get(rows.size()-1);
+			return components.get(components.size()-1);
 	}
 	
 	/**
 	 * Removes the selected assignment construction
 	 */
 	public void removeSelectedRow() {
-		if(selectedRowIndex>=0 && selectedRowIndex<rows.size()) 
-			rows.remove(selectedRowIndex).onRemove();
+		if(selectedRowIndex>=0 && selectedRowIndex<components.size()) 
+			components.remove(selectedRowIndex).onRemove();
 	}
 	
 	/**
@@ -199,18 +195,14 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	
 	public boolean isContentEmpty() {
 		boolean can = false;
-		//Logger l = Logger.getLogger(getClass());
-		//l.debug("rows:" + rows.size());
-		if(rows.size()==0)
+		if(components.size()==0)
 			return true;
-		for(AbstractTemplateConstruction it: rows) {
-			//l.debug(it.toString() + "\ncode: " + it.getNode().getCode());
+		for(AbstractTemplateConstruction it: components) {
 			can = can || ((it instanceof TextConstruction) && it.getNode().getCode().trim().length()!=0)
 					|| (it instanceof CallConstruction);
 			if(can)
 				return false;
 		}
-		//l.debug("empty! ");
 		return true;
 	}
 	
@@ -224,7 +216,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * @throws IOException
 	 */
 	public void setCode(String code) throws ParseException, UnsupportedEncodingException, IOException {
-		rows.clear();
+		components.clear();
 		initTemplate();
 		selectedRowIndex = -1; //Position to insert new node/construction
 
@@ -237,10 +229,10 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 			in.close();
 			analyseNode(tmp_node.getDocument(), null);
 		}
-		if(rows.size()==0)
+		if(components.size()==0)
 			selectedRowIndex = 0;
 		else
-			selectedRowIndex = rows.size() - 1; 
+			selectedRowIndex = components.size() - 1; 
 	}
 
 	/**
@@ -294,10 +286,10 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	protected void insertNode(int row, SimpleNode node, SimpleNode parent_node) {
 		if(node==null)
 			return;
-		if(row==-1 || row>rows.size()) {
+		if(row==-1 || row>components.size()) {
 			parent_node.jjtAddChild(node, parent_node.jjtGetNumChildren());
 		} else {
-			SimpleNode sel_node = ((AbstractTemplateConstruction)rows.get(row)).getNode();
+			SimpleNode sel_node = ((AbstractTemplateConstruction)components.get(row)).getNode();
 			if(parent_node==sel_node)
 				parent_node.insertNode(node, 0);
 			else

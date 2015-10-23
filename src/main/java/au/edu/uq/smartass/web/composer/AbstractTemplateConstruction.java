@@ -12,13 +12,16 @@
  * see the file COPYING. If not, write to the
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
+
 package au.edu.uq.smartass.web.composer;
+
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
 import au.edu.uq.smartass.templates.texparser.SimpleNode;
+
 /**
  * The AbstractTemplateConstruction class is base class for all assignment constructions.
  * Assignment construction is a one of template language control statements, for example
