@@ -155,41 +155,20 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 		return null;
 	}
 
-	/**
-	 * Returns number of rows in the assignment 
-	 */
-	public int getRowCount() {
-		return rows.size();
-	}
+	/** Returns number of rows in the assignment */
+	public int getRowCount() { return rows.size(); }
+	/** Returns the assignment constructions list */
+	public List<AbstractTemplateConstruction> getRows() { return rows; }
 	
-	/**
-	 * Returns the assignment constructions list
-	 */
-	public List<AbstractTemplateConstruction> getRows() {
-		return rows;
-	}
+	/** The setter for the selected index */
+	public void setSelectedIndex(int selectedRow) { this.selectedRowIndex = selectedRow; }
+	/** The getter for the selected index */
+	public int getSelectedIndex() { return selectedRowIndex; }
 	
-	/**
-	 * The setter for the selected index
-	 */
-	public void setSelectedIndex(int selectedRow) {
-		this.selectedRowIndex = selectedRow;
-	}
-	
-	/**
-	 * The getter for the selected index
-	 */
-	public int getSelectedIndex() {
-		return selectedRowIndex;
-	}
-	
-	public boolean getDecorateWithLatex() {
-		return decorateWithLatex;
-	}
-	
-	public void setDecorateWithLatex(boolean decorateWithLatex) {
-		this.decorateWithLatex = decorateWithLatex;
-	}
+	/** */
+	public boolean getDecorateWithLatex() { return decorateWithLatex; }
+	/** */
+	public void setDecorateWithLatex(boolean decorateWithLatex) { this.decorateWithLatex = decorateWithLatex; }
 	
 	/**
 	 * Returns the selected assignment construction

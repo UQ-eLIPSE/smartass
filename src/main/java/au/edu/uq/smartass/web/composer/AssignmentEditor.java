@@ -199,14 +199,10 @@ public class AssignmentEditor {
     }
     
 
-        /**
-         * The setter for the assignment DAO (data access object)
-         */
+        /** The setter for the assignment DAO (data access object). */
         public void setDao(AssignmentsDao dao) { this.dao = dao; }
 
-        /**
-         * The setter for the assignment storage
-         */
+        /** The setter for the assignment storage. */
         public void setStorage(RepositoryStorage storage) { this.storage = storage; }
 
 }
