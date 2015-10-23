@@ -26,9 +26,9 @@ import au.edu.uq.smartass.templates.texparser.SimpleNode;
  * full list of template language constructions.
  * Descendants of this class are used for interactive composition of assignment through 
  * SmartAss web site.
- *
  */
 public abstract class AbstractTemplateConstruction implements AssignmentConstructRow, Serializable {
+
 	/** The template node this construction represents */
 	SimpleNode node;
 	/** Parent construction */
@@ -120,12 +120,8 @@ public abstract class AbstractTemplateConstruction implements AssignmentConstruc
 		setAssignment(null);
 	}
 	
-	/**
-	 * The getter for construction level
-	 */
-	public int getLevel() {
-		return level;
-	}
+	/** The getter for construction level */
+	public int getLevel() { return level; }
 	
 	/**
 	 * The getter for the list of add-ons. 
