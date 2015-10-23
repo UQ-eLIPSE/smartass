@@ -25,29 +25,22 @@ import java.io.InputStream;
  * (e.g. the file that used as the template for newly created assignment) 
  */
 public class AssignmentTemplatesStorage {
+
 	private String path;
 	
 	/**
-	 * Returns the {@link InputStream} for the file with the given name
+	 * Create {@link InputStream} from filename.
+	 *
+	 * @return 	An input stream to file in assignment template storage.
+	 * @throws 	FileNotFoundException
 	 */
-	public InputStream getFile(String name) {
-		try {
-			return new FileInputStream(new File(new File(path),  name));
-		} catch (FileNotFoundException e) {}
-		return null;
+	public InputStream getFile(String name) throws FileNotFoundException {
+		return new FileInputStream(new File(new File(path),  name));
 	}
 	
-	/**
-	 * The getter for the path to the directory with the assignment templates
-	 */
-	public String getPath() {
-		return path;
-	}
+	/** Get the path to assignment template directory. */
+	public String getPath() { return path; }
 	
-	/**
-	 * The setter for the path to the directory with the assignment templates
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
+	/** Set the path to assignment template directory. */
+	public void setPath(String path) { this.path = path; }
 }

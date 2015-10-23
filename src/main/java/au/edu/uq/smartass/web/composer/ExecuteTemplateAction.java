@@ -147,13 +147,11 @@ public class ExecuteTemplateAction  {
 		writeFile(solutions, result.getSection("SOLUTION"));
 		
 		ZipOutputStream zip = Zip.createZip(zipfile);
-		try {
-			Zip.addToZip(zip, "questions.tex", result.getSection("QUESTION"));
-			Zip.addToZip(zip, "answers.tex", result.getSection("SHORTANSWER"));
-			Zip.addToZip(zip, "solutions.tex", result.getSection("SOLUTION"));
-		} finally {
-			zip.close();
-		}
+		Zip.addToZip(zip, "questions.tex", result.getSection("QUESTION"));
+		Zip.addToZip(zip, "answers.tex", result.getSection("SHORTANSWER"));
+		Zip.addToZip(zip, "solutions.tex", result.getSection("SOLUTION"));
+		zip.close();
+
 		return output_path.getName();
 	}
 
