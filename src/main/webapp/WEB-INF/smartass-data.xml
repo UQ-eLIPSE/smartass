@@ -58,6 +58,8 @@
         <property name="outputPath"><value>${smartass.html}/download</value></property>
         <property name="templateHeader"><value>\input{smartass.tex}</value></property>
         <property name="texSearchPath"><value>:${smartass.data}/files</value></property>
+        <property name="latexCommand"><value>${smartass.latex}</value></property>
+        <property name="pdfLatexCommand"><value>${smartass.pdflatex}</value></property>
     </bean> 
 
     <bean id="backupStorage" class="au.edu.uq.smartass.web.BackupStorage">
