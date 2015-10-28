@@ -23,7 +23,13 @@ import au.edu.uq.smartass.templates.texparser.SimpleNode;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector; 	// @TODO: use List or Set
+
 
 /**
  * The TexReader class is the default SmartAss template processor that understands a set of 
@@ -32,13 +38,14 @@ import java.util.*;
  */
 public class TexReader extends TemplateReader {
 	protected boolean slave;
-    protected Script script;
-    protected String top;
-    protected String bottom;
-    protected HashMap<String, String> sections = new HashMap<String, String>();
-    //protected HashMap<String, String> outs;// = new HashMap<String, String>();
-    Set<String> predefined_names = new HashSet<String>(),
-    	names;
+	protected Script script;
+	protected String top;
+	protected String bottom;
+	protected HashMap<String, String> sections = new HashMap<String, String>();
+	//protected HashMap<String, String> outs;// = new HashMap<String, String>();
+
+	Set<String> predefined_names = new HashSet<String>();
+	Set<String> names;
     
     protected TexParser parser;
     protected SimpleNode root;
@@ -77,12 +84,8 @@ public class TexReader extends TemplateReader {
     	script = new SimpleScript(engine);
     	result = root.execute(names, script);
     	
-    	HashMap<String, String> outs = new HashMap<String, String>();
-    	Iterator<String> it = names.iterator();
-    	while(it.hasNext()) {
-    		String s = it.next();
-    		outs.put(s, result.getSection(s));
-    	}
+    	Map<String, String> outs = new HashMap<String, String>();
+	for (String name : names) outs.put(name, result.getSection(name));
     	
     	executed = true;
     	return outs;
