@@ -53,21 +53,11 @@
 
     
     <bean id="engineSettings" class = "au.edu.uq.smartass.web.EngineSettings">
-        <property name="templatesRoot">
-			<value>${smartass.data}/tex</value>
-		</property>
-        <property name="modulesRoot">
-			<value>./WEB-INF/classes</value>
-		</property>
-        <property name="outputPath">
-			<value>${smartass.html}/download</value>
-		</property>
-        <property name="templateHeader">
-            <value>\input{smartass.tex}</value>
-        </property>
-        <property name="texSearchPath">
-			<value>:${smartass.data}/files</value>
-		</property>
+        <property name="templatesRoot"><value>${smartass.data}/tex</value></property>
+        <property name="modulesRoot"><value>./WEB-INF/classes;./build/classes/main</value></property>
+        <property name="outputPath"><value>${smartass.html}/download</value></property>
+        <property name="templateHeader"><value>\input{smartass.tex}</value></property>
+        <property name="texSearchPath"><value>:${smartass.data}/files</value></property>
     </bean> 
 
     <bean id="backupStorage" class="au.edu.uq.smartass.web.BackupStorage">

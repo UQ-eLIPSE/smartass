@@ -21,23 +21,32 @@ import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The SimpleScript class that is the SmartAss script processor that realizes a really simple scripting
  * language with a minimal statements set such as variable of given module type creation etc. 
  */
 public class SimpleScript extends Script {
-	HashMap vars; //May be the best place for this - engine? But put this here for a while...
 
-	public SimpleScript(Engine engine) 
-	{
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( SimpleScript.class );
+
+
+	//May be the best place for this - engine? But put this here for a while...
+	Map vars = new HashMap(); 
+
+	public SimpleScript(Engine engine) {
 		super(engine);
-		vars = new HashMap();
 	}
 	
 	/**
@@ -115,12 +124,13 @@ public class SimpleScript extends Script {
 	 */
         @SuppressWarnings("unchecked")
 	private void createVar(String type, String name, String[] params) {
+		LOG.info( "::createVar()[ type=>{}, name=>{}, params=>{} ]", type, name, Arrays.toString(params) );
 		if ( ! vars.containsKey(name) ) {
 			MathsModule var = engine.getMathsModule(type.toLowerCase(), params);
 			if (var != null) {
 				vars.put(name.toLowerCase(), var);
 			} else {
-				System.out.println("Error: module \"" + type + "\" not found!");
+				LOG.error( "Unable to resolve MathsModule {}!", type);
 			}
 		} else {
 			; //var redeclaration, but do nothing with this	
