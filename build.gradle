@@ -97,3 +97,7 @@ task printClasspath<< {
         configurations.runtime.each { println it }
 }
 
+task printClasspath<< {
+        configurations.runtime.each { println it }
+}
+
