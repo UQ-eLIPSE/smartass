@@ -30,57 +30,46 @@ import au.edu.uq.smartass.web.composer.DviPdfCreator;
  *
  */
 public class EngineSettings {
-	Preferences prefs;
-	
-	public EngineSettings() {
-		prefs = Preferences.userRoot().node("au/edu/uq/smartass");
-	}
+
+        /** */
+	private Preferences preferences = Preferences.userRoot().node("au/edu/uq/smartass");
 	
 	/**
 	 * The setter for the list of modules root directories. Use semicolon as the list item delimiter.   
 	 */
-	public void setModulesRoot(String value) {
-		prefs.put("modules_root", value);
-	}
+	public void setModulesRoot(String value) { preferences.put("modules_root", value); }
 	
 	/**
 	 * The setter for the list of templates root directories. Use semicolon as the list item delimiter.   
 	 */
-	public void setTemplatesRoot(String value) {
-		prefs.put("templates_root", value);
-	}
+	public void setTemplatesRoot(String value) { preferences.put("templates_root", value); }
 	
 	/**
 	 * The setter for the path where generated TeX and PDF/DVI files will be placed. 
 	 * Actually this is not Engine setting, it is used by {@link DviPdfCreator} but placed in 
 	 * {@link EngineSettings} to group all template-processing related settings in single place.  
 	 */
-	public void setOutputPath(String value) {
-		prefs.put("output_path", value);
-	}
+	public void setOutputPath(String value) { preferences.put("output_path", value); }
+
+        public void setLatexCommand(String value) { preferences.put( "latex_command", value ); }
+        public void setPdfLatexCommand(String value) { preferences.put( "pdflatex_command", value ); }
 
 	/**
 	 * The setter for the template header text (e.g. part of template from top to "\\begin{document}". 
 	 * Actually this is not Engine setting, it is used by {@link AssignmentConstruct}s getCode() method but placed in 
 	 * {@link EngineSettings} to group all template-processing related settings in single place.  
 	 */
-	public void setTemplateHeader(String value) {
-		prefs.put("templateHeader", value);
-	}
+	public void setTemplateHeader(String value) { preferences.put("templateHeader", value); }
 	
 	/**
 	 * The setter for the list of directories where latex and pdflatex will search files it needs for DVI/PDF creation. 
 	 * The delimiter of this list items is system-dependent, use ":" on linux/unix.   
 	 */
-	public void setTexSearchPath(String value)	{
-		prefs.put("tex_path", value);
-	}
+	public void setTexSearchPath(String value) { preferences.put("tex_path", value); }
 	
 	/**
 	 * The setter for the path to directories where backups of repository and assignments are stored. 
 	 */
-	public void setBackupsPath(String value)	{
-		prefs.put("backups_path", value);
-	}
+	public void setBackupsPath(String value) { preferences.put("backups_path", value); }
 	
 }
