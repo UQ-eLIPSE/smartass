@@ -81,3 +81,7 @@ httpPort = 8888
 stopPort = 9080
 stopKey = 'stopKey'
 
+task printClasspath<< {
+        configurations.runtime.each { println it }
+}
+

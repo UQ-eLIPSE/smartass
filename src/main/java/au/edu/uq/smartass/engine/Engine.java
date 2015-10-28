@@ -18,51 +18,74 @@ import au.edu.uq.smartass.templates.*;
 import au.edu.uq.smartass.templates.texparser.TexParser;
 
 import java.io.*;
+
+import java.lang.reflect.Constructor;
+
+import java.net.URL;
+import java.net.URLClassLoader;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.reflect.Constructor;
-import java.util.prefs.*;
+import java.util.Properties;
+
+import java.util.prefs.Preferences;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class Engine {
 
 	/** Class logger. */
 	private static final Logger LOG = LoggerFactory.getLogger( Engine.class );
 
-	Preferences prefs;
-	String[] modulesRoot;
-	String[] templatesRoot;
+        /** */
+	private static Preferences preferences = Preferences.userRoot().node("au/edu/uq/smartass");
+
 	
 	/** Map system installed MathsModule class name to MathsModule class. */
 	Map<String, Class<MathsModule> > mathModuleMap = new HashMap<String, Class<MathsModule> >();
 
-	HashMap<String, Class> readers;
-	HashMap<String, DataSource> datasources;
+	/** */
+	HashMap<String, Class> readers = new HashMap<String, Class>();
 
-	public Engine() {
-		prefs = Preferences.userRoot().node("au/edu/uq/smartass");
-		readers = new HashMap<String, Class>();
-		datasources = new HashMap<String, DataSource>();
-		readPreferences();
-		for(int i=0;i<modulesRoot.length;i++)
-			collectModules(new File(modulesRoot[i]), "");
-	}
+	/** */
+	HashMap<String, DataSource> datasources = new HashMap<String, DataSource>();
 
 	/**
-	 * Read engine preferences  
-	 *
+	 * Default Constructor
 	 */
-	void readPreferences() {
-		modulesRoot = prefs.get("modules_root", ".").split(";"); 
-		templatesRoot = prefs.get("templates_root", ".").split(";");
+	public Engine() {
+		LOG.info( "::Engine() initialisation:");
+		LOG.info( "::Engine()[ preferences=>{}] ", preferences.toString() );
+                initialiseModules();
 	}
 
-	public String getPreference(String pref_name) {
-		return prefs.get(pref_name, "");
-	}
+        /**
+         *
+         */
+	public String getPreference(String key) { return getPreference(key, ""); }
+	public String getPreference(String key, String def) { return preferences.get(key, def); }
 	
+        /**
+         *
+         */
+        private void initialiseModules() {
+                String[] moduleRoots = preferences.get("modules_root", ".").split(";"); 
+		LOG.info( "::initialiseModules()[ moduleRoots=>{}] ", Arrays.toString(moduleRoots) );
+		for (String modRoot : moduleRoots) {
+                        File modRootDir = new File(modRoot);
+                        if (modRootDir.exists() && modRootDir.isDirectory()) 
+                                        collectModules(modRootDir);
+                        else
+                                        LOG.warn( 
+                                                        "::initialiseModules() >> NOT a module root => {}", 
+                                                        modRootDir.getAbsolutePath() 
+                                                );
+                }
+        }
+
 	/**
 	 * Populates map with installed MathsModules.
 	 *
@@ -77,8 +100,10 @@ public class Engine {
 	 * @param 	dir 	module root directory to search.
 	 * @param 	pkg 	package name.
 	 */
-	void collectModules(File dir, String pkg) {
-		if (! dir.isDirectory()) return;
+	private void collectModules(File rootDir) { collectModules(rootDir, ""); }
+
+	private void collectModules(File dir, String pkg) {
+		LOG.info("::collectModules()[ dir=>{}, pkg=>{} ]", dir.getAbsolutePath(), pkg);
 
 		File[] files = dir.listFiles(new FileFilter() {
 				public boolean accept(File pathname) { 
@@ -91,11 +116,11 @@ public class Engine {
 			if (file.isDirectory()) {
 				collectModules(file, pkgname + '.');
 			}else {
-				LOG.info("Engine::collectModules()[ package=>{} ]", pkgname);
+				LOG.debug("::collectModules()[ class=>{} ]", pkgname);
 				try {
 					Class<?> unknown_class = Class.forName(pkgname);
 					if (MathsModule.class.isAssignableFrom(unknown_class)) {
-						LOG.info("Engine::collectModules()[ MathsModule=>{} ]", unknown_class.getName());
+						LOG.info("::collectModules()[ MathsModule=>{} ]", unknown_class.getName());
 						@SuppressWarnings("unchecked")
 						Class<MathsModule> mathModCls = (Class<MathsModule>)unknown_class;
 						mathModuleMap.put(
@@ -103,7 +128,9 @@ public class Engine {
 								mathModCls
 							);
 					}
-				} catch (ClassNotFoundException ex) { /*move along!*/ }
+				} catch (ClassNotFoundException ex) { 
+					LOG.debug("::collectModules(), Problem collecting module => {}", ex.getMessage());
+				}
 			}
 		}
 	}
@@ -115,37 +142,39 @@ public class Engine {
 		//At this moment we just create PlainTextReader, whatever value "type" parameter contains
 	}
 
-	public MathsModule getMathsModule(String module_name) 
-	{
-		Class<MathsModule> modc = mathModuleMap.get(module_name);
-		if(modc!=null) 
-			try {
-				Constructor<MathsModule> constr = modc.getConstructor(Engine.class);
-				return constr.newInstance(this);
-			} catch(Exception e) {
-				System.out.println(e);
-				return null;
-			}
-			else
-				return null;
+	/**
+	 * Retrieve a pre-registered MathsModule by name.
+	 *
+	 * @see <code>getMathsModule</code>
+	 */
+	public MathsModule getMathsModule(String module_name) {
+		return getMathsModule(module_name, new String[0] );
 	}
 
-	public MathsModule getMathsModule(String module_name, String[] param) 
-	{
+	/**
+	 * Retrieve a MathsModule by name which has been pre-registered with the Engine.
+	 *
+	 * @param 	module_name 	name to search for
+	 * @param 	params 		array of string parameters passed to constructor
+	 * @return 	MathsModule 	A <code>MathsModule</code> identifed by name or NULL if not found.
+	 */
+	public MathsModule getMathsModule(String module_name, String[] params) {
+		LOG.info( "::getMathsModule( {}, {} )", module_name, Arrays.toString(params) );
 		Class<MathsModule> modc = mathModuleMap.get(module_name);
-		if(modc!=null) 
-			try {
-				if(param.length>0)
-					return modc.getConstructor(Engine.class, String[].class).newInstance(this, param);
-				else
-					return modc.getConstructor(Engine.class).newInstance(this);
-			} catch(Exception e) {
-				System.out.println(e);
-				return null;
-			}
-			else
-				return null;
+		if (null == modc) return null; 		// @TODO: Better to pass Exception up the stack rather than force a 'check for NULL'. 
+
+		try {
+			return 0 == params.length
+					? modc.getConstructor(Engine.class).newInstance(this)
+					: modc.getConstructor(Engine.class, String[].class).newInstance(this, params)
+				;
+		} catch (Exception ex) {
+			LOG.error( "Could not retrieve a MathsModule registered in the Engine! [ {} ]", ex.getMessage() );
+			LOG.debug( "{}", Arrays.toString(ex.getStackTrace()) );
+			return null;
+		}
 	}
+
 
 	/*This method takes the template type and body (not the template file name) as its arguments
 	 * This is useful to isolate template processing from file system specifics and so on.
@@ -173,20 +202,23 @@ public class Engine {
 	}
 	
 	public InputStream getTemplateStream(String name) throws TemplateNotFoundException {
+
+                String[] templateRoots = preferences.get("templates_root", ".").split(";");
+		LOG.info( "::getTemplateStream()[ name=>{}, templateRoots=>{} ] ", name, Arrays.toString(templateRoots) );
+
+                File template;
 		try {
-			System.out.println(name);
-			for(int i=0;i<templatesRoot.length;i++) {
-				File f = new File(templatesRoot[i],name);
-				if(f.exists()) 
-					return new FileInputStream(f); 
-			}
+                        for (String templateRoot : templateRoots) {
+                                template = new File(templateRoot, name);
+                                if (template.exists()) return new FileInputStream(template);
+                        }
 			
 			//not found, check for legacy mode
-			File f = new File(name);
-			if(name.equals(f.getName())) //yes, we have filename without path
-				 // look for file in subdirectories of each templatesRoot directory
-				for(int i=0;i<templatesRoot.length;i++) {
-					File d = new File(templatesRoot[i]);
+			template = new File(name);
+			if (name.equals(template.getName())) //yes, we have filename without path
+				 // look for file in subdirectories of each templateRoots directory
+				for(int i=0;i<templateRoots.length;i++) {
+					File d = new File(templateRoots[i]);
 					if(d.exists()) {
 						InputStream stream = getTemplateStream(d, name);
 						if(stream!=null)
