@@ -1,11 +1,20 @@
+//+
+//
+//
+//-
+
+//------------------------------------------------------------------------------
+
+plugins {
+        id "org.akhikhl.gretty" version "1.2.4"
+}
+
 apply plugin: 'java'
-apply plugin: 'application'
 apply plugin: 'war'
-apply plugin: 'jetty'
 
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 task wrapper(type: Wrapper) {
@@ -63,6 +72,12 @@ dependencies {
 }
 
 
+gretty {
+        port = 8088
+        scanInterval = 0
+        inplaceMode = 'hard'
+}
+
 jar {
 	baseName = 'smartass'
 	version = '0.1.0'
@@ -77,9 +92,6 @@ allprojects {
 	}
 }
 
-httpPort = 8888
-stopPort = 9080
-stopKey = 'stopKey'
 
 task printClasspath<< {
         configurations.runtime.each { println it }

@@ -87,38 +87,31 @@
 		<property name="usersDao" ref="usersDao" />
 	</bean>
 	
-	<bean name="/repository.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryListTemplatesController">
+	<bean name="/repository.htm" class="au.edu.uq.smartass.web.mvc.RepositoryListTemplatesController">
 		<property name="templatesDao" ref="templatesDao" />
 		<property name="classificationsDao" ref="classificationsDao" />
 	</bean>
 	
-	<bean name="/template.htm"
-	      class="au.edu.uq.smartass.web.mvc.TemplateDetailesController">
+	<bean name="/template.htm" class="au.edu.uq.smartass.web.mvc.TemplateDetailesController">
 		<property name="templatesDao" ref="templatesDao" />
 	</bean>
 	
-	<bean name="/download.htm"
-	      class="au.edu.uq.smartass.web.mvc.DownloadController">
+	<bean name="/download.htm" class="au.edu.uq.smartass.web.mvc.DownloadController">
 		<property name="repositoryStorage" ref="repositoryStorage" />
 		<property name="templatesDao" ref="templatesDao" />
 		<property name="filesDao" ref="filesDao" />
 	</bean>
 
-	<bean name="/view.htm"
-	      class="au.edu.uq.smartass.web.mvc.TemplateViewController">
+	<bean name="/view.htm" class="au.edu.uq.smartass.web.mvc.TemplateViewController">
 		<property name="repositoryStorage" ref="repositoryStorage" />
 		<property name="templatesDao" ref="templatesDao" />
 	</bean>
 
-	<bean name="/download-assignment.htm"
-	      class="au.edu.uq.smartass.web.composer.DownloadAssignmentController">
-	</bean>
+	<bean name="/download-assignment.htm" class="au.edu.uq.smartass.web.composer.DownloadAssignmentController"></bean>
 
 	<bean id ="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>	
 	
-	<bean name="/register.htm"
-	        class="au.edu.uq.smartass.web.mvc.RegisterUserFormController">
+	<bean name="/register.htm" class="au.edu.uq.smartass.web.mvc.RegisterUserFormController">
 		<property name="formView" value="registerUser" />
 		<property name="successView" value="userRegistered" />
 		<property name="usersDao" ref="usersDao" />
@@ -129,8 +122,7 @@
 		</property>
 	</bean>
 
-	<bean name="/login.htm"
-	        class="au.edu.uq.smartass.web.mvc.UserLoginController	">
+	<bean name="/login.htm" class="au.edu.uq.smartass.web.mvc.UserLoginController">
 		<property name="formView" value="userLogin" />
 		<property name="usersDao" ref="usersDao" />
 		<property name="validator">
@@ -140,13 +132,11 @@
 		</property>
 	</bean>
 
-	<bean name="/logout.htm"
-	      class="au.edu.uq.smartass.web.mvc.UserLogoutController">
+	<bean name="/logout.htm" class="au.edu.uq.smartass.web.mvc.UserLogoutController">
 		<property name="templatesDao" ref="templatesDao" />
 	</bean>
 
-	<bean name="/edituser.htm"
-	        class="au.edu.uq.smartass.web.mvc.UserSettingsController	">
+	<bean name="/edituser.htm" class="au.edu.uq.smartass.web.mvc.UserSettingsController">
 		<property name="formView" value="userSettings" />
 		<property name="usersDao" ref="usersDao" />
 		<property name="validator">
@@ -154,34 +144,28 @@
 		</property>
 	</bean>
 	
-	<bean name="/users.htm"
-	        class="au.edu.uq.smartass.web.mvc.ListUsersController	">
+	<bean name="/users.htm" class="au.edu.uq.smartass.web.mvc.ListUsersController">
 		<property name="usersDao" ref="usersDao" />
 	</bean>
 
-	<bean name="/userdetails.htm"
-	        class="au.edu.uq.smartass.web.mvc.UserDetailsController	">
+	<bean name="/userdetails.htm" class="au.edu.uq.smartass.web.mvc.UserDetailsController">
 		<property name="dao" ref="usersDao" />
 	</bean>
 	
-	<bean name="/adminuser.htm"
-	        class="au.edu.uq.smartass.web.mvc.AdministrateUserController">
+	<bean name="/adminuser.htm" class="au.edu.uq.smartass.web.mvc.AdministrateUserController">
 		<property name="formView" value="adminUser" />
 		<property name="usersDao" ref="usersDao" />
 	</bean>
 	
-	<bean name="/user-delete.htm"
-	        class="au.edu.uq.smartass.web.mvc.DeleteUserController	">
+	<bean name="/user-delete.htm" class="au.edu.uq.smartass.web.mvc.DeleteUserController">
 		<property name="usersDao" ref="usersDao" />
 	</bean>
 
-	<bean name="/user-delete-confirm.htm"
-	        class="au.edu.uq.smartass.web.mvc.ConfirmDeleteUserController	">
+	<bean name="/user-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.ConfirmDeleteUserController">
 		<property name="dao" ref="usersDao" />
 	</bean>
 
-	<bean name="/user-edit-password.htm"
-	        class="au.edu.uq.smartass.web.mvc.ChangeUserPasswordController	">
+	<bean name="/user-edit-password.htm" class="au.edu.uq.smartass.web.mvc.ChangeUserPasswordController">
 		<property name="formView" value="changeUserPassword" />
 		<property name="dao" ref="usersDao" />
 		<property name="validator">
@@ -189,116 +173,95 @@
 		</property>
 	</bean>
 
-	<bean name="/repository-authors.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryListAuthorsController">
+	<bean name="/repository-authors.htm" class="au.edu.uq.smartass.web.mvc.RepositoryListAuthorsController">
 		<property name="dao" ref="authorsDao" />
 	</bean>
 
-	<bean name="/repository-author.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryEditAuthorController">
+	<bean name="/repository-author.htm" class="au.edu.uq.smartass.web.mvc.RepositoryEditAuthorController">
 		<property name="formView" value="repositoryAuthorEdit" />
 		<property name="dao" ref="authorsDao" />
 	</bean>
 
-	<bean name="/repository-author-delete-confirm.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteAuthorController">
+	<bean name="/repository-author-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteAuthorController">
 		<property name="dao" ref="authorsDao" />
 	</bean>
 
-	<bean name="/repository-author-delete.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteAuthorController">
+	<bean name="/repository-author-delete.htm" class="au.edu.uq.smartass.web.mvc.RepositoryDeleteAuthorController">
 		<property name="dao" ref="authorsDao" />
 	</bean>
 
-	<bean name="/repository-modules.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryListModulesController">
+	<bean name="/repository-modules.htm" class="au.edu.uq.smartass.web.mvc.RepositoryListModulesController">
 		<property name="dao" ref="modulesDao" />
 	</bean>
 
-	<bean name="/repository-module.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryEditModuleController">
+	<bean name="/repository-module.htm" class="au.edu.uq.smartass.web.mvc.RepositoryEditModuleController">
 		<property name="formView" value="repositoryModuleEdit" />
 		<property name="dao" ref="modulesDao" />
 	</bean>
 
-	<bean name="/repository-module-delete-confirm.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteModuleController">
+	<bean name="/repository-module-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteModuleController">
 		<property name="dao" ref="modulesDao" />
 	</bean>
 
-	<bean name="/repository-module-delete.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteModuleController">
+	<bean name="/repository-module-delete.htm" class="au.edu.uq.smartass.web.mvc.RepositoryDeleteModuleController">
 		<property name="dao" ref="modulesDao" />
 	</bean>
 	
-	<bean name="/repository-classs.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryListClassificationsController">
+	<bean name="/repository-classs.htm" class="au.edu.uq.smartass.web.mvc.RepositoryListClassificationsController">
 		<property name="dao" ref="classificationsDao" />
 	</bean>
 
-	<bean name="/repository-class.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryEditClassificationController">
+	<bean name="/repository-class.htm" class="au.edu.uq.smartass.web.mvc.RepositoryEditClassificationController">
 		<property name="formView" value="repositoryClassEdit" />
 		<property name="dao" ref="classificationsDao" />
 	</bean>
 
-	<bean name="/repository-class-delete-confirm.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteClassificationController">
+	<bean name="/repository-class-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteClassificationController">
 		<property name="dao" ref="classificationsDao" />
 	</bean>
 
-	<bean name="/repository-class-delete.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteClassificationController">
+	<bean name="/repository-class-delete.htm" class="au.edu.uq.smartass.web.mvc.RepositoryDeleteClassificationController">
 		<property name="dao" ref="classificationsDao" />
 	</bean>
 
-	<bean name="/repository-files.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryListFilesController">
+	<bean name="/repository-files.htm" class="au.edu.uq.smartass.web.mvc.RepositoryListFilesController">
 		<property name="dao" ref="filesDao" />
 	</bean>
 
-	<bean name="/repository-file.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryEditFileController">
+	<bean name="/repository-file.htm" class="au.edu.uq.smartass.web.mvc.RepositoryEditFileController">
 		<property name="formView" value="repositoryFileEdit" />
 		<property name="dao" ref="filesDao" />
 		<property name="repository" ref="repositoryStorage" />
 	</bean>
 
-	<bean name="/repository-file-delete-confirm.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteFileController">
+	<bean name="/repository-file-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteFileController">
 		<property name="dao" ref="filesDao" />
 	</bean>
 
-	<bean name="/repository-file-delete.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteFileController">
+	<bean name="/repository-file-delete.htm" class="au.edu.uq.smartass.web.mvc.RepositoryDeleteFileController">
 		<property name="dao" ref="filesDao" />
 		<property name="storage" ref="repositoryStorage" />
 	</bean>
 
-	<bean name="/repository-template-delete-confirm.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteTemplateController">
+	<bean name="/repository-template-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.RepositoryConfirmDeleteTemplateController">
 		<property name="dao" ref="templatesDao" />
 	</bean>
 
-	<bean name="/repository-template-delete.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryDeleteTemplateController">
+	<bean name="/repository-template-delete.htm" class="au.edu.uq.smartass.web.mvc.RepositoryDeleteTemplateController">
 		<property name="dao" ref="templatesDao" />
 		<property name="storage" ref="repositoryStorage" />
 	</bean>
 
-	<bean name="/repository-export.htm"
-	      class="au.edu.uq.smartass.web.mvc.ExportRepositoryController">
+	<bean name="/repository-export.htm" class="au.edu.uq.smartass.web.mvc.ExportRepositoryController">
 		<property name="repositoryStorage" ref="repositoryStorage" />
 		<property name="templatesDao" ref="templatesDao" />
 	</bean>
 
-	<bean name="/repository-import.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryImportController">
+	<bean name="/repository-import.htm" class="au.edu.uq.smartass.web.mvc.RepositoryImportController">
 		<property name="formView" value="repositoryImport" />
 	</bean>
 
-	<bean name="/repository-import-confirm.htm"
-	      class="au.edu.uq.smartass.web.mvc.RepositoryConfirmImportController">
+	<bean name="/repository-import-confirm.htm" class="au.edu.uq.smartass.web.mvc.RepositoryConfirmImportController">
 		<property name="formView" value="repositoryConfirmImport" />
 		<property name="templateEditor" ref="templateEditor"/>
 		<property name="templatesDao" ref="templatesDao" />
@@ -343,37 +306,29 @@
 
 <!-- InteractiveApp related beans -->
 
-	<bean name="/interactive.htm"
-	        class="au.edu.uq.smartass.web.iapp.InteractiveAppController">
-	</bean>
+	<bean name="/interactive.htm" class="au.edu.uq.smartass.web.iapp.InteractiveAppController"> </bean>
 
-	<bean name="/interactive-template-tree.htm"
-	        class="au.edu.uq.smartass.web.iapp.ParseTemplateTreeController">
+	<bean name="/interactive-template-tree.htm" class="au.edu.uq.smartass.web.iapp.ParseTemplateTreeController">
 	    <property name="repository" ref="repositoryStorage"/>
 	</bean>
 
-	<bean name="/interactive-code-post-node.htm"
-	        class="au.edu.uq.smartass.web.iapp.UpdateTemplateNodeController">
+	<bean name="/interactive-code-post-node.htm" class="au.edu.uq.smartass.web.iapp.UpdateTemplateNodeController">
 	    <property name="repository" ref="repositoryStorage"/>
 	</bean>
 
-	<bean name="/interactive-result-post-node.htm"
-	        class="au.edu.uq.smartass.web.iapp.UpdateResultNodeController">
+	<bean name="/interactive-result-post-node.htm" class="au.edu.uq.smartass.web.iapp.UpdateResultNodeController">
 	    <property name="repository" ref="repositoryStorage"/>
 	</bean>
 
-	<bean name="/interactive-template-execute.htm"
-	        class="au.edu.uq.smartass.web.iapp.ExecuteTemplateController">
+	<bean name="/interactive-template-execute.htm" class="au.edu.uq.smartass.web.iapp.ExecuteTemplateController">
 	    <property name="repository" ref="repositoryStorage"/>
 	</bean>
 
-	<bean name="/interactive-template-sections.htm"
-	        class="au.edu.uq.smartass.web.iapp.SectionListController">
+	<bean name="/interactive-template-sections.htm" class="au.edu.uq.smartass.web.iapp.SectionListController">
 	    <property name="repository" ref="repositoryStorage"/>
 	</bean>
 
-	<bean name="/interactive-pdf.htm"
-	        class="au.edu.uq.smartass.web.iapp.NodePdfCreatorController">
+	<bean name="/interactive-pdf.htm" class="au.edu.uq.smartass.web.iapp.NodePdfCreatorController">
 	    <property name="repository" ref="repositoryStorage"/>
 	    <property name="creator" ref="dviPdfCreator"/>
 	</bean>

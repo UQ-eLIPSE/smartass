@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.util.FileCopyUtils;
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -27,39 +28,50 @@ import org.springframework.web.servlet.view.RedirectView;
 import au.edu.uq.smartass.web.FilesItemModel;
 import au.edu.uq.smartass.web.RepositoryStorage;
 import au.edu.uq.smartass.web.TemplatesItemModel;
+
 import au.edu.uq.smartass.web.jdbc.FilesDao;
 import au.edu.uq.smartass.web.jdbc.TemplatesDao;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The DownloadController class prepares data for "Download generated assignments in LaTeX and PDF" page.
  */
 public class DownloadController extends AbstractController {
-	//private ServletContext
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( DownloadController.class );
+
 	private RepositoryStorage repositoryStorage;
 	private TemplatesDao templatesDao;
 	private FilesDao filesDao;
 	
-	public DownloadController() {}
-
-	@Override
 	/**
 	 * This function is called by Spring framework on HTTP request from the browser.
 	 * It prepares data for "Download generated assignments in LaTeX and PDF" page. 
 	 */
-	protected ModelAndView handleRequestInternal(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@Override protected ModelAndView handleRequestInternal(
+                        HttpServletRequest request,
+			HttpServletResponse response
+                ) throws Exception {
+
+                LOG.info( 
+                                "::handleRequestInternal()[\n\nrequest=>\n{}\n\nresponse=>\n{}\n\n]", 
+                                request.toString(), response.toString() 
+                        );
+
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
 			int scope = Integer.parseInt(request.getParameter("scope"));
-			String path = ""; 
+
 			String name = "";
-			String content_type;// = "text/plain";
 			
 			switch(scope) {
 			case 0: 
 			case 1: 
 				TemplatesItemModel t = templatesDao.getItem(id);
-				path = t.getPath();
+				String path = t.getPath();
 				if(scope==0) {
 					name = t.getName() + ".tex";
 					response.getOutputStream().write(t.metadataToString().getBytes());
@@ -82,17 +94,18 @@ public class DownloadController extends AbstractController {
 				name = f.getName();
 			}
 	
-			content_type = getServletContext().getMimeType(name);
-			if(content_type==null)
-				content_type = "text/plain";
-			response.setContentType(content_type);
+                        //      . Set content type .
+			String content_type = getServletContext().getMimeType(name);
+			response.setContentType( (content_type != null) ? content_type : "text/plain" );
+
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
 			
-			InputStream in = repositoryStorage.getFile(Integer.parseInt(request.getParameter("scope")), "", name);
+			InputStream in = repositoryStorage.getFile(scope, "", name);
 			FileCopyUtils.copy(in, response.getOutputStream());
 	
 			return null;
-		} catch (Exception e) {
+		} catch (Exception ex) {
+                        LOG.info( "::handleRequestInternal()[ exception caught ]\n{}\n\n", ex.getMessage() );
 			RedirectView exit = new RedirectView("no-page-redirect.htm"); 
 			exit.setExposeModelAttributes(false);
 			return new ModelAndView(exit);
