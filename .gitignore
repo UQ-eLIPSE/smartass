@@ -34,3 +34,4 @@ smartass.rc
 resource/data/html/download/ass*
 src/main/webapp/data
 src/main/webapp/download
+*.orig

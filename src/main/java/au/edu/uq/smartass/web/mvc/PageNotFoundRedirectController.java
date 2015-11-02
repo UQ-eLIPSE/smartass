@@ -24,74 +24,64 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The PageNotFoundRedirectController class  
  * reacts on situation where user requested url to which the site has no corresponding page.
  */
 public class PageNotFoundRedirectController extends AbstractController {
 
-	@Override
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( PageNotFoundRedirectController.class );
+
 	/**
 	 * This function is called by Spring framework on HTTP request from the browser. 
 	 * It analyze conditions those are caused "page not found" situation and try to 
 	 * make a consistent reaction on it.   
 	 */
-	protected ModelAndView handleRequestInternal(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@Override protected ModelAndView handleRequestInternal(
+                        HttpServletRequest request,
+			HttpServletResponse response
+                ) throws Exception {
+
+                LOG.info( 
+                                "::handleRequestInternal()[\n\nrequest=>\n{}\n\nresponse=>\n{}\n\n]", 
+                                request.toString(), response.toString()
+                        );
 		
-		Map<String, Object> model = new HashMap<String, Object>();
-//		model.put("message", "Page not found: " + request.getRequestURI());
-		String base = "http://"+request.getServerName();
-		if(request.getServerPort()!=80)
-			base = base + ":" + request.getServerPort();
-		
+
+		String base = 
+                                "http://" + request.getServerName() +
+			        ":" + request.getServerPort()
+                        ;
 		String path = (String) request.getAttribute("javax.servlet.forward.servlet_path");
 		
-		String message = "";
-		if(path==null || path.length()==0) {
+		String message;
+		if (path == null || path.length() == 0) {
 			message = "Page or file not found!";
-		} else if(path.endsWith("/")) {
+
+		} else if (path.endsWith("/")) {
 			RedirectView exit = new RedirectView("/index.htm", true);
 			exit.setExposeModelAttributes(false);
 			return new ModelAndView(exit);
-		} else if(path!=null && path.length()>0) { 
-			if(path.endsWith("composer"))
-				message = "Assignment composer session has expired or has been closed by user!";
-			else if(path.endsWith("template") || path.endsWith("tempalte-edit"))
-				message = "Template editor session has expired or has been closed by user!";
-			else {
-				message = "Page or file <b>" + base + path + "</b> not found!";
-/*				if(path.endsWith(".pdf") && path.contains("download/ass"))
-					message = message + " that is possibly a PDF file that was deleted " +
-						"due the timeout or when you leaved the execution results page.";*/
-			}
-		} /*else {
-			message = 
-				"Parameters<br>";
-				Enumeration<String> params = request.getParameterNames();
-				while(params.hasMoreElements()) {
-					String s = params.nextElement();
-					message = message + s + " : " + request.getParameter(s) + "<br>";
-				}
-				message = message + "\nAttributes<br>";
-				params = request.getAttributeNames();
-				while(params.hasMoreElements()) {
-					String s = params.nextElement();
-					message = message + s + " : " + request.getAttribute(s) + "<br>";
-				}
-				message = message + "\nHeaders<br>";
-				params = request.getHeaderNames();
-				while(params.hasMoreElements()) {
-					String s = params.nextElement();
-					message = message + s + " : " + request.getHeader(s) + "<br>";
-				}*/
-/*			RedirectView exit = new RedirectView("/index.htm", true);
-			exit.setExposeModelAttributes(false);
-			return new ModelAndView(exit);
 
-		}*/
+		} else if (path.endsWith("composer")) {
+                        message = "Assignment composer session has expired or has been closed by user!";
+
+	        } else if ( path.endsWith("template") || path.endsWith("tempalte-edit") ) {
+                        message = "Template editor session has expired or has been closed by user!";
+
+                } else {
+                        message = "Page or file <b>" + base + path + "</b> not found!";
+                }
+
+		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("message", message);
-		model.put("redirectUri", "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/index.htm");
+		model.put("redirectUri", base + request.getContextPath() + "/index.htm");
+
+                LOG.info( "::handleRequestInternal()[ model=>{} ]", model.toString());
 		
 		return new ModelAndView("nopage", model);
 	}
