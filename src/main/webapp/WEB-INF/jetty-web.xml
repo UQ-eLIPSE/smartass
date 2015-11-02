@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
+
+<!--    <Configure class="org.eclipse.jetty.webapp.WebAppContext">  -->
+<Configure class="org.akhikhl.gretty.JettyWebAppContext">
+
+  <Set name="contextPath">/smartass-dev</Set>
+  <Set name="war"><Property name="jetty.webapps" default="."/>/smartass-dev.war</Set>
+
+  <Call name="addAliasCheck">
+    <Arg><New class="org.eclipse.jetty.server.handler.AllowSymLinkAliasChecker"/></Arg>
+  </Call>
+  
+</Configure>
