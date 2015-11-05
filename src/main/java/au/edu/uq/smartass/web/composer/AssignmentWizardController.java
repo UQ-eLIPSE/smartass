@@ -30,6 +30,7 @@ import org.springframework.binding.message.MessageContext;
 
 import au.edu.uq.smartass.templates.texparser.ParseException;
 
+
 /**
  * The AssignmentWizardController class provides a kind of "wizard" 
  * to decorate the assignment with some titles, descriptions etc.   
@@ -42,7 +43,7 @@ public class AssignmentWizardController {
 	AssignmentTemplatesStorage templates;
 
 	public void setTemplates(AssignmentTemplatesStorage templates) { 
-		LOG.info("setTemplates( AssignmentTemplatesStorage=>{} )", templates.getPath());
+		LOG.info("::setTemplates()[ AssignmentTemplatesStorage=>{} ]", templates.getPath());
 		this.templates = templates; 
 	}
 	
@@ -63,8 +64,7 @@ public class AssignmentWizardController {
 	 * @throws IOException
 	 */
 	public Object prepareWizard(String templateName) throws IOException {
-
-		LOG.info("prepareWizard( templateName:String=>{}", templateName);
+		LOG.info("::prepareWizard()[ templateName:String=>{} ]", templateName);
 
 		List<AssignmentWizardItem> items = new ArrayList<AssignmentWizardItem>();
 
@@ -132,21 +132,38 @@ public class AssignmentWizardController {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public boolean createAssignment(AssignmentConstruct assignment, String templateName, List<AssignmentWizardItem> items, MessageContext mcontext) throws IOException, ParseException {
+	public boolean createAssignment(
+                        AssignmentConstruct assignment, 
+                        String templateName, 
+                        List<AssignmentWizardItem> items, 
+                        MessageContext mcontext
+                ) throws IOException, ParseException {
+                
+		LOG.info(
+                                "::createAssignment()[ assignment=>{}, templateName=>{}, items=>{}, mcontext=>{} ]", 
+                                assignment.toString(), 
+                                templateName, 
+                                items.toString(), 
+                                mcontext.toString()
+                        );
+
 		for(AssignmentWizardItem it : items) 
-			if(it.getMaxLength()>0 && it.value.length()>it.getMaxLength()) {
-				mcontext.addMessage(new MessageBuilder().error().source(it.name).defaultText(
-						"Field '"+it.getTitle()+"' length should not exceed "+it.getMaxLength()+" characters!").build());
+			if (it.getMaxLength()>0 && it.value.length()>it.getMaxLength()) {
+				mcontext.addMessage(
+                                                new MessageBuilder().error().source(it.name).defaultText(
+                                                        "Field '"+it.getTitle()+"' length should not exceed "+it.getMaxLength()+" characters!"
+                                                ).build()
+                                        );
 				return false;
 			}
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(templates.getFile(templateName)));
 		String s;
-		while((s=br.readLine())!=null && s.indexOf("%")==0) ;
+		while ( (s=br.readLine()) != null && s.indexOf("%")==0 );
 		
 		StringBuffer sa = new StringBuffer();
-		while((s=br.readLine())!=null) { 
-			if(s.indexOf("%%")>=0) 
+		while ( (s=br.readLine()) != null ) { 
+			if (s.indexOf("%%") >= 0) 
 				for(AssignmentWizardItem it : items) 
 					s = s.replaceAll("%%"+it.name+"%%", it.value);
 			sa.append(s);
@@ -191,6 +208,8 @@ public class AssignmentWizardController {
 	 * @param addons		wizard data
 	 */
 	public void afterAddNewRepeat(AssignmentConstruct assignment, List<AssignmentWizardItem> addons) {
+                LOG.info("::afterAddNewRepeat()[ assignment=>{}, addons=>{} ]", "-", "-");
+
 		if(addons!=null) {
 			for(AssignmentWizardItem it: addons) {
 				if(it.value.length()>0) {

@@ -6,34 +6,21 @@
   <head>
     <%@include file="../jsp/header.jsp.inc" %>
     <title>Smart Assignments | Assignment Editor</title>
-    <script type="text/javascript">
-      function setControlsState(kind, parent_kind) {
-        if(kind=="section" || parent_kind=="section") {
-          document.getElementById("addRepeat").disabled = true;
-          document.getElementById("addCall").disabled = true;
-          document.getElementById("addMulti").disabled = true;
-          document.getElementById("addChoice").disabled = true;
-          document.getElementById("addSection").disabled = true;
-        } else {
-          document.getElementById("addRepeat").disabled = false;
-          document.getElementById("addCall").disabled = false;
-          document.getElementById("addMulti").disabled = false;
-          document.getElementById("addSection").disabled = false;
-          
-          if(kind=="choice" || kind=="call" || kind=="") {
-            document.getElementById("edit").disabled = true;
-          } else {
-            document.getElementById("edit").disabled = false;
-          }
 
-          if(kind=="multi" || (kind!="repeat" && parent_kind=="multi")) {
-            document.getElementById("addChoice").disabled = false;
-          } else {
-            document.getElementById("addChoice").disabled = true;
-          }
-        } 
-      }
+    <script type="text/javascript">
+      	function setControlsState(kind, parent_kind) {
+            document.getElementById("addRepeat").disabled = ('section'==kind || 'section'==parent_kind);
+            document.getElementById("addQuestion").disabled = ('section'==kind || 'section'==parent_kind);
+	    document.getElementById("edit").disabled = ('call'==kind || ''==kind);
+        }
     </script>
+
+    <style type='text/css'>
+	table.clear { border: 0px; padding: 0px }
+	td.assignment-selector { background-color: #f0f0f0 }
+	td.assignment-content { background-color: #f0f0ff }
+    </style>
+
   </head>
 
   <body onload="setControlsState('<c:out value="${template.selectedRow.kind}"/>', '<c:out value="${template.selectedRow.parent.kind}"/>')">
@@ -49,7 +36,7 @@
           <td class="header" width="10px">
             <br>
             <input id="addText" style="width:125" type="submit" name="_eventId_addText" value="Add text"/><br>
-            <input id="addCall" style="width:125" type="submit" class="button" name="_eventId_addCall" value="Add QUESTION"/><br>
+            <input id="addQuestion" style="width:125" type="submit" class="button" name="_eventId_addCall" value="Add QUESTION"/><br>
             <hr>
             <input id="addRepeat" style="width:125" type="submit" class="button" name="_eventId_addRepeat" value="Add REPEAT"/><br>
             <hr>
@@ -57,25 +44,34 @@
             <input id="delete" style="width:125" type="submit" class="button" name="_eventId_delete" value="Delete"/><br>
           </td>
           <td valign="top" colspan="2">
-            <table border=0 frame=0 cellpadding=0>
-              <tr>
-                <c:set var='last' value='${template.rowCount-1}' />
-                <c:set var='lastrow' value='${template.rows[last]}' />
-                <td bgcolor='#f0f0f0'>
-                  <form:radiobutton path='selectedIndex' value='${last}' onclick='setControlsState("${lastrow.kind}", "${lastrow.parent.kind}")' />
-                </td>
-                <td>
-                  <table border=0 frame=0 cellspacing=0>
-                    <tr>
-                      <td bgcolor="#f0f0ff" width='<c:out value="${lastrow.level*10}"/>' >
-                        <c:if test="${lastrow.kind == 'text'}"><pre></c:if>
-                          <c:out value="${lastrow.html}" />
-                        <c:if test="${lastrow.kind == 'text'}"></pre></c:if>
-                      </td>
-                    </tr>
-                  </table>
-              </tr>
+
+            <!--
+                    . Represent Assignments Constituent Components .
+              -->
+            <table class='clear'>
+              <c:forEach items='${template.rows}' var='item'>
+                <c:if test="${item.visible}">
+                  <tr>
+                    <td class='assignment-selector'>
+                      <form:radiobutton path='selectedIndex' value='${item.index}' onclick='setControlsState("${item.kind}", "${item.parent.kind}")' />
+                    </td>
+                    <td>
+                      <table class='clear'>
+                        <tr>
+                          <td class='assignment-content'>
+                            <c:if test="${item.kind == 'text'}"><pre></c:if>
+                              <c:out value="${item.html}" />
+                            <c:if test="${lastrow.kind == 'text'}"></pre></c:if>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </c:if>
+              </c:forEach>
             </table>
+            <!--     _____     -->
+
           </td>
         </tr>
 

@@ -41,16 +41,10 @@ public class TextConstruction extends AbstractTemplateConstruction {
 	 * Returns the kind of the construction as the {@link String}.
 	 * This value is used in .jsp to make some construction-specific actions  
 	 */
-	public String getKind() {
-		return "text";
-	}
+	public String getKind() { return "text"; }
 	
-	/**
-	 * Returns the HTML representation of this construction
-	 */
-	public String getHtml() {
-		return getText();
-	}
+	/** Returns the HTML representation of this construction */
+	public String getHtml() { return getText(); }
 	
 	/**
 	 * The getter for the content of this text block 
@@ -66,10 +60,6 @@ public class TextConstruction extends AbstractTemplateConstruction {
 		return s;
 	}
 	
-	/**
-	 * The setter for the content of this text block 
-	 */
-	public void setText(String new_text) {
-		node.setText(new_text+"\n");
-	}
+	/** The setter for the content of this text block */
+	public void setText(String new_text) { node.setText(new_text+"\n"); }
 }
