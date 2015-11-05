@@ -20,8 +20,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.prefs.Preferences;
 
 import au.edu.uq.smartass.engine.Engine;
@@ -38,31 +40,63 @@ import au.edu.uq.smartass.templates.texparser.ParseException;
 import au.edu.uq.smartass.templates.texparser.SimpleNode;
 import au.edu.uq.smartass.web.AssignmentsItemModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * The AssignmentConstruct class is the Spring bean that represents 
  * the main object of assignment composer. This object stores assignment constructions and provides
  * an assignment editing related functionality.
  */
 public class AssignmentConstruct extends AssignmentsItemModel implements Serializable {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( AssignmentConstruct.class );
+
 	
 	/** Root node of the assignment template (see au.edu.uq.smartass.templates.texparser for details) */
-	ASTTemplate template_node;
+	private ASTTemplate template_node;
 	/** Document body node of the assignment template (see au.edu.uq.smartass.templates.texparser for details) */
-	ASTDocument doc_node;
+	private ASTDocument doc_node;
 	/** Document header node of the assignment template (see au.edu.uq.smartass.templates.texparser for details) */
-	ASTAnyText header_node;
+	private ASTAnyText header_node;
+
 	/** Assignment constructions collection */
-	List<AbstractTemplateConstruction> components = new ArrayList<AbstractTemplateConstruction>();
+	private List<AbstractTemplateConstruction> components = new ArrayList<AbstractTemplateConstruction>();
 
-	int selectedRowIndex;
+        /**
+         * The position of the currently selected component. 
+         * This value is set by the JSP form, but also causes the correct item to be selected when the form is rendered.
+         * It is manipulated in the back end as components are added and removed from the assignment.
+         */
+	private int selectedIndex;
+	public void setSelectedIndex(int selectedIndex) { 
+                LOG.debug( "::setSelectedIndex( {} )[ {} => {} ]", selectedIndex, selectedIndex, this.selectedIndex );
+                this.selectedIndex = selectedIndex; 
+        }
+	public int getSelectedIndex() { return selectedIndex; }
+        public int incrementSelectedIndex() {
+                setSelectedIndex( selectedIndex + 1 );
+                return selectedIndex;
+        }
 
-	boolean decorateWithLatex;
+        /** @TODO: Use a unique identifier (HashCode?) for selected object. */
+        /*
+        private int selectedIdentity;
+        public int getSelectedIdentity() { return selectedIdentity; }
+        public void setSelectedIdentity(int selectedIdentity) { this.selectedIdentity = selectedIdentity; }
+        */
+	
+
+        /** */
+	private boolean decorateWithLatex;
+
 
 	/** Default constructor */
-	public AssignmentConstruct() {
-		init();
-	}
+	public AssignmentConstruct() { init(); }
 	
+
 	private void init() {
 		initTemplate();
 		//ensure that we have newline after \\begin{document}
@@ -71,6 +105,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 		doc_node.jjtAddChild(enter, 0);
 	}
 	
+
 	/**
 	 * Creates empty assignment and sets its initial and default data
 	 */
@@ -85,6 +120,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 		template_node.init();
 	}
 	
+
 	/**
 	 * Removes an assignment construction construct_row from assignment
 	 * 
@@ -98,6 +134,17 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	}
 	
 	
+        public void addNonVisibleComponent(
+                        AbstractTemplateConstruction construct_row, 
+                        AbstractTemplateConstruction parent_row, 
+                        int row_index
+        ) {
+                LOG.info( "::addNonVisibleComponent()[ component=>{} ]", construct_row.getNode().getCode() );
+                construct_row.setVisible(false);                // Do first !! Used to set visibility of 'SectionEnd'
+                addRow(construct_row, parent_row, row_index);
+        }
+
+
 	/**
 	 * Add new assignment construction to assignment
 	 * 
@@ -106,7 +153,17 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * @param row_index		index of assignment row after wich new construction will be inserted 
 	 */
 	public void addRow(AbstractTemplateConstruction construct_row, AbstractTemplateConstruction parent_row, int row_index) {
-		components.add(row_index + 1, construct_row);
+                LOG.info(
+                                "::addRow()[ construct_row=>{}, parent_row=>{}, row_index=>{} ]", 
+                                construct_row.toString(), 
+                                (null == parent_row) ? "NULL" : parent_row.toString(), 
+                                row_index 
+                        );
+                //LOG.info( "StackTrace:\n{}", Arrays.toString( Thread.currentThread().getStackTrace() ) );
+
+                int insertionPoint = row_index + 1;
+                construct_row.setIndex(insertionPoint);
+		components.add(insertionPoint, construct_row);
 
 		//compose hierarchy of control structures
 		if(parent_row!=null)
@@ -123,6 +180,13 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 			insertNode(-1, construct_row.getNode(), doc_node);
 			
 		construct_row.setAssignment(this);
+
+                /*
+                SimpleNode new_node;
+                SimpleNode parent_node;
+                int index;
+                insertNode(index, new_node, parent_node);
+                */
 	}
 	
 	/**
@@ -131,14 +195,12 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * @param construct_row		assignment construction to add
 	 */
 	public void addRow(AbstractTemplateConstruction construct_row) {
-		boolean is_empty = components.size()==0; 
-		AbstractTemplateConstruction sr = null;
-		if (selectedRowIndex<components.size()) 
-			 sr = components.get(selectedRowIndex);
-		
-		addRow(construct_row, sr, selectedRowIndex);
-		if(!is_empty)
-			selectedRowIndex++;
+		addRow(
+                                construct_row, 
+                                components.get(getSelectedIndex()),
+                                getSelectedIndex()
+                        );
+		incrementSelectedIndex();
 	}
 	
 	/**
@@ -153,56 +215,63 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 
 	/** Returns number of components in the assignment */
 	public int getRowCount() { return components.size(); }
-	/** Returns the assignment constructions list */
-	public List<AbstractTemplateConstruction> getRows() { return components; }
-	
-	/** The setter for the selected index */
-	public void setSelectedIndex(int selectedRow) { this.selectedRowIndex = selectedRow; }
-	/** The getter for the selected index */
-	public int getSelectedIndex() { return selectedRowIndex; }
+
+	/** 
+         * Retrieve the list of assignment components visible in the editor.
+         * Each components position in the list is updated to reflect changes in the collection ordering.
+         *
+         * @return List of Assignment components for the Editor.
+         */
+	public List<AbstractTemplateConstruction> getRows() { 
+                LOG.info("::getRows() [\n{}\n]", components.toString());
+                List<AbstractTemplateConstruction> items = new ArrayList<AbstractTemplateConstruction>();
+
+                ListIterator<AbstractTemplateConstruction> it = components.listIterator(); 
+                while (it.hasNext()) {
+                        int idx = it.nextIndex();
+                        AbstractTemplateConstruction item = it.next();
+                        item.setIndex(idx);
+                        if (item.isVisible()) items.add(item);
+                }
+
+                LOG.info("::getRows() [\n{}\n]", items.toString());
+                return items; 
+        }
 	
 	/** */
 	public boolean getDecorateWithLatex() { return decorateWithLatex; }
 	/** */
 	public void setDecorateWithLatex(boolean decorateWithLatex) { this.decorateWithLatex = decorateWithLatex; }
 	
-	/**
-	 * Returns the selected assignment construction
-	 */
-	public AbstractTemplateConstruction getSelectedRow() {
-		if(components.size()==0)
-			return null;
-		if(selectedRowIndex<components.size())
-			return components.get(selectedRowIndex);
-		else
-			return components.get(components.size()-1);
-	}
-	
+	/** Returns the selected assignment construction */
+	public AbstractTemplateConstruction getSelectedRow() { return components.get(getSelectedIndex()); }
+
 	/**
 	 * Removes the selected assignment construction
 	 */
 	public void removeSelectedRow() {
-		if(selectedRowIndex>=0 && selectedRowIndex<components.size()) 
-			components.remove(selectedRowIndex).onRemove();
+                LOG.info( "::removeSelectedRow()[ classs selectedIndex => {} ]", getSelectedIndex() );
+                components.remove(getSelectedIndex()).onRemove();
 	}
 	
 	/**
 	 * Gets the template code as {@link String}
 	 */
-	public String getCode() {
-		return template_node.getCode();
-	}
+	public String getCode() { return template_node.getCode(); }
 	
+        /**
+         * Test for 'Executable' content.
+         * If the content does not contain <code>CallConstruction</code> or non-empty <code>TextConstruction</code>
+         * then the content is considered 'Non-Executable' and therefore effectively 'Empty'.
+         */
 	public boolean isContentEmpty() {
-		boolean can = false;
-		if(components.size()==0)
-			return true;
-		for(AbstractTemplateConstruction it: components) {
-			can = can || ((it instanceof TextConstruction) && it.getNode().getCode().trim().length()!=0)
-					|| (it instanceof CallConstruction);
-			if(can)
-				return false;
-		}
+                for (AbstractTemplateConstruction it : components) {
+                        if ( 
+                                it instanceof CallConstruction || 
+                                ( it instanceof TextConstruction && !(it.getNode().getCode().trim().isEmpty()) ) 
+                        )
+                                return false;
+                }
 		return true;
 	}
 	
@@ -216,9 +285,11 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * @throws IOException
 	 */
 	public void setCode(String code) throws ParseException, UnsupportedEncodingException, IOException {
+                LOG.info("::setCode()[ code=>\n{}\n]", code);
+
 		components.clear();
 		initTemplate();
-		selectedRowIndex = -1; //Position to insert new node/construction
+		setSelectedIndex(-1);     // Next component will be inserted after this position (ie @[0] for empty component list.
 
 		if(code!=null && code.length()>0) {
 			Engine engine = new Engine();
@@ -229,10 +300,8 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 			in.close();
 			analyseNode(tmp_node.getDocument(), null);
 		}
-		if(components.size()==0)
-			selectedRowIndex = 0;
-		else
-			selectedRowIndex = components.size() - 1; 
+
+                setSelectedIndex( components.size() - 1 ); // Select last component.
 	}
 
 	/**
@@ -242,36 +311,38 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * @param parent	parent assignment construction
 	 */
 	protected void analyseNode(SimpleNode node, AbstractTemplateConstruction parent) {
-		//Logger log = Logger.getLogger(getClass());
+                LOG.info( 
+                                "::analyseNode()[ node=>{}, parent=>{} ]", 
+                                node.toString(), 
+                                null == parent ? "NULL" : parent.toString() 
+                        );
 		for(int i=0; i<node.jjtGetNumChildren();i++) {
-			//log.debug(""+i+"/"+node.jjtGetNumChildren());
-			//log.debug(node);
-			//log.debug(parent);
 			SimpleNode child = (SimpleNode) node.jjtGetChild(i); 
-			//log.debug(child);
 			if(child instanceof ASTAnyText) {
-				addRow(new TextConstruction((ASTAnyText)child), parent, selectedRowIndex++);
+				addNonVisibleComponent(new TextConstruction((ASTAnyText)child), parent, incrementSelectedIndex());
 			} else if(child instanceof ASTCall) {
 				((ASTCall)child).setEngine(null);
-				addRow(new CallConstruction((ASTCall)child), parent, selectedRowIndex++);
+				addNonVisibleComponent(new CallConstruction((ASTCall)child), parent, incrementSelectedIndex());
 			} else if(child instanceof ASTRepeat) {
 				ASTRepeat rn = new ASTRepeat(0); //We can't just insert a node that is container in new template code tree
 												 //So the new fresh node object has to be created.  
 				rn.setRepeatsNum(((ASTRepeat) child).getRepeatsNum());
 				RepeatConstruction repeat = new RepeatConstruction(rn);
-				addRow(repeat, parent, selectedRowIndex);
-				selectedRowIndex++;
+				addNonVisibleComponent(repeat, parent, getSelectedIndex());
+				incrementSelectedIndex();
 				analyseNode(child, repeat);
-				selectedRowIndex++;
+				incrementSelectedIndex();
 			} else if(child instanceof ASTSection) {
 				ASTSection asc = new ASTSection(0);
 				asc.setName(((ASTSection)child).getName());
 				SectionConstruction sc = new SectionConstruction(asc);
-				addRow(sc, parent, selectedRowIndex);
-				selectedRowIndex++;
+				addNonVisibleComponent(sc, parent, getSelectedIndex());
+				incrementSelectedIndex();
 				analyseNode(child, sc);
-				selectedRowIndex++;
-			}
+				incrementSelectedIndex();
+			} else {
+                                LOG.warn( "::analyseNode()[ {} NOT recognised - Ignoring ... ]", node.getCode() );
+                        }
 		}
 			
 	}

@@ -22,12 +22,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import au.edu.uq.smartass.web.TemplatesItemModel;
 import au.edu.uq.smartass.web.jdbc.TemplatesDao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * The AddCallsAction class is the Spring bean that executes an action 
  * "Add %%CALL construction for each selected template to assignment"
  *
  */
 public class AddCallsAction {
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( AddCallsAction.class );
+
 	/** Data-aware object to access template properties in the repository */
 	TemplatesDao templatesDao;
 	
@@ -39,13 +47,15 @@ public class AddCallsAction {
 	 * @param assignment	assignment that is edited
 	 */
 	public void execute(SelectTemplatesControl calls, AssignmentConstruct assignment) {
-		if(calls==null || calls.selectedIds==null)
-			return;
-		for(String s: calls.selectedIds) {
+                LOG.info("::execute()[ calls=>{}, assignment=>{} ]", calls.getNameFilter(), "-");
+
+		if ( calls == null || calls.getSelectedIds() == null ) return;
+
+		for (String s: calls.getSelectedIds()) {
 			TemplatesItemModel t = templatesDao.getItem(Integer.parseInt(s));
 			String fullname = t.getName() + ".tex";
-			if(t.getPath()!=null && t.getPath().length()>0)
-				fullname = t.getPath() + File.separator + fullname;
+			if ( t.getPath() != null && t.getPath().length() > 0 )
+                                        fullname = t.getPath() + File.separator + fullname;
 			assignment.addRow(new CallConstruction(fullname)); //insert new construction after selected assignment row 
 		}
 			
@@ -55,7 +65,5 @@ public class AddCallsAction {
 	 * The setter for the templatesDao field - a data-aware object to access template properties in the repository
 	 */
 	@Autowired
-	public void setTemplatesDao(TemplatesDao templatesDao) {
-		this.templatesDao = templatesDao;
-	}
+	public void setTemplatesDao(TemplatesDao templatesDao) { this.templatesDao = templatesDao; }
 }

@@ -18,6 +18,10 @@ package au.edu.uq.smartass.web.composer;
 
 import au.edu.uq.smartass.templates.texparser.ASTSection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * The SectionConstruction class
  * represents the %%SECTION part from the "%%SECTION name ... %%END name" construction
@@ -26,14 +30,33 @@ import au.edu.uq.smartass.templates.texparser.ASTSection;
  *
  */
 public class SectionConstruction extends AbstractTemplateConstruction {
-	SectionEndConstruction end;
-	
+
+	/** Class logger. */
+	private static final Logger LOG = LoggerFactory.getLogger( SectionConstruction.class );
+
+
+        /** */
+	private SectionEndConstruction end;
+        {
+                end = new SectionEndConstruction(this);
+        }
+
+        /**
+         * Set the 'Assignment Editor' visibity for this component.
+         * The super class method is overridden because this component has a corresponding closing element.
+         *
+         * @param visible A flag indicating if the component should be shown in the 'Assignment Editor'.
+         */
+        @Override public void setVisible(boolean visible) {
+                super.setVisible(visible);
+                end.setVisible(visible);
+        }
+
 	/**
 	 * Creates new {@link SectionConstruction}
 	 */
 	public SectionConstruction() {
 		setNode(new ASTSection(0));
-		end = new SectionEndConstruction(this);
 	}
 	
 	/**
@@ -41,7 +64,6 @@ public class SectionConstruction extends AbstractTemplateConstruction {
 	 */
 	public SectionConstruction(ASTSection node) {
 		setNode(node);
-		end = new SectionEndConstruction(this);
 	}
 	
 	/**
@@ -104,8 +126,10 @@ public class SectionConstruction extends AbstractTemplateConstruction {
 	 * The setter for the assignment that is edited
 	 */
 	public void setAssignment(AssignmentConstruct assignment) {
+                LOG.info("::setAssignment()[ assignment=>{} ]");
 		super.setAssignment(assignment);
 		if(assignment!=null) 
-			assignment.addRow(end, parent,  assignment.selectedRowIndex+1);
+                        LOG.info("::setAssignment()[ end_component=>{} ]", end.isVisible() ? "VISIBLE" : "HIDDEN" );
+			assignment.addRow(end, parent, assignment.getSelectedIndex() + 1);
 	}
 }

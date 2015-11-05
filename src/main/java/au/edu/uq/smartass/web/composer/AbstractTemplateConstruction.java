@@ -33,52 +33,53 @@ import au.edu.uq.smartass.templates.texparser.SimpleNode;
 public abstract class AbstractTemplateConstruction implements AssignmentConstructRow, Serializable {
 
 	/** The template node this construction represents */
-	SimpleNode node;
+	protected SimpleNode node;
+
 	/** Parent construction */
-	AbstractTemplateConstruction parent;
+	protected AbstractTemplateConstruction parent;
+
 	/** Child constructions */
-	Vector<AbstractTemplateConstruction> children = new Vector<AbstractTemplateConstruction>();
-	List<AssignmentWizardItem> addons;
+	private Vector<AbstractTemplateConstruction> children = new Vector<AbstractTemplateConstruction>();
+
+        /** */
+	private List<AssignmentWizardItem> addons;
 	
 	/**  */
-	int level;
+	private int level;
 	/** The link to assignment edited */
-	AssignmentConstruct assignment;
-	
+	protected AssignmentConstruct assignment;
+
+        /** Not all components should have Assignment Editor representation. */
+        private boolean visible = true;
+        public boolean isVisible() { return visible; }
+        public void setVisible(boolean visible) { this.visible = visible; }
+
+        /** A means of identifying the component. */
+        private int index;
+        public int getIndex() { return index; }
+        public void setIndex(int index) { this.index = index; }
+
+
+	/**  */
 	public AbstractTemplateConstruction() {}
 	
+	/**  */
 	public AbstractTemplateConstruction(SimpleNode node) {
 		setNode(node);
 	}
 	
 
-	/**
-	 * The getter for the node this construction represents 
-	 */
-	public SimpleNode getNode() {
-		return node;
-	}
+	/** The getter for the node this construction represents */
+	public SimpleNode getNode() { return node; }
 	
-	/**
-	 * The setter for the node this construction represents 
-	 */
-	protected void setNode(SimpleNode node) {
-		this.node = node;
-	}
+	/** The setter for the node this construction represents */
+	protected void setNode(SimpleNode node) { this.node = node; }
 	
-	/**
-	 * Returns true if this construction can be a parent for other constructions 
-	 */
-	public boolean canParent() {
-		return false; 
-	}
+	/** Returns true if this construction can be a parent for other constructions */
+	public boolean canParent() { return false; }
 	
-	/**
-	 * The getter for the parent construction 
-	 */
-	public AbstractTemplateConstruction getParent() {
-		return parent;
-	}
+	/** The getter for the parent construction */
+	public AbstractTemplateConstruction getParent() { return parent; }
 	
 	/**
 	 * The setter for the parent construction	 
