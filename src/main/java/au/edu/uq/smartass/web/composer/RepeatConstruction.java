@@ -101,7 +101,7 @@ public class RepeatConstruction extends AbstractTemplateConstruction {
 	public void setAssignment(AssignmentConstruct assignment) {
 		super.setAssignment(assignment);
 		if(assignment!=null) 
-			assignment.addRow(end, parent,  assignment.selectedRowIndex+1);
+			assignment.addRow(end, parent, assignment.getSelectedIndex() + 1);
 	}
 	
 }

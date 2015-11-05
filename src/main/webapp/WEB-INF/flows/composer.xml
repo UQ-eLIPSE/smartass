@@ -27,14 +27,14 @@
                 <if test="id==null || id==0" then="wizard" else="assignmentEditor"/>
         </decision-state>
 
-  <view-state id="wizard" view="newAssignmentWizardForm.jsp" model="items">
-    <on-entry>
-      <evaluate expression="assignmentWizardController.prepareWizard()" result="viewScope.items" />
-		</on-entry>
-    <transition on="ok" to="assignmentEditor">
-			<evaluate expression="assignmentWizardController.createAssignment(flowScope.template, 'default.tex', viewScope.items.items, messageContext)" />
-		</transition>
-	</view-state>
+    <view-state id="wizard" view="newAssignmentWizardForm.jsp" model="items">
+        <on-entry>
+            <evaluate expression="assignmentWizardController.prepareWizard()" result="viewScope.items" />
+        </on-entry>
+        <transition on="ok" to="assignmentEditor">
+        <evaluate expression="assignmentWizardController.createAssignment(flowScope.template, 'default.tex', viewScope.items.items, messageContext)" />
+        </transition>
+    </view-state>
 
         <!--
                         . Assignment Editor .
@@ -72,14 +72,14 @@
                 <transition on="finish" to="finish" bind="false"/>
         </view-state>
 
-  <view-state id="addText" view="editTextForm.jsp" model="item">
-    <on-render>
-			<evaluate expression="new au.edu.uq.smartass.web.composer.TextConstruction()" result="viewScope.item" />
-		</on-render>
-    <transition on="ok" to="assignmentEditor">
-			<evaluate expression="flowScope.template.addRow(viewScope.item)" />
-		</transition>
-	</view-state>
+    <view-state id="addText" view="editTextForm.jsp" model="item">
+        <on-render>
+            <evaluate expression="new au.edu.uq.smartass.web.composer.TextConstruction()" result="viewScope.item" />
+        </on-render>
+        <transition on="ok" to="assignmentEditor">
+            <evaluate expression="flowScope.template.addRow(viewScope.item)" />
+        </transition>
+    </view-state>
     	
     <view-state id="addRepeat" view="editRepeatForm.jsp" model="item">
     	<on-render>

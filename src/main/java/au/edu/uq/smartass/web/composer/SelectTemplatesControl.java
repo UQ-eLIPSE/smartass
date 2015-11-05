@@ -14,27 +14,21 @@ import au.edu.uq.smartass.web.jdbc.ClassificationsDao;
 import au.edu.uq.smartass.web.jdbc.TemplatesDao;
 
 public class SelectTemplatesControl implements Serializable {
+
 	String nameFilter = "";
 	String keywordsFilter = "";
+
 	List<TemplatesItemModel> templates;
-	List<String> selectedIds;
+
+	private List<String> selectedIds = new ArrayList<String>();
+
 	int classid;
 	int topclassid;
 	int pageNum;
 	int pageNo;
-	int rowsPerPage;
+	int rowsPerPage = 20;           //TODO: move this to app settings
 	int rowsNum;
 	
-	
-	public SelectTemplatesControl() {
-		selectedIds = new ArrayList<String>();
-		
-		rowsPerPage = 20; //TODO: move this to app settings
-/*		UserItemModel user = (UserItemModel) request.getSession().getAttribute("user");
-		if(user!=null && user.getRowsPerPage()>0) 
-			rowsPerPage = user.getRowsPerPage();*/
-		
-	}
 	
 	public String getKeywordsFilter() {
 		return keywordsFilter;

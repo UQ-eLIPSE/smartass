@@ -46,6 +46,7 @@ import au.edu.uq.smartass.web.Zip;
  */
 public class ExecuteTemplateAction  {
 
+        /** Class logger */
 	private static final Logger LOG = LoggerFactory.getLogger( ExecuteTemplateAction.class );
 	
 	/**
@@ -56,9 +57,7 @@ public class ExecuteTemplateAction  {
 	 * @return				{@link Event} to Spring webflow transition to the new state
 	 * @throws Exception
 	 */
-	public String execute(RequestContext context) {
-		return doExecute(null, null, context);
-	}
+	public String execute(RequestContext context) { return doExecute(null, null, context); }
 	
 	/**
 	 * Processes assignment code to create question, solution and short answers files.
@@ -72,7 +71,7 @@ public class ExecuteTemplateAction  {
 	public String doExecute(String prepared_code, String code, RequestContext context) {
 		
 		LOG.debug( 
-			"\n----->doExecute()[\n\n<prepared_code>:\n{} , \n\n<code>:\n{} , \n\n<context>:\n{}\n\n]<-----", 
+			"::doExecute()[\n\n<prepared_code>:\n{} , \n\n<code>:\n{} , \n\n<context>:\n{}\n\n]<-----", 
 			prepared_code, code, context.toString() 
 		);
 

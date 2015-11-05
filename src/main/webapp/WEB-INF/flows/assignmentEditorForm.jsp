@@ -49,23 +49,25 @@
                     . Represent Assignments Constituent Components .
               -->
             <table class='clear'>
-              <c:forEach items='${template.rows}' var='item' varStatus='status'>
-                <tr>
-                  <td class='assignment-selector'>
-                    <form:radiobutton path='selectedIndex' value='${status.index}' onclick='setControlsState("${item.kind}", "${item.parent.kind}")' />
-                  </td>
-                  <td>
-                    <table class='clear'>
-                      <tr>
-                        <td class='assignment-content'>
-                          <c:if test="${item.kind == 'text'}"><pre></c:if>
-                            <c:out value="${item.html}" />
-                          <c:if test="${lastrow.kind == 'text'}"></pre></c:if>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
+              <c:forEach items='${template.rows}' var='item'>
+                <c:if test="${item.visible}">
+                  <tr>
+                    <td class='assignment-selector'>
+                      <form:radiobutton path='selectedIndex' value='${item.index}' onclick='setControlsState("${item.kind}", "${item.parent.kind}")' />
+                    </td>
+                    <td>
+                      <table class='clear'>
+                        <tr>
+                          <td class='assignment-content'>
+                            <c:if test="${item.kind == 'text'}"><pre></c:if>
+                              <c:out value="${item.html}" />
+                            <c:if test="${lastrow.kind == 'text'}"></pre></c:if>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </c:if>
               </c:forEach>
             </table>
             <!--     _____     -->
