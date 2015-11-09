@@ -59,14 +59,14 @@ public class Zip {
 	 * @throws IOException
 	 */
 	public static void addToZip(ZipOutputStream zip, String entryname, String data) throws IOException {
-        ZipEntry newEntry = new ZipEntry(entryname);
-        newEntry.setSize(data.length());
-        newEntry.setTime(System.currentTimeMillis());
-        zip.putNextEntry(newEntry);
-        byte[] buffer = data.getBytes();
-        zip.write(buffer, 0, buffer.length);
-        zip.closeEntry();
-    }
+		ZipEntry newEntry = new ZipEntry(entryname);
+		newEntry.setSize(data.length());
+		newEntry.setTime(System.currentTimeMillis());
+		zip.putNextEntry(newEntry);
+		byte[] buffer = data.getBytes();
+		zip.write(buffer, 0, buffer.length);
+		zip.closeEntry();
+	}
 	
 	/**
 	 * Writes data from the {@link File} to the given {@link ZipOutputStream} as the entry with given name

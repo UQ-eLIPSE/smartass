@@ -13,8 +13,8 @@ apply plugin: 'java'
 apply plugin: 'war'
 
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 
 task wrapper(type: Wrapper) {
@@ -78,9 +78,9 @@ gretty {
         inplaceMode = 'hard'
 }
 
-jar {
-	baseName = 'smartass'
-	version = '0.1.0'
+war {
+	baseName = 'smartass-dev'
+//	version = '0.1.0'
 }
 
 
