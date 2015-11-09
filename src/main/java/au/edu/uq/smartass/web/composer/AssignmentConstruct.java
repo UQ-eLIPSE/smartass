@@ -72,13 +72,14 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
          */
 	private int selectedIndex;
 	public void setSelectedIndex(int selectedIndex) { 
-                LOG.debug( "::setSelectedIndex( {} )[ {} => {} ]", selectedIndex, selectedIndex, this.selectedIndex );
+                LOG.debug( "::setSelectedIndex( {} )[ {} => {} ]", selectedIndex, this.selectedIndex, selectedIndex );
                 this.selectedIndex = selectedIndex; 
         }
 	public int getSelectedIndex() { return selectedIndex; }
         public int incrementSelectedIndex() {
+		int result = selectedIndex;
                 setSelectedIndex( selectedIndex + 1 );
-                return selectedIndex;
+                return result;
         }
 
         /** @TODO: Use a unique identifier (HashCode?) for selected object. */
@@ -316,13 +317,16 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
                                 node.toString(), 
                                 null == parent ? "NULL" : parent.toString() 
                         );
-		for(int i=0; i<node.jjtGetNumChildren();i++) {
+		for (int i=0; i<node.jjtGetNumChildren();i++) {
 			SimpleNode child = (SimpleNode) node.jjtGetChild(i); 
+
 			if(child instanceof ASTAnyText) {
 				addNonVisibleComponent(new TextConstruction((ASTAnyText)child), parent, incrementSelectedIndex());
+
 			} else if(child instanceof ASTCall) {
 				((ASTCall)child).setEngine(null);
 				addNonVisibleComponent(new CallConstruction((ASTCall)child), parent, incrementSelectedIndex());
+
 			} else if(child instanceof ASTRepeat) {
 				ASTRepeat rn = new ASTRepeat(0); //We can't just insert a node that is container in new template code tree
 												 //So the new fresh node object has to be created.  
@@ -332,6 +336,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 				incrementSelectedIndex();
 				analyseNode(child, repeat);
 				incrementSelectedIndex();
+
 			} else if(child instanceof ASTSection) {
 				ASTSection asc = new ASTSection(0);
 				asc.setName(((ASTSection)child).getName());
@@ -340,6 +345,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 				incrementSelectedIndex();
 				analyseNode(child, sc);
 				incrementSelectedIndex();
+
 			} else {
                                 LOG.warn( "::analyseNode()[ {} NOT recognised - Ignoring ... ]", node.getCode() );
                         }

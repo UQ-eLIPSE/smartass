@@ -16,6 +16,7 @@ package au.edu.uq.smartass.web.composer;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
@@ -38,6 +39,8 @@ public class DviPdfCreator {
 	/** Class logger. */
 	private static final Logger LOG = LoggerFactory.getLogger( DviPdfCreator.class );
 
+	private static final String[] texDocs = { "questions.tex", "answers.tex", "solutions.tex" };
+
         /** */
         private File out_path;
 
@@ -56,8 +59,9 @@ public class DviPdfCreator {
                 
                 out_path = new File( preferences.get("output_path", "") );
                 tex_path = preferences.get("tex_path", ".");
-                latex_cmd = preferences.get("latex_command", "/usr/bin/latex");
-                pdflatex_cmd = preferences.get("pdflatex_command", "/usr/bin/pdflatex");
+
+                latex_cmd = preferences.get("latex_command", "latex");
+                pdflatex_cmd = preferences.get("pdflatex_command", "pdflatex");
 
                 // @TODO: check for existance of Process Commands on system.
                 // @TODO: *     'latex'
@@ -72,15 +76,7 @@ public class DviPdfCreator {
 	 * @throws IOException
 	 */
 	public void makePdfs(String texPath)  throws IOException {
-		File workPath = new File(out_path, texPath);
-		runLatex(pdflatex_cmd, workPath, "questions.tex");
-		runLatex(pdflatex_cmd, workPath, "questions.tex");
-		runLatex(pdflatex_cmd, workPath, "answers.tex");
-		runLatex(pdflatex_cmd, workPath, "answers.tex");
-		runLatex(pdflatex_cmd, workPath, "solutions.tex");
-		runLatex(pdflatex_cmd, workPath, "solutions.tex");
-		
-		zipFiles(workPath, "pdf");
+		createDocs(pdflatex_cmd, texPath, "pdf");
 	}
 	
 	/**
@@ -90,14 +86,15 @@ public class DviPdfCreator {
 	 * @throws IOException
 	 */
 	public void makeDvis(String texPath)  throws IOException {
-                File workPath = new File(out_path, texPath);
-		runLatex(latex_cmd, workPath, "questions.tex");
-		runLatex(latex_cmd, workPath, "answers.tex");
-		runLatex(latex_cmd, workPath, "solutions.tex");
-		
-		zipFiles(workPath, "dvi");
+		createDocs(latex_cmd, texPath, "dvi");
 	}
-	
+
+	private void createDocs(final String command, final String texPath, final String ext) throws IOException {
+                File workPath = new File(out_path, texPath);
+		for (String texDoc : texDocs) runLatex(command, workPath, texDoc);
+		archiveFiles(workPath, ext);
+	}
+
 	/**
 	 * Executes external (not java) routines to create DVI/PDF from the LaTeX code
 	 *   
@@ -115,37 +112,55 @@ public class DviPdfCreator {
                         );
                 Map<String,String> environment = builder.environment();
                 environment.put("TEXINPUTS", tex_path);
-                builder.directory(workDir);
+		for (Map.Entry<String,String> me : environment.entrySet()){
+			LOG.debug( "::runLatex()[ environment: {} => {} ]", me.getKey(), me.getValue() );
+		}
 
+                builder.directory(workDir);
                 Process process = builder.start();
 
                 BufferedReader processOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 String line;
                 while ( (line = processOut.readLine()) != null)
-                                LOG.info("::runLatex [output]=> {}", line);
+				LOG.debug("::runLatex [output]=> {}", line);
+
+		try {
+			process.waitFor();
+
+		} catch (InterruptedException ex) {
+			LOG.warn( "::runLatex()[ {} ]", ex.getMessage() );
+
+		} finally {
+			if (0 != process.exitValue()) 
+					LOG.warn(
+							"::runLatex()[ Problem running '{}' command on '{}' file! ]", 
+							latex_exec, tex_name 
+						);
+		}
 	}
 	
 	/**
 	 * Zips assignments to allow user download them all together  
 	 * 
-	 * @param outputPath
+	 * @param path
 	 * @param ext
 	 * @throws IOException
 	 */
-	private void zipFiles(File outputPath, String ext) throws IOException {
-		File zipfile = new File(outputPath, "assignments.zip");
-
-		ZipOutputStream zip = Zip.createZip(zipfile);
+	private void archiveFiles(final File path, final String ext) throws IOException {
+		ZipOutputStream archiveFile = Zip.createZip( new File(path, "assignments.zip") );
 		try {
-			Zip.addFileToZip(zip, "questions.tex", new File(outputPath, "questions.tex"));
-			Zip.addFileToZip(zip, "answers.tex", new File(outputPath, "answers.tex"));
-			Zip.addFileToZip(zip, "solutions.tex", new File(outputPath, "solutions.tex"));
-			Zip.addFileToZip(zip, "questions."+ext, new File(outputPath, "questions."+ext));
-			Zip.addFileToZip(zip, "answers."+ext, new File(outputPath, "answers."+ext));
-			Zip.addFileToZip(zip, "solutions."+ext, new File(outputPath, "solutions."+ext));
-		} finally {
-			zip.close();
-		}
+			for (
+				File file : 
+				path.listFiles( new FileFilter() { public boolean accept(File pathname) {
+					return pathname.getName().toLowerCase().matches("^.*(?:tex|" + ext + ")$");
+				}} )
+			) {
+				LOG.info( "::zipFiles()[ Adding '{}' to archive '{}'! ]", file, "assignments.zip" );
+				Zip.addFileToZip(archiveFile, file.getName(), file);
+			}
 
+		} finally {
+			archiveFile.close();
+		}
 	}
 }
