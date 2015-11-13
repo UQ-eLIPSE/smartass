@@ -1,5 +1,4 @@
 /**
- * 
  * This file is part of SmartAss and describes class MathsModule - parent to MathsModules -
  * modules , generating questions and solutions  
  *   

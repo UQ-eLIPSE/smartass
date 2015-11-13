@@ -19,11 +19,6 @@ import au.edu.uq.smartass.templates.texparser.TexParser;
 
 import java.io.*;
 
-import java.lang.reflect.Constructor;
-
-import java.net.URL;
-import java.net.URLClassLoader;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +54,10 @@ public class Engine {
 	public Engine() {
 		LOG.info( "::Engine() initialisation:");
 		LOG.info( "::Engine()[ preferences=>{}] ", preferences.toString() );
+
+		for (Map.Entry<Object,Object> entry : System.getProperties().entrySet())
+				LOG.debug( "::Engine()[ system property : {} => {} ]", entry.getKey(), entry.getValue() );
+
                 initialiseModules();
 	}
 

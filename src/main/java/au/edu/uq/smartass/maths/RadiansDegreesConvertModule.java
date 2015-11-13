@@ -27,8 +27,11 @@ import java.math.*;
 * @version 1.0 20.06.2007
 */
 public class RadiansDegreesConvertModule extends MathsModule{
- private final  Variable pi=new Variable("\\pi");
- MathsOp radians, degrees;  
+
+	private final Variable pi = new Variable("\\pi");
+
+	MathsOp radians;
+	MathsOp degrees;  
  
 /**
 * Constructor RadiansDegreesConvertModule initialises the question.

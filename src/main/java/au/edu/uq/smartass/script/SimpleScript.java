@@ -130,7 +130,7 @@ public class SimpleScript extends Script {
 			if (var != null) {
 				vars.put(name.toLowerCase(), var);
 			} else {
-				LOG.error( "Unable to resolve MathsModule {}!", type);
+				LOG.error( "::createVar() !Unable to resolve MathsModule {}!", type);
 			}
 		} else {
 			; //var redeclaration, but do nothing with this	

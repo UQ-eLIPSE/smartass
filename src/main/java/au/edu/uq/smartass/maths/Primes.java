@@ -33,17 +33,15 @@ public class Primes extends MathsModule{
 	}
 	
  
- public static boolean isPrime(int n) //is m prime number?
-   {
-	if(n<2) return(false);
-	if (n==4) return(false);
-	for(int i=2; i<n/2; i++)
-	{
-	  if(n%i==0) 
-	    return(false);
-	}
-   	return true;
-   } //isPrime	
+	//is 'n' prime number?
+	public static boolean isPrime(int n) {
+		if(n<2) return(false);
+		if (n==4) return(false);
+		for(int i=2; i<n/2; i++) {
+			if(n%i==0) return(false);
+		}
+		return true;
+	} 
    
  public static boolean areCoprime(int m, int n) { //method determines whether m and n are relatively prime
    		return (HCFModule.hcf(m,n)==1);
