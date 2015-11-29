@@ -5,11 +5,11 @@ package au.edu.uq.smartass.templates.texparser;
 import java.util.Set;
 import java.util.Vector;
 
-import au.edu.uq.smartass.auxiliary.RandomChoice;
 import au.edu.uq.smartass.script.Script;
 
 public class ASTMulti extends ComplexNode {
-	Vector<SimpleNode> common;
+
+        Vector<SimpleNode> common;
 	Vector<ASTMultiChoice> choices;
 	int choice_count = 1;
 	
@@ -45,10 +45,10 @@ public class ASTMulti extends ComplexNode {
 		for(int i=0;i<choices.size();i++) 
 			cs.add(i);
 		for(int i=0;i<choice_count && cs.size()>0;i++) {
-			int c = RandomChoice.randInt(0, cs.size()-1);
-			ASTMultiChoice n = choices.get(cs.get(c)); 
+			int idx = (int)(Math.random() * cs.size());
+			ASTMultiChoice n = choices.get(cs.get(idx)); 
 			selected.add(n);
-			cs.remove(c);
+			cs.remove(idx);
 			result.addChild(n.execute(sections, script));
 		}
 		is_executed = true;

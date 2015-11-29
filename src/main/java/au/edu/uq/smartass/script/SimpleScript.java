@@ -12,15 +12,13 @@
  */
 package au.edu.uq.smartass.script;
 
-import au.edu.uq.smartass.engine.*; 
-import au.edu.uq.smartass.maths.*; 
+import au.edu.uq.smartass.engine.Engine;
+import au.edu.uq.smartass.maths.MathsModule;
 import au.edu.uq.smartass.script.ssparser.ParseException;
 import au.edu.uq.smartass.script.ssparser.SimpleScriptParser;
 
 import java.io.File;
-import java.io.Reader;
 import java.io.StringReader;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,12 +52,14 @@ public class SimpleScript extends Script {
 	 * 
 	 * @param line		the line of the scripting language.
 	 * @return			the execution results
+         * 
+         * @todo: Simplify, refactor method - too long.
 	 */
 	protected String executeLine(SimpleScriptParser.ScriptLine line) {
 		if(line instanceof SimpleScriptParser.VarCreation) {
 			SimpleScriptParser.VarCreation vc = (SimpleScriptParser.VarCreation) line;
-			Vector<String> params = new Vector<String>();
-			HashMap<String, DataArray> dsdata = new HashMap<String, DataArray>();
+			Vector<String> params = new Vector<>();
+			HashMap<String, DataArray> dsdata = new HashMap<>();
 			for(Iterator<SimpleScriptParser.VarArg> it=vc.args.iterator();it.hasNext();) {
 				SimpleScriptParser.VarArg arg = it.next();
 				if(arg instanceof SimpleScriptParser.StrArg)
@@ -78,9 +78,7 @@ public class SimpleScript extends Script {
 					if(dsarg.fieldno>0)
 						params.add(d.getField(dsarg.fieldno));
 					else {
-						String[] sd = d.getData();
-						for(int i=0; i<sd.length;i++)
-							params.add(sd[i]);
+                                            params.addAll(Arrays.asList(d.getData()));
 					}
 				}
 			}

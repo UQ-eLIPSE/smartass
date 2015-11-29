@@ -14,15 +14,16 @@
  */
 package au.edu.uq.smartass.script;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
-import au.edu.uq.smartass.auxiliary.RandomChoice;
 /**
  * The KeyDataSource class is the datasource for data access in scripts 
  * that returns data record by key field.
  */
-public class KeyDataSource extends DataSource {
-	Vector<DataArray> data = new Vector<DataArray>(); 
+public class KeyDataSource implements DataSource {
+    
+	List<DataArray> data = new ArrayList<>(); 
 
 	/**
 	 * Creates the datasource and reads the data record that has <code>key</code> string in the field number <code>keyno</code>.
@@ -33,13 +34,10 @@ public class KeyDataSource extends DataSource {
 	 * @param key		the key value
 	 */
 	public KeyDataSource(DataReader reader, int keyno, String key) {
-		super(reader);
-		
-		DataArray d;
-		while((d = reader.readData())!=null)
-			if(d.getField(keyno).equals(key))
-				data.add(d);
-		
+		DataArray dataArray;
+		while ( (dataArray = reader.readData()) != null ) {
+			if (dataArray.getField(keyno).equals(key)) data.add(dataArray);
+                }
 		reader.close();
 	}
 	
@@ -50,10 +48,11 @@ public class KeyDataSource extends DataSource {
 	 * this object on its creation.
 	 */
 	public DataArray getData() {
-		if(data.size()==0)
-			return new DataArray();
-		int pos = RandomChoice.randInt(0, data.size()-1);
-		return data.get(pos);
+		if (data.isEmpty()) return new DataArray();
+                return data.get( (int)(Math.random() * data.size()) );
 	}
+
+        @Override
+        public void close() {}
 
 }

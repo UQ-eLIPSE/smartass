@@ -36,3 +36,4 @@ src/main/webapp/data
 src/main/webapp/download
 *.orig
 make
+/.nb-gradle/
