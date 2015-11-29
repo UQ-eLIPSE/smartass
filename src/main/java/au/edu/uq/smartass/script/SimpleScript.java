@@ -56,6 +56,8 @@ public class SimpleScript extends Script {
 	 *
 	 * @param line		the line of the scripting language.
 	 * @return			the execution results
+         * 
+         * @todo: Simplify, refactor method - too long.
 	 */
 	protected String executeLine(SimpleScriptParser.ScriptLine line) {
 		if(line instanceof SimpleScriptParser.VarCreation) {
