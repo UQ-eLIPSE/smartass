@@ -18,13 +18,15 @@ package au.edu.uq.smartass.script;
  * The SequentialDataSource class is a 
  * datasource that returns records from the data set sequentially.
  */
-public class SequentialDataSource extends DataSource {
+public class SequentialDataSource implements DataSource {
 	
+        DataReader reader;
+        
 	/**
 	 * Creates new {@link SequentialDataSource}
 	 */
 	public SequentialDataSource(DataReader reader) {
-		super(reader);
+		this.reader = reader;
 	}
 
 	@Override
@@ -32,11 +34,16 @@ public class SequentialDataSource extends DataSource {
 	 *	Returns next data record 
 	 */
 	public DataArray getData() {
-		DataArray d = reader.readData();
-		if(d==null) {
+		DataArray dataArray = reader.readData();
+		if( dataArray == null ) {
 			reader.rewindDataStream();
-			d = reader.readData();
+			dataArray = reader.readData();
 		}
-		return d;
+		return dataArray;
 	}
+
+        @Override
+        public void close() { 
+            reader.close();
+        }
 }

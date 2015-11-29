@@ -12,17 +12,23 @@
  */
 package au.edu.uq.smartass.engine;
 
-import au.edu.uq.smartass.maths.*;
+import au.edu.uq.smartass.maths.MathsModule;
 import au.edu.uq.smartass.script.DataSource;
-import au.edu.uq.smartass.templates.*;
-import au.edu.uq.smartass.templates.texparser.TexParser;
+import au.edu.uq.smartass.templates.TemplateNotFoundException;
+import au.edu.uq.smartass.templates.TemplateParseException;
+import au.edu.uq.smartass.templates.TemplateReader;
+import au.edu.uq.smartass.templates.TexReader;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import java.util.prefs.Preferences;
 
@@ -36,17 +42,18 @@ public class Engine {
 	private static final Logger LOG = LoggerFactory.getLogger( Engine.class );
 
         /** */
-	private static Preferences preferences = Preferences.userRoot().node("au/edu/uq/smartass");
+	private static final Preferences preferences 
+                = Preferences.userRoot().node("au/edu/uq/smartass");
 
 	
 	/** Map system installed MathsModule class name to MathsModule class. */
-	Map<String, Class<MathsModule> > mathModuleMap = new HashMap<String, Class<MathsModule> >();
+	Map<String, Class<MathsModule> > mathModuleMap = new HashMap< >();
 
 	/** */
-	HashMap<String, Class> readers = new HashMap<String, Class>();
+	HashMap<String, Class> readers = new HashMap<>();
 
 	/** */
-	HashMap<String, DataSource> datasources = new HashMap<String, DataSource>();
+	HashMap<String, DataSource> datasources = new HashMap<>();
 
 	/**
 	 * Default Constructor
@@ -63,6 +70,8 @@ public class Engine {
 
         /**
          *
+         * @param key
+         * @return 
          */
 	public String getPreference(String key) { return getPreference(key, ""); }
 	public String getPreference(String key, String def) { return preferences.get(key, def); }
@@ -144,6 +153,8 @@ public class Engine {
 	/**
 	 * Retrieve a pre-registered MathsModule by name.
 	 *
+         * @param module_name
+         * @return 
 	 * @see <code>getMathsModule</code>
 	 */
 	public MathsModule getMathsModule(String module_name) {
@@ -167,7 +178,7 @@ public class Engine {
 					? modc.getConstructor(Engine.class).newInstance(this)
 					: modc.getConstructor(Engine.class, String[].class).newInstance(this, params)
 				;
-		} catch (Exception ex) {
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
 			LOG.error( "Could not retrieve a MathsModule registered in the Engine! [ {} ]", ex.getMessage() );
 			LOG.debug( "{}", Arrays.toString(ex.getStackTrace()) );
 			return null;
@@ -175,12 +186,15 @@ public class Engine {
 	}
 
 
-	/*This method takes the template type and body (not the template file name) as its arguments
-	 * This is useful to isolate template processing from file system specifics and so on.
-	 * Returns the result of template processing
-	 */
-	public Map<String, String> processTemplate(InputStream template, String type) throws TemplateParseException
-	{
+	/** This method takes the template type and body (not the template file name) as its arguments
+	  * This is useful to isolate template processing from file system specifics and so on.
+          *
+          * @param template
+          * @param type
+	  * @return the result of template processing
+          * @throws au.edu.uq.smartass.templates.TemplateParseException
+	  */
+        public Map<String, String> processTemplate(InputStream template, String type) throws TemplateParseException {
 		TemplateReader tr = getTemplateReader(type);
 
 		//----------- it seems that we need no this in engine... ------------
@@ -252,8 +266,7 @@ public class Engine {
 	
 	public void addDataSource(String name, DataSource ds) {
 		DataSource oldds = datasources.get(name);
-		if(oldds!=null)
-			oldds.close();
+		if (oldds != null) oldds.close();
 		datasources.put(name, ds);
 	}
 	
@@ -266,8 +279,7 @@ public class Engine {
 	}
 	
 	public void clearDataSources() {
-		for(DataSource ds : datasources.values()) 
-			ds.close();
+		for (DataSource ds : datasources.values()) ds.close();
 		datasources.clear();
 	}
 }

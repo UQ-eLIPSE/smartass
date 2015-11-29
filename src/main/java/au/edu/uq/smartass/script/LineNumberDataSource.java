@@ -18,8 +18,8 @@ package au.edu.uq.smartass.script;
  * The LineNumberDataSource class is a datasource that returns single record 
  * basing on its position is the data set.
  */
-public class LineNumberDataSource extends DataSource {
-	DataArray d;
+public class LineNumberDataSource implements DataSource {
+	DataArray dataArray;
 
 	/**
 	 * Creates {@link LineNumberDataSource} and reads record at <code>lineno</code> position
@@ -27,23 +27,21 @@ public class LineNumberDataSource extends DataSource {
 	 * @param reader	data reader
 	 * @param lineno	the "line number" - the number of data record in the data set
 	 */
+        @SuppressWarnings("empty-statement")
 	public LineNumberDataSource(DataReader reader, int lineno) {
-		super(reader);
-		
-		if(lineno>0) {
+		if (lineno > 0) {
 			int n = 0;
-		
-			while((d = reader.readData())!=null && ++n<lineno);
+			while ( (dataArray = reader.readData()) != null && ++n < lineno ) {};
 		}
-		if(d==null)
-			d = new DataArray();
+		if (dataArray==null) dataArray = new DataArray();
 		
-		reader.close(); //need no this reader more...
+		reader.close();
 	}
 	
 	@Override
-	public DataArray getData() {
-		return d;
-	}
+	public DataArray getData() { return dataArray; }
+
+        @Override
+        public void close() {}
 
 }
