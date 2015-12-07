@@ -56,7 +56,7 @@ public abstract class TemplateAwareController extends AbstractController {
 		if(tr==null) {
 			InputStream tin = repository.getFile(0, "", name);
 			if(tin!=null) {
-				Engine engine = new Engine();
+				Engine engine = Engine.getInstance();
 				tr = (TexReader) engine.getTemplateReader("tex");
 				tr.loadTemplate(tin);
 				engine.close();

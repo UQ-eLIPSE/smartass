@@ -18,10 +18,11 @@ package au.edu.uq.smartass.repository.data;
 import java.sql.SQLException;
 
 import javax.sql.RowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
 
 import au.edu.uq.smartass.repository.LookupTableModel;
 
-import com.sun.rowset.JdbcRowSetImpl;
 
 /**
  * The DictionaryDataModel class is the ancestor for all dictionary models 
@@ -71,13 +72,16 @@ abstract public class DictionaryDataModel extends IntIdDataModel {
 	}
 
 	public LookupTableModel getLookupModel() {
-    	RowSet rs;
 		try {
-			rs = new JdbcRowSetImpl(data.getConnection());
-			rs.setCommand(composeRowsetSql(null));
-			rs.execute();
-			return new LookupTableModel(rs);
+			RowSetFactory rowSetFactory = RowSetProvider.newFactory();
+			RowSet rowSet = rowSetFactory.createJdbcRowSet();
+			//RowSet rowSet;
+			//rowSet = new JdbcRowSetImpl(data.getConnection());
+			rowSet.setCommand(composeRowsetSql(null));
+			rowSet.execute();
+			return new LookupTableModel(rowSet);
 		} catch (SQLException e) {
+			// @TODO: log this - throw?
 			e.printStackTrace();
 		}
 		return null;

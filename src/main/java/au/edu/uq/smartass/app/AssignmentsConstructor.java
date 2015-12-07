@@ -72,7 +72,6 @@ public class AssignmentsConstructor extends JFrame {
 	static String[] conn_str;
 	RepositoryStorage storage;
 	Database data;
-	Engine engine;
 	ConstructorTableModel ass_model;
 	RowSetTableModel templates_model;
 	ASTTemplate template_node;
@@ -703,8 +702,7 @@ public class AssignmentsConstructor extends JFrame {
 				JFileChooser fc = new JFileChooser();
 				if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
 					try {
-						if(engine==null)
-							engine = new Engine();
+						Engine engine = Engine.getInstance();
 						TexReader tr = new TexReader(engine);
 						InputStream in = new FileInputStream(fc.getSelectedFile());
 						tr.loadTemplate(in);

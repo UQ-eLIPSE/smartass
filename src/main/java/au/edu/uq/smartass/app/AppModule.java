@@ -22,8 +22,10 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
  
-public class AppModule {  
-	protected Engine engine;
+public class AppModule {
+
+	protected Engine engine = Engine.getInstance();
+
 	protected boolean doPdf = false;
 
 	/**
@@ -147,10 +149,6 @@ public class AppModule {
 		}
 	}
 
-	AppModule() 
-	{
-		engine = new Engine();
-	}
 
 	/**
 	 * Application entry point

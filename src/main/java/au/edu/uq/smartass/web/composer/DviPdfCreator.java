@@ -104,25 +104,25 @@ public class DviPdfCreator {
 	 * @throws IOException
 	 */
 	public void runLatex(String latex_exec, File workDir, String tex_name) throws IOException {
-                LOG.info("::runLatex [ latex_exec=>{}, working_directory=>{}, tex_name=>{} ]", latex_exec, workDir, tex_name);
-                ProcessBuilder builder = new ProcessBuilder(
-                                latex_exec,
-                                "-interaction=batchmode",
-                                "\"" + tex_name + "\""
-                        );
-                Map<String,String> environment = builder.environment();
-                environment.put("TEXINPUTS", tex_path);
-		for (Map.Entry<String,String> me : environment.entrySet()){
-			LOG.debug( "::runLatex()[ environment: {} => {} ]", me.getKey(), me.getValue() );
-		}
+        LOG.info("::runLatex [ latex_exec=>{}, working_directory=>{}, tex_name=>{} ]", latex_exec, workDir, tex_name);
+        ProcessBuilder builder = new ProcessBuilder(
+                latex_exec,
+                "-interaction=batchmode",
+                "\"" + tex_name + "\""
+            );
+        Map<String,String> environment = builder.environment();
+        environment.put("TEXINPUTS", tex_path);
+//		for (Map.Entry<String,String> me : environment.entrySet()){
+//			LOG.debug( "::runLatex()[ environment: {} => {} ]", me.getKey(), me.getValue() );
+//		}
 
-                builder.directory(workDir);
-                Process process = builder.start();
+        builder.directory(workDir);
+        Process process = builder.start();
 
-                BufferedReader processOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                String line;
-                while ( (line = processOut.readLine()) != null)
-				LOG.debug("::runLatex [output]=> {}", line);
+        BufferedReader processOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        while ( (line = processOut.readLine()) != null)
+        LOG.debug("::runLatex [output]=> {}", line);
 
 		try {
 			process.waitFor();

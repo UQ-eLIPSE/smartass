@@ -85,7 +85,7 @@ public class ExecuteTemplateAction  {
 
 			//context.getRequestParameters().get("code");
 			
-			Engine engine = new Engine();
+			Engine engine = Engine.getInstance();
 			TexReader tr = (TexReader) engine.getTemplateReader("tex");
 
 			// ParseException
@@ -174,7 +174,7 @@ public class ExecuteTemplateAction  {
 
 		context.getExternalContext().getSessionMap().put("TEMPLATE_NAME", "COMPOSER");
 		context.getExternalContext().getSessionMap().put("TEMPLATE_EXECUTED", null);
-		Engine engine = new Engine();
+		Engine engine = Engine.getInstance();
 		TexReader tr =  (TexReader) engine.getTemplateReader("tex");
 		tr.loadTemplate(tex);
 		//l.debug("pp-tr: " + tr);

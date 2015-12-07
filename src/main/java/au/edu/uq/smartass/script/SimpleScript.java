@@ -13,7 +13,7 @@
 package au.edu.uq.smartass.script;
 
 import au.edu.uq.smartass.engine.Engine;
-import au.edu.uq.smartass.maths.MathsModule;
+import au.edu.uq.smartass.engine.QuestionModule;
 import au.edu.uq.smartass.script.ssparser.ParseException;
 import au.edu.uq.smartass.script.ssparser.SimpleScriptParser;
 
@@ -40,8 +40,13 @@ public class SimpleScript extends Script {
 	private static final Logger LOG = LoggerFactory.getLogger( SimpleScript.class );
 
 
-	//May be the best place for this - engine? But put this here for a while...
-	Map vars = new HashMap(); 
+	/**
+	 * Lookup for QuestionModules based on name.
+     *
+     * @todo May be the best place for this - engine? But put this here for a while...
+	 */
+	Map<String,QuestionModule> vars = new HashMap<>();
+
 
 	public SimpleScript(Engine engine) {
 		super(engine);
@@ -114,25 +119,16 @@ public class SimpleScript extends Script {
 	}
 	
 	/**
-	 * Creates a variable - e.g. an instance of SmartAss module by module class name as the {@link String}
+	 * Adds to lookup a 'variable' that is an instance of QuestionModule identified by class name.
+     * Note that if the 'variable' name already exists, a new instance is not added to the Map.
 	 * 
 	 * @param type		the module class name
 	 * @param name		the name for the variable
 	 * @param params	module constructor parameters
 	 */
-        @SuppressWarnings("unchecked")
 	private void createVar(String type, String name, String[] params) {
 		LOG.info( "::createVar()[ type=>{}, name=>{}, params=>{} ]", type, name, Arrays.toString(params) );
-		if ( ! vars.containsKey(name) ) {
-			MathsModule var = engine.getMathsModule(type.toLowerCase(), params);
-			if (var != null) {
-				vars.put(name.toLowerCase(), var);
-			} else {
-				LOG.error( "::createVar() !Unable to resolve MathsModule {}!", type);
-			}
-		} else {
-			; //var redeclaration, but do nothing with this	
-		}
+		if ( ! vars.containsKey(name) ) vars.put(name, engine.getQuestionModule(type, params));
 	}
 
 	/**
@@ -154,7 +150,7 @@ public class SimpleScript extends Script {
 	}
 
 	/**
-	 * Takes a raw String with parameters for MathsModule constructor
+	 * Takes a raw String with parameters for QuestionModule initialization
 	 * and decodes it to array of Strings
 	 * The format of parameters is <i>param,param, ..., param</i> 
 	 * where param has a form of <br><br>
@@ -164,7 +160,7 @@ public class SimpleScript extends Script {
 	 * though for readability reasons it is recommended to quote
 	 * all strings except numbers or names (without separators inside)    
 	 * 
-	 * @param param		raw String with parameters for MathsModule constructor
+	 * @param param		raw String with parameters for QuestionModule initialization
 	 * @return			String array with decoded parameters
 	 */
 	String[] decodeParams(String param) {
@@ -195,24 +191,17 @@ public class SimpleScript extends Script {
 	}
 
 	private String clearParam(String param) {
-	//	System.out.println("PARAM:" + param);
-		if(param.length()==0)
-			return param;
+		if(param.length()==0) return param;
+
 		param = param.replaceAll("\\\\\"", "\"");
-		if(param.charAt(0)=='"') 
-			param = param.substring(1);
-		if(param.charAt(param.length()-1)=='"')
-			param = param.substring(0, param.length()-1);
+		if(param.charAt(0)=='"') param = param.substring(1);
+		if(param.charAt(param.length()-1)=='"') param = param.substring(0, param.length()-1);
 		return param;
 	}
 	
 	private String callMethod(String name, String method) {
-		//	System.out.println("Call method "+name);
-		MathsModule var = (MathsModule) vars.get(name.toLowerCase());
-		if(var!=null) {
-			return var.getSection(method.toLowerCase());
-			//call method
-		} //else trying call undeclared var - ignore this line
-		return "[variable \""+name+"\" NOT found!]";
+		QuestionModule var = (QuestionModule) vars.get(name);
+		if (null == var) return "[variable \""+name+"\" NOT found!]";
+                return var.getSection(method.toLowerCase());
 	}
 }
