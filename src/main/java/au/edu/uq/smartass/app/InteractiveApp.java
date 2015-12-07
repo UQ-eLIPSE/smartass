@@ -87,7 +87,7 @@ public class InteractiveApp extends JFrame implements TreeSelectionListener {
 	static final String DVI_NAME = "DVI";
 	static final String PDF_NAME = "PDF";
 	
-	Engine engine;
+	Engine engine = Engine.getInstance();
 	TexReader tr; 
 	
 	JTree tree;
@@ -714,7 +714,6 @@ public class InteractiveApp extends JFrame implements TreeSelectionListener {
 		jdvi_font_nameformat = prefs.get("jdvi_font_nameformat", "");
 		jdvi_font_path = prefs.get("jdvi_font_path", "");
 		jdvi_resolution = prefs.get("jdvi_resolution", "");
-		engine = new Engine();
 	}
 	
 	protected void loadFile(File f) {

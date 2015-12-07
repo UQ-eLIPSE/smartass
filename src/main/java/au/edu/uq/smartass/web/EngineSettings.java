@@ -31,13 +31,8 @@ import au.edu.uq.smartass.web.composer.DviPdfCreator;
  */
 public class EngineSettings {
 
-        /** */
+    /** */
 	private Preferences preferences = Preferences.userRoot().node("au/edu/uq/smartass");
-	
-	/**
-	 * The setter for the list of modules root directories. Use semicolon as the list item delimiter.   
-	 */
-	public void setModulesRoot(String value) { preferences.put("modules_root", value); }
 	
 	/**
 	 * The setter for the list of templates root directories. Use semicolon as the list item delimiter.   
@@ -51,8 +46,17 @@ public class EngineSettings {
 	 */
 	public void setOutputPath(String value) { preferences.put("output_path", value); }
 
-        public void setLatexCommand(String value) { preferences.put( "latex_command", value ); }
-        public void setPdfLatexCommand(String value) { preferences.put( "pdflatex_command", value ); }
+	/**
+	 * Setter for local installation path of 'latex'.
+	 * @param value
+     */
+    public void setLatexCommand(String value) { preferences.put( "latex_command", value ); }
+
+	/**
+	 * Setter for local installation path of 'pdflatex'.
+	 * @param value
+     */
+    public void setPdfLatexCommand(String value) { preferences.put( "pdflatex_command", value ); }
 
 	/**
 	 * The setter for the template header text (e.g. part of template from top to "\\begin{document}". 
@@ -71,5 +75,11 @@ public class EngineSettings {
 	 * The setter for the path to directories where backups of repository and assignments are stored. 
 	 */
 	public void setBackupsPath(String value) { preferences.put("backups_path", value); }
+
+	/**
+	 * Setter for the path to the plugin directory.
+	 * @param value
+     */
+	public void setPluginPath(final String value) { preferences.put("plugin_path", value); }
 	
 }

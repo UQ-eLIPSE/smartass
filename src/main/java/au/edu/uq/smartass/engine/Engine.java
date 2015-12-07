@@ -12,7 +12,6 @@
  */
 package au.edu.uq.smartass.engine;
 
-import au.edu.uq.smartass.maths.MathsModule;
 import au.edu.uq.smartass.script.DataSource;
 import au.edu.uq.smartass.templates.TemplateNotFoundException;
 import au.edu.uq.smartass.templates.TemplateParseException;
@@ -20,16 +19,13 @@ import au.edu.uq.smartass.templates.TemplateReader;
 import au.edu.uq.smartass.templates.TexReader;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import org.slf4j.Logger;
@@ -38,112 +34,84 @@ import org.slf4j.LoggerFactory;
 
 public class Engine {
 
-	/** Class logger. */
-	private static final Logger LOG = LoggerFactory.getLogger( Engine.class );
+    /** Class logger. */
+    private static final Logger LOG;
 
-        /** */
-	private static final Preferences preferences 
-                = Preferences.userRoot().node("au/edu/uq/smartass");
+
+    /** */
+    private static final Preferences PREFERENCES;
+
+
+    /**
+     * Manager for QuestionModule services.
+     */
+    private static final QuestionModuleManager QUESTIONMODULEMANAGER;
+
+
+    /** Singleton Instance. */
+    private static final Engine ENGINE;
+
+
+    static {
+        LOG = LoggerFactory.getLogger( Engine.class );
+        PREFERENCES = Preferences.userRoot().node( "au/edu/uq/smartass" );
+        QUESTIONMODULEMANAGER = new QuestionModuleManager();
+        ENGINE = new Engine();
+    }
 
 	
-	/** Map system installed MathsModule class name to MathsModule class. */
-	Map<String, Class<MathsModule> > mathModuleMap = new HashMap< >();
+    /** */
+    private HashMap<String, DataSource> datasources = new HashMap<>();
 
-	/** */
-	HashMap<String, Class> readers = new HashMap<>();
 
-	/** */
-	HashMap<String, DataSource> datasources = new HashMap<>();
+    /**
+     * Singleton method to retieve only Engine instance.
+     * @return
+     */
+    public static Engine getInstance() { return ENGINE; }
+
 
 	/**
 	 * Default Constructor
 	 */
-	public Engine() {
+	private Engine() {
 		LOG.info( "::Engine() initialisation:");
-		LOG.info( "::Engine()[ preferences=>{}] ", preferences.toString() );
 
-		for (Map.Entry<Object,Object> entry : System.getProperties().entrySet())
-				LOG.debug( "::Engine()[ system property : {} => {} ]", entry.getKey(), entry.getValue() );
-
-                initialiseModules();
-	}
-
-        /**
-         *
-         * @param key
-         * @return 
-         */
-	public String getPreference(String key) { return getPreference(key, ""); }
-	public String getPreference(String key, String def) { return preferences.get(key, def); }
-	
-        /**
-         *
-         */
-        private void initialiseModules() {
-                String[] moduleRoots = preferences.get("modules_root", ".").split(";"); 
-		LOG.info( "::initialiseModules()[ moduleRoots=>{}] ", Arrays.toString(moduleRoots) );
-		for (String modRoot : moduleRoots) {
-                        File modRootDir = new File(modRoot);
-                        if (modRootDir.exists() && modRootDir.isDirectory()) 
-                                        collectModules(modRootDir);
-                        else
-                                        LOG.warn( 
-                                                        "::initialiseModules() >> NOT a module root => {}", 
-                                                        modRootDir.getAbsolutePath() 
-                                                );
-                }
+		LOG.info( "::Engine()[ preferences=>{}] ", PREFERENCES.toString() );
+        try {
+            for (String key : PREFERENCES.keys())
+                    LOG.info( "::Engine()[ Preference: {} => {} ]", key, PREFERENCES.get(key, "...") );
+        } catch (BackingStoreException e) {
+                LOG.info( "::Engine()[ Preference: ERROR => {} ]", e.getMessage() );
         }
 
-	/**
-	 * Populates map with installed MathsModules.
-	 *
-	 * Recursively search directory structure looking for class files. If class files represent 
-	 * <code>MathsModule</code> assignable objects they are added to the collection.
-	 *
-	 * <p> It is assumed that:
-	 * <p> 		1) module root is a directory in CLASSPATH
-	 * <p> 		2) the path from the module root specifies package name
-	 * <p> 		3) file names ending with '.class' are Java class files.
-	 *
-	 * @param 	dir 	module root directory to search.
-	 * @param 	pkg 	package name.
-	 */
-	private void collectModules(File rootDir) { collectModules(rootDir, ""); }
-
-	private void collectModules(File dir, String pkg) {
-		LOG.info("::collectModules()[ dir=>{}, pkg=>{} ]", dir.getAbsolutePath(), pkg);
-
-		File[] files = dir.listFiles(new FileFilter() {
-				public boolean accept(File pathname) { 
-					return pathname.isDirectory() || pathname.getName().endsWith(".class"); 
-				}
-			});
-		for (File file : files) {
-			String pkgname = pkg + file.getName().replaceFirst("\\.class$", "");
-
-			if (file.isDirectory()) {
-				collectModules(file, pkgname + '.');
-			}else {
-				LOG.debug("::collectModules()[ class=>{} ]", pkgname);
-				try {
-					Class<?> unknown_class = Class.forName(pkgname);
-					if (MathsModule.class.isAssignableFrom(unknown_class)) {
-						LOG.info("::collectModules()[ MathsModule=>{} ]", unknown_class.getName());
-						@SuppressWarnings("unchecked")
-						Class<MathsModule> mathModCls = (Class<MathsModule>)unknown_class;
-						mathModuleMap.put(
-								mathModCls.getSimpleName().toLowerCase(), 
-								mathModCls
-							);
-					}
-				} catch (ClassNotFoundException ex) { 
-					LOG.debug("::collectModules(), Problem collecting module => {}", ex.getMessage());
-				}
-			}
-		}
+        LOG.info( "::Engine()[ System.properties => {}] ", "..." );
+		for (Map.Entry<Object,Object> entry : System.getProperties().entrySet())
+				LOG.debug( "::Engine()[ system property : {} => {} ]", entry.getKey(), entry.getValue() );
 	}
 
-	/*This metod creates and returns specific template module by type*/
+    /**
+     * Lookup Preference setting using empty default value.
+     *
+     * @param key Preference lookup key.
+     * @return
+     */
+	public String getPreference(String key) { return getPreference(key, ""); }
+
+    /**
+     * Lookup Preference setting using empty default value.
+     *
+     * @param key Preference lookup key.
+     * @param def Default value to use if no key/value pair.
+     * @return
+     */
+	public String getPreference(String key, String def) { return PREFERENCES.get(key, def); }
+	
+
+	/**
+	 * This metod creates and returns specific template module by type
+	 * @param type
+	 */
 	public TemplateReader getTemplateReader(String type)
 	{
 		return new TexReader(this); 
@@ -151,54 +119,41 @@ public class Engine {
 	}
 
 	/**
-	 * Retrieve a pre-registered MathsModule by name.
+     * Lookup QuestionModule by name. The QuestionModule should be a preregistered service within the QuestionModuleManager.
 	 *
-         * @param module_name
-         * @return 
-	 * @see <code>getMathsModule</code>
+     * @param module_name
+     * @return
 	 */
-	public MathsModule getMathsModule(String module_name) {
-		return getMathsModule(module_name, new String[0] );
-	}
+	public QuestionModule getQuestionModule(String module_name) {
+        return getQuestionModule(module_name, new String[0] );
+    }
 
 	/**
-	 * Retrieve a MathsModule by name which has been pre-registered with the Engine.
+	 * Lookup QuestionModule by name. The QuestionModule should be a preregistered service within the QuestionModuleManager.
 	 *
-	 * @param 	module_name 	name to search for
-	 * @param 	params 		array of string parameters passed to constructor
-	 * @return 	MathsModule 	A <code>MathsModule</code> identifed by name or NULL if not found.
+	 * @param module_name lookup key.
+	 * @param params array of string value initialization parameters.
+	 * @return 	QuestionModule 	A <code>QuestionModule</code> identifed by module_name.
 	 */
-	public MathsModule getMathsModule(String module_name, String[] params) {
-		LOG.info( "::getMathsModule( {}, {} )", module_name, Arrays.toString(params) );
-		Class<MathsModule> modc = mathModuleMap.get(module_name);
-		if (null == modc) return null; 		// @TODO: Better to pass Exception up the stack rather than force a 'check for NULL'. 
-
-		try {
-			return 0 == params.length
-					? modc.getConstructor(Engine.class).newInstance(this)
-					: modc.getConstructor(Engine.class, String[].class).newInstance(this, params)
-				;
-		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-			LOG.error( "Could not retrieve a MathsModule registered in the Engine! [ {} ]", ex.getMessage() );
-			LOG.debug( "{}", Arrays.toString(ex.getStackTrace()) );
-			return null;
-		}
+	public QuestionModule getQuestionModule(final String module_name, final String[] params) {
+        LOG.info( "::getQuestionModule( {}, {} )", module_name, Arrays.toString(params) );
+        return QUESTIONMODULEMANAGER.retrieveSimpleQuestionModule(module_name).initialise(params);
 	}
 
 
 	/** This method takes the template type and body (not the template file name) as its arguments
 	  * This is useful to isolate template processing from file system specifics and so on.
-          *
-          * @param template
-          * @param type
+      *
+      * @param template
+      * @param type
 	  * @return the result of template processing
-          * @throws au.edu.uq.smartass.templates.TemplateParseException
+      * @throws au.edu.uq.smartass.templates.TemplateParseException
 	  */
         public Map<String, String> processTemplate(InputStream template, String type) throws TemplateParseException {
 		TemplateReader tr = getTemplateReader(type);
 
 		//----------- it seems that we need no this in engine... ------------
-		//Because MathsModule descendants can change TeX representation of Ops   
+		//Because QuestionModule descendants can change TeX representation of Ops   
 		//we set them to default before load and execute template
 		//to ensure that some
 		//MathsOp.clearAllTex();
@@ -216,7 +171,7 @@ public class Engine {
 	
 	public InputStream getTemplateStream(String name) throws TemplateNotFoundException {
 
-                String[] templateRoots = preferences.get("templates_root", ".").split(";");
+        String[] templateRoots = PREFERENCES.get("templates_root", ".").split(";");
 		LOG.info( "::getTemplateStream()[ name=>{}, templateRoots=>{} ] ", name, Arrays.toString(templateRoots) );
 
                 File template;
@@ -248,19 +203,17 @@ public class Engine {
 		try {
 			File f;
 			File list[] = dir.listFiles();
-			if(list==null)
-				return null;
+			if(list==null) return null;
 	
 			for(int i=list.length; --i>=0;) {
 				f = new File(list[i], name);
-				if(f.exists()) 
-					return new FileInputStream(f);
+				if(f.exists()) return new FileInputStream(f);
 				InputStream stream = getTemplateStream(list[i], name);
-				if(stream!=null)
-					return stream;
-		}
-		} catch(FileNotFoundException e) {}
-		
+				if(stream!=null) return stream;
+            }
+		} catch (FileNotFoundException e) {
+            LOG.info( "::getTemplateStream()[ {} ]", e.getMessage() );
+        }
 		return null;
 	}
 	

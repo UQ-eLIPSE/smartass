@@ -54,7 +54,7 @@
     
     <bean id="engineSettings" class = "au.edu.uq.smartass.web.EngineSettings">
         <property name="templatesRoot"><value>${smartass.data}/tex</value></property>
-        <property name="modulesRoot"><value>./WEB-INF/classes;./build/classes/main</value></property>
+        <property name="pluginPath"><value>${smartass.plugin.path}</value></property>
         <property name="outputPath"><value>${smartass.html}/download</value></property>
         <property name="templateHeader"><value>\input{smartass.tex}</value></property>
         <property name="texSearchPath"><value>:${smartass.data}/files</value></property>
