@@ -19,35 +19,18 @@ package au.edu.uq.smartass.script;
  * of datasources available in scripts.   
  *
  */
-public class DataSource {
-	DataReader reader;
+public interface DataSource {
 
-	/**
-	 * Create the DataSource instance with the given {@link DataReader}
-	 * 
-	 * @param reader
-	 */
-	public DataSource(DataReader reader) {
-		this.reader = reader;
-	}
-	
 	/**
 	 * This method returns the next portion of data following specific rules of the DataSource.
 	 * For {@link DataSource} class that is an abstract class this is just an empty portion of data. 
 	 * 
-	 * @return	An empty {@link DataArray} object
+         * @return 
 	 */
-	public DataArray getData() {
-		return new DataArray(null);
-	}
-	
-	/**
-	 * This method should be used to free all resources that is used by DataSource and
-	 * can't be freed by garbage collector (file streams etc).   
-	 *
-	 */
-	public void close() {
-		reader.close();
-	}
-	
+	public DataArray getData();
+
+        /**
+         * 
+         */
+        public void close();
 }

@@ -1,5 +1,5 @@
 /* This file is part of SmartAss and contains the RandomDataSource class that is a 
- * datasource that returns a random record from the data set. 
+ * datasource that returns a random record from the dataArrays set. 
  * 
  * Copyright (C) 2008 The University of Queensland
  * SmartAss is free software; you can redistribute it and/or modify it under the terms of the
@@ -14,49 +14,50 @@
  */
 package au.edu.uq.smartass.script;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
-import au.edu.uq.smartass.auxiliary.RandomChoice;
 
 /**
  * RandomDataSource class is a datasource that returns a random record from th
  */
-public class RandomDataSource extends DataSource {
-	Vector<DataArray> data = new Vector<DataArray>(); 
-	boolean unique = false;
+public class RandomDataSource implements DataSource {
+	
+        List<DataArray> dataArrays = new ArrayList<>(); 
+	
+        boolean isUnique = false;
 	
 	/**
-	 * Creates the {@link RandomDataSource} object and initializes its data from the data reader 
+	 * Creates the {@link RandomDataSource} object and initializes its dataArrays from the dataArrays reader 
 	 * 
-	 * @param reader	the data reader
+	 * @param reader	the dataArrays reader
 	 */
 	public RandomDataSource(DataReader reader) {
-		super(reader);
-		initData();
+		initData(reader);
 	}
 	
 	/**
-	 * Creates the {@link RandomDataSource} object and initializes its data from the data reader.
-	 * The data records will be treated as unique if isUnique is true e.g. each record will be returned 
-	 * to datasource caller only once. 
+	 * Creates the {@link RandomDataSource} object and initializes its dataArrays from the dataArrays reader.
+	 * The dataArrays records will be treated as isUnique if isUnique is true e.g. each record will be returned 
+         * to datasource caller only once. 
 	 * 
-	 * @param reader	the data reader
+	 * @param reader	the dataArrays reader
 	 * @param isUnique	
 	 */
 	public RandomDataSource(DataReader reader, boolean isUnique) {
-		super(reader);
-		initData();
-		unique = isUnique;
+		initData(reader);
+		this.isUnique = isUnique;
 	}
 	
 	/**
-	 * Initializes the data stream
+	 * Initializes the dataArrays stream
 	 */
-	protected void initData() {
-		DataArray d;
+	private void initData(DataReader reader) {
+		DataArray dataArray;
 		reader.rewindDataStream();
-		while((d = reader.readData())!=null)
-			data.add(d);
+		while ( (dataArray = reader.readData()) != null )
+			dataArrays.add(dataArray);
+                reader.close();
 	}
 	
 	@Override
@@ -64,13 +65,13 @@ public class RandomDataSource extends DataSource {
 	 * Returns next random data record
 	 */
 	public DataArray getData() {
-		if(unique && data.size()==0)
-			initData();
-		int pos = RandomChoice.randInt(0, data.size()-1);
-		DataArray d = data.get(pos);
-		if(unique)
-			data.remove(pos);
-		return d;
+		int idx = (int)(Math.random() * dataArrays.size());
+		DataArray dataArray = dataArrays.get(idx);
+		if (isUnique) dataArrays.remove(idx);
+		return dataArray;
 	}
+
+        @Override
+        public void close() {}
 
 }

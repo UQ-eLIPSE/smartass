@@ -293,7 +293,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 		setSelectedIndex(-1);     // Next component will be inserted after this position (ie @[0] for empty component list.
 
 		if(code!=null && code.length()>0) {
-			Engine engine = new Engine();
+			Engine engine = Engine.getInstance();
 			TexReader tr = new TexReader(engine);
 			InputStream in = new ByteArrayInputStream(code.getBytes("UTF-8"));
 			tr.loadTemplate(in);
