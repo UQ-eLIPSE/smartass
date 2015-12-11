@@ -7,6 +7,7 @@
 
 plugins {
         id "org.akhikhl.gretty" version "1.2.4"
+        id "de.undercouch.download" version "2.0.0"
 }
 
 apply plugin: 'java'
@@ -44,7 +45,7 @@ dependencies {
 	compile "org.springframework:spring-web:2.5.5"
 	compile "org.springframework:spring-webmvc:2.5.5"
 	compile "org.springframework:spring:2.5.5"
-	
+
 	compile "javax.servlet:javax.servlet-api:3.0.1"
 	compile "org.swinglabs:pdf-renderer:1.0.5"
 	compile "org.apache.jena:jena-core:2.11.2"
@@ -53,10 +54,11 @@ dependencies {
 
 
 	//
-	// 	. testCompile . 
+	// 	. testCompile .
 	//
 	testCompile 'junit:junit:4.12'
 
+	testCompile 'org.seleniumhq.selenium:selenium-java:2.+'
 	testCompile 'org.json:json:20141113'
 	testCompile 'com.hp.hpl.jena:arq:2.8.3'
 	testCompile fileTree('tstLib')
@@ -76,6 +78,7 @@ gretty {
         port = 8088
         scanInterval = 0
         inplaceMode = 'hard'
+        integrationTestTask = "seleniumRun"
 }
 
 war {
@@ -97,3 +100,19 @@ task printClasspath<< {
         configurations.runtime.each { println it }
 }
 
+task seleniumSetup << {
+    download {
+        src 'http://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar'
+        dest 'selenium/selenium-server-standalone-2.48.2.jar'
+    }
+}
+
+task seleniumRun(type:Exec) {
+    workingDir 'selenium'
+    commandLine 'sh', './run.sh'
+}
+
+// Exclude selenium tests from the usual unit testing
+test {
+    exclude '**/*Selenium*'
+}
