@@ -7,6 +7,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
+/**
+ * A test class for jUnit to run the selenium tests
+ */
 public class SeleniumTest {
 	/**
 	 * A helper function to easily click links

@@ -5,6 +5,9 @@
 
 //------------------------------------------------------------------------------
 
+// Allows us to determine what platform we are running on
+import org.gradle.internal.os.OperatingSystem;
+
 plugins {
         id "org.akhikhl.gretty" version "1.2.4"
         id "de.undercouch.download" version "2.0.0"
@@ -78,7 +81,7 @@ gretty {
         port = 8088
         scanInterval = 0
         inplaceMode = 'hard'
-        integrationTestTask = "seleniumRunWin"
+        integrationTestTask = "seleniumRun"
 }
 
 war {
@@ -130,14 +133,18 @@ task seleniumSetup << {
     }
 }
 
-task seleniumRunUnix(type:Exec) {
-    workingDir 'selenium'
-    commandLine 'sh', './run.sh'
-}
-
-task seleniumRunWin(type:Exec) {
-    workingDir 'selenium'
-    commandLine 'cmd', '/c', 'run.bat'
+task seleniumRun(type:Exec) {
+    if (OperatingSystem.current().isWindows()) {
+        // Its windows
+        println ":: Running selenium for Windows"
+        workingDir 'selenium'
+        commandLine 'cmd', '/c', 'run.bat'
+    } else {
+        // It's *nix
+        println ":: Running selenium for *nix"
+        workingDir 'selenium'
+        commandLine 'sh', './run.sh'
+    }
 }
 
 // Exclude selenium tests from the usual unit testing
