@@ -82,7 +82,7 @@ gretty {
         port = 8088
         scanInterval = 0
         inplaceMode = 'hard'
-        integrationTestTask = "seleniumRun"
+        integrationTestTask = "seleniumRunWin"
 }
 
 war {
@@ -144,6 +144,11 @@ task seleniumRun(type:Exec) {
         workingDir 'selenium'
         commandLine 'sh', './run.sh'
     }
+}
+
+task seleniumRunWin(type:Exec) {
+    workingDir 'selenium'
+    commandLine 'cmd', '/c', 'run.bat'
 }
 
 // Exclude selenium tests from the usual unit testing
