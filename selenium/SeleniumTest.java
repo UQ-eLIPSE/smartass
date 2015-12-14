@@ -5,7 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import org.junit.*;
 
 public class SeleniumTest {
 	/**
@@ -27,12 +27,13 @@ public class SeleniumTest {
 			URL urlObj = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
 			if (conn.getResponseCode() == 200) {
-				// We chose 100 because thats a little larger than a error message html
-				if (Integer.valueOf(conn.getHeaderField("Content-Length")) > 100) {
-					return true;
-				}
+				// We could check the content in the headers but that
+				// doesn't work sometimes
+				return true;
+			} else {
 			}
 		} catch (Exception e) {
+			System.out.println(e);
 		}
 		return false;
 	}
@@ -62,6 +63,22 @@ public class SeleniumTest {
 	}
 
 	@Test
+	public void testTemplates() {
+		WebDriver driver = new FirefoxDriver();
+		driver.get("http://localhost:8088/smartass-dev/");
+		clickLink(driver, "HOME");
+		clickLink(driver, "IntervalToInequalityTemplate");
+
+		String url = driver.findElement(By.linkText("[download template]")).getAttribute("href");
+		assertEquals(true, checkLink(url));
+
+		url = driver.findElement(By.linkText("[download]")).getAttribute("href");
+		assertEquals(true, checkLink(url));
+
+		driver.quit();
+	}
+
+	@Test
 	public void testDownloads() {
 		WebDriver driver = new FirefoxDriver();
 		createAssignment(driver);
@@ -78,6 +95,18 @@ public class SeleniumTest {
 
 		url = driver.findElement(By.linkText("Answers")).getAttribute("href");
 		assertEquals(true, checkLink(url));
+
+		driver.quit();
+	}
+
+	@Test
+	public void testRecentAssignments() {
+		WebDriver driver = new FirefoxDriver();
+		driver.get("http://localhost:8088/smartass-dev/");
+		clickLink(driver, "HOME");
+
+		String copyUrl = driver.findElement(By.linkText("[copy]")).getAttribute("href");
+		assertEquals(true, checkLink(copyUrl));
 
 		driver.quit();
 	}

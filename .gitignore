@@ -43,4 +43,5 @@ src/main/webapp/data
 src/main/webapp/download
 *.orig
 make
-
+selenium/*.jar
+selenium/*.class
