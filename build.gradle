@@ -103,7 +103,8 @@ task printClasspath<< {
         configurations.runtime.each { println it }
 }
 
-task getJdi << {
+// Download the jDvi dependency
+task getJdvi << {
     download {
         src 'http://www-sfb288.math.tu-berlin.de/jdvi/jDvi.jar'
         dest 'lib/jDvi.jar'
@@ -136,12 +137,10 @@ task seleniumSetup << {
 task seleniumRun(type:Exec) {
     if (OperatingSystem.current().isWindows()) {
         // Its windows
-        println ":: Running selenium for Windows"
         workingDir 'selenium'
         commandLine 'cmd', '/c', 'run.bat'
     } else {
         // It's *nix
-        println ":: Running selenium for *nix"
         workingDir 'selenium'
         commandLine 'sh', './run.sh'
     }

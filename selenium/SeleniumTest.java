@@ -21,6 +21,15 @@ public class SeleniumTest {
 	}
 
 	/**
+	 * Clicks an object by name, useful for buttons
+	 * @param  driver The webdriver
+	 * @param  name The name of the object
+	 */
+	private static void clickByName(WebDriver driver, String name) {
+		driver.findElement(By.name(name)).click();
+	}
+
+	/**
 	 * Checks if a download link is valid
 	 * @param url The url to check
 	 * @return true iff the link is valid
@@ -39,6 +48,10 @@ public class SeleniumTest {
 			System.out.println(e);
 		}
 		return false;
+	}
+
+	private static String getUrlForLink(WebDriver driver, String linkText) {
+		return driver.findElement(By.linkText(linkText)).getAttribute("href");
 	}
 
 	/**
@@ -110,6 +123,43 @@ public class SeleniumTest {
 
 		String copyUrl = driver.findElement(By.linkText("[copy]")).getAttribute("href");
 		assertEquals(true, checkLink(copyUrl));
+
+		driver.quit();
+	}
+
+	@Test
+	public void testRepositories() {
+		WebDriver driver = new FirefoxDriver();
+		driver.get("http://localhost:8088/smartass-dev/");
+		clickLink(driver, "REPOSITORY");
+
+		clickLink(driver, "IntervalToInequalityTemplate");
+
+		String url = getUrlForLink(driver, "[download template]");
+		assertEquals(true, checkLink(url));
+
+		url = getUrlForLink(driver, "[view template code]");
+		assertEquals(true, checkLink(url));
+
+		url = getUrlForLink(driver, "[download]");
+		assertEquals(true, checkLink(url));
+
+		clickByName(driver, "back");
+
+		clickLink(driver, "[4]");
+		clickLink(driver, "PYTHON");
+		clickLink(driver, "GravityTemplate");
+
+		url = getUrlForLink(driver, "[download template]");
+		assertEquals(true, checkLink(url));
+
+		url = getUrlForLink(driver, "[view template code]");
+		assertEquals(true, checkLink(url));
+
+		url = getUrlForLink(driver, "[download]");
+		assertEquals(true, checkLink(url));
+
+		clickByName(driver, "back");
 
 		driver.quit();
 	}
