@@ -1,4 +1,4 @@
-/* This file is part of SmartAss and describes the TemplateReader class that is the ancestor 
+/* This file is part of SmartAss and describes the TemplateReader class that is the ancestor
  * of all possible SmartAss template reader classes.
  * Copyright (C) 2006 Department of Mathematics, The University of Queensland
  * SmartAss is free software; you can redistribute it and/or modify it under the terms of the
@@ -28,46 +28,46 @@ abstract public class TemplateReader {
 
     /**
      * Creates new TempalteReader object
-     * 
+     *
      * @param engine	the SmartAss engine object is used by the TemplateReader to interact with other SmartAss
-     * 					components and with the environment 
+     * 					components and with the environment
      */
     TemplateReader(Engine engine)
     {
      this.engine = engine;
     }
-    
+
     /**
      * Reads the template content as the {@link String} parameter
      */
-    public void loadTemplate(String template) throws TemplateParseException 
+    public void loadTemplate(String template) throws TemplateParseException
     {
         this.template = template;
     }
-    
+
     /**
      * Loads the template content from the given {@link InputStream}. This function from {@link TemplateReader}
      * actually do nothing - override it in descendants.
-     * 
+     *
      * @param template		{@link InputStream} to read the template content
      * @throws TemplateParseException
      */
     public void loadTemplate(InputStream template) throws TemplateParseException {
-    	
+
     }
-	
+
     /**
      * Override this function to execute the template. Each {@link TemplateReader} descendant can (and should)
      * implement its own version of this function that will understand some specific template description language
      * and create a set of execution results - "sections" that represents specific problem solution phase - a question,
      * a solution etc
-     * 
-     * @return	the {@link Map} of execution results in form of SectionName -> SectionContent 
+     *
+     * @return	the {@link Map} of execution results in form of SectionName  - SectionContent 
      */
     abstract public Map<String, String> execute();
-    
+
     /**
-     * Return true if this template already have been executed or false otherwise 
+     * Return true if this template already have been executed or false otherwise
      */
     public boolean isExecuted() {
 		return executed;

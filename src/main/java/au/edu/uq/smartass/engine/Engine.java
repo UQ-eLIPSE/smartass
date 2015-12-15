@@ -59,13 +59,13 @@ public class Engine {
         ENGINE = new Engine();
     }
 
-	
+
     /** */
     private HashMap<String, DataSource> datasources = new HashMap<>();
 
 
     /**
-     * Singleton method to retieve only Engine instance.
+     * Singleton method to retrieve the only Engine instance.
      * @return
      */
     public static Engine getInstance() { return ENGINE; }
@@ -94,7 +94,7 @@ public class Engine {
      * Lookup Preference setting using empty default value.
      *
      * @param key Preference lookup key.
-     * @return
+     * @return The preference as a string
      */
 	public String getPreference(String key) { return getPreference(key, ""); }
 
@@ -106,23 +106,23 @@ public class Engine {
      * @return
      */
 	public String getPreference(String key, String def) { return PREFERENCES.get(key, def); }
-	
+
 
 	/**
-	 * This metod creates and returns specific template module by type
-	 * @param type
+	 * This method creates and returns specific template module by type
+	 * @param A TemplateReader object
 	 */
 	public TemplateReader getTemplateReader(String type)
 	{
-		return new TexReader(this); 
+		return new TexReader(this);
 		//At this moment we just create PlainTextReader, whatever value "type" parameter contains
 	}
 
 	/**
      * Lookup QuestionModule by name. The QuestionModule should be a preregistered service within the QuestionModuleManager.
 	 *
-     * @param module_name
-     * @return
+     * @param module_name The name of the module to get
+     * @return A QuestionModule object for the given name
 	 */
 	public QuestionModule getQuestionModule(String module_name) {
         return getQuestionModule(module_name, new String[0] );
@@ -153,7 +153,7 @@ public class Engine {
 		TemplateReader tr = getTemplateReader(type);
 
 		//----------- it seems that we need no this in engine... ------------
-		//Because QuestionModule descendants can change TeX representation of Ops   
+		//Because QuestionModule descendants can change TeX representation of Ops
 		//we set them to default before load and execute template
 		//to ensure that some
 		//MathsOp.clearAllTex();
@@ -165,10 +165,16 @@ public class Engine {
 	{
 		InputStream stream = getTemplateStream(file_name);
 		if(stream!=null)
-			return processTemplate(stream, file_name.substring(file_name.length()-3,file_name.length())); 
+			return processTemplate(stream, file_name.substring(file_name.length()-3,file_name.length()));
 		return null;
 	}
-	
+
+    /**
+     * Gets the template stream for a given name
+     * @param  name The name of the template
+     * @return      The InputStream connected to the template
+     * @throws      TemplateNotFoundException
+     */
 	public InputStream getTemplateStream(String name) throws TemplateNotFoundException {
 
         String[] templateRoots = PREFERENCES.get("templates_root", ".").split(";");
@@ -180,7 +186,7 @@ public class Engine {
                                 template = new File(templateRoot, name);
                                 if (template.exists()) return new FileInputStream(template);
                         }
-			
+
 			//not found, check for legacy mode
 			template = new File(name);
 			if (name.equals(template.getName())) //yes, we have filename without path
@@ -194,17 +200,17 @@ public class Engine {
 					}
 				}
 		} catch(FileNotFoundException e) {
-			throw new TemplateNotFoundException(name); 
+			throw new TemplateNotFoundException(name);
 		}
-		throw new TemplateNotFoundException(name); 
+		throw new TemplateNotFoundException(name);
 	}
-	
+
 	private InputStream getTemplateStream(File dir, String name) {
 		try {
 			File f;
 			File list[] = dir.listFiles();
 			if(list==null) return null;
-	
+
 			for(int i=list.length; --i>=0;) {
 				f = new File(list[i], name);
 				if(f.exists()) return new FileInputStream(f);
@@ -216,13 +222,13 @@ public class Engine {
         }
 		return null;
 	}
-	
+
 	public void addDataSource(String name, DataSource ds) {
 		DataSource oldds = datasources.get(name);
 		if (oldds != null) oldds.close();
 		datasources.put(name, ds);
 	}
-	
+
 	public DataSource getDataSource(String name) {
 		return datasources.get(name);
 	}
@@ -230,7 +236,7 @@ public class Engine {
 	public void close() {
 		clearDataSources();
 	}
-	
+
 	public void clearDataSources() {
 		for (DataSource ds : datasources.values()) ds.close();
 		datasources.clear();

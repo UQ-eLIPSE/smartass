@@ -1,6 +1,6 @@
-/* This file is part of SmartAss and contains the RowSetTableModel class that 
+/* This file is part of SmartAss and contains the RowSetTableModel class that
  * represents the table model that retrieves data from the JDBC RowSet
- * 
+ *
  * Copyright (C) 2008 The University of Queensland
  * SmartAss is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2, or
@@ -21,16 +21,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * The RowSetTableModel class  
+ * The RowSetTableModel class
  * represents the table model that retrieves data from the JDBC RowSet
- * 
- * Based on Jan Stola code from Sun java tutorial, but extensively extended... 
+ *
+ * Based on Jan Stola code from Sun java tutorial, but extensively extended...
  */
 public class RowSetTableModel extends AbstractTableModel implements RowSetListener {
 //    static int STATE_BROWSE = 0;
 //    static int STATE_EDIT = 1;
 //    static int STATE_INSERT = 2;
-    
+
     // RowSet with the data
     protected RowSet rowSet;
     // Number of rows
@@ -50,28 +50,28 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
     //edit state (e.g., STATE_BROWSE, STATE_EDIT or STATE_INSERT)
 //    protected int state = STATE_BROWSE;
     protected int row_edited;
-    
-    
+
+
 
     ///////////////////////
     // Constructors
     //////////////////////
-    
+
     public RowSetTableModel(RowSet rowset) {
     	super();
 		setRowSet(rowset);
 	}
-    
+
     public RowSetTableModel(RowSet rowset, boolean readonly) {
     	super();
 		setRowSet(rowset);
     	setReadonly(readonly);
 	}
-    
+
 	////////////////////////
-	// Metadata access 
+	// Metadata access
 	///////////////////////
-    
+
     /**
      * Returns number of rows in the table.
      *
@@ -127,10 +127,10 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
         return name;
     }
 
-    public boolean isCellEditable(int row, int col) { 
+    public boolean isCellEditable(int row, int col) {
     	if(rowSet==null || readonly /*|| rowSet.isReadOnly()*/)
     		return false;
-    		
+
     	if(readonlyColumns==null)
     		return true;
     	else {
@@ -146,10 +146,10 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
 	////////////////////////
 	// Data access and manipulation
 	///////////////////////
-    
+
     /**
-     * Returns value at the specified row and column. Only visible columns are used. 
-     * 
+     * Returns value at the specified row and column. Only visible columns are used.
+     *
      * @param rowIndex		row index (zero-based)
      * @param columnIndex	column index in <b>visible columns list</b>
      *
@@ -177,7 +177,7 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
 
     /**
      * Returns value of the specified (by name) column at the specified row.
-     * 
+     *
      * @param rowIndex		row index
      * @param columnName	column name
      *
@@ -185,7 +185,7 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
      */
     public Object getValue(int rowIndex, String columnName) {
         try {
-        	//return null if row does not exist 
+        	//return null if row does not exist
 
         	if(rowIndex!=rowCount && rowSet.absolute(rowIndex+1))
         		return rowSet.getObject(columnName);
@@ -199,13 +199,13 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
      * Returns value of the specified column at the specified row.
      *
      * @param rowIndex		row index
-     * @param columnIndex	column index (in the rowset, not the table wisible index) 
+     * @param columnIndex	column index (in the rowset, not the table wisible index)
      *
      * @return value at the specified row and column.
      */
     public Object getValue(int rowIndex, int columnIndex) {
         try {
-        	//return null if row does not exist 
+        	//return null if row does not exist
         	if(rowIndex!=rowCount && rowSet.absolute(rowIndex+1))
         		return rowSet.getObject(columnIndex);
         } catch (SQLException sqlex) {
@@ -217,41 +217,41 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
     public void setValue(Object value, int row, String columnName) {
     	if(readonly)
     		return;
-        
+
     	if(!checkValueValid(columnName, value))
         	return;
     	try {
             if( !rowSet.absolute(row+1) ) {
 //            	Can't find row in table? Let's treat this as an attempt to insert a new one!
             	rowSet.moveToInsertRow();
-            	isRowInserted = true; 
+            	isRowInserted = true;
             }
             try {
             	beforeSetValue(columnName, value);
         	} catch(DataValidationException e) {
     			JOptionPane.showMessageDialog(null, e.getMessage(), "Incorrect data", JOptionPane.INFORMATION_MESSAGE);
         		isRowInserted = false;
-        		return; 
+        		return;
         	}
 
         	rowSet.updateObject(columnName, value);
-        	
+
         	afterSetValue(columnName, value);
             updateRow();
         }
         catch( SQLException e ) {
         	e.printStackTrace();
         }
-    	
+
     }
-    
+
     public void setValue(Object value, int row, int column) {
         try {
         	setValue(value, row, rowSet.getMetaData().getColumnName(column));
         } catch( SQLException e ) {
             	e.printStackTrace();
         }
-        
+
 /*    	if(readonly)
     		return;
         try {
@@ -266,10 +266,10 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
         catch( SQLException e ) {
         	e.printStackTrace();
         }*/
-    	
+
     }
-    
-    
+
+
     public void deleteRow(int row) {
     	if(!checkAllowDelete())
     		return;
@@ -283,14 +283,14 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
 	            sqlex.printStackTrace();
 	        }
 	}
-    
+
     protected void updateRow() throws SQLException {
-    	try { 
-    		checkRowValid(); 
+    	try {
+    		checkRowValid();
     	} catch(DataValidationException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Incorrect data", JOptionPane.INFORMATION_MESSAGE);
     		isRowInserted = false;
-    		return; 
+    		return;
     	}
     	if(rowInserted()) {
     		beforeInsert();
@@ -303,7 +303,7 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
     	}
     	isRowInserted = false;
     }
-    
+
     public void refresh() {
     	try {
     		rowSet.execute();
@@ -315,21 +315,21 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
     public boolean rowInserted() {
 		return isRowInserted;
 	}
-    
+
     /**
      * Sets new value at the specified row and column.
      * Called if the user changes a cell value in the table.
-     * "column" parameter is a column number in visible columns list. 
-     * 
-     * @param value		new value 
-     * @param row		row index		
+     * "column" parameter is a column number in visible columns list.
+     *
+     * @param value		new value
+     * @param row		row index
      * @param column	column index in visible columns list
      *
      */
     public void setValueAt(Object value, int row, int column) {
     	setValue(value, row, findColumnIndex(visibleColumns[column])+1);
     }
-    
+
     // Helper method used when <code>visibleColumns</code> property is set.
     // Transforms columnName into index of the column in the model.
     private Map columnToIndexMap = new HashMap();
@@ -356,9 +356,9 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
     }
 
 	//////////////////
-	// Setters and getters for model properties 
+	// Setters and getters for model properties
 	/////////////////
-	
+
     /**
      * Getter for the <code>rowSet</code> property.
      *
@@ -372,7 +372,7 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
      * Setter for the <code>rowSet</code> property.
      *
      * @param rowSet row set with the data.
-     */ 
+     */
     public void setRowSet(RowSet rowSet) {
         if (this.rowSet != null) {
             this.rowSet.removeRowSetListener(this);
@@ -397,7 +397,7 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
     /**
      * Setter for the <code>visibleColumns</code> property.
      *
-     * @param columns visible in the table model or <code>null</code>
+     * @param visibleColumns columns visible in the table model or <code>null</code>
      * if all columns of the row set should be visible.
      */
     public void setVisibleColumns(String[] visibleColumns) {
@@ -405,20 +405,20 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
         columnToIndexMap.clear();
         fireTableStructureChanged();
     }
-    
+
     /**
      * Setter for the <code>readonlyColumns</code> property.
      *
-     * @param columns that is readonly in the table model or <code>null</code>
+     * @param readonlyColumns columns that is readonly in the table model or <code>null</code>
      * if all columns of the row set should be editable.
      */
     public void setReadonlyColumns(String[] readonlyColumns) {
         this.readonlyColumns = readonlyColumns;
         fireTableStructureChanged();
     }
-    
+
     public void setColumnTitles(String[] titles) {
-    	columns_titles = titles; 
+    	columns_titles = titles;
         fireTableStructureChanged();
     }
 
@@ -426,19 +426,19 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
     	this.readonly = readonly;
     	rowSetChanged(null);
     }
-    
+
     public boolean getReadonly() { return readonly;}
-    
+
 	public void setHasInsertRow(boolean hasInsertRow) {
 		this.hasInsertRow = hasInsertRow;
 	}
-	
+
 	public boolean getHasInsertRow() {
 		return hasInsertRow;
 	}
 
 
-    
+
     /**
      *  Helper method that updates <code>rowCount</code> field.
      */
@@ -458,50 +458,50 @@ public class RowSetTableModel extends AbstractTableModel implements RowSetListen
     ///////////////////
     // Events
     //////////////////
-    
+
     protected void checkRowValid() {
 	}
-    
+
     protected void beforeUpdate() {
-    	
+
     }
-    
+
     protected void afterUpdate() {
-		
+
 	}
-    
+
     protected void  beforeInsert() {
-		
+
 	}
-    
+
     protected void afterInsert() {
-		
+
 	}
-    
+
     protected boolean checkAllowDelete() {
 		return true;
 	}
-    
+
     protected void  beforeDelete() {
-		
+
 	}
-    
+
     protected void afterDelete() {
-		
+
 	}
-    
+
     protected boolean checkValueValid(String columnName, Object newValue) {
 		return true;
 	}
-    
+
     protected void beforeSetValue(String columnName, Object newValue) {
-		
+
 	}
-    
+
     protected void afterSetValue(String columnName, Object newValue) {
-		
+
 	}
-    
+
 	//////////////////
     // Implementation of RowSetListener
 	//////////////////

@@ -1,10 +1,10 @@
-/* This file is part of SmartAss and contains the TemplateAwareController class. 
+/* This file is part of SmartAss and contains the TemplateAwareController class.
  * The au.edu.uq.smartass.web.iapp package contains server-side
  * backend classes for the interactive assignment editor applet.
- * The TemplateAwareController class is an ancestor for all assignment-processing classes 
+ * The TemplateAwareController class is an ancestor for all assignment-processing classes
  * and contains some functionality that is common for all them.
- *   
- * 
+ *
+ *
  * Copyright (C) 2008 The University of Queensland
  * SmartAss is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2, or
@@ -35,17 +35,21 @@ import au.edu.uq.smartass.web.RepositoryStorage;
 /**
  * The ExecuteTemplateController class is a part of the server-side
  * backend for the interactive assignment editor applet and contains.
- * This class is an ancestor for all assignment-processing classes 
+ * This class is an ancestor for all assignment-processing classes
  * and contains some functionality that is common for all them.
- * 
+ *
  */
 public abstract class TemplateAwareController extends AbstractController {
 	protected RepositoryStorage repository;
 
 	/**
-	 * Returns {@link TemplateReader} with parsed tempalte code ("template" is a common name for 
+	 * Returns {@link TemplateReader} with parsed template code ("template" is a common name for
 	 * SmartAss files that is a combination of LaTeX code and specific control statements so an assignment
 	 * is a template too in terms of SmartAss).
+	 * @param name The name of the template
+	 * @param session The http session
+	 * @param refresh boolean if being refreshed
+	 * @return a TexReader object
 	 */
 	protected TexReader getTemplate(String name, HttpSession session, boolean refresh) throws ParseException {
 		TexReader tr = null;
@@ -65,23 +69,23 @@ public abstract class TemplateAwareController extends AbstractController {
 				session.setAttribute("TEMPLATE_EXECUTED", null);
 			}
 		}
-			
+
 		return tr;
 	}
-	
+
 	/**
-	 * Decodes nodePath that is an unique node id in {@link TexReader} execution result 
+	 * Decodes nodePath that is an unique node id in {@link TexReader} execution result
 	 * tree.
-	 *  
+	 *
 	 * @param root			the root node
 	 * @param nodePath		the unique id of (or encoded path to) the node to be extracted from the tree
-	 * 
+	 *
 	 * @return				the {@link ResultNode} descendant defined by nodePath
 	 */
 	protected ResultNode getNode(ResultNode root, String nodePath) {
 		if(nodePath.equals("0"))
 			return root;
-		
+
 		String[] path = nodePath.split("_");
 		ResultNode node = root;
 		for(int i=1;i<path.length;i++) {
@@ -91,7 +95,11 @@ public abstract class TemplateAwareController extends AbstractController {
 		}
 		return node;
 	}
-	
+
+	/**
+	 * Sets the repository to use
+	 * @param repository The RepositoryStorage object
+	 */
 	public void setRepository(RepositoryStorage repository) {
 		this.repository = repository;
 	}

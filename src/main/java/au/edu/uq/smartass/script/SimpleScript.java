@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The SimpleScript class that is the SmartAss script processor that realizes a really simple scripting
- * language with a minimal statements set such as variable of given module type creation etc. 
+ * language with a minimal statements set such as variable of given module type creation etc.
  */
 public class SimpleScript extends Script {
 
@@ -43,7 +43,6 @@ public class SimpleScript extends Script {
 	/**
 	 * Lookup for QuestionModules based on name.
      *
-     * @todo May be the best place for this - engine? But put this here for a while...
 	 */
 	Map<String,QuestionModule> vars = new HashMap<>();
 
@@ -51,14 +50,12 @@ public class SimpleScript extends Script {
 	public SimpleScript(Engine engine) {
 		super(engine);
 	}
-	
+
 	/**
 	 * Executes the line of the scripting language.
-	 * 
+	 *
 	 * @param line		the line of the scripting language.
 	 * @return			the execution results
-         * 
-         * @todo: Simplify, refactor method - too long.
 	 */
 	protected String executeLine(SimpleScriptParser.ScriptLine line) {
 		if(line instanceof SimpleScriptParser.VarCreation) {
@@ -87,10 +84,10 @@ public class SimpleScript extends Script {
 					}
 				}
 			}
-			createVar(vc.moduleName, vc.varName, params.toArray(new String[]{}));	
+			createVar(vc.moduleName, vc.varName, params.toArray(new String[]{}));
 		} else if(line instanceof SimpleScriptParser.SectionAccess) {
 			SimpleScriptParser.SectionAccess sa = (SimpleScriptParser.SectionAccess) line;
-			return callMethod(sa.varName, sa.sectionName);	
+			return callMethod(sa.varName, sa.sectionName);
 		} else if(line instanceof SimpleScriptParser.DSCreation) {
 			SimpleScriptParser.DSCreation dsc = (SimpleScriptParser.DSCreation) line;
 			DataSource ds = null;
@@ -114,14 +111,14 @@ public class SimpleScript extends Script {
 			if(ds!=null)
 				engine.addDataSource(dsc.name, ds);
 		}
- 
+
 		return "";
 	}
-	
+
 	/**
 	 * Adds to lookup a 'variable' that is an instance of QuestionModule identified by class name.
      * Note that if the 'variable' name already exists, a new instance is not added to the Map.
-	 * 
+	 *
 	 * @param type		the module class name
 	 * @param name		the name for the variable
 	 * @param params	module constructor parameters
@@ -132,7 +129,7 @@ public class SimpleScript extends Script {
 	}
 
 	/**
-	 * Executes the block of the scripting language.	 
+	 * Executes the block of the scripting language.
 	 */
 	public String executeBlock(String block) {
 		Vector<SimpleScriptParser.ScriptLine> lines;
@@ -152,22 +149,22 @@ public class SimpleScript extends Script {
 	/**
 	 * Takes a raw String with parameters for QuestionModule initialization
 	 * and decodes it to array of Strings
-	 * The format of parameters is <i>param,param, ..., param</i> 
+	 * The format of parameters is <i>param,param, ..., param</i>
 	 * where param has a form of <br><br>
-	 * 		<i>"any chars inside \", including comma"</i> <br> 
+	 * 		<i>"any chars inside \", including comma"</i> <br>
 	 * or <br>
-	 * 		<i>any chars but comma</i> <br><br>  
+	 * 		<i>any chars but comma</i> <br><br>
 	 * though for readability reasons it is recommended to quote
-	 * all strings except numbers or names (without separators inside)    
-	 * 
+	 * all strings except numbers or names (without separators inside)
+	 *
 	 * @param param		raw String with parameters for QuestionModule initialization
 	 * @return			String array with decoded parameters
 	 */
 	String[] decodeParams(String param) {
 		Vector<String> res = new Vector<String>();
-		
-		Pattern pat = Pattern.compile("^\\s*\".*?[^\\\\]\"\\s*,");          
-		Pattern pat0 = Pattern.compile("^\\s*\".*?[^\\\\]\"\\s*\\z");          
+
+		Pattern pat = Pattern.compile("^\\s*\".*?[^\\\\]\"\\s*,");
+		Pattern pat0 = Pattern.compile("^\\s*\".*?[^\\\\]\"\\s*\\z");
 		Pattern pat1 = Pattern.compile("^.*?,");
 		Matcher matcher = null;
 		boolean found = true;
@@ -178,14 +175,14 @@ public class SimpleScript extends Script {
 				res.add(clearParam(matcher.group().substring(0, matcher.group().length()-1).trim()));
 			else if(found = (matcher = pat1.matcher(param)).find())
 				res.add(clearParam(matcher.group().substring(0, matcher.group().length()-1).trim()));
-			if(found)	
+			if(found)
 				param = param.substring(matcher.group().length());
 		}
-		if(param.length()>0) 
+		if(param.length()>0)
 			res.add(clearParam(param.trim()));
-		
+
 		String[] params = new String[res.size()];
-		for(int i=0; i<res.size(); i++) 
+		for(int i=0; i<res.size(); i++)
 			params[i] = res.get(i);
 		return params;
 	}
@@ -198,7 +195,7 @@ public class SimpleScript extends Script {
 		if(param.charAt(param.length()-1)=='"') param = param.substring(0, param.length()-1);
 		return param;
 	}
-	
+
 	private String callMethod(String name, String method) {
 		QuestionModule var = (QuestionModule) vars.get(name);
 		if (null == var) return "[variable \""+name+"\" NOT found!]";

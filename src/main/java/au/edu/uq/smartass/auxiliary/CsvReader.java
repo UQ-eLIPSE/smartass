@@ -1,11 +1,11 @@
 /*
- * This module was adapted to SmartAss by Andriy Kvyatkovskyy, Mathematics, UQ 
+ * This module was adapted to SmartAss by Andriy Kvyatkovskyy, Mathematics, UQ
  * on 24 July 2008. It was downloaded from http://sourceforge.net/projects/javacsv/
- * 
- * 
+ *
+ *
  * Java CSV is a stream based library for reading and writing
  * CSV and other delimited data.
- *   
+ *
  * Copyright (C) Bruce Dunwiddie bruce@csvreader.com
  *
  * This library is free software; you can redistribute it and/or
@@ -107,9 +107,9 @@ public class CsvReader {
 	public static final int ESCAPE_MODE_BACKSLASH = 2;
 
 	/**
-	 * Creates a {@link com.csvreader.CsvReader CsvReader} object using a file
+	 * Creates a CsvReader object using a file
 	 * as the data source.
-	 * 
+	 *
 	 * @param fileName
 	 *            The path to the file to use as the data source.
 	 * @param delimiter
@@ -143,10 +143,10 @@ public class CsvReader {
 	}
 
 	/**
-	 * Creates a {@link com.csvreader.CsvReader CsvReader} object using a file
+	 * Creates a CsvReader object using a file
 	 * as the data source.&nbsp;Uses ISO-8859-1 as the
 	 * {@link java.nio.charset.Charset Charset}.
-	 * 
+	 *
 	 * @param fileName
 	 *            The path to the file to use as the data source.
 	 * @param delimiter
@@ -158,10 +158,10 @@ public class CsvReader {
 	}
 
 	/**
-	 * Creates a {@link com.csvreader.CsvReader CsvReader} object using a file
+	 * Creates a CsvReader object using a file
 	 * as the data source.&nbsp;Uses a comma as the column delimiter and
 	 * ISO-8859-1 as the {@link java.nio.charset.Charset Charset}.
-	 * 
+	 *
 	 * @param fileName
 	 *            The path to the file to use as the data source.
 	 */
@@ -170,9 +170,9 @@ public class CsvReader {
 	}
 
 	/**
-	 * Constructs a {@link com.csvreader.CsvReader CsvReader} object using a
+	 * Constructs a CsvReader object using a
 	 * {@link java.io.Reader Reader} object as the data source.
-	 * 
+	 *
 	 * @param inputStream
 	 *            The stream to use as the data source.
 	 * @param delimiter
@@ -192,10 +192,10 @@ public class CsvReader {
 	}
 
 	/**
-	 * Constructs a {@link com.csvreader.CsvReader CsvReader} object using a
+	 * Constructs a CsvReader object using a
 	 * {@link java.io.Reader Reader} object as the data source.&nbsp;Uses a
 	 * comma as the column delimiter.
-	 * 
+	 *
 	 * @param inputStream
 	 *            The stream to use as the data source.
 	 */
@@ -204,9 +204,9 @@ public class CsvReader {
 	}
 
 	/**
-	 * Constructs a {@link com.csvreader.CsvReader CsvReader} object using an
+	 * Constructs a CsvReader object using an
 	 * {@link java.io.InputStream InputStream} object as the data source.
-	 * 
+	 *
 	 * @param inputStream
 	 *            The stream to use as the data source.
 	 * @param delimiter
@@ -220,10 +220,10 @@ public class CsvReader {
 	}
 
 	/**
-	 * Constructs a {@link com.csvreader.CsvReader CsvReader} object using an
+	 * Constructs a CsvReader object using an
 	 * {@link java.io.InputStream InputStream} object as the data
 	 * source.&nbsp;Uses a comma as the column delimiter.
-	 * 
+	 *
 	 * @param inputStream
 	 *            The stream to use as the data source.
 	 * @param charset
@@ -249,7 +249,7 @@ public class CsvReader {
 	/**
 	 * Gets whether leading and trailing whitespace characters are being trimmed
 	 * from non-textqualified column data. Default is true.
-	 * 
+	 *
 	 * @return Whether leading and trailing whitespace characters are being
 	 *         trimmed from non-textqualified column data.
 	 */
@@ -260,7 +260,7 @@ public class CsvReader {
 	/**
 	 * Sets whether leading and trailing whitespace characters should be trimmed
 	 * from non-textqualified column data or not. Default is true.
-	 * 
+	 *
 	 * @param trimWhitespace
 	 *            Whether leading and trailing whitespace characters should be
 	 *            trimmed from non-textqualified column data or not.
@@ -272,7 +272,7 @@ public class CsvReader {
 	/**
 	 * Gets the character being used as the column delimiter. Default is comma,
 	 * ','.
-	 * 
+	 *
 	 * @return The character being used as the column delimiter.
 	 */
 	public char getDelimiter() {
@@ -281,7 +281,7 @@ public class CsvReader {
 
 	/**
 	 * Sets the character to use as the column delimiter. Default is comma, ','.
-	 * 
+	 *
 	 * @param delimiter
 	 *            The character to use as the column delimiter.
 	 */
@@ -295,7 +295,7 @@ public class CsvReader {
 
 	/**
 	 * Sets the character to use as the record delimiter.
-	 * 
+	 *
 	 * @param recordDelimiter
 	 *            The character to use as the record delimiter. Default is
 	 *            combination of standard end of line characters for Windows,
@@ -308,7 +308,7 @@ public class CsvReader {
 
 	/**
 	 * Gets the character to use as a text qualifier in the data.
-	 * 
+	 *
 	 * @return The character to use as a text qualifier in the data.
 	 */
 	public char getTextQualifier() {
@@ -317,7 +317,7 @@ public class CsvReader {
 
 	/**
 	 * Sets the character to use as a text qualifier in the data.
-	 * 
+	 *
 	 * @param textQualifier
 	 *            The character to use as a text qualifier in the data.
 	 */
@@ -327,7 +327,7 @@ public class CsvReader {
 
 	/**
 	 * Whether text qualifiers will be used while parsing or not.
-	 * 
+	 *
 	 * @return Whether text qualifiers will be used while parsing or not.
 	 */
 	public boolean getUseTextQualifier() {
@@ -336,7 +336,7 @@ public class CsvReader {
 
 	/**
 	 * Sets whether text qualifiers will be used while parsing or not.
-	 * 
+	 *
 	 * @param useTextQualifier
 	 *            Whether to use a text qualifier while parsing or not.
 	 */
@@ -346,7 +346,7 @@ public class CsvReader {
 
 	/**
 	 * Gets the character being used as a comment signal.
-	 * 
+	 *
 	 * @return The character being used as a comment signal.
 	 */
 	public char getComment() {
@@ -355,7 +355,7 @@ public class CsvReader {
 
 	/**
 	 * Sets the character to use as a comment signal.
-	 * 
+	 *
 	 * @param comment
 	 *            The character to use as a comment signal.
 	 */
@@ -365,7 +365,7 @@ public class CsvReader {
 
 	/**
 	 * Gets whether comments are being looked for while parsing or not.
-	 * 
+	 *
 	 * @return Whether comments are being looked for while parsing or not.
 	 */
 	public boolean getUseComments() {
@@ -374,7 +374,7 @@ public class CsvReader {
 
 	/**
 	 * Sets whether comments are being looked for while parsing or not.
-	 * 
+	 *
 	 * @param useComments
 	 *            Whether comments are being looked for while parsing or not.
 	 */
@@ -385,7 +385,7 @@ public class CsvReader {
 	/**
 	 * Gets the current way to escape an occurance of the text qualifier inside
 	 * qualified data.
-	 * 
+	 *
 	 * @return The current way to escape an occurance of the text qualifier
 	 *         inside qualified data.
 	 */
@@ -396,7 +396,7 @@ public class CsvReader {
 	/**
 	 * Sets the current way to escape an occurance of the text qualifier inside
 	 * qualified data.
-	 * 
+	 *
 	 * @param escapeMode
 	 *            The way to escape an occurance of the text qualifier inside
 	 *            qualified data.
@@ -428,7 +428,7 @@ public class CsvReader {
 	 * the file format is known and tested. With the switch off, the max column
 	 * lengths and max column count per record supported by the parser will
 	 * greatly increase. Default is true.
-	 * 
+	 *
 	 * @return The current setting of the safety switch.
 	 */
 	public boolean getSafetySwitch() {
@@ -442,7 +442,7 @@ public class CsvReader {
 	 * the file format is known and tested. With the switch off, the max column
 	 * lengths and max column count per record supported by the parser will
 	 * greatly increase. Default is true.
-	 * 
+	 *
 	 * @param safetySwitch
 	 */
 	public void setSafetySwitch(boolean safetySwitch) {
@@ -451,7 +451,7 @@ public class CsvReader {
 
 	/**
 	 * Gets the count of columns found in this record.
-	 * 
+	 *
 	 * @return The count of columns found in this record.
 	 */
 	public int getColumnCount() {
@@ -460,7 +460,7 @@ public class CsvReader {
 
 	/**
 	 * Gets the index of the current record.
-	 * 
+	 *
 	 * @return The index of the current record.
 	 */
 	public long getCurrentRecord() {
@@ -469,16 +469,16 @@ public class CsvReader {
 
 	/**
 	 * Gets the count of headers read in by a previous call to
-	 * {@link com.csvreader.CsvReader#readHeaders readHeaders()}.
-	 * 
+	 * radHeaders().
+	 *
 	 * @return The count of headers read in by a previous call to
-	 *         {@link com.csvreader.CsvReader#readHeaders readHeaders()}.
+	 *         readHeaders()
 	 */
 	public int getHeaderCount() { return headersHolder.Length; }
 
 	/**
 	 * Returns the header values as a string array.
-	 * 
+	 *
 	 * @return The header values as a String array.
 	 * @exception IOException
 	 *                Thrown if this object has already been closed.
@@ -526,7 +526,7 @@ public class CsvReader {
 
 	/**
 	 * Returns the current column value for a given column index.
-	 * 
+	 *
 	 * @param columnIndex
 	 *            The index of the column.
 	 * @return The current column value.
@@ -545,7 +545,7 @@ public class CsvReader {
 
 	/**
 	 * Returns the current column value for a given column header name.
-	 * 
+	 *
 	 * @param headerName
 	 *            The header name of the column.
 	 * @return The current column value.
@@ -559,13 +559,13 @@ public class CsvReader {
 	}
 
 	/**
-	 * Creates a {@link com.csvreader.CsvReader CsvReader} object using a string
+	 * Creates a CsvReader object using a string
 	 * of data as the source.&nbsp;Uses ISO-8859-1 as the
 	 * {@link java.nio.charset.Charset Charset}.
-	 * 
+	 *
 	 * @param data
 	 *            The String of data to use as the source.
-	 * @return A {@link com.csvreader.CsvReader CsvReader} object using the
+	 * @return A CsvReader object using the
 	 *         String of data as the source.
 	 */
 	public static CsvReader parse(String data) {
@@ -579,7 +579,7 @@ public class CsvReader {
 
 	/**
 	 * Reads another record.
-	 * 
+	 *
 	 * @return Whether another record was successfully read or not.
 	 * @exception IOException
 	 *                Thrown if an error occurs while reading data from the
@@ -1219,7 +1219,7 @@ public class CsvReader {
 
 	/**
 	 * Read the first record of data as column headers.
-	 * 
+	 *
 	 * @return Whether the header record was successfully read or not.
 	 * @exception IOException
 	 *                Thrown if an error occurs while reading data from the
@@ -1256,7 +1256,7 @@ public class CsvReader {
 
 	/**
 	 * Returns the column header value for a given column index.
-	 * 
+	 *
 	 * @param columnIndex
 	 *            The index of the header column being requested.
 	 * @return The value of the column header at the given column index.
@@ -1438,7 +1438,7 @@ public class CsvReader {
 
 	/**
 	 * Gets the corresponding column index for a given column header name.
-	 * 
+	 *
 	 * @param headerName
 	 *            The header name of the column.
 	 * @return The column index for the given column header name.&nbsp;Returns
@@ -1461,8 +1461,8 @@ public class CsvReader {
 	/**
 	 * Skips the next record of data by parsing each column.&nbsp;Does not
 	 * increment
-	 * {@link com.csvreader.CsvReader#getCurrentRecord getCurrentRecord()}.
-	 * 
+	 * getCurrentRecord().
+	 *
 	 * @return Whether another record was successfully skipped or not.
 	 * @exception IOException
 	 *                Thrown if an error occurs while reading data from the
@@ -1487,7 +1487,7 @@ public class CsvReader {
 	/**
 	 * Skips the next line of data using the standard end of line characters and
 	 * does not do any column delimited parsing.
-	 * 
+	 *
 	 * @return Whether a line was successfully skipped or not.
 	 * @exception IOException
 	 *                Thrown if an error occurs while reading data from the
@@ -1555,7 +1555,7 @@ public class CsvReader {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void close(boolean closing) {
 		if (!closed) {
@@ -1594,7 +1594,7 @@ public class CsvReader {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void finalize() {
 		close(false);
