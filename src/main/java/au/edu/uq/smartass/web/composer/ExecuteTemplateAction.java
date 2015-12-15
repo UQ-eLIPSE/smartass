@@ -1,6 +1,6 @@
-/* This file is part of SmartAss and contains the ExecuteTemplateAction class that  
+/* This file is part of SmartAss and contains the ExecuteTemplateAction class that
  * executes assignment creating questions, solutions and short answers .tex files
- * 
+ *
  * Copyright (C) 2008 The University of Queensland
  * SmartAss is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2, or
@@ -48,31 +48,29 @@ public class ExecuteTemplateAction  {
 
         /** Class logger */
 	private static final Logger LOG = LoggerFactory.getLogger( ExecuteTemplateAction.class );
-	
+
 	/**
 	 * This function is called by Spring framework. It calls doExecute to process assignment code to create
 	 * question, solution and short answers files.
-	 * 
+	 *
 	 * @param context		Spring webflow request context
 	 * @return				{@link Event} to Spring webflow transition to the new state
-	 * @throws Exception
 	 */
 	public String execute(RequestContext context) { return doExecute(null, null, context); }
-	
+
 	/**
 	 * Processes assignment code to create question, solution and short answers files.
-	 * 
+	 *
 	 * @param prepared_code		prepared code with decoration added as String
 	 * @param code				code without decorations as String
 	 * @param context			Spring webflow request context
 	 * @return				{@link Event} to Spring webflow transition to the new state
-	 * @throws Exception
 	 */
 	public String doExecute(String prepared_code, String code, RequestContext context) {
-		
-		LOG.debug( 
-			"::doExecute()[\n\n<prepared_code>:\n{} , \n\n<code>:\n{} , \n\n<context>:\n{}\n\n]<-----", 
-			prepared_code, code, context.toString() 
+
+		LOG.debug(
+			"::doExecute()[\n\n<prepared_code>:\n{} , \n\n<code>:\n{} , \n\n<context>:\n{}\n\n]<-----",
+			prepared_code, code, context.toString()
 		);
 
 		try {
@@ -84,7 +82,7 @@ public class ExecuteTemplateAction  {
 			}
 
 			//context.getRequestParameters().get("code");
-			
+
 			Engine engine = Engine.getInstance();
 			TexReader tr = (TexReader) engine.getTemplateReader("tex");
 
@@ -118,33 +116,33 @@ public class ExecuteTemplateAction  {
 			return "error";
 		}
 	}
-	
+
 	/**
 	 * Saves assignment execution results as files and pack them to the zip file
-	 * 
+	 *
 	 * @param tr			{@link TexReader} that contains execution results
-	 * @param outputRoot	the path where result files will be saved 
+	 * @param outputRoot	the path where result files will be saved
 	 * @return				the output directory name
 	 * @throws IOException
 	 */
 	protected String saveExecutionResults(TexReader tr, String outputRoot) throws IOException {
 		ResultNode result = tr.getResultNode();
-		
+
 		File output_root = new File(outputRoot);
 		File output_path = File.createTempFile("ass", "", output_root);
 		output_path.delete();
 		output_path.mkdir();
 		output_path.mkdir();
-		
+
 		File questions = new File(output_path, "questions.tex");
 		File answers = new File(output_path, "answers.tex");
 		File solutions = new File(output_path, "solutions.tex");
 		File zipfile = new File(output_path, "assignments.zip");
-		
+
 		writeFile(questions, result.getSection("QUESTION"));
 		writeFile(answers, result.getSection("SHORTANSWER"));
 		writeFile(solutions, result.getSection("SOLUTION"));
-		
+
 		ZipOutputStream zip = Zip.createZip(zipfile);
 		Zip.addToZip(zip, "questions.tex", result.getSection("QUESTION"));
 		Zip.addToZip(zip, "answers.tex", result.getSection("SHORTANSWER"));
@@ -158,7 +156,7 @@ public class ExecuteTemplateAction  {
 	 * Assists the InteractiveApp - the java applet that can be embedded into the web page
 	 * to provide highly interactive assignments execution and edit.
 	 * Processes assignment code to create question, solution and short answers files.
-	 * 
+	 *
 	 * @param prepared_code		prepared code with decoration added as String
 	 * @param code				code without decorations as String
 	 * @param context			Spring webflow request context
@@ -182,12 +180,12 @@ public class ExecuteTemplateAction  {
 		context.getExternalContext().getSessionMap().put("TEMPLATE_OBJECT", tr);
 		//context.getExternalContext().getSessionMap().put("TEMPLATE_CODE", tex);
 	}
-	
+
 	/**
 	 * Assists the InteractiveApp - the java applet that can be embedded into the web page
 	 * to provide highly interactive assignments execution and edit.
 	 * Returns assignment execution results
-	 * 
+	 *
 	 * @param context
 	 * @throws Exception
 	 */
@@ -207,16 +205,16 @@ public class ExecuteTemplateAction  {
 	 * Assists the InteractiveApp - the java applet that can be embedded into the web page
 	 * to provide highly interactive assignments execution and edit.
 	 * Returns the assignment code
-	 * 
+	 *
 	 * @param context
 	 * @throws Exception
 	 */
 	public void extractInteractiveCode(RequestContext context) throws Exception {
 		TexReader tr =  (TexReader)context.getExternalContext().getSessionMap().get("TEMPLATE_OBJECT");
-		if(tr!=null) 
+		if(tr!=null)
 			((AssignmentConstruct)context.getFlowScope().get("template")).setCode(tr.getRootNode().getCode());
 	}
-	
+
 	/**
 	 * Utility function to write string to the given {@link File}
 	 */
@@ -230,4 +228,3 @@ public class ExecuteTemplateAction  {
 			out.close();
 	}
 }
-
