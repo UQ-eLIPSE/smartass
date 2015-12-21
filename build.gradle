@@ -59,6 +59,7 @@ dependencies {
 
 	testCompile 'org.json:json:20141113'
 	testCompile 'com.hp.hpl.jena:arq:2.8.3'
+
 	testCompile fileTree('tstLib')
 
 	//
