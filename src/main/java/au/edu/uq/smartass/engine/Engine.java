@@ -76,7 +76,6 @@ public class Engine {
 	 */
 	private Engine() {
 		LOG.info( "::Engine() initialisation:");
-
 		LOG.info( "::Engine()[ preferences=>{}] ", PREFERENCES.toString() );
         try {
             for (String key : PREFERENCES.keys())
