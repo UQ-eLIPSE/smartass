@@ -14,35 +14,49 @@
  */
 package au.edu.uq.smartass.web.template;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.webflow.execution.FlowExecutionOutcome;
 import org.springframework.webflow.mvc.servlet.AbstractFlowHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * The TemplateEditFlowHandler class 
  * hooks to some important points of Spring webflow executions
  */
 public class TemplateEditFlowHandler extends AbstractFlowHandler {
-	@Override
-	/**
-	 * Returns custom flow id
-	 */
-	public String getFlowId() {
-		return "template-edit";
-	}
-	
-	@Override
-	/**
-	 * Redirects to the repository page on flow finish 
-	 */
-	public String handleExecutionOutcome(FlowExecutionOutcome outcome,
-			HttpServletRequest request, HttpServletResponse response) {
-		StringBuffer url = request.getRequestURL();
-		url.delete(url.lastIndexOf("/"), url.length());
-		url.append("/repository.htm?classid=" + outcome.getOutput().get("classId"));
-		return url.toString();
 
-	}
+    /** Class logger. */
+    private static final Logger LOG = LoggerFactory.getLogger( TemplateEditFlowHandler.class );
+
+
+    /**
+     * Returns custom flow id
+     */
+    @Override
+    public String getFlowId() { return "template-edit"; }
+    
+    /**
+     * Redirects to the repository page on flow finish 
+     */
+    @Override
+    public String handleExecutionOutcome(
+            FlowExecutionOutcome outcome,
+            HttpServletRequest request, 
+            HttpServletResponse response
+    ) {
+        LOG.info( "::handleExecutionOutcome( \n\t{}, \n\t{}, \n\t{} \n)", outcome, request, response );
+
+        StringBuffer url = request.getRequestURL();
+        url.delete(url.lastIndexOf("/"), url.length());
+        url.append("/repository.htm?classid=" + outcome.getOutput().get("classId"));
+
+        return url.toString();
+    }
+
 }

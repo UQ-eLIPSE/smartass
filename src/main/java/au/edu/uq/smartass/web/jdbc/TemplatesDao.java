@@ -31,13 +31,23 @@ import au.edu.uq.smartass.web.ModulesItemModel;
 import au.edu.uq.smartass.web.TemplatesItemModel;
 import au.edu.uq.smartass.web.UpdatesItemModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * The TemplatesDao class is the object-relational mapping class 
  * that maps the TemplatesItemModel to the database table(s).
  */
 @SuppressWarnings("unchecked")
 public class TemplatesDao extends JdbcDaoSupport {
+
+    /** Class logger. */
+    private static final Logger LOG = LoggerFactory.getLogger( TemplatesDao.class );
+
 	public static final String TEMPLATES_SELECT = "select * from templates order by name";
+
+
 	private ItemRowMapper mapper;
 
 	private AuthorsDao authorsDao;
@@ -180,16 +190,25 @@ public class TemplatesDao extends JdbcDaoSupport {
 		return select(sql, params.toArray());
 	}
 	
-	private String composeSql(String select, String templ_filter, String keyword_filter, int classification_id,
-			List<Object> params) {
-		if(templ_filter==null) templ_filter = "";
-		if(keyword_filter==null) keyword_filter = "";
+    /**
+     *
+     */
+	private String composeSql(
+                String select, 
+                String templ_filter, 
+                String keyword_filter, 
+                int classification_id,
+			    List<Object> params
+    ) {
+		if ( templ_filter == null ) templ_filter = "";
+		if ( keyword_filter == null ) keyword_filter = "";
 		
 		StringBuffer sql = new StringBuffer(select);
 
 		templ_filter = templ_filter.trim();
 		keyword_filter = keyword_filter.trim();
-		if(!templ_filter.equals("") || !keyword_filter.equals("") || classification_id!=0) {
+
+		if (!templ_filter.equals("") || !keyword_filter.equals("") || classification_id!=0) {
 			if(classification_id!=0) {
 				sql.append("inner join templates_classifications tc on t.id=tc.template_id " +
 						"inner join classifications c on tc.class_id=c.id "); 
@@ -227,6 +246,9 @@ public class TemplatesDao extends JdbcDaoSupport {
 					sql.append(clause + ")");
 			}
 		}
+
+        LOG.info( "::composeSql()[ \n*** SQL=>\n{}\n] ", sql.toString() );
+
 		return sql.toString();
 	}
 

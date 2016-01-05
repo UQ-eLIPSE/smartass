@@ -14,37 +14,52 @@
  */
 package au.edu.uq.smartass.web.template;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.webflow.execution.FlowExecutionOutcome;
 import org.springframework.webflow.mvc.servlet.AbstractFlowHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * The TemplateEditFlowHandler class 
  * hooks to some important points of Spring webflow executions
  */
 public class TemplateFlowHandler extends AbstractFlowHandler {
-	@Override
+
+    /** Class logger. */
+    private static final Logger LOG = LoggerFactory.getLogger( TemplateFlowHandler.class );
+
+
 	/**
 	 * Returns the custom flow id
 	 */
-	public String getFlowId() {
-		return "template";
-	}
-
 	@Override
+	public String getFlowId() { return "template"; }
+
 	/**
 	 * Redirects to the repository page on flow finish 
 	 */
-	public String handleExecutionOutcome(FlowExecutionOutcome outcome,
-			HttpServletRequest request, HttpServletResponse response) {
+	@Override
+	public String handleExecutionOutcome(
+            FlowExecutionOutcome outcome,
+			HttpServletRequest request, 
+            HttpServletResponse response
+    ) {
+        LOG.info( "::handleExecutionOutcome( \n\t{}, \n\t{}, \n\t{} \n)", outcome, request, response );
+
 		StringBuffer url = request.getRequestURL();
 		url.delete(url.lastIndexOf("/"), url.length());
-		if(outcome.getId().equals("finish") || outcome.getId().equals("finishWithCancel"))
-			url.append("/repository.htm?classid=" + outcome.getOutput().get("classId"));
+
+		if (outcome.getId().equals("finish") || outcome.getId().equals("finishWithCancel"))
+                url.append("/repository.htm?classid=" + outcome.getOutput().get("classId"));
 		else
-			url.append("/repository-template-edit.htm?id=" + outcome.getOutput().get("templateId"));
+                url.append("/repository-template-edit.htm?id=" + outcome.getOutput().get("templateId"));
+
 		return url.toString();
 
 	}
