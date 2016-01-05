@@ -129,14 +129,11 @@
             <th>Uploaded</th>
             <th>Author</th>
 
-            <c:if test="${!empty user}">
-                <th width="10%" align="right">
-                    <c:if test="${!empty selected_class}">
-                        <a href="repository-template-new.htm?classId=<c:out value="${selected_class.id}" />">[new]</a>
-                    </c:if>
-                </th>
-            </c:if>
-            <c:if test="${empty user}"><th></th></c:if>
+            <th width="10%" align="right">
+                <c:if test="${!empty user and !empty selected_class}">
+                    <a href="repository-template-new.htm?classId=<c:out value="${selected_class.id}" />">[new]</a>
+                </c:if>
+            </th>
         </tr>
 
         <c:set var="rownumber" value="0"/>
