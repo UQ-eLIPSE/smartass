@@ -148,7 +148,7 @@ public class Engine {
 	  * @return the result of template processing
       * @throws au.edu.uq.smartass.templates.TemplateParseException
 	  */
-        public Map<String, String> processTemplate(InputStream template, String type) throws TemplateParseException {
+    private Map<String, String> processTemplate(InputStream template, String type) throws TemplateParseException {
 		TemplateReader tr = getTemplateReader(type);
 
 		//----------- it seems that we need no this in engine... ------------

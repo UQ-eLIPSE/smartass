@@ -130,9 +130,12 @@
             <th>Author</th>
 
             <th width="10%" align="right">
-                <c:if test="${!empty user and !empty selected_class}">
-                    <a href="repository-template-new.htm?classId=<c:out value="${selected_class.id}" />">[new]</a>
-                </c:if>
+                <c:choose>
+                    <c:when test="${!empty user and !empty selected_class}">
+                        <a href="repository-template-new.htm?classId=<c:out value="${selected_class.id}" />">[new]</a>
+                    </c:when>
+                    <c:otherwise>[new]</c:otherwise>
+                </c:choose>
             </th>
         </tr>
 

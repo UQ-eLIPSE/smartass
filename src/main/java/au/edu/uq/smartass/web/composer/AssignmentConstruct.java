@@ -286,7 +286,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	 * @throws IOException
 	 */
 	public void setCode(String code) throws ParseException, UnsupportedEncodingException, IOException {
-                LOG.info("::setCode()[ code=>\n{}\n]", code);
+        LOG.info("::setCode()[ code=>\n{}\n]", code);
 
 		components.clear();
 		initTemplate();
@@ -302,7 +302,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 			analyseNode(tmp_node.getDocument(), null);
 		}
 
-                setSelectedIndex( components.size() - 1 ); // Select last component.
+        setSelectedIndex( components.size() - 1 ); // Select last component.
 	}
 
 	/**

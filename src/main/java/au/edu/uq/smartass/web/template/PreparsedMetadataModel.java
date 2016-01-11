@@ -18,8 +18,8 @@
 package au.edu.uq.smartass.web.template;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * The PreparsedMetadataModel class
@@ -29,6 +29,7 @@ import java.util.Vector;
  * attempt to map preparsed data to existing database objects).
  */
 public class PreparsedMetadataModel implements Serializable {
+
 	/** The template name */
 	private String name = "";
 	/** Template related keywords */
@@ -39,18 +40,14 @@ public class PreparsedMetadataModel implements Serializable {
 	private String dtcreated;
 
 	private String[] author = {"", ""};
-	private List<String[]> files = new Vector<String[]>();
-	private List<String[]> modules = new Vector<String[]>();
-	private List<String[]> updates = new Vector<String[]>();
-	private List<String[]> updAuthors = new Vector<String[]>();
+	private List<String[]> files = new ArrayList<String[]>();
+	private List<String[]> modules = new ArrayList<String[]>();
+	private List<String[]> updates = new ArrayList<String[]>();
+	private List<String[]> updAuthors = new ArrayList<String[]>(); 
 
-	public List<String[]> getUpdAuthors() {
-		return updAuthors;
-	}
+    public List<String[]> getUpdAuthors() { return updAuthors; }
 
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 	
 	public void setName(String name) {
 		name = name.trim();
@@ -60,47 +57,39 @@ public class PreparsedMetadataModel implements Serializable {
 			this.name = name;
 	}
 	
-	public String getKeywords() {
-		return keywords;
-	}
+	public String getKeywords() { return keywords; }
 	
-	public void setKeywords(String keywords) {
-		this.keywords = keywords;
-	}
+	public void setKeywords(String keywords) { this.keywords = keywords; }
 	
-	public String getDescription() {
-		return description;
-	}
+	public String getDescription() { return description; }
 	
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	public void setDescription(String description) { this.description = description; }
 	
-	public String getDtcreated() {
-		return dtcreated;
-	}
+	public String getDtcreated() { return dtcreated; }
 	
-	public void setDtcreated(String dtcreated) {
-		this.dtcreated = dtcreated;
-	}
+	public void setDtcreated(String dtcreated) { this.dtcreated = dtcreated; }
 	
-	public String[] getAuthor() {
-		return author;
-	}
+	public String[] getAuthor() { return author; }
 	
-	public void setAuthor(String[] author) {
-		this.author = author;
-	}
+	public void setAuthor(String[] author) { this.author = author; }
 	
-	public List<String[]> getFiles() {
-		return files;
-	}
+	public List<String[]> getFiles() { return files; }
 
-	public List<String[]> getModules() {
-		return modules;
-	}
+	public List<String[]> getModules() { return modules; } 
 
-	public List<String[]> getUpdates() {
-		return updates;
+    public List<String[]> getUpdates() { return updates; }
+
+	boolean isEmpty() {
+		return
+				name.isEmpty() &&
+                keywords.isEmpty() &&
+                description.isEmpty() &&
+                dtcreated == null &&
+                author[0].isEmpty() && author[1].isEmpty() &&
+                files.isEmpty() &&
+                modules.isEmpty() &&
+                updates.isEmpty() &&
+                updAuthors.isEmpty();
 	}
 }
+

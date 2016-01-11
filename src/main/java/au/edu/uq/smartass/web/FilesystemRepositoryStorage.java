@@ -82,20 +82,17 @@ public class FilesystemRepositoryStorage implements RepositoryStorage {
 
 		LOG.debug("setFile()[ scope=>{}, path=>{}, name=>{}, stream=>{} ]", scope, path, name, "-");
 
-		if(path==null)
-			path = "";
-		File target_dir = new File(new File(paths.get(scope)), path);
-		if(!target_dir.exists())
-			target_dir.mkdirs();
-		File target = new File(target_dir, name);
+		if (path == null) path = "";
 
+		File target_dir = new File(new File(paths.get(scope)), path);
+		if (!target_dir.exists()) target_dir.mkdirs();
+
+		File target = new File(target_dir, name);
 		LOG.debug("setFile() : target => {}", target.getAbsolutePath());
 
-		if(target.exists())
-			target.delete();
+		if (target.exists()) target.delete();
 		
-		if(stream==null)
-			return;
+		if ( stream == null ) return;
 		
 		FileCopyUtils.copy(stream, new FileOutputStream(target));
 	}

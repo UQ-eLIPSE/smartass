@@ -67,13 +67,6 @@ public class RepositoryStorage {
 		path[SCOPE_FILES] = new File (prefs.get("files_path", "files"));
 	}
 
-	public int importFile(int scope, String src, String dst, boolean create_dir) {
-		File fsrc = new File(src);
-		File fdst = new File(path[scope], dst);
-
-		return processFile(scope, fsrc, fdst, create_dir, false);
-	}
-	
 
 	public Vector<String> readMetadata(String src) {
 		File fsrc = new File(src);
@@ -140,7 +133,14 @@ public class RepositoryStorage {
 			return ERROR_FILE_COPY;
 		}
 	}
-	
+
+	public int importFile(int scope, String src, String dst, boolean create_dir) {
+		File fsrc = new File(src);
+		File fdst = new File(path[scope], dst);
+
+		return processFile(scope, fsrc, fdst, create_dir, false);
+	}
+
 	public int importFile(int scope, String src, String[] dst, boolean create_dir) {
 		File fsrc = new File(src);
 		File fdst = new File(new File(path[scope], dst[0]), dst[1]);

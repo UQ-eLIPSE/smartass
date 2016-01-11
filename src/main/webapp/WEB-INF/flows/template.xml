@@ -5,14 +5,10 @@
         "http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-	<var name="premeta"
-    	class="au.edu.uq.smartass.web.template.PreparsedMetadataModel"/>
-	<var name="template"
-    	class="au.edu.uq.smartass.web.template.TemplateImportModel"/>
-	<var name="user"
-    	class="au.edu.uq.smartass.web.UserItemModel"/>
-	<var name="mode" 
-    	class="java.lang.String" />
+	<var name="premeta" class="au.edu.uq.smartass.web.template.PreparsedMetadataModel"/>
+	<var name="template" class="au.edu.uq.smartass.web.template.TemplateImportModel"/>
+	<var name="user" class="au.edu.uq.smartass.web.UserItemModel"/>
+	<var name="mode" class="java.lang.String" />
 
 	<input name="classId" />
     	
