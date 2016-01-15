@@ -1,0 +1,48 @@
+%Example SmartAss Template
+%created for testing purposes.
+\input{smartass.tex}
+\begin{document}
+%%BEGIN DEF
+%Assign any required modules here.
+%It is possible to register which 'modules' a particular template uses in the database,
+%but I'm not sure what (or if) the table is used. All modules require a default constuctor
+%which will generally create random values in required ranges for any parameters. It is 
+%also (teorectically) possible to supply initialization parameters by overriding the 
+%`initialise` method of `QuestionModule` in your modules.
+#<ExampleTemplateModule module#>
+%%END DEF
+%%BEGIN QUESTION
+\begin{enumerate}
+\item   First Part: #<module.part001question#>
+        Add some question text here that will confuse 
+        confound and thoughly test the poor little students
+        knowledge. Can refer to `module` also.
+\item   Second Part: #<module.part002question#>
+        Just for fun, do it again OR indeed as many times
+        as you think they can take - maybe one more than
+        that.
+\end{enumerate}
+Hints: (because really we are just big softies!)
+\begin{itemize}
+\item   Some really useful infomation.
+\item   Some more really useful info.
+\item   Some really confusing info (we aren't really that nice)
+\item   A Joke - because we think it's funny
+\end{itemize}
+%%END QUESTION
+%%BEGIN SOLUTION
+\begin{enumerate}
+\item   First Part: #<module.part001solution#>
+        Clever explanation of how to work out the answer,
+        highlighting just how brilliant we are.
+\item   Second Part: #<module.part002solution#>
+        Because we enjoyed the first part so much
+\end{enumerate}
+%%END SOLUTION
+%%BEGIN SHORTANSWER
+\begin{enumerate}
+\item   First Part: #<module.part001answer#>
+\item   First Part: #<module.part002answer#>
+\end{enumerate}
+%%END SHORTANSWER
+\end{document}
