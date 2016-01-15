@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\pagestyle{empty}
+
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsmath}
+
+\setlength{\textwidth}{152.4truemm}
+\setlength{\textheight}{228.6truemm}
+\setlength{\oddsidemargin}{3.6mm}
+\setlength{\evensidemargin}{3.6mm}
+\setlength{\topmargin}{-12.5truemm}
+\setlength{\parindent}{0.0truemm}
+
+\def \ni {\noindent}
+\def \vs {\vskip5mm}
+\def\R{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+\def\N{\mathbb{N}}
+\def\u{\mathbf{u}}
+\def\v{\mathbf{v}}
+\def\a{\mathbf{a}}
+\def\b{\mathbf{b}}
+\def\c{\mathbf{c}}
+
+\ifpdf
+  \usepackage[pdftex]{graphicx}
+  \pdfcompresslevel=9
+  \pdfpagewidth=215truemm % your milage may vary....
+  \pdfpageheight=297truemm
+  \pdfhorigin=1truein     % default value(?), but doesn't work without
+  \pdfvorigin=1truein     % default value(?), but doesn't work without
+\else
+  \usepackage{graphicx}
+%\fi
+\input{defs.tex}
+
+\begin{document}
+
+
+
+
+
+ 
+
+Let $ \mathbf{u}= \left(\begin{array}{c} 5 \\ -1\\-3\end{array} \right)$ and $ \mathbf{ v} =\left(\begin{array}{c} 2 \\ -1\\3\end{array} \right) $. \\
+
+(a) Determine ${\bf u} \cdot {\bf v}$.
+
+(b) Determine the angle in degrees (to the nearest degree) between $ \mathbf {u} $ and $ \mathbf{v}$.
+
+\vspace*{5mm}
+
+Solution
+
+(a) ${\bf u} \cdot {\bf v}=5 \cdot 2 + -1 \cdot -1 + -3\cdot3$\\
+=$10+1-9$\\
+=$2$
+
+(b) From (a) ${\bf u} \cdot {\bf v}=2.\\
+ ||{\bf u}||=\sqrt{5^2+(-1)^2+(-3)^2}\\
+ =\sqrt{35}$\\
+  $||{\bf v}||=\sqrt{2^2+(-1)^2+3^2}\\
+ =\sqrt{14}$\\
+  ${\bf u} \cdot {\bf v}= ||{\bf u}||||{\bf v}||\cos\theta$\\
+ So $2=\sqrt{35}\sqrt{14}\cos\theta$.\\
+ Therefore $\theta=\arccos\dfrac{2}{\sqrt{35}\sqrt{14}}$\\
+ So $\theta\approx XX ^{\circ}$
+ 
+ 
+
+\end{document}

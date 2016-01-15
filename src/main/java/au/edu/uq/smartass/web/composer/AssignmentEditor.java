@@ -141,6 +141,7 @@ public class AssignmentEditor {
 
         BufferedReader br = new BufferedReader(new StringReader(assignment.getCode()));
         StringBuffer buff = new StringBuffer();
+
         String line;
         while((line=br.readLine())!=null) {
             if(line.indexOf("\\begin{enumerate}")>=0) {
@@ -155,7 +156,7 @@ public class AssignmentEditor {
                     call_pos = buff.length();
                 if(line.indexOf("%%CALL")==0)
                     buff.append("\\item\n");
-                call_count++;
+                    call_count++;
                 if(call_count==1 && repeat_pos>=0) {
                     buff.insert(call_pos, "\\begin{enumerate}\n");
                     buff.insert(repeat_pos, "\\item\n");
@@ -174,15 +175,14 @@ public class AssignmentEditor {
                     buff.append("\\end{enumerate}\n");
                     enum_level--;
                 }
-             else if(line.indexOf("%%ENDREPEAT")==0) {
-                    if(repeat_level<enum_level) {
-                        buff.append("\\end{enumerate}\n");
-                        enum_level--;
-                        repeat_pos = -1;
-                    }
-                    repeat_level--;
+            else if(line.indexOf("%%ENDREPEAT")==0) {
+                if(repeat_level<enum_level) {
+                    buff.append("\\end{enumerate}\n");
+                    enum_level--;
+                    repeat_pos = -1;
                 }
-
+                repeat_level--;
+            }
 
             buff.append(line).append("\n");
 
@@ -197,14 +197,13 @@ public class AssignmentEditor {
         }
 
         return buff.toString();
-
     }
     
 
-        /** The setter for the assignment DAO (data access object). */
-        public void setDao(AssignmentsDao dao) { this.dao = dao; }
+    /** The setter for the assignment DAO (data access object). */
+    public void setDao(AssignmentsDao dao) { this.dao = dao; }
 
-        /** The setter for the assignment storage. */
-        public void setStorage(RepositoryStorage storage) { this.storage = storage; }
+    /** The setter for the assignment storage. */
+    public void setStorage(RepositoryStorage storage) { this.storage = storage; }
 
 }

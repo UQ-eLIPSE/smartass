@@ -71,9 +71,9 @@ public class ExecuteTemplateAction  {
 	public String doExecute(String prepared_code, String code, RequestContext context) {
 		
 		LOG.debug( 
-			"::doExecute()[\n\n<prepared_code>:\n{} , \n\n<code>:\n{} , \n\n<context>:\n{}\n\n]<-----", 
-			prepared_code, code, context.toString() 
-		);
+                "::doExecute()[\n\n<prepared_code>:\n{} , \n\n<code>:\n{} , \n\n<context>:\n{}\n\n]<-----",
+                prepared_code, code, context.toString()
+            );
 
 		try {
 			String tex = prepared_code;
