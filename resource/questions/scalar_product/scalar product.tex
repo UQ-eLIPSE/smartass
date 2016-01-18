@@ -5,6 +5,11 @@
 \usepackage{latexsym}
 \usepackage{amsmath}
 
+\usepackage{ifpdf}
+\usepackage{enumerate}
+
+\usepackage{luacode,luatextra}
+
 \setlength{\textwidth}{152.4truemm}
 \setlength{\textheight}{228.6truemm}
 \setlength{\oddsidemargin}{3.6mm}
@@ -24,7 +29,7 @@
 \def\c{\mathbf{c}}
 
 \ifpdf
-  \usepackage[pdftex]{graphicx}
+% \usepackage[pdftex]{graphicx}	% clash with luacode,luatextra package
   \pdfcompresslevel=9
   \pdfpagewidth=215truemm % your milage may vary....
   \pdfpageheight=297truemm
@@ -32,41 +37,65 @@
   \pdfvorigin=1truein     % default value(?), but doesn't work without
 \else
   \usepackage{graphicx}
-%\fi
+\fi
+
 \input{defs.tex}
 
 \begin{document}
 
+\begin{luacode*}
+	size=math.random(3,7)
+	arr_U = {}
+	arr_V = {}
+	for i = 1, size do
+		arr_U[i] = math.random(19) - 10
+		arr_V[i] = math.random(19) -10
+	end
+\end{luacode*}
 
+\[\text{Let }\mathbf{u}= \left(\begin{array}{r}
+\begin{luacode*}
+	for k,v in pairs(arr_U) do 
+		tex.print(k .. '\\par')
+	end
+\end{luacode*}
+\end{array} \right) 
+\text{and }\mathbf{v} =\left(\begin{array}{r} 2 \\ -1 \\ 3 \\ 
+\end{array} \right).\]
 
-
-
- 
-
-Let $ \mathbf{u}= \left(\begin{array}{c} 5 \\ -1\\-3\end{array} \right)$ and $ \mathbf{ v} =\left(\begin{array}{c} 2 \\ -1\\3\end{array} \right) $. \\
-
-(a) Determine ${\bf u} \cdot {\bf v}$.
-
-(b) Determine the angle in degrees (to the nearest degree) between $ \mathbf {u} $ and $ \mathbf{v}$.
+\begin{enumerate}[(a)]
+	\item		Determine ${\bf u} \cdot {\bf v}$.
+	\item 	Determine the angle in degrees (to the nearest degree) between $ \mathbf {u} $ and $ \mathbf{v}$.
+\end{enumerate}
 
 \vspace*{5mm}
 
 Solution
 
-(a) ${\bf u} \cdot {\bf v}=5 \cdot 2 + -1 \cdot -1 + -3\cdot3$\\
-=$10+1-9$\\
-=$2$
-
-(b) From (a) ${\bf u} \cdot {\bf v}=2.\\
- ||{\bf u}||=\sqrt{5^2+(-1)^2+(-3)^2}\\
- =\sqrt{35}$\\
-  $||{\bf v}||=\sqrt{2^2+(-1)^2+3^2}\\
- =\sqrt{14}$\\
-  ${\bf u} \cdot {\bf v}= ||{\bf u}||||{\bf v}||\cos\theta$\\
- So $2=\sqrt{35}\sqrt{14}\cos\theta$.\\
- Therefore $\theta=\arccos\dfrac{2}{\sqrt{35}\sqrt{14}}$\\
- So $\theta\approx XX ^{\circ}$
- 
- 
+\begin{enumerate}[(a)]
+	\item 	\[\begin{array}{rcl}
+			{\bf u} \cdot {\bf v} 		& = & 	5 \cdot 2 + -1 \cdot -1 + -3\cdot3	\\
+								& = &	10+1-9		\\
+								& = & 	2
+			\end{array}\]
+			
+	\item 	\[\begin{array}{rcl}
+			\text{From (a) } {\bf u} \cdot {\bf v}  	& = & 	2. 	\\
+												\\
+		 	||{\bf u}|| 	& = & 	\sqrt{5^2+(-1)^2+(-3)^2} 	\\
+ 					& = & 	\sqrt{35}				\\
+												\\
+  			||{\bf v}|| 	& = & 	\sqrt{2^2+(-1)^2+3^2}	\\
+  					& = & 	\sqrt{14}				\\
+												\\
+  			{\bf u} \cdot {\bf v} 		& = & 	||{\bf u}||||{\bf v}||\cos\theta 	\\
+												\\
+ 		 	\text{So } 2 			& = & 	\sqrt{35}\sqrt{14}\cos\theta	\\
+												\\
+ 			\text{Therefore } \theta 	& = & 	\arccos\dfrac{2}{\sqrt{35}\sqrt{14}}	\\
+												\\
+ 			\text{So }  \theta 		& \approx & 	XX ^{\circ}
+			\end{array}\]
+\end{enumerate}
 
 \end{document}
