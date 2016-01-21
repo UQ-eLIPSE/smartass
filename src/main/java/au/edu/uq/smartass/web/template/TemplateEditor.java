@@ -17,12 +17,13 @@ package au.edu.uq.smartass.web.template;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
@@ -57,87 +58,78 @@ public class TemplateEditor {
 	 * Prepares metadata to analyze and import
 	 * 
 	 * @param template		template model to be filled with imported data
-	 * @param file			raw template text that contains metadata and template's body
+	 * @param templateText			raw template text that contains metadata and template's body
 	 * 
 	 * @return				pre-parsed metadata
 	 * @throws IOException
 	 */
-	public PreparsedMetadataModel prepareImport(TemplateImportModel template, String file) throws IOException {
-		Vector<String> meta = new Vector<String>();
-		String s = splitMetadata(file, meta);
-		template.setData(s);
-		return preparseMetadata(template, meta);
+	public PreparsedMetadataModel prepareImport(TemplateImportModel template, String templateText) throws IOException {
+		List<String> meta = new ArrayList<String>();
+		String templateTextSimple = splitMetadata(templateText, meta);
+		template.setData(templateTextSimple);
+		return preparseMetadata(meta);
 	}
 	
 	/**
 	 * Extracts metadata block from the template text 
 	 * 
-	 * @param src		raw template text
+	 * @param templateData		raw template text
 	 * @param meta		placeholder for metadata strings
 	 * @return			template text stripped from metadata
 	 * @throws IOException
 	 */
-	public String splitMetadata(String src, Vector<String> meta) throws IOException {
-		BufferedReader in = new BufferedReader(new StringReader(src));
-		StringWriter tmp = new StringWriter();
+    String splitMetadata(final String templateData, List<String> meta) throws IOException {
+
+		BufferedReader in = new BufferedReader(new StringReader(templateData));
+		StringBuilder stringBuilder = new StringBuilder();
 		
-	    String s;
-	    while((s=in.readLine())!=null && !(s.contains("%%META"))) 
-	    	tmp.write(s + "\n");
-	    while((s=in.readLine())!=null && !(s.contains("%%META END"))) {
-	    	meta.add(s);
-	    }
-	    while((s=in.readLine())!=null)
-	    	tmp.write(s + "\n");
+        String line;
+        boolean isMeta = false;
+
+        while ( (line = in.readLine()) != null ) {
+            if (line.isEmpty()) continue;
+            if (line.contentEquals("%%META")) { isMeta = true; continue; }
+            if (line.contentEquals("%%META END")) { isMeta = false; continue; }
+
+            if (isMeta) meta.add(line);
+            else stringBuilder.append(line).append("\n");
+        }
 	    
-	    return tmp.toString();
+	    return stringBuilder.toString();
 	}
-	
+
 	/**
 	 * Pre-parses metadata. "Pre-pase" means that the data is red 
 	 * from the template, recognized as files, modules etc but stored as plain strings
 	 * without SmartAss objects creation.
 	 * 
-	 * @param template	template model to be filled with imported data
 	 * @param meta		metadata strings
 	 * @return
 	 */
-	protected PreparsedMetadataModel preparseMetadata(TemplateImportModel template, Vector<String> meta) {
-		PreparsedMetadataModel premeta = new PreparsedMetadataModel(); 
+    PreparsedMetadataModel preparseMetadata(List<String> meta) {
+		PreparsedMetadataModel result = new PreparsedMetadataModel();
 
-		if(meta==null || meta.size()==0)
-			return premeta;
+		if (meta == null || meta.size() == 0) return result;
 		
-		int state=0;
+		int state = 0;
+
 		String[] sfile = {};
 		String[] supdate = {};
 		String[] smodule = {};
 		String[] supdauthor = {};
 		
-		for(String s : meta) {
-			if(s.indexOf("%%")==0) {
-				if(state==5) {
-					if(s.contains("%%PARAMETERS")) {
-						state = 6;
-					} else {
-						premeta.getModules().add(smodule);
-						state = 0;
-					}
-				} else {
+		for(String item : meta) {
+
+            // Terminate MultiLine(?) Items
+			if (item.indexOf("%%") == 0) {
+				if ( state == 5 && item.contains("%%PARAMETERS") ) state = 6;
+				else {
 					switch(state) {
-					case 2:
-						premeta.getFiles().add(sfile);
-						break;
-					case 3:
-						premeta.getUpdates().add(supdate);
-						break;
-					case 5:
-						break;
-					case 6:
-						premeta.getModules().add(smodule);
-						break;
-					case 7:
-						premeta.getUpdAuthors().add(supdauthor);
+					case 2: result.getFiles().add(sfile); break;
+					case 3: result.getUpdates().add(supdate); break;
+					case 5: result.getModules().add(smodule); break;
+					case 6: result.getModules().add(smodule); break;
+					case 7: result.getUpdAuthors().add(supdauthor); break;
 					}
 					state = 0;
 				}
@@ -145,80 +137,53 @@ public class TemplateEditor {
 
 			switch(state) {
 			case 0:
-				if(s.contains("%%AUTHOR")) {
-					premeta.setAuthor(new String[]{s.replace("%%AUTHOR", "").trim(), ""});
+				if(item.contains("%%AUTHOR")) {
+					result.setAuthor(new String[]{item.replace("%%AUTHOR", "").trim(), ""});
 					state = 4;
-				} else if(s.contains("%%KEYWORDS")) {
-					premeta.setKeywords(s.replaceFirst("%%KEYWORDS", "").trim());
-				} else if(s.contains("%%CREATED")) {
-					premeta.setDtcreated(s.replaceFirst("%%CREATED", "").trim());
-				} else if(s.contains("%%DESCRIPTION")) {
-					premeta.setDescription(s.replaceFirst("%%DESCRIPTION", "").trim());
+				} else if(item.contains("%%KEYWORDS")) {
+					result.setKeywords(item.replaceFirst("%%KEYWORDS", "").trim());
+				} else if(item.contains("%%CREATED")) {
+					result.setDtcreated(item.replaceFirst("%%CREATED", "").trim());
+				} else if(item.contains("%%DESCRIPTION")) {
+					result.setDescription(item.replaceFirst("%%DESCRIPTION", "").trim());
 					state = 1;
-				} else if(s.contains("%%FILE")) {
-					sfile = new String[]{s.replaceFirst("%%FILE", "").trim(), ""};
+				} else if(item.contains("%%FILE")) {
+					sfile = new String[]{item.replaceFirst("%%FILE", "").trim(), ""};
 					state = 2;
-				} else if(s.contains("%%MODULE")) {
-					smodule = new String[]{s.replaceFirst("%%MODULE", "").trim(), "", "", ""};
+				} else if(item.contains("%%MODULE")) {
+					smodule = new String[]{item.replaceFirst("%%MODULE", "").trim(), "", "", ""};
 					state = 5;
-				} else if(s.contains("%%UPDATE AUTHOR")) {
-					supdauthor = new String[]{s.replaceFirst("%%UPDATE AUTHOR", "").trim(), ""};
+				} else if(item.contains("%%UPDATE AUTHOR")) {
+					supdauthor = new String[]{item.replaceFirst("%%UPDATE AUTHOR", "").trim(), ""};
 					state = 7;
-				} else if(s.contains("%%UPDATE")) {
-					String[] spl = s.replaceFirst("%%UPDATE", "").split(",", 2);
-					if(spl.length==1)
-						supdate = new String[]{spl[0], "", ""};
-					else
-						supdate = new String[]{spl[0].trim(), spl[1].trim(), ""};
+				} else if(item.contains("%%UPDATE")) {
+					String[] spl = item.replaceFirst("%%UPDATE", "").split(",", 2);
+					if(spl.length==1) supdate = new String[]{spl[0], "", ""};
+					else supdate = new String[]{spl[0].trim(), spl[1].trim(), ""};
 					state = 3;
 				}  
 				break;
-			case 1:
-				premeta.setDescription(premeta.getDescription() + "\n" + s.replaceFirst("%", ""));
-				break;
-			case 2:
-				sfile[1] = sfile[1] + "\n" + s.replaceFirst("%", "");
-				break;
-			case 3:
-				supdate[2] = supdate[2] + "\n" + s.replaceFirst("%", "");
-				break;
-			case 4:
-				premeta.getAuthor()[1] = premeta.getAuthor()[1] + "\n" + s.replaceFirst("%", "");
-				break;
-			case 5:
-				smodule[2] = smodule[2] + "\n" + s.replaceFirst("%", "");
-				break;
-			case 6:
-				smodule[3] = smodule[3] + "\n" + s.replaceFirst("%%PARAMETERS", "").replaceFirst("%", "").trim();
-				break;
-			case 7:
-				supdauthor[1] = supdauthor[1] + "\n" + s.replaceFirst("%", "");
-				break;
+
+			case 1: result.setDescription(result.getDescription() + "\n" + item.replaceFirst("%", "")); break;
+			case 2: sfile[1] = sfile[1] + "\n" + item.replaceFirst("%", ""); break;
+			case 3: supdate[2] = supdate[2] + "\n" + item.replaceFirst("%", ""); break;
+			case 4: result.getAuthor()[1] = result.getAuthor()[1] + "\n" + item.replaceFirst("%", ""); break;
+			case 5: smodule[2] = smodule[2] + "\n" + item.replaceFirst("%", ""); break;
+			case 6: smodule[3] = smodule[3] + "\n" + item.replaceFirst("%%PARAMETERS", "").replaceFirst("%", "").trim(); break;
+			case 7: supdauthor[1] = supdauthor[1] + "\n" + item.replaceFirst("%", ""); break;
 			}
 		}
 
-		if(state==5) {
-			premeta.getModules().add(smodule);
-			state = 0;
-		} else {
-			switch(state) {
-			case 2:
-				premeta.getFiles().add(sfile);
-				break;
-			case 3:
-				premeta.getUpdates().add(supdate);
-				break;
-			case 5:
-				break;
-			case 6:
-				premeta.getModules().add(smodule);
-				break;
-			case 7:
-				premeta.getUpdAuthors().add(supdauthor);
-			}
-			state = 0;
-		}
-		return premeta;
+        // CleanUp: Add final MultiLine? objects
+        switch(state) {
+        case 2: result.getFiles().add(sfile); break;
+        case 3: result.getUpdates().add(supdate); break;
+        case 5: result.getModules().add(smodule); break;
+        case 6: result.getModules().add(smodule); break;
+        case 7: result.getUpdAuthors().add(supdauthor);
+        }
+
+		return result;
 	}
 	
 
@@ -440,44 +405,47 @@ public class TemplateEditor {
 	 * @throws Exception
 	 */
 	public void save(TemplatesItemModel template) throws Exception {
-		if(template.getAuthor().getId()==0)
-			authorsDao.updateItem(template.getAuthor());
-		for(ModulesItemModel o: template.getModules())
-			if(o.getId()<=0)
-				modulesDao.updateItem(o);
-		for(FilesItemModel o: template.getFiles())
-			if(o.getId()<=0)
-				filesDao.updateItem(o);
+		if (template.getAuthor().getId()==0) authorsDao.updateItem(template.getAuthor());
+		for (ModulesItemModel o: template.getModules()) if (o.getId()<=0) modulesDao.updateItem(o);
+		for (FilesItemModel o: template.getFiles()) if (o.getId()<=0) filesDao.updateItem(o);
 		
-		if(template instanceof TemplateImportModel) {
+		if (template instanceof TemplateImportModel) {
 			TemplateImportModel imp = (TemplateImportModel) template;
 			for(AuthorsItemModel o: imp.getUpdAuthorsList()) {
-				if(o.getId()<=0)
-					authorsDao.updateItem(o);
+				if(o.getId()<=0) authorsDao.updateItem(o);
+
 				for(UpdatesItemModel u: imp.getUpdates()) 
-					if(u.getAuthor().getId()==0 && imp.getUpdAuthors().get(u.getAuthor().getName())==o)
-						u.setAuthor(o);
+                        if(u.getAuthor().getId()==0 && imp.getUpdAuthors().get(u.getAuthor().getName())==o)
+                                u.setAuthor(o);
 			}
 		}
 		
 		template.getTransaction().commit(storage);
 
-		if(template instanceof TemplateImportModel) 
-			storage.setFile(0, "", template.getName()+".tex", ((TemplateImportModel) template).getData().getBytes());
-		else {
+		if (template instanceof TemplateImportModel) {
+            storage.setFile(
+                    0, "",
+                    template.getName() + ".tex",
+                    ((TemplateImportModel) template).getData().getBytes()
+                );
+
+        } else {
 			TemplatesItemModel old = templatesDao.getItem(template.getId());
 			if(!old.getName().equals(template.getName())) {
 				storage.renameFile(0, "", old.getName()+".tex", "", template.getName()+".tex");
+
 				if(old.isHasQuestions())
 					if(!template.isHasQuestions()) 
 						storage.deleteFile(1, "", old.getQuestions());
 					else if(!old.getQuestions().equals(template.getQuestions()))
 						storage.renameFile(1, "", old.getQuestions(), "", template.getQuestions());
+
 				if(old.isHasSolutions())
 					if(!template.isHasSolutions()) 
 						storage.deleteFile(1, "", old.getSolutions());
 					else if(!old.getSolutions().equals(template.getSolutions()))
 						storage.renameFile(1, "", old.getSolutions(), "", template.getSolutions());
+
 				if(old.isHasShortanswers())
 					if(!template.isHasShortanswers()) 
 						storage.deleteFile(1, "", old.getShortanswers());
@@ -590,31 +558,16 @@ public class TemplateEditor {
 		template.getTransaction().rollback(storage);
 	}
 
-	public void setAuthorsDao(AuthorsDao authorsDao) {
-		this.authorsDao = authorsDao;
-	}
+
+	public void setAuthorsDao(AuthorsDao authorsDao) { this.authorsDao = authorsDao; }
 	
-	public void setFilesDao(FilesDao filesDao) {
-		this.filesDao = filesDao;
-	}
+	public void setFilesDao(FilesDao filesDao) { this.filesDao = filesDao; }
 	
-	public void setModulesDao(ModulesDao modulesDao) {
-		this.modulesDao = modulesDao;
-	}
+	public void setModulesDao(ModulesDao modulesDao) { this.modulesDao = modulesDao; }
 	
-/*	public void setUpdatesDao(UpdatesDao updatesDao) {
-		this.updatesDao = updatesDao;
-	}
-	*/
-	public void setTemplatesDao(TemplatesDao templatesDao) {
-		this.templatesDao = templatesDao;
-	}
+	public void setTemplatesDao(TemplatesDao templatesDao) { this.templatesDao = templatesDao; }
 	
-	public void setStorage(RepositoryStorage storage) {
-		this.storage = storage;
-	}
+	public void setStorage(RepositoryStorage storage) { this.storage = storage; }
 	
-	public void setClassificationsDao(ClassificationsDao classificationsDao) {
-		this.classificationsDao = classificationsDao;
-	}
+	public void setClassificationsDao(ClassificationsDao classificationsDao) { this.classificationsDao = classificationsDao; }
 }

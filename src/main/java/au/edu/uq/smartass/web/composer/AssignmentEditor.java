@@ -130,72 +130,73 @@ public class AssignmentEditor {
      * @throws IOException
      */
     public String preprocessCode(AssignmentConstruct assignment) throws IOException {
+
+        if (!assignment.getDecorateWithLatex()) return assignment.getCode();
+
         int enum_level = 0;
         int repeat_level = 0;
         int repeat_pos = -1;
         int call_count = 0;
         int call_pos = -1;
-        if(assignment.getDecorateWithLatex()) {
-            BufferedReader br = new BufferedReader(new StringReader(assignment.getCode()));
-            StringBuffer buff = new StringBuffer();
-            String s;
-            while((s=br.readLine())!=null) {
-                if(s.indexOf("\\begin{enumerate}")>=0) {
+
+        BufferedReader br = new BufferedReader(new StringReader(assignment.getCode()));
+        StringBuffer buff = new StringBuffer();
+
+        String line;
+        while((line=br.readLine())!=null) {
+            if(line.indexOf("\\begin{enumerate}")>=0) {
+                buff.append("\\begin{enumerate}\n");
+                enum_level++;
+            } else if(line.indexOf("%%CALL")==0 || line.indexOf("%%MULTI")==0) {
+                if(enum_level==0) {
                     buff.append("\\begin{enumerate}\n");
                     enum_level++;
-                } else if(s.indexOf("%%CALL")==0 || s.indexOf("%%MULTI")==0) {
-                    if(enum_level==0) {
-                        buff.append("\\begin{enumerate}\n");
-                        enum_level++;
-                    }
-                    if(call_count==0)
-                        call_pos = buff.length();
-                    if(s.indexOf("%%CALL")==0)
-                        buff.append("\\item\n");
+                }
+                if(call_count==0)
+                    call_pos = buff.length();
+                if(line.indexOf("%%CALL")==0)
+                    buff.append("\\item\n");
                     call_count++;
-                    if(call_count==1 && repeat_pos>=0) {
-                        buff.insert(call_pos, "\\begin{enumerate}\n");
-                        buff.insert(repeat_pos, "\\item\n");
-                        enum_level++;
-                    }
-                        
-                } else if(s.indexOf("%%REPEAT")==0) {
-                    if(enum_level<=repeat_level && repeat_level==0) {
-                        buff.append("\\begin{enumerate}\n");
-                        enum_level++;
-                        call_count = 0;
-                    }
-                    repeat_level++;
-                } else if(s.indexOf("\\end{document}")==0) 
-                    while(enum_level>0) {
-                        buff.append("\\end{enumerate}\n");
-                        enum_level--;
-                    }
-                 else if(s.indexOf("%%ENDREPEAT")==0) {
-                        if(repeat_level<enum_level) {
-                            buff.append("\\end{enumerate}\n");
-                            enum_level--;
-                            repeat_pos = -1;
-                        }
-                        repeat_level--;
-                    }
-                
-                
-                buff.append(s);
-                buff.append("\n");
+                if(call_count==1 && repeat_pos>=0) {
+                    buff.insert(call_pos, "\\begin{enumerate}\n");
+                    buff.insert(repeat_pos, "\\item\n");
+                    enum_level++;
+                }
 
-                if(repeat_level==1 && s.indexOf("%%REPEAT")==0) 
-                    repeat_pos = buff.length();
-                else if(s.indexOf("%%ENDREPEAT")==0) {
-                    if(repeat_level==0) {
-                        buff.append("\\end{enumerate}\n");
-                        enum_level--;
-                    }
+            } else if(line.indexOf("%%REPEAT")==0) {
+                if(enum_level<=repeat_level && repeat_level==0) {
+                    buff.append("\\begin{enumerate}\n");
+                    enum_level++;
+                    call_count = 0;
+                }
+                repeat_level++;
+            } else if(line.indexOf("\\end{document}")==0)
+                while(enum_level>0) {
+                    buff.append("\\end{enumerate}\n");
+                    enum_level--;
+                }
+            else if(line.indexOf("%%ENDREPEAT")==0) {
+                if(repeat_level<enum_level) {
+                    buff.append("\\end{enumerate}\n");
+                    enum_level--;
+                    repeat_pos = -1;
+                }
+                repeat_level--;
+            }
+
+            buff.append(line).append("\n");
+
+            if(repeat_level==1 && line.indexOf("%%REPEAT")==0)
+                repeat_pos = buff.length();
+            else if(line.indexOf("%%ENDREPEAT")==0) {
+                if(repeat_level==0) {
+                    buff.append("\\end{enumerate}\n");
+                    enum_level--;
                 }
             }
-            return buff.toString();
-        } 
-        return assignment.getCode();
+        }
+
+        return buff.toString();
     }
     
 

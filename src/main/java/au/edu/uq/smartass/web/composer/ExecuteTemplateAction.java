@@ -129,6 +129,11 @@ public class ExecuteTemplateAction  {
 	 */
 	protected String saveExecutionResults(TexReader tr, String outputRoot) throws IOException {
 		ResultNode result = tr.getResultNode();
+
+                LOG.debug("::saveExecutionResults()[ ResultNode=>{} ]", result);
+                LOG.debug("::saveExecutionResults()[ ResultNode:QUESTION=>{} ]", result.getSection("QUESTION"));
+                LOG.debug("::saveExecutionResults()[ ResultNode:SOLUTION=>{} ]", result.getSection("SOLUTION"));
+                LOG.debug("::saveExecutionResults()[ ResultNode:SHORTANSWER=>{} ]", result.getSection("SHORTANSWER"));
 		
 		File output_root = new File(outputRoot);
 		File output_path = File.createTempFile("ass", "", output_root);
