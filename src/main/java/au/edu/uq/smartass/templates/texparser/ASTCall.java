@@ -48,9 +48,7 @@ public class ASTCall extends SimpleNode {
 		super(p, id);
 	}
 
-	public String getFilename() {
-		return text;
-	}
+	public String getFilename() { return text; }
 
 	public void setFilename(String filename) {
 		this.text = filename;
