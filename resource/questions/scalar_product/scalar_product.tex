@@ -1,0 +1,161 @@
+\RequirePackage{filecontents}
+\begin{filecontents*}{tmp-scalarproduct.lua}
+
+--------------------------------------------------------------------------------
+--
+--------------------------------------------------------------------------------
+
+local Vector = {}
+local Vector_mt = { __metatable = {}, __index = Vector }
+
+function Vector.new(dim)
+   local obj = setmetatable({}, Vector_mt)
+   obj.dim = dim
+   obj.vert_str = ''
+   obj.normsqrexpand = ''
+   obj.normsqr = 0
+   obj:init(dim)
+   return obj
+end
+
+function Vector:dimension() return self.dim end
+function Vector:str() return self.vert_str end
+function Vector:norm_sqr() return self.normsqr end
+
+function Vector:print() tex.print(self.vert_str) end
+function Vector:print_norm_expand() tex.print('\\sqrt{' .. self.normsqrexpand .. '}') end
+function Vector:print_norm() tex.print('\\sqrt{' .. self.normsqr .. '}') end
+
+function Vector:init(dim) 
+   assert(dim, 'A vector must have an explicit size!')
+   local i = 0
+   while true do
+      i = i + 1
+      x = math.random(19) - 10                                 -- random number in range -9 <= x <= 9
+      self[i] = x
+      self.normsqr = self.normsqr + x ^ 2
+      self.vert_str = self.vert_str .. x
+      if x < 0 then x = string.format('(%i)', x) end
+      self.normsqrexpand = self.normsqrexpand .. x .. '^2'
+      if dim == i then break end                               -- break loop
+      self.vert_str = self.vert_str .. '\\\\'
+      self.normsqrexpand = self.normsqrexpand .. '+'
+   end
+end
+
+--------------------------------------------------------------------------------
+--
+--------------------------------------------------------------------------------
+
+local DotProduct = {}
+local DotProduct_mt = { __metatable = {}, __index = DotProduct }
+
+function DotProduct.new(vector_u, vector_v)
+   local obj = setmetatable({}, DotProduct_mt)
+   obj.u = vector_u
+   obj.v = vector_v
+   obj.expand = ''
+   obj.group = ''
+   obj.result = 0
+   obj:init()
+   return obj
+end
+
+function DotProduct:init()
+   assert(self.u:dimension() == self.v:dimension(), 'vector dimensions are not equal!')
+   local dim = self.u:dimension()
+   local i = 0
+   while true do
+      i = i + 1
+      ui = self.u[i]
+      vi = self.v[i]
+      self.expand = self.expand .. ui .. '\\cdot' .. vi
+      self.group = self.group .. ui * vi
+      self.result = self.result + ui * vi
+      if dim == i then break end
+      self.expand = self.expand .. '+'
+      self.group = self.group .. '+'
+   end
+   self.angle = math.acos(self.result / (self.u:norm_sqr() ^ 0.5 * self.v:norm_sqr() ^ 0.5))
+   self.angle = math.floor(math.deg(self.angle) + 0.5)
+end
+
+function DotProduct:print_expand() tex.print(self.expand) end
+function DotProduct:print_group() tex.print(self.group) end
+function DotProduct:print_result() tex.print(self.result) end
+function DotProduct:print_angle() tex.print(self.angle) end
+
+--------------------------------------------------------------------------------
+
+local dimension = math.random(3,7)
+
+u = Vector.new(dimension)
+v = Vector.new(dimension)
+uv = DotProduct.new(u,v)
+
+
+\end{filecontents*}
+\directlua{dofile('tmp-scalarproduct.lua')}
+
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{siunitx}
+
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\norm}[1]{\lVert\vect{#1}\rVert}
+\newcommand{\product}[2]{{#1}\cdot{#2}}
+\newcommand{\vecprod}[2]{\vect{#1}\cdot\vect{#2}}
+
+\begin{document}
+%%BEGIN DEF 
+%%END DEF
+%%BEGIN QUESTION
+\[\text{Let }\vect{u}=\begin{pmatrix}\directlua{u:print()}\end{pmatrix}
+\text{and }\vect{v}=\begin{pmatrix}\directlua{v:print()}\end{pmatrix}.\]
+\begin{enumerate}[(a)]
+\item	Determine $\vecprod{u}{v}$.
+\item Determine the angle in degrees (to the nearest degree) between $\vect{u}$ and $\vect{v}$.
+\end{enumerate}
+%%END QUESTION
+\bigskip
+%%BEGIN SOLUTION
+Solution
+\begin{enumerate}[(a)]
+\item   \begin{align*}
+        \vecprod{u}{v}  &=\directlua{uv:print_expand()}\\
+                        &=\directlua{uv:print_group()}\\
+                        &=\directlua{uv:print_result()}
+        \end{align*}
+\item   \begin{align*}
+        \text{From (a) }\vecprod{u}{v}   &=\directlua{uv:print_result()}\\
+        \\
+        \norm{u}        &=\directlua{u:print_norm_expand()}\\
+                        &=\directlua{u:print_norm()}\\
+        \\
+        \norm{v}        &=\directlua{v:print_norm_expand()}\\
+                        &=\directlua{v:print_norm()}\\
+        \\
+        \vecprod{u}{v}  &=\norm{u}\norm{v}\cos\theta \\
+        \\
+        \text{So }\directlua{uv:print_result()}       
+                &=\directlua{u:print_norm()}\directlua{v:print_norm()}\cos\theta\\
+        \\
+        \text{Therefore } \theta
+                &=\arccos\dfrac{\directlua{uv:print_result()}}{\directlua{u:print_norm()}\directlua{v:print_norm()}}
+        \\
+        \text{So }\theta &\approx\ang{\directlua{uv:print_angle()}}
+        \end{align*}
+\end{enumerate}
+%%END SOLUTION
+\bigskip
+%%BEGIN SHORTANSWER
+Answer
+\begin{enumerate}[(a)]
+\item $\vecprod{u}{v}=\directlua{uv:print_result()}$
+\item $\theta\approx\ang{\directlua{uv:print_angle()}}$
+\end{enumerate}
+%%END SHORTANSWER
+\end{document}
+
