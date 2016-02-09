@@ -24,6 +24,8 @@ package au.edu.uq.smartass.templates;
  */
 public class TemplateParseException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	public TemplateParseException() {
 		super();
 	}

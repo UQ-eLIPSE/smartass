@@ -14,10 +14,12 @@
  */
 package au.edu.uq.smartass.app;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.LayoutManager;
+import com.sun.pdfview.PDFFile;
+import com.sun.pdfview.PDFPage;
+import com.sun.pdfview.PagePanel;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -25,38 +27,32 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.sun.pdfview.PDFFile;
-import com.sun.pdfview.PDFPage;
-import com.sun.pdfview.PagePanel;
-
 /**
  * The PdfView class is the PDF viewer.   
  */
 public class PdfView extends JPanel {
+
+    private static final long serialVersionUID = 1L;
+
 	PagePanel panel;
-	JPanel button_panel;
-	JButton next, prev, plus, minus;
+
+	JPanel button_panel = new JPanel();
+	JButton next = new JButton("Next");
+    JButton prev = new JButton("Previous");
+    JButton plus = new JButton("+");
+    JButton minus = new JButton("-");
 
 	PDFFile pdffile;
+
 	int current_page;
 	
 	boolean first_show= true;
 
 	public PdfView(File file) {
 		super(new BorderLayout());
-		button_panel = new JPanel();
 		button_panel.setLayout(new BoxLayout(button_panel, BoxLayout.Y_AXIS));
 		add(button_panel, BorderLayout.WEST);
-		JButton bt;
-		button_panel.add(prev = new JButton("Previous"));
+		button_panel.add(prev);
 		prev.setPreferredSize(new Dimension(90, 20));
 		prev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,7 +60,7 @@ public class PdfView extends JPanel {
 			}
 		});
 		button_panel.add(Box.createRigidArea(new Dimension(0,10)));
-		button_panel.add(next = new JButton("Next"));
+		button_panel.add(next);
 		next.setPreferredSize(new Dimension(90, 20));
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -72,7 +68,7 @@ public class PdfView extends JPanel {
 			}
 		});
 		button_panel.add(Box.createRigidArea(new Dimension(0,10)));
-		button_panel.add(plus = new JButton("+"));
+		button_panel.add(plus);
 		plus.setPreferredSize(new Dimension(90, 20));
 		plus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -103,7 +99,9 @@ public class PdfView extends JPanel {
 			ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY,
 					0, channel.size());
 			pdffile = new PDFFile(buf);
-		} catch(Exception e) {}
+		} catch(Exception ex) {
+            /* @todo: add logging at least! */
+        }
 		add(new JScrollPane(panel));
 		panel.repaint();
 		//panel.useZoomTool(true);
@@ -129,9 +127,7 @@ public class PdfView extends JPanel {
 		showPage(current_page);
 	}
 	
-	public int getPageNo() {
-		return current_page;
-	}
+	public int getPageNo() { return current_page; }
 	
 	public void nextPage() {
 		showPage(current_page+1);

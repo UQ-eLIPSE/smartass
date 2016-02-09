@@ -88,9 +88,8 @@ public class QuestionModuleManager {
         }
 
         try {
-            Constructor<? extends QuestionModule> constructor = null;
-            constructor = questionModule.getClass().getDeclaredConstructor(null);
-            return constructor.newInstance(null);
+            Constructor<? extends QuestionModule> constructor = questionModule.getClass().getDeclaredConstructor();
+            return constructor.newInstance();
         } catch (NoSuchMethodException|IllegalAccessException|InstantiationException|InvocationTargetException ex) {
             LOG.info(
                     "::retrieveQuestionModule( {} )[ No Default Constructor for QuestionModule! ]\n-----> {}",
