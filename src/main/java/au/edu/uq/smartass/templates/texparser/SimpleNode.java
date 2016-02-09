@@ -8,6 +8,9 @@ import java.util.Set;
 import au.edu.uq.smartass.script.Script;
 
 public class SimpleNode implements Node, Cloneable, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	protected Node parent;
 	protected Node[] children;
 	protected int id;
