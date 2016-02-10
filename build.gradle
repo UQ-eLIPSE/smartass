@@ -5,8 +5,12 @@
 
 //------------------------------------------------------------------------------
 
+// Allows us to determine what platform we are running on
+import org.gradle.internal.os.OperatingSystem;
+
 plugins {
         id "org.akhikhl.gretty" version "1.2.4"
+        id "de.undercouch.download" version "2.0.0"
 }
 
 apply plugin: 'java'
@@ -44,7 +48,7 @@ dependencies {
 	compile "org.springframework:spring-web:2.5.5"
 	compile "org.springframework:spring-webmvc:2.5.5"
 	compile "org.springframework:spring:2.5.5"
-	
+
 	compile "javax.servlet:javax.servlet-api:3.0.1"
 	compile "org.swinglabs:pdf-renderer:1.0.5"
 	compile "org.apache.jena:jena-core:2.11.2"
@@ -53,10 +57,11 @@ dependencies {
 
 
 	//
-	// 	. testCompile . 
+	// 	. testCompile .
 	//
 	testCompile 'junit:junit:4.12'
 
+	testCompile 'org.seleniumhq.selenium:selenium-java:2.+'
 	testCompile 'org.json:json:20141113'
 	testCompile 'com.hp.hpl.jena:arq:2.8.3'
 
@@ -77,6 +82,7 @@ gretty {
         port = 8088
         scanInterval = 0
         inplaceMode = 'hard'
+        integrationTestTask = "seleniumRunWin"
 }
 
 war {
@@ -101,3 +107,55 @@ task printClasspath<< {
         configurations.runtime.each { println it }
 }
 
+// Download the jDvi dependency
+task getJdvi << {
+    download {
+        src 'http://www-sfb288.math.tu-berlin.de/jdvi/jDvi.jar'
+        dest 'lib/jDvi.jar'
+    }
+}
+
+// This downloads the dependencies for the selenium tests
+task seleniumSetup << {
+    download {
+        src 'http://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar'
+        dest 'selenium/selenium-server-standalone-2.48.2.jar'
+    }
+
+    download {
+        src 'http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-java/2.48.2/selenium-java-2.48.2.jar'
+        dest 'selenium/selenium-java-2.48.2.jar'
+    }
+
+    download {
+        src 'http://central.maven.org/maven2/junit/junit/4.12/junit-4.12.jar'
+        dest 'selenium/junit-4.12.jar'
+    }
+
+    download {
+        src 'http://central.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar'
+        dest 'selenium/hamcrest-core-1.3.jar'
+    }
+}
+
+task seleniumRun(type:Exec) {
+    if (OperatingSystem.current().isWindows()) {
+        // Its windows
+        workingDir 'selenium'
+        commandLine 'cmd', '/c', 'run.bat'
+    } else {
+        // It's *nix
+        workingDir 'selenium'
+        commandLine 'sh', './run.sh'
+    }
+}
+
+task seleniumRunWin(type:Exec) {
+    workingDir 'selenium'
+    commandLine 'cmd', '/c', 'run.bat'
+}
+
+// Exclude selenium tests from the usual unit testing
+test {
+    exclude '**/*Selenium*'
+}
