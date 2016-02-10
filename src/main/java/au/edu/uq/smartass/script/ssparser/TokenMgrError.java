@@ -13,7 +13,7 @@ public class TokenMgrError extends Error
    static final int LEXICAL_ERROR = 0;
 
    /**
-    * An attempt wass made to create a second instance of a static token manager.
+    * An attempt was made to create a second instance of a static token manager.
     */
    static final int STATIC_LEXER_ERROR = 1;
 
@@ -36,6 +36,8 @@ public class TokenMgrError extends Error
    /**
     * Replaces unprintable characters by their espaced (or unicode escaped)
     * equivalents in the given string
+    * @param str The string to replace
+    * @return The modified string
     */
    protected static final String addEscapes(String str) {
       StringBuffer retval = new StringBuffer();
@@ -85,14 +87,15 @@ public class TokenMgrError extends Error
    /**
     * Returns a detailed message for the Error when it is thrown by the
     * token manager to indicate a lexical error.
-    * Parameters : 
-    *    EOFSeen     : indicates if EOF caused the lexicl error
-    *    curLexState : lexical state in which this error occured
-    *    errorLine   : line number when the error occured
-    *    errorColumn : column number when the error occured
-    *    errorAfter  : prefix that was seen before this error occured
-    *    curchar     : the offending character
+    *
+    * @param EOFSeen indicates if EOF caused the lexicl error
+    * @param curLexState lexical state in which this error occured
+    * @param errorLine line number when the error occured
+    * @param errorColumn column number when the error occured
+    * @param errorAfter prefix that was seen before this error occured
+    * @param curchar the offending character
     * Note: You can customize the lexical error message by modifying this method.
+    * @return A string represetation of the error message
     */
    protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
       return("Lexical error at line " +
@@ -105,11 +108,12 @@ public class TokenMgrError extends Error
    /**
     * You can also modify the body of this method to customize your error messages.
     * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
-    * of end-users concern, so you can return something like : 
+    * of end-users concern, so you can return something like :
     *
     *     "Internal Error : Please file a bug report .... "
     *
     * from this method for such cases in the release version of your parser.
+    * @return A string representing the error message
     */
    public String getMessage() {
       return super.getMessage();
@@ -122,11 +126,26 @@ public class TokenMgrError extends Error
    public TokenMgrError() {
    }
 
+   /**
+    * Constructor for the TokenMgrError class
+    * @param   message The error message
+    * @param   reason The error code
+    */
    public TokenMgrError(String message, int reason) {
       super(message);
       errorCode = reason;
    }
 
+   /**
+    * Constructor for the TokenMgrError class
+    * @param   EOFSeen boolean if the EOF is seen
+    * @param   lexState
+    * @param   errorLine the line of the error
+    * @param   errorColumn the column of the error
+    * @param   errorAfter
+    * @param   curChar the curChar at the error
+    * @param   reason the error code of the error
+    */
    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
       this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
    }

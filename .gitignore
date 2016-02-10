@@ -33,17 +33,15 @@ build/
 #	. Bash resource file
 smartass.rc
 
-#       . IntelliJ .
-.idea/
-*.iml
-
-#       . Netbeans .
-.nb-gradle/
-
 #	> > >  New Stuff Here  < < <
 resource/data/html/download/ass*
 src/main/webapp/data
 src/main/webapp/download
-*.orig
-make
+
+resource/data/plugin/
+*TestSample*.*
+*example*.*
+*Test*.*
+
+resource/questions/**/*.pdf
 
