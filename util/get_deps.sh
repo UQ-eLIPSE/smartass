@@ -12,3 +12,6 @@ cp $COBRA/lib/*.jar ../lib/
 # Setup jDvi
 curl -O https://www-sfb288.math.tu-berlin.de/jdvi/jDvi.jar
 cp jDvi.jar ../lib/
+
+# Clean up
+rm -rv $COBRA $COBRA_ZIP jDvi.jar
