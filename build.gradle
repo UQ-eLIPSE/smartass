@@ -103,15 +103,34 @@ task printClasspath<< {
         configurations.runtime.each { println it }
 }
 
-task printClasspath<< {
-        configurations.runtime.each { println it }
-}
-
+// TODO: This was causing an error as well
 // Download the jDvi dependency
 task getJdvi << {
     download {
         src 'http://www-sfb288.math.tu-berlin.de/jdvi/jDvi.jar'
         dest 'lib/jDvi.jar'
+    }
+}
+
+// Downloads the cobra (LoboBrowser) package
+// TODO: This isn't working yet
+task getCobra() {
+
+    getCobra << {
+        download {
+            src 'http://jaist.dl.sourceforge.net/project/xamj/Cobra%20HTML%20Toolkit/0.98.4/cobra-0.98.4.zip'
+            dest 'cobra.zip'
+        }
+    }
+
+    getCobra << {
+        from zipTree(file('cobra.zip'))
+        into file('cobra')
+    }
+
+    getCobra << {
+        from 'cobra/lib/*'
+        into 'lib/'
     }
 }
 
