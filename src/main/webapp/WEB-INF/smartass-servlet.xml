@@ -161,9 +161,9 @@
 		<property name="usersDao" ref="usersDao" />
 	</bean>
 
-	<bean name="/user-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.ConfirmDeleteUserController">
+<!--	<bean name="/user-delete-confirm.htm" class="au.edu.uq.smartass.web.mvc.ConfirmDeleteUserController">
 		<property name="dao" ref="usersDao" />
-	</bean>
+	</bean> -->
 
 	<bean name="/user-edit-password.htm" class="au.edu.uq.smartass.web.mvc.ChangeUserPasswordController">
 		<property name="formView" value="changeUserPassword" />
@@ -203,9 +203,9 @@
 		<property name="dao" ref="modulesDao" />
 	</bean>
 
-	<bean name="/repository-module-delete.htm" class="au.edu.uq.smartass.web.mvc.RepositoryDeleteModuleController">
+<!--	<bean name="/repository-module-delete.htm" class="au.edu.uq.smartass.web.mvc.RepositoryDeleteModuleController">
 		<property name="dao" ref="modulesDao" />
-	</bean>
+	</bean> -->
 	
 	<bean name="/repository-classs.htm" class="au.edu.uq.smartass.web.mvc.RepositoryListClassificationsController">
 		<property name="dao" ref="classificationsDao" />
@@ -286,7 +286,7 @@
 		<property name="backupStorage" ref="backupStorage" />
 	</bean>
 
-	<bean name="/contacts.htm" class="au.edu.uq.smartass.web.mvc.ContactsController"/>
+<!--	<bean name="/contacts.htm" class="au.edu.uq.smartass.web.mvc.ContactsController"/> -->
 
 	<bean name="/no-page-redirect.htm" class="au.edu.uq.smartass.web.mvc.PageNotFoundRedirectController"/>
 
