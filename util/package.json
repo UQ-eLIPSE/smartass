@@ -1,0 +1,14 @@
+{
+  "name": "smartass-util",
+  "version": "1.0.0",
+  "description": "A collection of utility scripts for smartass",
+  "main": "add-question.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "eLIPSE",
+  "license": "MIT",
+  "dependencies": {
+    "mysql": "^2.11.1"
+  }
+}
