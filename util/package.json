@@ -9,6 +9,7 @@
   "author": "eLIPSE",
   "license": "MIT",
   "dependencies": {
+    "handlebars": "^4.0.5",
     "mysql": "^2.11.1"
   }
 }

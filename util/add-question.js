@@ -4,12 +4,16 @@
  * add-question.js
  * Utility script to simplify the process of registering questions
  *
+ * To run ensure node is installed
+ * - Run `npm install`
+ * - Run `node add-question.js`
  */
 
 var mysql = require('mysql');
 var fs = require('fs');
 var path = require('path');
 var readline = require('readline');
+var handlebars = require('handlebars');
 
 
 /*
@@ -75,33 +79,14 @@ function get_module_info(cb) {
  * @return {String} The text of the template file
  */
 function create_template_file(moduleName) {
-    var template = `%
-%       . P Series Question .
-%
-\\input{smartass.tex}
-\\begin{document}
 
-%%BEGIN DEF
-% Sections: QUESTION, SOLUTION, ANSWER
-#<
-${moduleName} module;
-#>
-%%END DEF
+    var raw = fs.readFileSync("template.tex.hbs", "utf-8");
+    var template = handlebars.compile(raw);
 
-%%BEGIN QUESTION
-#<module.QUESTION#>
-%%END QUESTION
+    var data = {'moduleName': moduleName};
+    var result = template(data);
 
-%%BEGIN SOLUTION
-#<module.SOLUTION#>
-%%END SOLUTION
-
-%%BEGIN SHORTANSWER
-#<module.ANSWER#>
-%%END SHORTANSWER
-
-\\end{document}`;
-    return template;
+    return result;
 }
 
 function save_template_file(moduleName, cb) {
