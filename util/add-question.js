@@ -58,18 +58,21 @@ function ask_user(query, cb) {
 function get_module_info(cb) {
     ask_user("Module name (e.g. PSeriesModule): ", function(moduleName) {
         ask_user("Author name: ", function(authorName) {
-            ask_user("Keywords: ", function(keywords) {
-                var data = {
-                    moduleName: moduleName,
-                    authorName: authorName,
-                    keywords: keywords
-                };
+            ask_user("Description: ", function(description) {
+                ask_user("Keywords: ", function(keywords) {
+                    var data = {
+                        moduleName: moduleName,
+                        authorName: authorName,
+                        keywords: keywords,
+                        description: description
+                    };
 
-                rl.close();
+                    rl.close();
 
-                cb(data);
-            })
-        })
+                    cb(data);
+                });
+            });
+        });
     });
 }
 
@@ -184,7 +187,7 @@ function main() {
 
     get_module_info(function(data) {
         connection.connect();
-        create_template(data.moduleName, data.authorName, data.keywords, "Description", function(id) {
+        create_template(data.moduleName, data.authorName, data.keywords, data.description, function(id) {
             console.log("Entry inserted with ID " + id);
             connection.end();
             save_template_file(data.moduleName, function() {
