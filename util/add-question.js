@@ -25,13 +25,13 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'smartass',
     password: 'SmartAss',
-    database: 'smartassignments'
+    database: 'SmartAssignments'
 });
 
 // The template directory
 // On the dev server it is '/data/www/smartass/data/tex/'
 // Can also be found at 'SMARTASS_HOME/resource/data/data/tex/
-var templateDirectory = '/Users/uqrport1/Documents/smartass/smartass/resource/data/data/tex/';
+var templateDirectory = '/data/www/smartass/data/tex/';
 
 var rl = readline.createInterface({
     input: process.stdin,
@@ -56,7 +56,7 @@ function ask_user(query, cb) {
  * Prompts user for module information
  */
 function get_module_info(cb) {
-    ask_user("Module name: ", function(moduleName) {
+    ask_user("Module name (e.g. PSeriesModule): ", function(moduleName) {
         ask_user("Author name: ", function(authorName) {
             ask_user("Keywords: ", function(keywords) {
                 var data = {
@@ -91,7 +91,7 @@ function create_template_file(moduleName) {
 
 function save_template_file(moduleName, cb) {
     var fileContents = create_template_file(moduleName);
-    var filename = moduleName + "Template.tex";
+    var filename = moduleName + ".tex";
 
     var filePath = path.join(templateDirectory, filename);
 
