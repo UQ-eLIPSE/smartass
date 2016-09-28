@@ -1,0 +1,27 @@
+.background-primary-color {
+    background-color: #009688 !important;
+}
+
+.background-primary-color-lighter {
+    background-color: #4DB6AC !important;
+}
+
+.primary-color {
+    color: #009688 !important;
+}
+
+.primary-color-lighter {
+    color: #4DB6AC !important;
+}
+
+.white {
+    color: #ffffff !important;
+}
+
+.secondary-color {
+    color: orange !important;
+}
+
+.background-secondary-color {
+    background: orange !important;
+}

@@ -8,94 +8,22 @@
 <body>
 <div class="container">
 <div class="header">
-<h1><img src="https://shire.science.uq.edu.au/SmartAss/donkey-colour.gif" height="80px" width="106px" alt="small donkey">Smart Assignments </h1>
 </div>
     
     <h2>Smart Assignments Home</h2>
-    <table width="100%"><tr class="menu"><td colspan=2>
-	    <table class="menu"><tr class="menu">
-	    	<td class="selected-menu">
-		    	<b>[home]</b>
-	    	</td>
-	    	<td><a href="repository.htm">[repository]</a></td>
-	    	<c:if test="${empty user}">
-		    	<td><a href="login.htm">[log in]</a></td>
-		    	<td><a href="register.htm">[register]</a></td>
-		    	<td><a href="help.htm?context=home" target="_blank">[help]</a></td>
-		    </c:if>
-	    	<c:if test="${!empty user}">
-		    	<td><a href="edituser.htm">[user settings]</a></td>
-		    	<td><a href="logout.htm">[log out]</a></td>
-		    	<td><a href="help.htm?context=home" target="_blank">[help]</a></td>
-		    	<td>
-		    		Logged in as: <b><c:out value="${user.name}"/>
-		    		<c:if test="${!empty user.fullname}">
-		    			(<c:out value="${user.fullname}"/>)</b>
-		    		</c:if>
-		    	</td>
-		    </c:if>
-	    </tr><tr class="selected-menu"><td class="selected-menu" colspan=5></td></tr></table>
-    </td></tr><tr>
-    <td valign="top" width="200" class="menu">
-	    <table>
-	    	<c:if test="${!empty mode}">
-		    	<tr><td >
-					<a href="index.htm">[recent templates]</a>
-				</td></tr>
-			</c:if>
-		    <c:if test="${empty mode}">
-				<tr class="selected-menu"><td>
-					[recent templates]
-				</td></tr>
-			</c:if>
-	    	<c:if test="${mode!='browse'}">
-		    	<tr><td>
-					<a href="index.htm?mode=browse">[browse assignments]</a>
-				</td></tr>
-			</c:if>
-	    	<c:if test="${mode=='browse'}">
-		    	<tr><td class="selected-menu">
-					[browse assignments]
-				</td></tr>
-			</c:if>
-	    	<tr><td>
-				<a href="users.htm">[users]</a>
-				<hr>
-			</td></tr>
-	    	<tr>
-		    	<c:if test="${mode=='my'}">
-			    	<td class="selected-menu">[my assignments]</td>
-			    </c:if>
-		    	<c:if test="${mode!='my'}">
-		    		<td>
-			    	<c:if test="${!empty user}">
-						<a href="index.htm?mode=my">[my assignments]</a>
-					</c:if>
-			    	<c:if test="${empty user}">[my assignments]</c:if>
-			    	</td>
-			    </c:if>
-			</tr>
-	    	<tr><td>
-				<a href="composer.htm">[create new]</a>
-			</td></tr>
-	    	<tr><td><hr></td></tr>
-	    	<tr><td><a href="contacts.htm">[contacts]</a></td></tr>
-	    </table>
-    </td>
-    <td valign="top">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading background-primary-color">
 		<c:if test="${mode=='recent' || empty mode}">
-	    	<h3 class="panel-title">Recent Assignments</h3>
+	    	<h3 class="panel-title white">Recent Assignments</h3>
 		</c:if>
 		<c:if test="${mode=='user'}">
-	    	<h3 class="panel-title"><c:out value="${auser.name}"/>'s Assignments</h3>
+	    	<h3 class="panel-title white"><c:out value="${auser.name}"/>'s Assignments</h3>
 		</c:if>
 		<c:if test="${mode=='my'}">
-	    	<h3 class="panel-title">My Assignments</h3>
+	    	<h3 class="panel-title white">My Assignments</h3>
 		</c:if>
 		<c:if test="${mode=='browse'}">
-	    	<h3 class="panel-title">Browse Assignments</h3>
+	    	<h3 class="panel-title white">Browse Assignments</h3>
 			<form action="index.htm?mode=browse" method="post">
 				Search by assignment name:<br>
 				<input maxlength=128 name=byname size=55 title="Search by assignment name" value="<c:out value="${assignments_byname}"/>"> <br>
@@ -129,11 +57,13 @@
 			</td></tr>
 		</c:if>
 
-	    <tr class="header">
-	    	<th>Date</th>
-	    	<th>Name</th>
-	    	<th colspan=2>Author</th>
-	    </tr>
+            <thead>
+                <tr class="header">
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th colspan=2>Author</th>
+                </tr>
+            </thead>
 	    <c:set var="rownumber" value="0"/>
 	    <c:forEach items="${assignments}" var="t">
                     <tr>
@@ -144,10 +74,10 @@
 	    		<td><c:out value="${t.user.name}"/></td>
 	    		<td width="15%">
 	    			<c:if test="${t.user.id==user.id}">
-						 <a href="composer.htm?mode=1&id=<c:out value="${t.id}"/>">[edit]</a>
-						 <a href="assignment-delete-confirm.htm?id=<c:out value="${t.id}"/>">[delete]</a>
+						 <a href="composer.htm?mode=1&id=<c:out value="${t.id}"/>">edit</a>
+						 <a href="assignment-delete-confirm.htm?id=<c:out value="${t.id}"/>">delete</a>
 	    			</c:if>
-					<a href="composer.htm?new=1&id=<c:out value="${t.id}"/>">[copy]</a>
+					<a href="composer.htm?new=1&id=<c:out value="${t.id}"/>">copy</a>
 				</td>
 	    	</tr>
 
@@ -178,16 +108,18 @@
 
     <div class="panel panel-default">
 		<c:if test="${(empty mode)}">
-                    <div class="panel-heading">
-                        <h3>Recent Templates</h3>
+                    <div class="panel-heading background-primary-color">
+                        <h3 class="panel-title white">Recent Templates</h3>
                     </div>
                     <div class="panel-body">
 		    <table width="95%" cellspacing="0" class="table table-striped">
-		    <tr class="header">
-		    	<th>Name</th>
-		    	<th>Uploaded</th>
-		    	<th>Author</th>
-		    </tr>
+                        <thead>
+                            <tr class="header">
+                                <th>Name</th>
+                                <th>Uploaded</th>
+                                <th>Author</th>
+                            </tr>
+                        </thead>
 		    <c:set var="rownumber" value="0"/>
 		    <c:forEach items="${templates}" var="t">
 		    	<c:if test="${(rownumber % 2) == 1}">
@@ -219,12 +151,5 @@
             </div>
         </div>
 		</c:if>
-    </td>
-    </tr>
-    </table>
 </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-  	<title>Smart Assignments</title>
-</head>
 </html>
