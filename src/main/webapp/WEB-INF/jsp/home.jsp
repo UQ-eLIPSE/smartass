@@ -83,17 +83,19 @@
 	    </table>
     </td>
     <td valign="top">
+        <div class="panel panel-default">
+            <div class="panel-heading">
 		<c:if test="${mode=='recent' || empty mode}">
-	    	<h3>Recent Assignments</h3>
+	    	<h3 class="panel-title">Recent Assignments</h3>
 		</c:if>
 		<c:if test="${mode=='user'}">
-	    	<h3><c:out value="${auser.name}"/>'s Assignments</h3>
+	    	<h3 class="panel-title"><c:out value="${auser.name}"/>'s Assignments</h3>
 		</c:if>
 		<c:if test="${mode=='my'}">
-	    	<h3>My Assignments</h3>
+	    	<h3 class="panel-title">My Assignments</h3>
 		</c:if>
 		<c:if test="${mode=='browse'}">
-	    	<h3> Browse Assignments</h3>
+	    	<h3 class="panel-title">Browse Assignments</h3>
 			<form action="index.htm?mode=browse" method="post">
 				Search by assignment name:<br>
 				<input maxlength=128 name=byname size=55 title="Search by assignment name" value="<c:out value="${assignments_byname}"/>"> <br>
@@ -104,7 +106,10 @@
 		    	<input type=submit value="Search">
 			</form>
 		</c:if>
-	    <table width="95%" cellspacing="0">
+            </div>
+
+            <div class="panel-body">
+	    <table width="95%" cellspacing="0" class="table">
 
 		<c:if test="${(mode=='recent') or (mode=='user') or (mode=='my') or (mode=='browse')}">
 			<tr><td colspan=3>
@@ -131,12 +136,7 @@
 	    </tr>
 	    <c:set var="rownumber" value="0"/>
 	    <c:forEach items="${assignments}" var="t">
-	    	<c:if test="${(rownumber % 2) == 1}">
-	    		<tr class="row-dark">
-	    	</c:if>
-	    	<c:if test="${(rownumber % 2) == 0}">
-	    		<tr class="row-light">
-	    	</c:if>
+                    <tr>
 	    		<td width="15%"><c:out value="${t.dtcreated}"/></td>
 	    		<td>
 				    <c:out value="${t.name}"/>
@@ -150,14 +150,7 @@
 					<a href="composer.htm?new=1&id=<c:out value="${t.id}"/>">[copy]</a>
 				</td>
 	    	</tr>
-	    	<c:if test="${(rownumber % 2) == 1}">
-	    		<tr class="row-dark">
-	    	</c:if>
-	    	<c:if test="${(rownumber % 2) == 0}">
-	    		<tr class="row-light">
-	    	</c:if>
-	    		<td colspan=3><c:out value="${t.description}"/></td>
-	    	</tr>
+
 	    <c:set var="rownumber" value="${rownumber+1}"/>
 	    </c:forEach>
 
@@ -179,11 +172,17 @@
 			</td></tr>
 		</c:if>
 
-	    </table>
+            </table>
+        </div>
+    </div>
 
+    <div class="panel panel-default">
 		<c:if test="${(empty mode)}">
-		    <h3>Recent Templates</h3>
-		    <table width="95%" cellspacing="0">
+                    <div class="panel-heading">
+                        <h3>Recent Templates</h3>
+                    </div>
+                    <div class="panel-body">
+		    <table width="95%" cellspacing="0" class="table table-striped">
 		    <tr class="header">
 		    	<th>Name</th>
 		    	<th>Uploaded</th>
@@ -216,7 +215,9 @@
 		    	</tr>
 		    <c:set var="rownumber" value="${rownumber+1}"/>
 		    </c:forEach>
-		    </table>
+                </table>
+            </div>
+        </div>
 		</c:if>
     </td>
     </tr>
