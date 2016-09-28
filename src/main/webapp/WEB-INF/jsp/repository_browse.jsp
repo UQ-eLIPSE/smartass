@@ -6,52 +6,13 @@
     <title>Smart Assignments | Repository</title>
 </head>
 <body>
-    <h2>Smart Assignments - Repository</h2>
+    <div class="container">
+    <h2>Repository</h2>
     <table width="100%"><tr class="menu"><td colspan=2>
-        <table class="menu"><tr class="menu">
-            <td> <a href="index.htm">[home]</a></td>
-            <td class="selected-menu">[repository]</td>
-            <c:if test="${empty user}">
-                <td><a href="login.htm">[log in]</a></td>
-                <td><a href="register.htm">[register]</a></td>
-                <td><a href="help.htm?context=repo" target="_blank">[help]</a></td>
-            </c:if>
-            <c:if test="${!empty user}">
-                <td><a href="edituser.htm">[user settings]</a></td>
-                <td><a href="logout.htm">[log out]</a></td>
-                <td><a href="help.htm?context=repo" target="_blank">[help]</a></td>
-                <td>
-                    Logged in as: <b><c:out value="${user.name}"/>
-                    <c:if test="${!empty user.fullname}">
-                        (<c:out value="${user.fullname}"/>)</b>
-                    </c:if>
-                </td>
-            </c:if>
-        </tr><tr class="selected-menu"><td class="selected-menu" colspan=5></td></tr></table>
+        <table class="menu"><tr class="selected-menu"><td class="selected-menu" colspan=5></td></tr></table>
     </td></tr><tr>
     <td valign="top" width="200" class="menu">
         <table>
-            <c:if test="${!empty user}">
-                <tr><td>
-                    <a href="repository-authors.htm">[authors]</a>
-                </td></tr>
-                <tr><td>
-                    <a href="repository-classs.htm">[categories]</a>
-                </td></tr>
-                <tr><td>
-                    <a href="repository-modules.htm">[modules]</a>
-                </td></tr>
-                <tr><td>
-                    <a href="repository-files.htm">[files]</a>
-                </td></tr>
-                <tr><td><hr></td></tr>
-            </c:if>
-            <c:if test="${empty selected_class.id}">
-                <tr class="selected-menu"><td>[templates]</td></tr>
-            </c:if>
-            <c:if test="${!empty selected_class.id}">
-                <tr><td><a href="repository.htm">[templates]</a></td></tr>
-            </c:if>
             <tr><td>
                 <table>
                 <c:forEach items="${classs}" var="c">
@@ -119,8 +80,9 @@
           <input type=submit value="Search">
         </form>
 
-        <table width="95%" cellspacing="0">
+        <table class="table table-striped" width="95%" cellspacing="0">
 
+        <thead>
         <c:set var="page_url" value="repository.htm?classid=${selected_class.id}&templ_filter=${templ_filter}&keyword_filter=${keyword_filter}&"/>
         <%@include file="pages.inc.jsp" %>
         
@@ -135,6 +97,7 @@
                 </c:if>
             </th>
         </tr>
+    </thead>
 
         <c:set var="rownumber" value="0"/>
         <c:forEach items="${templates}" var="t">
@@ -179,8 +142,6 @@
         </table>
     </td>
     </tr></table>
+</div>
 </body>
-<head>
-    <%@include file="header.jsp.inc" %>
-</head>
 </html>
