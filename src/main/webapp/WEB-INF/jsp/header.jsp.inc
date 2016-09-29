@@ -4,7 +4,10 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/custom.css" />
 
-<nav class="navbar navbar-default background-primary-color">
+<script src="/smartass-dev/js/jquery.min.js"></script>
+<script src="/smartass-dev/js/bootstrap.min.js"></script>
+
+<nav class="navbar navbar-default no-radius background-primary-color">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand white" href="${pageContext.request.contextPath}">

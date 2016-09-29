@@ -25,3 +25,14 @@
 .background-secondary-color {
     background: orange !important;
 }
+
+.borderless .header td {
+    border: none !important;
+}
+
+.no-radius {
+    border-radius: 0px;
+    border: none;
+}
+
+

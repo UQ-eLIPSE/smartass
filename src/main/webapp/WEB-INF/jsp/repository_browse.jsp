@@ -70,16 +70,24 @@
         <div class="error">
             <c:out value="${errors}"/>
         </div>
+
         <form action="repository.htm">
+        <div class="form-group">
           Search by template name: <br>
-          <input maxlength=128 name=templ_filter size=55 title="Search by template name" 
+          <input class="form-control" maxlength=128 name=templ_filter size=55 title="Search by template name"
                 value="<c:out value="${templ_filter}"/>"> <br>
           Search by keywords (use comma or blank as delimiter):<br>
-          <input maxlength=160 name=keyword_filter size=55 title="Search by keywords" 
+          <input class="form-control" maxlength=160 name=keyword_filter size=55 title="Search by keywords"
                 value="<c:out value="${keyword_filter}"/>"> <br>
-          <input type=submit value="Search">
+          <input class="btn btn-warning" type=submit value="Search">
+        </div>
         </form>
 
+    <div class="panel panel-default">
+        <div class="panel-heading background-primary-color">
+            <h3 class="panel-title white">Recent Templates</h3>
+        </div>
+        <div class="panel-body">
         <table class="table table-striped" width="95%" cellspacing="0">
 
         <thead>
@@ -140,6 +148,8 @@
         <%@include file="pages.inc.jsp" %>
         
         </table>
+        </div>
+        </div>
     </td>
     </tr></table>
 </div>

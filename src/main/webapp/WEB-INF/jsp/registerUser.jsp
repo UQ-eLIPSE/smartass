@@ -19,50 +19,35 @@
 	</script>
 </head>
 <body>
-<form:form modelAttribute="newUser" >   
-<h2>Register a New User</h2>
-<br>
-<table>
-	<tr>
-	    <td><b>* User name:</b></td>
-	    <td><form:input size="40" path="name" /><form:errors path="name" /></td>
-	</tr>
-	<tr>
-		<td><b>* E-mail:</b></td>
-	    <td><form:input size="40" path="email" /><form:errors path="email" /></td>
-	</tr>
-	<tr>
-	    <td><b>* Password:</b></td>
-	    <td><form:password path="password1" id="rawpassword1" /><form:errors path="password1" /></td>
-	</tr>
-	<tr>
-	    <td><b>* Retype password:</b></td>
-	    <td><form:password path="password2" id="rawpassword2" /></td>
-	</tr>
-	<tr>
-	    <td>Full name:</td>
-	    <td><form:input size="80" path="fullname" /></td>
-	</tr>
-	<tr>
-	    <td>Where I am from:</td>
-	    <td><form:input size="80" path="place" /></td>
-	</tr>
-	<tr>
-	    <td>About myself:</td>
-	    <td><form:textarea rows="5" cols="70" path="description" /></td>
-	</tr>
-	<tr><td colspan="2">
-		Fields marked with "*" is required fields.<br><br>
-	</td></tr>
-	<tr>
-		<td><input type="submit" class="button" name="register" value="Register"></td>
-		<td><input type="button" class="button" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
-	</tr>
-</table>
-</form:form>
+<div class="container">
+    <form:form modelAttribute="newUser" >
+    <h2>Register a New User</h2>
+    <br>
+        <div class="form-group">
+    	    <label>* User name:</label>
+    	    <form:input cssClass="form-control" size="40" path="name" /><form:errors path="name" />
+
+    		<label>* E-mail:</label>
+    	    <form:input cssClass="form-control" size="40" path="email" /><form:errors path="email" />
+
+    	    <label>* Password:</label>
+    	    <form:password cssClass="form-control" path="password1" id="rawpassword1" /><form:errors path="password1" />
+
+    	    <label>* Retype password:</label>
+    	    <form:password cssClass="form-control" path="password2" id="rawpassword2" />
+
+    	    <labe>Full name:</label>
+    	    <form:input cssClass="form-control" size="80" path="fullname" />
+
+    	    <label>Where I am from:</label>
+    	    <form:input cssClass="form-control" size="80" path="place" />
+
+    	    <label>About myself:</label>
+    	    <form:textarea cssClass="form-control" rows="5" cols="70" path="description" />
+    		<span>Fields marked with "*" is required fields.</span>
+    	</div>
+    		<input type="submit" class="btn btn-warning" name="register" value="Register"></td>
+    </form:form>
+    </div>
 </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-	<title>Smart Assignments | Register New User</title> 
-</head>
 </html>
