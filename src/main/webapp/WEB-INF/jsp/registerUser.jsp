@@ -36,7 +36,7 @@
     	    <label>* Retype password:</label>
     	    <form:password cssClass="form-control" path="password2" id="rawpassword2" />
 
-    	    <labe>Full name:</label>
+    	    <label>Full name:</label>
     	    <form:input cssClass="form-control" size="80" path="fullname" />
 
     	    <label>Where I am from:</label>
@@ -46,7 +46,7 @@
     	    <form:textarea cssClass="form-control" rows="5" cols="70" path="description" />
     		<span>Fields marked with "*" is required fields.</span>
     	</div>
-    		<input type="submit" class="btn btn-warning" name="register" value="Register"></td>
+    		<input type="submit" class="btn btn-warning pull-right" name="register" value="Register"></td>
     </form:form>
     </div>
 </body>

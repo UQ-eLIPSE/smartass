@@ -49,3 +49,4 @@ resource/questions/**/*.pdf
 node_modules
 .npm
 npm-debug.log*
+.idea/*

@@ -7,6 +7,7 @@
 	<title>Smart Assignments</title>
   </head>
   <body>
+  <div class="container">
 	<form:form method="post" modelAttribute="search" name="search" action="composer.htm?execution=${flowExecutionKey}">   
 <!-- 		<input type="hidden" name="classification"> -->
 	    <table width="100%">
@@ -196,5 +197,6 @@
     	</tr>
 		</table>
 	</form:form>
+	</div>
   </body>
 </html>

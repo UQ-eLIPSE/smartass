@@ -25,13 +25,15 @@
 		<c:if test="${mode=='browse'}">
 	    	<h3 class="panel-title white">Browse Assignments</h3>
 			<form action="index.htm?mode=browse" method="post">
-				Search by assignment name:<br>
-				<input maxlength=128 name=byname size=55 title="Search by assignment name" value="<c:out value="${assignments_byname}"/>"> <br>
-				Search by user:<br>
-				<input maxlength=128 name=byuser size=55 title="Search by user" value="<c:out value="${assignments_byuser}"/>"> <br>
-<!-- 				Search by tags:<br>
-				<input maxlength=128 name=bytags size=55 title="Search by tags" value="<c:out value="${assignments_bytags}"/>"> <br> -->
-		    	<input type=submit value="Search">
+			    <div class="form-group">
+				<label class="white">Search by assignment name:</label><br>
+				<input class="form-control" maxlength=128 name=byname size=55 title="Search by assignment name" value="<c:out value="${assignments_byname}"/>"> <br>
+				<label class="white">Search by user:</label><br>
+				<input class="form-control" maxlength=128 name=byuser size=55 title="Search by user" value="<c:out value="${assignments_byuser}"/>"> <br>
+<!-- 			<label class="white">Search by tags:</label><br>
+				<input class="form-control" maxlength=128 name=bytags size=55 title="Search by tags" value="<c:out value="${assignments_bytags}"/>"> <br> -->
+		    	<input class="btn btn-warning" type=submit value="Search">
+		    	</div>
 			</form>
 		</c:if>
             </div>
