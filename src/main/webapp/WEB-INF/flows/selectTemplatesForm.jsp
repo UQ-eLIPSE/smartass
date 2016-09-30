@@ -8,21 +8,11 @@
   </head>
   <body>
   <div class="container">
-	<form:form method="post" modelAttribute="search" name="search" action="composer.htm?execution=${flowExecutionKey}">   
-<!-- 		<input type="hidden" name="classification"> -->
-	    <table width="100%">
-		<tr><td colspan=2>
-   			Search by template name: <br>
-   			<form:input maxlength="128" path="nameFilter" size="55"/> <br>
-   			Search by keywords (use comma or blank as delimiter):<br>
-   			<form:input maxlength="160" path="keywordsFilter" size="55"/> <br>
-			<input style="width:125" type="submit" name="_eventId_search" value="Search"/>
-			&nbsp;&nbsp;
-			<input style="width:125" type="submit" name="_eventId_add" value="Add to assignment"/>
-			<input style="width:125" type="submit" name="_eventId_cancel" value="Cancel"/>
-
-		    <h3>Templates found:</h3>
-		</td></tr>
+		    <h2>Templates</h2>
+	<form:form method="post" modelAttribute="search" name="search" action="composer.htm?execution=${flowExecutionKey}">
+	    <div class="form-group">
+    <!-- 		<input type="hidden" name="classification"> -->
+            <table width="100%">
 		<tr><td colspan=2>
 		</td></tr>
 		<tr>
@@ -76,9 +66,22 @@
 			    </table> 
 		    </td>
 		    <td valign="top">
-			    
-			    <table width="95%" cellspacing="0">
-		
+                <div class="panel panel-default">
+                    <div class="panel-heading background-primary-color clearfix">
+                        <h3 class="panel-title white">Templates Found</h3>
+                    <label class="white">Search by template name:</label>
+                    <form:input cssClass="form-control" maxlength="128" path="nameFilter" size="55"/> <br>
+                    <label class="white">Search by keywords (use comma or blank as delimiter):</label>
+                    <form:input cssClass="form-control" maxlength="160" path="keywordsFilter" size="55"/> <br>
+                    <div class="pull-right">
+                        <input class="btn white" style="width:125" type="submit" name="_eventId_search" value="Search"/>
+                        <input class="btn btn-warning" type="submit" name="_eventId_add" value="Add to assignment"/>
+                    <!-- <input style="width:125" type="submit" name="_eventId_cancel" value="Cancel"/> -->
+                    </div>
+                </div>
+
+                    <div class="panel-body">
+			    <table class="table" width="95%" cellspacing="0">
 <!-- 				<c:out value="${search.pageNum}"/>
 				<c:out value="${search.pageNo}"/>
 				<c:out value="${search.rowsNum}"/> -->
@@ -193,6 +196,8 @@
 					</td></tr>
 				</c:if>
 			    </table>
+			    </div>
+			    </div>
 		    </td>
     	</tr>
 		</table>
