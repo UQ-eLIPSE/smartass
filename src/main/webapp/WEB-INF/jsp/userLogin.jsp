@@ -17,7 +17,7 @@
 		    <form:password cssClass="form-control" path="password" />
 		    <form:errors path="*" />
 		</div>
-        <input type="submit" class="btn btn-warning pull-right" name="register" value="Log in">
+        <button type="submit" class="btn btn-warning pull-right" name="register" value="Log in"><span class="glyphicon glyphicon-log-in"></span> Log in</button>
         </form:form>
     </div>
 </body>

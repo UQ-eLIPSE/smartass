@@ -36,10 +36,10 @@
                 <tr>
                   <td class="header" width="10px">
                     <br>
-                    <input id="addText" style="width:125" type="submit" class="form-control" name="_eventId_addText" value="Add text"/><br>
-                    <input id="addQuestion" style="width:125" type="submit" class="form-control" name="_eventId_addCall" value="Add QUESTION"/><br>
+                    <input id="addText" style="width:125" type="submit" class="form-control" name="_eventId_addText" value="Add Text"/><br>
+                    <input id="addQuestion" style="width:125" type="submit" class="form-control" name="_eventId_addCall" value="Add Question"/><br>
                     <hr>
-                    <input id="addRepeat" style="width:125" type="submit" class="form-control" name="_eventId_addRepeat" value="Add REPEAT"/><br>
+                    <input id="addRepeat" style="width:125" type="submit" class="form-control" name="_eventId_addRepeat" value="Add Repeat"/><br>
                     <hr>
                     <input id="edit" style="width:125" type="submit" class="form-control" name="_eventId_edit" value="Edit"/><br><hr>
                     <input id="delete" style="width:125" type="submit" class="form-control" name="_eventId_delete" value="Delete"/><br>

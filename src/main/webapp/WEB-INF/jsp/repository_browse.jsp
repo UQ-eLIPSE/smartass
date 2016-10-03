@@ -72,7 +72,7 @@
         </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading background-primary-color">
+        <div class="panel-heading background-primary-color clearfix">
             <h3 class="panel-title white">Recent Templates</h3>
         <form action="repository.htm">
         <div class="form-group">
@@ -82,7 +82,7 @@
           <label class="white">Search by keywords (use comma or blank as delimiter):</label>
           <input class="form-control" maxlength=160 name=keyword_filter size=55 title="Search by keywords"
                 value="<c:out value="${keyword_filter}"/>"> <br>
-          <input class="btn btn-warning" type=submit value="Search">
+          <button class="btn btn-warning pull-right" type=submit value="Search"><span class="glyphicon glyphicon-search"></span> Search</button>
         </div>
         </form>
 
@@ -93,7 +93,7 @@
         <thead>
         <c:set var="page_url" value="repository.htm?classid=${selected_class.id}&templ_filter=${templ_filter}&keyword_filter=${keyword_filter}&"/>
         <%@include file="pages.inc.jsp" %>
-        
+
         <tr class="header">
             <th>Name</th>
             <th>Uploaded</th>
@@ -136,7 +136,7 @@
                 </td>
                     <c:if test="${!empty user}">
                         <td align="right" width="40%" colspan=2>
-                            <a href="repository-template-edit.htm?id=<c:out value="${t.id}"/>">[edit data]</a> 
+                            <a href="repository-template-edit.htm?id=<c:out value="${t.id}"/>">[edit data]</a>
                             <a href="repository-template-delete-confirm.htm?id=<c:out value="${t.id}"/>">[delete]</a>
                         </td>
                     </c:if>
@@ -146,7 +146,7 @@
 
         <c:set var="page_url" value="repository.htm?classid=${selected_class.id}&templ_filter=${templ_filter}&keyword_filter=${keyword_filter}&"/>
         <%@include file="pages.inc.jsp" %>
-        
+
         </table>
         </div>
         </div>

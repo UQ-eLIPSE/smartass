@@ -23,7 +23,7 @@
             <li><a href="register.htm" class="white">Register</a></li>
             <li><a href="index.htm?mode=browse" class="white">Browse Assignments</a></li>
             <li><a href="help.htm?context=ass-new" class="white" target="_blank">Help</a></li>
-            <li><a href="composer.htm" class="white background-secondary-color">Create New</a></li>
+            <li><a href="composer.htm" class="white background-secondary-color"><span class="glyphicon glyphicon-plus-sign"></span> Create New</a></li>
         </ul>
     </div>
 </nav>

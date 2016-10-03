@@ -35,7 +35,7 @@
                 </c:forEach>
             </div>
 
-            <input style="width:125" type="submit" class="btn btn-warning pull-right" name="_eventId_ok" value="Next"/>
+            <button style="width:125" type="submit" class="btn btn-warning pull-right" name="_eventId_ok" value="Next">Next <span class="glyphicon glyphicon-arrow-right"></span></button>
             <!-- <input style="width:125" type="submit" class="button" name="_eventId_cancel" value="Cancel"/> -->
         </form:form>
     </div>

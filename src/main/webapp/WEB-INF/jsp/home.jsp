@@ -12,7 +12,7 @@
     
     <h2>Smart Assignments Home</h2>
         <div class="panel panel-default">
-            <div class="panel-heading background-primary-color">
+            <div class="panel-heading background-primary-color clearfix">
 		<c:if test="${mode=='recent' || empty mode}">
 	    	<h3 class="panel-title white">Recent Assignments</h3>
 		</c:if>
@@ -32,7 +32,7 @@
 				<input class="form-control" maxlength=128 name=byuser size=55 title="Search by user" value="<c:out value="${assignments_byuser}"/>"> <br>
 <!-- 			<label class="white">Search by tags:</label><br>
 				<input class="form-control" maxlength=128 name=bytags size=55 title="Search by tags" value="<c:out value="${assignments_bytags}"/>"> <br> -->
-		    	<input class="btn btn-warning" type=submit value="Search">
+		    	<button class="btn btn-warning pull-right" type=submit value="Search"><span class="glyphicon glyphicon-search"></span> Search</button>
 		    	</div>
 			</form>
 		</c:if>

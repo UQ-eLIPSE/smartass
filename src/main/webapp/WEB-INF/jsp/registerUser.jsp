@@ -46,7 +46,7 @@
     	    <form:textarea cssClass="form-control" rows="5" cols="70" path="description" />
     		<span>Fields marked with "*" is required fields.</span>
     	</div>
-    		<input type="submit" class="btn btn-warning pull-right" name="register" value="Register"></td>
+    		<button type="submit" class="btn btn-warning pull-right" name="register" value="Register"><span class="glyphicon glyphicon-pencil"></span> Register</button>
     </form:form>
     </div>
 </body>

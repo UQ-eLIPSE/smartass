@@ -74,8 +74,8 @@
                     <label class="white">Search by keywords (use comma or blank as delimiter):</label>
                     <form:input cssClass="form-control" maxlength="160" path="keywordsFilter" size="55"/> <br>
                     <div class="pull-right">
-                        <input class="btn white" style="width:125" type="submit" name="_eventId_search" value="Search"/>
-                        <input class="btn btn-warning" type="submit" name="_eventId_add" value="Add to assignment"/>
+                        <button class="btn white" style="width:125" type="submit" name="_eventId_search" value="Search"><span class="glyphicon glyphicon-search"></span> Search</button>
+                        <button class="btn btn-warning" type="submit" name="_eventId_add" value="Add to assignment"><span class="glyphicon glyphicon-plus-sign"></span> Add to Assignments</button>
                     <!-- <input style="width:125" type="submit" name="_eventId_cancel" value="Cancel"/> -->
                     </div>
                 </div>
