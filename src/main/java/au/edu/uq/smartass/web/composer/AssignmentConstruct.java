@@ -71,16 +71,24 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
          * It is manipulated in the back end as components are added and removed from the assignment.
          */
 	private int selectedIndex;
+
 	public void setSelectedIndex(int selectedIndex) { 
                 LOG.debug( "::setSelectedIndex( {} )[ {} => {} ]", selectedIndex, this.selectedIndex, selectedIndex );
                 this.selectedIndex = selectedIndex; 
-        }
-	public int getSelectedIndex() { return selectedIndex; }
-        public int incrementSelectedIndex() {
+    }
+
+	public int getSelectedIndex() {
+		if (selectedIndex == getRowCount() && getRowCount() > 0)
+			return selectedIndex -1;
+		else
+			return selectedIndex;
+	}
+
+    public int incrementSelectedIndex() {
 		int result = selectedIndex;
-                setSelectedIndex( selectedIndex + 1 );
-                return result;
-        }
+        setSelectedIndex( selectedIndex + 1 );
+        return result;
+    }
 
         /** @TODO: Use a unique identifier (HashCode?) for selected object. */
         /*
@@ -245,7 +253,10 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	public void setDecorateWithLatex(boolean decorateWithLatex) { this.decorateWithLatex = decorateWithLatex; }
 	
 	/** Returns the selected assignment construction */
-	public AbstractTemplateConstruction getSelectedRow() { return components.get(getSelectedIndex()); }
+	public AbstractTemplateConstruction getSelectedRow() {
+		LOG.info("Row Count " + String.valueOf(getRowCount()));
+		LOG.info("Selected Row " + String.valueOf(getSelectedIndex()));
+		return components.get(getSelectedIndex()); }
 
 	/**
 	 * Removes the selected assignment construction
