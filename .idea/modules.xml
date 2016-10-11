@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/smartass.iml" filepath="$PROJECT_DIR$/.idea/modules/smartass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/smartass_main.iml" filepath="$PROJECT_DIR$/.idea/modules/smartass_main.iml" group="smartass" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/smartass_test.iml" filepath="$PROJECT_DIR$/.idea/modules/smartass_test.iml" group="smartass" />
+    </modules>
+  </component>
+</project>

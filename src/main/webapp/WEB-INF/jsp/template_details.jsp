@@ -7,11 +7,13 @@
 	<title>Smart Assignments Repository | Template Details</title> 
 </head>
 <body>
-	<table>
-		<tr class="header"><td colspan=2>
+    <div class="container">
+<!--	<input class="btn btn-warning"style="width:125" type="button" class="button" name="back" value="Back" onclick="history.go(-1)" > -->
+	<table class="table borderless">
+		<tr class="header"><td colspan=3>
 			<h2>Template Details</h2>
 		</td>
-		<td align="center"><a href="help.htm?context=template" target="_blank">[help]</a></td>
+		<!-- <td align="center"><a href="help.htm?context=template" target="_blank">[help]</a></td> -->
 		</tr>
 		<tr>
 			<td><b>Template name:</b></td>
@@ -236,11 +238,8 @@
 			</tr>
 
 	</table>
+	</div>
 	<br>
 
-	<input style="width:125" type="button" class="button" name="back" value="Back" onclick="history.go(-1)" >
 </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-</head>
 </html>
