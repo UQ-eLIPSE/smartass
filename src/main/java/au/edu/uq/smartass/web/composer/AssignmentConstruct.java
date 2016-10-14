@@ -74,12 +74,12 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 
 	public void setSelectedIndex(int selectedIndex) { 
                 LOG.debug( "::setSelectedIndex( {} )[ {} => {} ]", selectedIndex, this.selectedIndex, selectedIndex );
-                this.selectedIndex = selectedIndex; 
+                this.selectedIndex = selectedIndex;
     }
 
 	public int getSelectedIndex() {
 		if (selectedIndex == getRowCount() && getRowCount() > 0)
-			return selectedIndex -1;
+			return selectedIndex - 1;
 		else
 			return selectedIndex;
 	}

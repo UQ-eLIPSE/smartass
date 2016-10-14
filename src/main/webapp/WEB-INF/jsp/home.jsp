@@ -10,11 +10,11 @@
 <div class="header">
 </div>
     
-    <h2>Smart Assignments Home</h2>
+    <h2>Recent Assignments</h2>
         <div class="panel panel-default">
             <div class="panel-heading background-primary-color clearfix">
 		<c:if test="${mode=='recent' || empty mode}">
-	    	<h3 class="panel-title white">Recent Assignments</h3>
+	    	<h3 class="panel-title white">Assignments</h3>
 		</c:if>
 		<c:if test="${mode=='user'}">
 	    	<h3 class="panel-title white"><c:out value="${auser.name}"/>'s Assignments</h3>
@@ -111,7 +111,7 @@
     <div class="panel panel-default">
 		<c:if test="${(empty mode)}">
                     <div class="panel-heading background-primary-color">
-                        <h3 class="panel-title white">Recent Templates</h3>
+                        <h3 class="panel-title white">Templates</h3>
                     </div>
                     <div class="panel-body">
 		    <table width="95%" cellspacing="0" class="table table-striped">

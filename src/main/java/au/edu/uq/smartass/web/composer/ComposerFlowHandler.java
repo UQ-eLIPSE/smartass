@@ -47,7 +47,7 @@ public class ComposerFlowHandler extends AbstractFlowHandler {
 			HttpServletRequest request, HttpServletResponse response) {
 		StringBuffer url = request.getRequestURL();
 		url.delete(url.lastIndexOf("/"), url.length());
-		url.append("/index.htm");
+		url.append("/");
 		return url.toString();
 	}
 }

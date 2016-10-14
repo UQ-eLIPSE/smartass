@@ -3,12 +3,14 @@
   <head> 
     <meta charset="utf-8" /> 
     <title>Smart Assignments</title>
-    <link rel="stylesheet" type="text/css" href="./css/smartass-index.css" />
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
+<!--    <link rel="stylesheet" type="text/css" href="./css/smartass-index.css" /> -->
 
     <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
     <!--
               [see:] http://stackoverflow.com/questions/6272702/should-modernizr-file-be-placed-in-head
       -->
+    <link rel="stylesheet" href="./css/custom.css">
     <script src="./js//modernizr.js"></script>
 
   </head>
@@ -17,24 +19,33 @@
     <div id="wrapper">
       <section class="group">
 
+        <nav class="navbar navbar-default no-radius background-primary-color">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand white" href="${pageContext.request.contextPath}">
+                Smart Assignments
+              </a>
+
+            </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="./index.html" class="white">Home</a></li>
+          <li><a href="./index.htm" class="white"><span>Assignments</span></a></li>
+          <li><a href="./repository.htm" class="white">Repository</a></li>
+          <li><a href="./login.htm" class="white">Log In</a></li>
+          <li><a href="./register.htm" class="white">Register</a></li>
+          <li><a href="./index.htm?mode=browse" class="white">Browse Assignments</a></li>
+          <li><a href="./help.htm?context=ass-new" class="white" target="_blank">Help</a></li>
+          <li><a href="./about.html" class="white"><span>About</span></a></li>
+          <li><a href="./composer.htm" class="white background-secondary-color"><span class="glyphicon glyphicon-plus-sign"></span> Create New</a></li>
+        </ul>
+            </div>
+          </nav>
         <header>
           <h1>
             <a href="#"><img src="./img/donkey-colour.gif" height="80px" width="106px" alt="The Smart Ass">EAIT Zone: Smart Assignments</a>
           </h1>
         </header>
-
-        <nav>
-          <ul>
-            <li class="active"><a href="#"><span>About</span></a></li>
-            <li><a href="./index.htm"><span>Home</span></a></li>
-            <li><a href="./repository.htm"><span>Repository</span></a></li>
-            <li><a href="./login.htm"><span>Log in</span></a></li>
-            <li><a href="./register.htm"><span>Register</span></a></li>
-            <li><a href="./help.htm?context=home" target="_blank"><span>Help</span></a></li>
-          </ul>
-        </nav>
-
-        <div id="maincontentcontainer">
+        <div class="container" id="maincontentcontainer">
           <div id="maincontent">
 
             <div class="section group">
@@ -93,8 +104,10 @@
                 and get started or read the 
                 <a href="./pdf/smartass-instructions.pdf">How to use Smart Assignments</a> PDF.
               </p>
-            </div>
 
+              <button class="btn btn-warning btn-lg enter" onclick="location.href='./index.htm'">Enter</button>
+            </div>
+<!-- Move to new page
             <div class="grant_details">
               <div class="section group">
                 <h2>Grant Details</h2>
@@ -147,6 +160,7 @@
           </div>
 
           </div>
+          -->
         </div>
 
       </section>
