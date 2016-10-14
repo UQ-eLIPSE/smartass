@@ -43,6 +43,8 @@
                     <hr>
                     <input id="edit" style="width:125" type="submit" class="form-control" name="_eventId_edit" value="Edit"/><br><hr>
                     <input id="delete" style="width:125" type="submit" class="form-control" name="_eventId_delete" value="Delete"/><br>
+                    <input id="clear" style="width:125" type="submit" class="form-control" name="_eventId_clear" value="Delete All"/ ><br>
+                    <!-- <button type="submit" class="btn" name="_eventId_clear" value="Clear">Delete All</button> -->
                   </td>
                   <td valign="top" colspan="2">
 
@@ -79,18 +81,17 @@
                 <tr class="header">
                   <td></td>
                   <td>
-                    <button type="submit" class="btn" name="_eventId_view" value="View code">View Code</button>
-                    <button type="button" class="btn" name="download" value="Download"
-                      onclick="window.location.href = 'download-assignment.htm?execution=<c:out value="${flowExecutionKey}"/>'">Download</button>
+                    <!-- <button type="submit" class="btn" name="_eventId_view" value="View code">View Code</button> -->
+                    <!-- <button type="button" class="btn" name="download" value="Download"
+                      onclick="window.location.href = 'download-assignment.htm?execution=<c:out value="${flowExecutionKey}"/>'">Download</button> -->
                     <c:if test="${!canExecute}">
                       <button type="submit" class="btn" name="_eventId_execute" value="Execute" disabled="disabled">Execute</button>
                     </c:if>
                     <c:if test="${canExecute}">
                       <button type="submit" class="btn" name="_eventId_execute" value="Execute">Execute</button>
                     </c:if>
-                    <button type="submit" class="btn" name="_eventId_clear" value="Clear">Clear</button>
                     <button style="width:125" type="submit" class="btn" name="_eventId_new" value="New assignment">New Assignment</button>
-                    <button type="submit" class="btn" name="_eventId_upload" value="Upload">Upload</button>
+                    <!-- <button type="submit" class="btn" name="_eventId_upload" value="Upload">Upload</button> -->
                     <c:if test="${(!empty user.name) && user.editAssignmentsRight}">
                       <button type="submit" class="btn" name="_eventId_save" value="Save">Save</button>
                     </c:if>

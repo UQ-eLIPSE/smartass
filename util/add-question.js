@@ -60,16 +60,17 @@ function get_module_info(cb) {
         ask_user("Author name: ", function(authorName) {
             ask_user("Description: ", function(description) {
                 ask_user("Keywords: ", function(keywords) {
-                    var data = {
-                        moduleName: moduleName,
-                        authorName: authorName,
-                        keywords: keywords,
-                        description: description
-                    };
-
-                    rl.close();
-
-                    cb(data);
+                    ask_user("Classification: ", function(classification) {
+                        var data = {
+                            moduleName: moduleName,
+                            authorName: authorName,
+                            keywords: keywords,
+                            description: description,
+                            classification: classification
+                        };
+                        rl.close();
+                        cb(data);
+                    });
                 });
             });
         });
@@ -139,8 +140,43 @@ function get_author_id(authorName, cb) {
             cb(res[0].id);
         }
     });
-
 }
+
+function get_classification_id(classificationName, cb) {
+    connection.query({
+        sql: 'SELECT id, name FROM classifications WHERE name=?',
+        values: [classificationName]
+    }, function(err, res, fields) {
+        if (err)  {
+            throw err;
+        }
+
+        if (res.length == 0) {
+            //Create a new classification
+            add_classification(classificationName, cb);
+        } else {
+            info(classificationName + " already exists in database");
+            cb(res[0].id);
+        }
+    });
+}
+
+function add_classification(classificationName, cb) {
+      ask_user("Parent classification? ", function(parentClassification){
+        info("Creating new category '" + classificatonName + "'");
+        connection.query({
+          sql: 'INSERT INTO classifications (parent_id, name) VALUES (?, ?)',
+          values: [parentClassification, classificationName]
+        }, function(err, res, fields){
+          if (err) {
+              throw err;
+          }
+
+          cb(res.insertId);
+        });
+      });
+}
+
 
 /**
  * Creates a new template in the database
@@ -184,7 +220,6 @@ function create_template(templateName, authorName, keywords, description, cb) {
 }
 
 function main() {
-
     get_module_info(function(data) {
         connection.connect();
         create_template(data.moduleName, data.authorName, data.keywords, data.description, function(id) {

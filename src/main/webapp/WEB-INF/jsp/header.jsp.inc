@@ -17,12 +17,14 @@
         </div>
 
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="index.htm" class="white">Home</a></li>
+            <li><a href="./index.html" class="white">Home</a></li>
+            <li><a href="index.htm" class="white">Assignments</a></li>
             <li><a href="repository.htm" class="white">Repository</a></li>
             <li><a href="login.htm" class="white">Log In</a></li>
             <li><a href="register.htm" class="white">Register</a></li>
             <li><a href="index.htm?mode=browse" class="white">Browse Assignments</a></li>
             <li><a href="help.htm?context=ass-new" class="white" target="_blank">Help</a></li>
+            <li><a href="./about.html" class="white"><span>About</span></a></li>
             <li><a href="composer.htm" class="white background-secondary-color"><span class="glyphicon glyphicon-plus-sign"></span> Create New</a></li>
         </ul>
     </div>
