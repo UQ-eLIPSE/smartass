@@ -21,7 +21,8 @@ var handlebars = require('handlebars');
  * ==========================================
  */
 
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
+    connectionLimit: 10,
     host: 'localhost',
     user: 'smartass',
     password: 'SmartAss',
@@ -143,6 +144,7 @@ function get_author_id(authorName, cb) {
 }
 
 function get_classification_id(classificationName, cb) {
+        console.log(classificationName);
     connection.query({
         sql: 'SELECT id, name FROM classifications WHERE name=?',
         values: [classificationName]
@@ -153,30 +155,25 @@ function get_classification_id(classificationName, cb) {
 
         if (res.length == 0) {
             //Create a new classification
-            add_classification(classificationName, cb);
+           info("Classification does not exist, please add it and try again");
         } else {
-            info(classificationName + " already exists in database");
+            info(classificationName + "  adding classification");
             cb(res[0].id);
         }
     });
 }
 
-function add_classification(classificationName, cb) {
-      ask_user("Parent classification? ", function(parentClassification){
-        info("Creating new category '" + classificatonName + "'");
-        connection.query({
-          sql: 'INSERT INTO classifications (parent_id, name) VALUES (?, ?)',
-          values: [parentClassification, classificationName]
-        }, function(err, res, fields){
-          if (err) {
-              throw err;
-          }
-
-          cb(res.insertId);
-        });
-      });
+function add_classification(templateId, classificationId, cb) {
+    connection.query({
+        sql: 'INSERT INTO templates_classifications (template_id, class_id) VALUES (?, ?)',
+        values: [templateId, classificationId]
+    }, function(err, res, fields){
+        if (err) {
+            throw err;
+        }
+        cb();
+    });
 }
-
 
 /**
  * Creates a new template in the database
@@ -215,16 +212,18 @@ function create_template(templateName, authorName, keywords, description, cb) {
             }
         });
     });
-    
-
 }
 
 function main() {
     get_module_info(function(data) {
-        connection.connect();
         create_template(data.moduleName, data.authorName, data.keywords, data.description, function(id) {
             console.log("Entry inserted with ID " + id);
-            connection.end();
+            get_classification_id(data.classification, function(classId){
+                console.log("Adding a classification with an id of " + classId);
+                add_classification(id, classId, function(res){
+                    console.log("Classification added ");
+                });
+            });
             save_template_file(data.moduleName, function() {
                 console.log("File saved");
             });
