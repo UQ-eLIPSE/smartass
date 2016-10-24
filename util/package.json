@@ -10,6 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "handlebars": "^4.0.5",
-    "mysql": "^2.11.1"
+    "mysql": "^2.11.1",
+    "promise": "^7.1.1",
+    "prompt": "^1.0.0"
   }
 }
