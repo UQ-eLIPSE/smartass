@@ -129,6 +129,7 @@ public class QuestionModuleManager {
             ServiceLoader<QuestionModule> questionModuleLoader
                     = ServiceLoader.load(QuestionModule.class, classLoader);
             LOG.info("::scanModuleDirectory()[ {} ]", questionModuleLoader.toString());
+
             for (QuestionModule qm : questionModuleLoader) {
                 String simple = qm.getClass().getSimpleName();
                 String canonical = qm.getClass().getCanonicalName();
@@ -137,7 +138,9 @@ public class QuestionModuleManager {
                 questionModuleSimpleLookup.put(simple, canonical);
             }
         } catch (Exception ex) {
-            LOG.error( "::scanModuleDirectory()[ ERROR => {} ]", ex.getMessage() );
+            LOG.error( "::scanModuleDirectory()[ EXCEPTION => {} ]", ex.getMessage() );
+        } catch (Error er) {
+            LOG.error( "::scanModuleDirectory()[ ERROR => {} ]", er.getMessage() );
         }
     }
 
