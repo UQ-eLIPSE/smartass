@@ -219,7 +219,8 @@
 
 	<action-state id="execute">
 		<evaluate expression="executeTemplateAction.doExecute(flowScope.code, assignmentEditor.preprocessCode(template), flowRequestContext)"/>
-		<transition on="success" to="executionResult"/>
+		<evaluate expression="dviPdfCreator.makePdfs(flowScope.resultPath)" />
+		<transition on="success" to="pdf"/>
 		<transition on="error" />	<!-- TODO: report error condition to user -->
 	</action-state>
 
