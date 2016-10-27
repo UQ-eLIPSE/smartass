@@ -144,7 +144,6 @@ function get_author_id(authorName, cb) {
 }
 
 function get_classification_id(classificationName, cb) {
-        console.log(classificationName);
     connection.query({
         sql: 'SELECT id, name FROM classifications WHERE name=?',
         values: [classificationName]
@@ -172,8 +171,33 @@ function add_classification(templateId, classificationId, cb) {
             throw err;
         }
         cb();
+
+        if (res.length == 0) {
+            //Create a new classification
+            add_classification(classificationName, cb);
+        } else {
+            info(classificationName + " already exists in database");
+            cb(res[0].id);
+        }
     });
 }
+
+function add_classification(classificationName, cb) {
+      ask_user("Parent classification? ", function(parentClassification){
+        info("Creating new category '" + classificatonName + "'");
+        connection.query({
+          sql: 'INSERT INTO classifications (parent_id, name) VALUES (?, ?)',
+          values: [parentClassification, classificationName]
+        }, function(err, res, fields){
+          if (err) {
+              throw err;
+          }
+
+          cb(res.insertId);
+        });
+      });
+}
+
 
 /**
  * Creates a new template in the database
