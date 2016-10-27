@@ -250,13 +250,16 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	/** */
 	public boolean getDecorateWithLatex() { return decorateWithLatex; }
 	/** */
-	public void setDecorateWithLatex(boolean decorateWithLatex) { this.decorateWithLatex = decorateWithLatex; }
+	public void setDecorateWithLatex(boolean decorateWithLatex) {
+		this.decorateWithLatex = true;
+	}
 	
 	/** Returns the selected assignment construction */
 	public AbstractTemplateConstruction getSelectedRow() {
 		LOG.info("Row Count " + String.valueOf(getRowCount()));
 		LOG.info("Selected Row " + String.valueOf(getSelectedIndex()));
-		return components.get(getSelectedIndex()); }
+		return components.get(getSelectedIndex()); // Delete all fails here!! [AMM]
+	}
 
 	/**
 	 * Removes the selected assignment construction
@@ -312,8 +315,10 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 			in.close();
 			analyseNode(tmp_node.getDocument(), null);
 		}
-
+				LOG.info("::setCode()[ components.size=>\n{}\n]", components.size());
                 setSelectedIndex( components.size() - 1 ); // Select last component.
+
+				LOG.info("::setCode()[ selectedIndex=>\n{}\n]", getSelectedIndex());
 	}
 
 	/**
