@@ -96,7 +96,7 @@
                       <button type="submit" class="btn" name="_eventId_save" value="Save">Save</button>
                     </c:if>
                     <button type="submit" class="btn" name="_eventId_finish" value="Exit">Exit</button>
-                    <br> <form:checkbox path="decorateWithLatex" /> Decorate assignment constructions with LaTeX
+                    <!-- <br> <form:checkbox path="decorateWithLatex" /> Decorate assignment constructions with LaTeX -->
                   </td>
                   <td></td>
                 </tr>
