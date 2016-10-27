@@ -219,7 +219,6 @@
 
 	<action-state id="execute">
 		<evaluate expression="executeTemplateAction.doExecute(flowScope.code, assignmentEditor.preprocessCode(template), flowRequestContext)"/>
-		<evaluate expression="dviPdfCreator.makePdfs(flowScope.resultPath)" />
 		<transition on="success" to="pdf"/>
 		<transition on="error" />	<!-- TODO: report error condition to user -->
 	</action-state>
@@ -244,6 +243,9 @@
 	</view-state>
 
     <view-state id="pdf" view="pdfResultForm.jsp">
+        <on-entry>
+			<evaluate expression="dviPdfCreator.makePdfs(flowScope.resultPath)" />
+		</on-entry>
     	<transition on="clear" to="assignmentEditor">
 			<evaluate expression="clearResultsAction.clearTexs(flowScope.resultPath)" />
 			<evaluate expression="new au.edu.uq.smartass.web.composer.AssignmentConstruct()" result="flowScope.template" />
