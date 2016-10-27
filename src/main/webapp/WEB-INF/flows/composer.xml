@@ -63,9 +63,13 @@
                 <transition on="execute" to="execute">
                         <evaluate expression="flowRequestContext.getFlowScope().put('code', assignmentEditor.preprocessCode(template)),true"/>
                 </transition>
-                <transition on="clear">
+			<transition on="clear" to="assignmentEditor">
+				<evaluate expression="assignmentWizardController.prepareWizard()" result="viewScope.items" />
+				<evaluate expression="assignmentWizardController.createAssignment(flowScope.template, 'default.tex', viewScope.items.items, messageContext)" />
+			</transition>
+            <!--     <transition on="clear">
                         <evaluate expression="flowScope.template.setCode('')"/>
-                </transition>
+                </transition> -->
                 <transition on="upload" to="upload"/>
 
                 <transition on="save" to="confirmSave"/>
