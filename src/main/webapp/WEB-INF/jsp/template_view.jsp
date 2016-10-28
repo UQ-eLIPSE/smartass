@@ -10,7 +10,4 @@
 <c:out value="${content}"/>      
 	 </pre>
   </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-</head>
 </html>

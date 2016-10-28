@@ -44,3 +44,11 @@
 #maincontent {
     font-size: 18px;
 }
+
+.question-list {
+margin: 20px 50px;
+}
+
+.question-list-btns {
+    padding: 0 50px;
+}

@@ -258,7 +258,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	public AbstractTemplateConstruction getSelectedRow() {
 		LOG.info("Row Count " + String.valueOf(getRowCount()));
 		LOG.info("Selected Row " + String.valueOf(getSelectedIndex()));
-		return components.get(getSelectedIndex()); // Delete all fails here!! [AMM]
+		return components.get(getSelectedIndex());
 	}
 
 	/**

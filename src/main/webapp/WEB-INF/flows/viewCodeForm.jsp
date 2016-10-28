@@ -7,7 +7,9 @@
 		
 	</script>
 </head>
-<html><body onload="save.disabled = true;">
+<html>
+    <body onload="save.disabled = true;">
+    <div class="container">
 	<form method="post">
 		<table>
 			<tr class="header">
@@ -28,4 +30,5 @@
 			</td></tr>
 		</table>
 	</form>
+	</div>
 </body></html>

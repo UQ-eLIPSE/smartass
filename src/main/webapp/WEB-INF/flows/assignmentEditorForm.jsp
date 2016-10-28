@@ -51,7 +51,7 @@
                     <!--
                             . Represent Assignments Constituent Components .
                       -->
-                    <table class='clear'>
+                    <table class='question-list clear'>
                       <c:forEach items='${template.rows}' var='item'>
                         <c:if test="${item.visible}">
                           <tr>
@@ -80,7 +80,7 @@
 
                 <tr class="header">
                   <td></td>
-                  <td>
+                  <td class="question-list-btns">
                     <!-- <button type="submit" class="btn" name="_eventId_view" value="View code">View Code</button> -->
                     <!-- <button type="button" class="btn" name="download" value="Download"
                       onclick="window.location.href = 'download-assignment.htm?execution=<c:out value="${flowExecutionKey}"/>'">Download</button> -->
