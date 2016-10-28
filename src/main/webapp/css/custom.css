@@ -1,5 +1,5 @@
 .background-primary-color {
-    background-color: #009688 !important;
+    background-color: #49075e !important;
 }
 
 .background-primary-color-lighter {
@@ -23,7 +23,7 @@
 }
 
 .background-secondary-color {
-    background: orange !important;
+    background: #8cb800 !important;
 }
 
 .borderless .header td {
@@ -51,4 +51,19 @@ margin: 20px 50px;
 
 .question-list-btns {
     padding: 0 50px;
+}
+
+.btn-warning {
+    border: 1px solid #8cb800;
+    background: #8cb800;
+}
+
+.btn-warning:hover {
+    border: 1px solid #39892f;
+    background: #39892f;
+}
+
+.btn-warning:active {
+    border: 1px solid #39892f;
+    background: #39892f;
 }
