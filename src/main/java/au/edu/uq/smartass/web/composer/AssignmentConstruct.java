@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.prefs.Preferences;
+import java.util.regex.Pattern;
 
 import au.edu.uq.smartass.engine.Engine;
 import au.edu.uq.smartass.templates.TexReader;
@@ -286,6 +287,42 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
                 }
 		return true;
 	}
+
+        /**
+         * Sets the title of the assignment
+         */
+        public void setTitle(String title) throws ParseException, UnsupportedEncodingException, IOException {
+
+            LOG.info("==========================================================================");
+            LOG.info("SETTING TITLE");
+
+            String code = getCode();
+            String output = "";
+
+            String[] lines = code.split("\n");
+
+            for (String line : lines) {
+                if (line.contains("\\underline{{\\bf") && line.contains("\\qquad\\qquad")) {
+                    // A title with content after it, such as "Questions"
+                    String[] items = line.split(Pattern.quote("\\qquad\\qquad"));
+                    // Create a new string with all the required elements
+                    line = "\\underline{{\\bf " + title + " \\qquad\\qquad" + items[1];
+                    System.out.println("#########" + line);
+
+                } else if (line.contains("\\underline{{\\bf")) {
+                    // A plain question line
+                    line = "\\underline{{\\bf " + title + " }}";
+                    System.out.println("#########" + line);
+
+                }
+
+                output += line + "\n";
+            }
+
+            //LOG.info(output);
+
+            setCode(output);
+        }
 	
 	/**
 	 * Sets and parse template code

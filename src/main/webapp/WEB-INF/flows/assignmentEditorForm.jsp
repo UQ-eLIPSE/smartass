@@ -7,25 +7,47 @@
     <%@include file="../jsp/header.jsp.inc" %>
     <title>Smart Assignments | Assignment Editor</title>
 
-    <script type="text/javascript">
-      	function setControlsState(kind, parent_kind) {
-            document.getElementById("addRepeat").disabled = ('section'==kind || 'section'==parent_kind);
-            document.getElementById("addQuestion").disabled = ('section'==kind || 'section'==parent_kind);
-	    document.getElementById("edit").disabled = ('call'==kind || ''==kind);
-        }
-    </script>
 
     <style type='text/css'>
 	table.clear { border: 0px; padding: 0px }
 	td.assignment-selector { background-color: #f0f0f0 }
-	td.assignment-content { background-color: #f0f0ff }
+        td.assignment-content { background-color: #f0f0ff }
+        
+        #titleIndicator {
+            font-size: x-large;
+        }
+
+        .spin-anim {
+            animation: spin 1000ms infinite linear;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(359deg);
+            }
+        }
     </style>
 
   </head>
 
+
   <body onload="setControlsState('<c:out value="${template.selectedRow.kind}"/>', '<c:out value="${template.selectedRow.parent.kind}"/>')">
      <div class="container">
+
+
         <form:form modelAttribute="template">
+
+          <div class="form-group has-feedback">
+              <label for="assignmentTitle">Assignment Title:</label>
+              <input type="text" class="form-control" id="assignmentTitle">
+              <i class="glyphicon glyphicon-remove form-control-feedback" id="titleIndicator"></i>
+              <input id="assignmentTitleSubmit" style="display: block;" type="submit" name="_eventId_setTitle" value="Set Title"/><br>
+          </div>
+
             <div class="form-group">
               <table width="100%">
 
@@ -103,6 +125,51 @@
             </div>
         </form:form>
         </div>
+
+        <script type="text/javascript">
+            function setControlsState(kind, parent_kind) {
+                document.getElementById("addRepeat").disabled = ('section'==kind || 'section'==parent_kind);
+                document.getElementById("addQuestion").disabled = ('section'==kind || 'section'==parent_kind);
+                document.getElementById("edit").disabled = ('call'==kind || ''==kind);
+            }
+
+            function setTitleIndicator(mode) {
+
+                var ind = $('#titleIndicator');
+
+                // Remove all the classes first
+                ind.removeClass();
+                ind.addClass('glyphicon form-control-feedback');
+
+                switch (mode) {
+                    case 'notSet':
+                        ind.addClass('glyphicon-remove');
+                        break;
+
+                    case 'loading':
+                        ind.addClass('glyphicon-refresh');
+                        ind.addClass('spin-anim');
+                        break;
+
+                    case 'set':
+                        ind.addClass('glyphicon-ok');
+                        break;
+
+                    default:
+                        ind.addClass('glyphicon-remove');
+                        break;
+                }
+            }
+
+            // Handle the assignment title button
+    $('#assignmentTitle').on('focusout', function() {
+        setTitleIndicator('loading');
+        setTimeout(function() {
+            setTitleIndicator('set');
+        }, 3000);
+    });
+
+        </script>
   </body>
 
 </html>
