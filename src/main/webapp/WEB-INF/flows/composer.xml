@@ -63,7 +63,7 @@
             <!-- Sets the title of the assignment -->
             <transition on="setTitle" to="assignmentEditor">
                 <!-- TODO: Call assignmentWizardController.setTitle -->
-                <evaluate expression="flowScope.template.setTitle(&quot;NEW ASSIGNMENT NAME&quot;)"/>
+                <!-- <evaluate expression="flowScope.template.setTitle(template.assignmentTitle)"/> -->
             </transition>
 
             <transition on="addRepeat" to="addRepeat" />

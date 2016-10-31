@@ -6,6 +6,7 @@
 	<title>Smart Assignments | Assignment Editor | Execution Results and Pdf Files</title> 
 </head>
 <body>
+    <div class="container">
 	<form method="post">
 		<h2>Assignment Execution Results and Pdf Files</h2>   
 		<table>
@@ -34,5 +35,7 @@
 				<input style="width:125" type="submit" class="button" name="_eventId_finish" value="Exit"/>
 			</td></tr>
 		</table>
-	</form>
-</body></html>
+        </form>
+    </div>
+</body>
+</html>

@@ -43,9 +43,8 @@
 
           <div class="form-group has-feedback">
               <label for="assignmentTitle">Assignment Title:</label>
-              <input type="text" class="form-control" id="assignmentTitle">
+              <input type="text" value="${template.assignmentTitle}" class="form-control" name="assignmentTitle" id="assignmentTitle">
               <i class="glyphicon glyphicon-remove form-control-feedback" id="titleIndicator"></i>
-              <input id="assignmentTitleSubmit" style="display: block;" type="submit" name="_eventId_setTitle" value="Set Title"/><br>
           </div>
 
             <div class="form-group">
@@ -133,6 +132,32 @@
                 document.getElementById("edit").disabled = ('call'==kind || ''==kind);
             }
 
+            /**
+             * Posts the title of the assignment to the server
+             */
+            function postTitle() {
+                // The current page's URL, from spring
+                var postUrl = "${flowExecutionUrl}";
+                var title = $("#assignmentTitle").val();
+
+                setTitleIndicator('loading');
+
+                var data = {"_eventId_setTitle": "Set Title", "assignmentTitle": title};
+
+                $.post(postUrl, data, function(resp) {
+                    var text = $('#assignmentTitle').val();
+                    if (text == "") {
+                        setTitleIndicator('notSet');
+                    } else {
+                        setTitleIndicator('set');
+                    }
+                });
+            }
+
+
+            /**
+             * Sets the indicator for the title (The spinner in the right hand side of the input box)
+             */
             function setTitleIndicator(mode) {
 
                 var ind = $('#titleIndicator');
@@ -162,12 +187,21 @@
             }
 
             // Handle the assignment title button
-    $('#assignmentTitle').on('focusout', function() {
-        setTitleIndicator('loading');
-        setTimeout(function() {
-            setTitleIndicator('set');
-        }, 3000);
-    });
+            $('#assignmentTitle').on('focusout', function() {
+                postTitle();
+            });
+
+            /**
+             * Sets the indicator to the correct icon
+             */
+            $(document).ready(function() {
+                var text = $('#assignmentTitle').val();
+                if (text == "") {
+                    setTitleIndicator('notSet');
+                } else {
+                    setTitleIndicator('set');
+                }
+            });
 
         </script>
   </body>

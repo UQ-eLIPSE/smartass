@@ -55,6 +55,9 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	/** Class logger. */
 	private static final Logger LOG = LoggerFactory.getLogger( AssignmentConstruct.class );
 
+        /** The title of the assignment **/
+        private String assignmentTitle;
+
 	
 	/** Root node of the assignment template (see au.edu.uq.smartass.templates.texparser for details) */
 	private ASTTemplate template_node;
@@ -113,6 +116,8 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 		ASTAnyText enter = new ASTAnyText(0);
 		enter.setText("\n");
 		doc_node.jjtAddChild(enter, 0);
+
+                assignmentTitle = "";
 	}
 	
 
@@ -289,12 +294,20 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	}
 
         /**
+         * Returns the assignment title
+         * @return The assignment title
+         */
+        public String getAssignmentTitle() {
+            return assignmentTitle;
+        }
+
+        /**
          * Sets the title of the assignment
          */
-        public void setTitle(String title) throws ParseException, UnsupportedEncodingException, IOException {
+        public void setAssignmentTitle(String title) throws ParseException, UnsupportedEncodingException, IOException {
 
-            LOG.info("==========================================================================");
-            LOG.info("SETTING TITLE");
+
+            assignmentTitle = title;
 
             String code = getCode();
             String output = "";
@@ -307,12 +320,10 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
                     String[] items = line.split(Pattern.quote("\\qquad\\qquad"));
                     // Create a new string with all the required elements
                     line = "\\underline{{\\bf " + title + " \\qquad\\qquad" + items[1];
-                    System.out.println("#########" + line);
 
                 } else if (line.contains("\\underline{{\\bf")) {
                     // A plain question line
                     line = "\\underline{{\\bf " + title + " }}";
-                    System.out.println("#########" + line);
 
                 }
 
