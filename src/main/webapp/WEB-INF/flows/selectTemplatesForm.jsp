@@ -114,65 +114,50 @@
 			    	<c:if test="${(rownumber % 2) == 0}">
 			    		<tr class="row-light">
 			    	</c:if>
-						<td rowspan="3">
+						<td>
 			    			<form:checkbox path="selectedIds" value="${t.id}" />
 						</td>
 						<td>
-					    	<a href="<c:out value="template.htm?id=${t.id}"/>"> <c:out value="${t.name}"/> </a>
-						</td>
-			    		<td>
-			    			<c:out value="${t.dtuploaded}"/>
-						</td>
-			    		<td colspan><c:out value="${t.author.name}"/></td>
+                                                    <p><a href="<c:out value="template.htm?id=${t.id}"/>"> <c:out value="${t.name}"/> </a></p>
+
+                                                    <p><c:out value="${t.description}"/></p>
+                                                        <p>
+                                                        
+                                                            <c:if test="${!empty t.questions || !empty t.solutions || !empty t.shortanswers}">
+            
+                                                                    Download examples:
+                                                                    <c:if test="${!empty t.questions}">
+                                                                    <c:url var="url" value="/download.htm" >
+                                                                              <c:param name="scope" value="1" />
+                                                                              <c:param name="id" value="${t.id}" />
+                                                                              <c:param name="kind" value="0" />
+                                                                        </c:url>
+                                                                    <a href="<c:out value="${url}"/>">[questions]</a>
+                                                                    </c:if>
+                                                                    <c:if test="${!empty t.solutions}">
+                                                                    <c:url var="url" value="/download.htm" >
+                                                                              <c:param name="scope" value="1" />
+                                                                              <c:param name="id" value="${t.id}" />
+                                                                              <c:param name="kind" value="1" />
+                                                                        </c:url>
+                                                                    <a href="<c:out value="${url}"/>">[solutions]</a>
+                                                                    </c:if>
+                                                                    <c:if test="${!empty t.shortanswers}">
+                                                                    <c:url var="url" value="/download.htm" >
+                                                                              <c:param name="scope" value="1" />
+                                                                              <c:param name="id" value="${t.id}" />
+                                                                              <c:param name="kind" value="2" />
+                                                                        </c:url>
+                                                                    <a href="<c:out value="${url}"/>">[short answers]</a>
+                                                                    </c:if>
+                                                            </c:if>
+                                                        </p>
+                                                    </td>
+                                        <td>
+                                        <c:out value="${t.dtuploaded}"/>
+                                        </td>
+			    		<td><c:out value="${t.author.name}"/></td>
 			    	</tr>
-			    	<c:if test="${(rownumber % 2) == 1}">
-		    			<tr class="row-dark">
-			    	</c:if>
-			    	<c:if test="${(rownumber % 2) == 0}">
-		    			<tr class="row-light">
-			    	</c:if>
-					   	<td colspan=3>
-						    <c:out value="${t.description}"/>
-						</td>
-		    		</tr>
-			    	</tr>
-			    	<c:if test="${(rownumber % 2) == 1}">
-		    			<tr class="row-dark">
-			    	</c:if>
-			    	<c:if test="${(rownumber % 2) == 0}">
-		    			<tr class="row-light">
-			    	</c:if>
-					   	<td colspan=3>
-							<c:if test="${!empty t.questions || !empty t.solutions || !empty t.shortanswers}">
-	
-								Download examples:
-								<c:if test="${!empty t.questions}">
-							        <c:url var="url" value="/download.htm" >
-							  		  <c:param name="scope" value="1" />
-							  		  <c:param name="id" value="${t.id}" />
-							  		  <c:param name="kind" value="0" />
-								    </c:url>
-							        <a href="<c:out value="${url}"/>">[questions]</a>
-								</c:if>
-								<c:if test="${!empty t.solutions}">
-							        <c:url var="url" value="/download.htm" >
-							  		  <c:param name="scope" value="1" />
-							  		  <c:param name="id" value="${t.id}" />
-							  		  <c:param name="kind" value="1" />
-								    </c:url>
-							        <a href="<c:out value="${url}"/>">[solutions]</a>
-								</c:if>
-								<c:if test="${!empty t.shortanswers}">
-							        <c:url var="url" value="/download.htm" >
-							  		  <c:param name="scope" value="1" />
-							  		  <c:param name="id" value="${t.id}" />
-							  		  <c:param name="kind" value="2" />
-								    </c:url>
-							        <a href="<c:out value="${url}"/>">[short answers]</a>
-								</c:if>
-							</c:if>
-						</td>
-		    		</tr>
 			    	<c:set var="rownumber" value="${rownumber+1}"/>
 			    </c:forEach>
 

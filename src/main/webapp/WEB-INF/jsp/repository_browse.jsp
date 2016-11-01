@@ -81,7 +81,18 @@
                 value="<c:out value="${templ_filter}"/>"> <br>
           <label class="white">Search by keywords (use comma or blank as delimiter):</label>
           <input class="form-control" maxlength=160 name=keyword_filter size=55 title="Search by keywords"
-                value="<c:out value="${keyword_filter}"/>"> <br>
+          value="<c:out value="${keyword_filter}"/>"> <br>
+
+            <label class="white" for="sort">Sort by: </label>
+            <select class="form-control" id="sort">
+                <option>Name - Ascending</option>
+                <option>Name - Descending</option>
+                <option>Author Name - Ascending</option>
+                <option>Author Name - Descending</option>
+                <option>Date - Ascending</option>
+                <option>Date - Descending</option>
+            </select>
+
           <button class="btn btn-warning pull-right" type=submit value="Search"><span class="glyphicon glyphicon-search"></span> Search</button>
         </div>
         </form>
@@ -115,32 +126,26 @@
             <c:if test="${(rownumber % 2) == 0}">
                 <tr class="row-light">
             </c:if>
-                <td>
+            <td>
                     <c:url var="url" value="/template.htm" >
                         <c:param name="id" value="${t.id}" />
                     </c:url>
                     <a href="<c:out value="${url}"/>"> <c:out value="${t.name}"/> </a>
-                </td>
-                <td><c:out value="${t.dtuploaded}"/></td>
-                <td colspan=2><c:out value="${t.author.name}"/></td>
-            </tr>
-            <c:if test="${(rownumber % 2) == 1}">
-            <tr class="row-dark">
-            </c:if>
-            <c:if test="${(rownumber % 2) == 0}">
-            <tr class="row-light">
-            </c:if>
-                <c:if test="${empty user}"><td colspan=4></c:if>
-                <c:if test="${!empty user}"><td colspan=2></c:if>
-                    <c:out value="${t.description}"/>
-                </td>
+                    <p><c:out value="${t.description}"/></p>
                     <c:if test="${!empty user}">
-                        <td align="right" width="40%" colspan=2>
                             <a href="repository-template-edit.htm?id=<c:out value="${t.id}"/>">[edit data]</a>
                             <a href="repository-template-delete-confirm.htm?id=<c:out value="${t.id}"/>">[delete]</a>
-                        </td>
                     </c:if>
-            </tr>
+
+            <td>
+                <p><c:out value="${t.dtuploaded}"/></p>
+            </td>
+
+            <td>
+                <p><c:out value="${t.author.name}"/></p>
+            </td>
+        </tr>
+
         <c:set var="rownumber" value="${rownumber+1}"/>
         </c:forEach>
 
