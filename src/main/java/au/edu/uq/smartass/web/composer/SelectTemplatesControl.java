@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Collections;
+import java.lang.IllegalArgumentException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +22,12 @@ public class SelectTemplatesControl implements Serializable {
 	String nameFilter = "";
 	String keywordsFilter = "";
 
+        /**
+         * Possible orderings
+         */
+        HashMap<String, Comparator> orderings;
+        String currentOrdering;
+
 	List<TemplatesItemModel> templates;
 
 	private List<String> selectedIds = new ArrayList<String>();
@@ -28,8 +38,89 @@ public class SelectTemplatesControl implements Serializable {
 	int pageNo;
 	int rowsPerPage = 20;           //TODO: move this to app settings
 	int rowsNum;
-	
-	
+
+        
+        /**
+         * Create a serializable comparator
+         */
+        class SerializableComparator<T> implements Serializable, Comparator {
+            public int compare(Object o1, Object o2) {
+                return 0;
+            }
+        };
+
+
+        public SelectTemplatesControl() {
+
+            super();
+
+            // Using hashset instead of enum for cleaner UI
+            orderings = new HashMap<String, Comparator>();
+            
+            SerializableComparator<TemplatesItemModel> nameAsc = new SerializableComparator<TemplatesItemModel>() {
+                public int compare(TemplatesItemModel t1, TemplatesItemModel t2) {
+                    return t1.getName().compareTo(t2.getName());
+                }
+            };
+
+            SerializableComparator<TemplatesItemModel> nameDes = new SerializableComparator<TemplatesItemModel>() {
+                public int compare(TemplatesItemModel t1, TemplatesItemModel t2) {
+                    return t2.getName().compareTo(t1.getName());
+                }
+            };
+
+            SerializableComparator<TemplatesItemModel> authAsc = new SerializableComparator<TemplatesItemModel>() {
+                public int compare(TemplatesItemModel t1, TemplatesItemModel t2) {
+                    if (t1.getAuthor() == null || t2.getAuthor() == null) {
+                        return 0;
+                    }
+
+                    return t1.getAuthor().getName().compareTo(t2.getAuthor().getName());
+                }
+            };
+
+            SerializableComparator<TemplatesItemModel> authDes = new SerializableComparator<TemplatesItemModel>() {
+                public int compare(TemplatesItemModel t1, TemplatesItemModel t2) {
+                    if (t1.getAuthor() == null || t2.getAuthor() == null) {
+                        return 0;
+                    }
+
+                    return t2.getAuthor().getName().compareTo(t1.getAuthor().getName());
+                }
+            };
+
+            // All the possible orderings
+            orderings.put("Name - Ascending", nameAsc);
+            orderings.put("Name - Descending", nameDes);
+            orderings.put("Author - Ascending", authAsc);
+            orderings.put("Author - Descending", authDes);
+            // ROY TODO: Do the date ones
+            orderings.put("Date - Ascending", nameAsc);
+            orderings.put("Date - Descending", nameDes);
+
+            currentOrdering = "Author - Ascending";
+
+        }
+
+        /**
+         * Returns the current ordering, as a string
+         */
+        public String getOrdering() {
+            return currentOrdering;
+
+        }
+
+        /**
+         * Sets the ordering of the templates
+         */
+        public void setOrdering(String newOrder) {
+            if (orderings.containsKey(newOrder)) {
+                currentOrdering = newOrder;
+            } else {
+                throw new IllegalArgumentException("'" + newOrder + "' is not a valid order");
+            }
+        }
+
 	public String getKeywordsFilter() {
 		return keywordsFilter;
 	}
@@ -46,6 +137,7 @@ public class SelectTemplatesControl implements Serializable {
 		this.nameFilter = nameFilter;
 	}
 
+        // TODO: This method doesn't seem to be used.
 	public List<TemplatesItemModel> getTempaltes() {
 		return templates;
 	}
@@ -63,6 +155,8 @@ public class SelectTemplatesControl implements Serializable {
 	}
 	
 	public List<TemplatesItemModel> getTemplates() {
+                // ROY TODO: Order templates here, based on the currentOrdering
+                Collections.sort(templates, orderings.get(currentOrdering));
 		return templates;
 	}
 	
