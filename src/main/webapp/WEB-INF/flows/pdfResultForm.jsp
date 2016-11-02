@@ -6,7 +6,9 @@
 	<title>Smart Assignments | Assignment Editor | Execution Results and Pdf Files</title> 
 </head>
 <body>
+    <div class="container">
 	<form method="post">
+	    <div class="form-group">
 		<h2>Assignment Execution Results and Pdf Files</h2>   
 		<table>
 			<tr class="header"><td><h3>Latex results:</h3></td></tr>
@@ -29,10 +31,12 @@
 				To save a file without opening - right click and choose "Save target"<br>
 				<br><b>Attention! Execution results will be deleted from the server after you return to assignment editor or after 30 minutes since its creation.</b></td></tr>
 			<tr><td><br>
-				<input style="width:125" type="submit" class="button" name="_eventId_cancel" value="Back to editor"/>
-				<input style="width:125" type="submit" class="button" name="_eventId_new" value="New assignment"/>
-				<input style="width:125" type="submit" class="button" name="_eventId_finish" value="Exit"/>
+				<input style="width:125" type="submit" class="btn" name="_eventId_cancel" value="Back to editor"/>
+				<input style="width:125" type="submit" class="btn" name="_eventId_new" value="New assignment"/>
+				<input style="width:125" type="submit" class="btn" name="_eventId_finish" value="Exit"/>
 			</td></tr>
 		</table>
+		</div>
 	</form>
+	</div>
 </body></html>
