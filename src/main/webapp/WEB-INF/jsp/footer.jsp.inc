@@ -1,9 +1,11 @@
-<div id="uq-footer">
-  <div id="uq-footer-inner" class="container default-width">
-
+<div id="footer"  class="background-primary-color white">
+  <div class="container">
     <div class="row">
-      <div class="mobile-four nine columns">
-        <h6>© The University of Queensland</h6>
+      <div class="col-md-6">
+        <a href="https://www.elipse.uq.edu.au" target="_blank"><img class="elipse-logo" src="./img/elipse-logo.png" /></a>
+      </div>
+      <div class="col-md-6">
+        <h4>© The University of Queensland</h4>
         <ul>
           <li class="uq-enquiries">Enquiries: <a href="tel:+6173365111">+61 7 3365 1111</a></li>
           <li class="uq-contacts"><a href="http://uq.edu.au/contacts">UQ Contacts</a></li>
@@ -14,32 +16,6 @@
           </li>
         </ul>
       </div>
-      <div class="mobile-four three columns">
-        <div class="uq-emergency-contact">
-          <h6>Emergency</h6>
-          <ul>
-            <li>Phone: <a href="tel:+61733653333">3365 3333</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
-
-    <hr>
-
-    <div class="row">
-      <div class="mobile-four nine columns">
-        <ul>
-          <li><a href="http://www.uq.edu.au/terms-of-use/" rel="external">Privacy &amp; Terms of use</a></li>
-          <li><a href="http://www.uq.edu.au/feedback" rel="external">Feedback</a></li>
-        </ul>
-      </div>
-      <div class="mobile-four three columns">
-        <ul>
-                  <li class="last-updated secondary">Updated: 4 Oct 2016</li>
-                          <li><a href="/eait_login" class="user-login secondary">Login</a></li>
-                </ul>
-      </div>
-    </div>
-
   </div>
 </div>
