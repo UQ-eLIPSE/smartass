@@ -38,6 +38,7 @@
   <body onload="setControlsState('<c:out value="${template.selectedRow.kind}"/>', '<c:out value="${template.selectedRow.parent.kind}"/>')">
      <div class="container">
 
+        <h2>Assignment Editor</h2>
 
         <form:form modelAttribute="template">
 
@@ -50,9 +51,6 @@
             <div class="form-group">
               <table width="100%">
 
-                <tr>
-                  <td class="header" colspan="2"><h2>Assignment Editor</h2></td>
-                </tr>
 
                 <tr>
                   <td class="header" width="10px">

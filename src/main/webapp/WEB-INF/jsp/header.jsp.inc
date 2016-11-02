@@ -7,16 +7,16 @@
 <script src="/smartass-dev/js/jquery.min.js"></script>
 <script src="/smartass-dev/js/bootstrap.min.js"></script>
 
-<nav class="navbar navbar-default no-radius background-primary-color">
+<nav class="navbar navbar-default no-radius background-primary-color nav-logo">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand white" href="${pageContext.request.contextPath}">
-                Smart Assignments
+            <a class="navbar-brand white" href="${pageContext.request.contextPath}/">
+              <img src="${pageContext.request.contextPath}/img/uq-smartass-logo.png" />
             </a>
 
         </div>
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right nav-logo-right">
             <li><a href="./index.html" class="white">Home</a></li>
             <li><a href="index.htm" class="white">Assignments</a></li>
             <li><a href="repository.htm" class="white">Repository</a></li>
