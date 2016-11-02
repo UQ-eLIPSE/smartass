@@ -243,6 +243,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 
                 ListIterator<AbstractTemplateConstruction> it = components.listIterator(); 
                 while (it.hasNext()) {
+                    	LOG.info("::getRows() it {}", it.toString());
                         int idx = it.nextIndex();
                         AbstractTemplateConstruction item = it.next();
                         item.setIndex(idx);
