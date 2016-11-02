@@ -37,6 +37,7 @@
 			</td></tr>
 		</table>
 		</div>
-	</form>
-	</div>
-</body></html>
+        </form>
+    </div>
+</body>
+</html>
