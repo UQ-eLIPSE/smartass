@@ -238,7 +238,6 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
          * @return List of Assignment components for the Editor.
          */
 	public List<AbstractTemplateConstruction> getRows() { 
-                LOG.info("::getRows() [\n{}\n]", components.toString());
                 List<AbstractTemplateConstruction> items = new ArrayList<AbstractTemplateConstruction>();
 
                 ListIterator<AbstractTemplateConstruction> it = components.listIterator(); 
@@ -247,10 +246,12 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
                         int idx = it.nextIndex();
                         AbstractTemplateConstruction item = it.next();
                         item.setIndex(idx);
+					LOG.info("::getRows() item {} is vis {} ", item.toString(), item.isVisible());
+						if (idx > 20 && !item.isVisible()) item.setVisible(true);
                         if (item.isVisible()) items.add(item);
                 }
-
-                LOG.info("::getRows() [\n{}\n]", items.toString());
+				LOG.info("::getRows() components [\n{}\n]", components.toString());
+                LOG.info("::getRows() items [\n{}\n]", items.toString());
                 return items; 
         }
 	
