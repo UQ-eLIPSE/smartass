@@ -153,5 +153,6 @@
     </td>
     </tr></table>
 </div>
+    <%@include file="../jsp/footer.jsp.inc" %>
 </body>
 </html>
