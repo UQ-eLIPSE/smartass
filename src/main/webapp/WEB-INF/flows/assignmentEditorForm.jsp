@@ -128,7 +128,8 @@
             function setControlsState(kind, parent_kind) {
                 document.getElementById("addRepeat").disabled = ('section'==kind || 'section'==parent_kind);
                 document.getElementById("addQuestion").disabled = ('section'==kind || 'section'==parent_kind);
-                document.getElementById("edit").disabled = ('call'==kind || ''==kind);
+                document.getElementById("edit").disabled = ('call'==kind || ''==kind || 'repeat-end'==kind);
+                document.getElementById("delete").disabled = ('repeat-end'==kind || 'section'==kind || 'section-end'==kind);
             }
 
             /**

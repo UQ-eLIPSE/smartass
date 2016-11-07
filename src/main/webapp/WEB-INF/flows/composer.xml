@@ -302,7 +302,7 @@
 
     <global-transitions>
         <transition on="cancel" to="assignmentEditor" bind="false"/>
-        <transition on="new" to="wizard" bind="false"/>
+        <transition on="new" to="assignmentEditor" bind="false"/>
     </global-transitions>
 
     <!-- 
