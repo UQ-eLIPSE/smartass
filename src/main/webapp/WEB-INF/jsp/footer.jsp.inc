@@ -5,7 +5,7 @@
         <a href="https://www.elipse.uq.edu.au" target="_blank"><img class="elipse-logo" src="./img/elipse-logo.png" /></a>
       </div>
       <div class="col-md-6">
-        <h4>© The University of Queensland</h4>
+        <h4>&copy; The University of Queensland</h4>
         <ul>
           <li class="uq-enquiries">Enquiries: <a href="tel:+6173365111">+61 7 3365 1111</a></li>
           <li class="uq-contacts"><a href="http://uq.edu.au/contacts">UQ Contacts</a></li>

@@ -204,6 +204,7 @@
             });
 
         </script>
+    <%@include file="../jsp/footer.jsp.inc" %>
   </body>
 
 </html>
