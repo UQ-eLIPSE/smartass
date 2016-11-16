@@ -66,6 +66,7 @@ var template_table = {
             }, 
         },
 
+        /* The current ordering of the sort */
         currentOrder: 'name-asc'
     },
 

@@ -13,6 +13,10 @@ describe('Template Table', function() {
         it('currentOrder should exists', function() {
             expect(template_table.config.currentOrder).to.not.be.undefined;
         });
+
+        it('sortOptions has expected sort methods', function() {
+                expect(Object.keys(template_table.config.sortOptions)).to.deep.equal(['name-asc', 'name-des', 'uploaded-asc', 'uploaded-des', 'author-asc', 'author-des']);
+        });
     });
 
     /**
@@ -46,6 +50,16 @@ describe('Template Table', function() {
      * Test sorting based on the name
      */
     describe('sortTable', function() {
+
+        it('sortTable should throw an error for invalid ordering methods', function() {
+
+            function errMethod() {
+                template_table.sortTable('invalid');
+            }
+
+            expect(errMethod).to.throw(/Sort order is not valid/);
+
+        });
 
         it('Name is sorted correctly', function() {
             // Title = A
