@@ -39,10 +39,9 @@ public class SelectTemplatesControl implements Serializable {
 	int pageNo;
         
         // @REVIEW Doing this will keep all the rows in a single page
-        // We will do the pages in the client side javascript
+        // We will do the pagination in the client side javascript
         // There might be a better way to do this
         int rowsPerPage = Integer.MAX_VALUE;
-	//int rowsPerPage = 20;           //TODO: move this to app settings
         
 	int rowsNum;
 
@@ -121,7 +120,6 @@ public class SelectTemplatesControl implements Serializable {
             orderings.put("Name - Descending", nameDes);
             orderings.put("Author - Ascending", authAsc);
             orderings.put("Author - Descending", authDes);
-            // ROY TODO: Do the date ones
             orderings.put("Date - Ascending", nameAsc);
             orderings.put("Date - Descending", nameDes);
 
@@ -185,8 +183,6 @@ public class SelectTemplatesControl implements Serializable {
 	}
 	
 	public List<TemplatesItemModel> getTemplates() {
-                // Do ordering in client side javascript instead
-                //Collections.sort(templates, orderings.get(currentOrdering));
 
 		return templates;
 	}
