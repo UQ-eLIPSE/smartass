@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Comparator;
 import java.util.Collections;
 import java.lang.IllegalArgumentException;
+import java.lang.Integer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,7 +37,13 @@ public class SelectTemplatesControl implements Serializable {
 	int topclassid;
 	int pageNum;
 	int pageNo;
-	int rowsPerPage = 20;           //TODO: move this to app settings
+        
+        // @REVIEW Doing this will keep all the rows in a single page
+        // We will do the pages in the client side javascript
+        // There might be a better way to do this
+        int rowsPerPage = Integer.MAX_VALUE;
+	//int rowsPerPage = 20;           //TODO: move this to app settings
+        
 	int rowsNum;
 
         
@@ -58,19 +65,34 @@ public class SelectTemplatesControl implements Serializable {
             orderings = new HashMap<String, Comparator>();
             
             SerializableComparator<TemplatesItemModel> nameAsc = new SerializableComparator<TemplatesItemModel>() {
-                public int compare(TemplatesItemModel t1, TemplatesItemModel t2) {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    TemplatesItemModel t1 = (TemplatesItemModel) o1;
+                    TemplatesItemModel t2 = (TemplatesItemModel) o2;
+
                     return t1.getName().compareTo(t2.getName());
                 }
             };
 
             SerializableComparator<TemplatesItemModel> nameDes = new SerializableComparator<TemplatesItemModel>() {
-                public int compare(TemplatesItemModel t1, TemplatesItemModel t2) {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    TemplatesItemModel t1 = (TemplatesItemModel) o1;
+                    TemplatesItemModel t2 = (TemplatesItemModel) o2;
+
                     return t2.getName().compareTo(t1.getName());
                 }
             };
 
             SerializableComparator<TemplatesItemModel> authAsc = new SerializableComparator<TemplatesItemModel>() {
-                public int compare(TemplatesItemModel t1, TemplatesItemModel t2) {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    TemplatesItemModel t1 = (TemplatesItemModel) o1;
+                    TemplatesItemModel t2 = (TemplatesItemModel) o2;
+
                     if (t1.getAuthor() == null || t2.getAuthor() == null) {
                         return 0;
                     }
@@ -80,7 +102,12 @@ public class SelectTemplatesControl implements Serializable {
             };
 
             SerializableComparator<TemplatesItemModel> authDes = new SerializableComparator<TemplatesItemModel>() {
-                public int compare(TemplatesItemModel t1, TemplatesItemModel t2) {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    TemplatesItemModel t1 = (TemplatesItemModel) o1;
+                    TemplatesItemModel t2 = (TemplatesItemModel) o2;
+
                     if (t1.getAuthor() == null || t2.getAuthor() == null) {
                         return 0;
                     }
@@ -98,12 +125,13 @@ public class SelectTemplatesControl implements Serializable {
             orderings.put("Date - Ascending", nameAsc);
             orderings.put("Date - Descending", nameDes);
 
-            currentOrdering = "Author - Ascending";
+            currentOrdering = "Name - Descending";
 
         }
 
         /**
          * Returns the current ordering, as a string
+         * @returns Returns the current ordering
          */
         public String getOrdering() {
             return currentOrdering;
@@ -112,6 +140,8 @@ public class SelectTemplatesControl implements Serializable {
 
         /**
          * Sets the ordering of the templates
+         * @param newOrder  The new ordering of the template, must be one of the keys
+         *                  in the 'ordering' hashmap
          */
         public void setOrdering(String newOrder) {
             if (orderings.containsKey(newOrder)) {
@@ -155,8 +185,9 @@ public class SelectTemplatesControl implements Serializable {
 	}
 	
 	public List<TemplatesItemModel> getTemplates() {
-                // ROY TODO: Order templates here, based on the currentOrdering
-                Collections.sort(templates, orderings.get(currentOrdering));
+                // Do ordering in client side javascript instead
+                //Collections.sort(templates, orderings.get(currentOrdering));
+
 		return templates;
 	}
 	

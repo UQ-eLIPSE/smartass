@@ -102,9 +102,9 @@
 
 			    <tr class="header">
 			    	<th></th>
-			    	<th>Name</th>
-			    	<th>Uploaded</th>
-			    	<th>Author</th>
+                                <th><a id="name-header">Name</a></th>
+                                <th><a id="uploaded-header">Uploaded</a></th>
+                                <th><a id="author-header">Author</a></th>
 			    </tr>
 			    <c:set var="rownumber" value="0"/>
 			    <c:forEach items="${search.templates}" var="t">
@@ -187,6 +187,8 @@
     	</tr>
 		</table>
 	</form:form>
-	</div>
+    </div>
+
+    <script src="/smartass-dev/js/template_table.js"></script>
   </body>
 </html>
