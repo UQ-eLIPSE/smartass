@@ -76,7 +76,7 @@
                 </div>
 
                     <div class="panel-body">
-			    <table class="table table-bordered" width="95%" cellspacing="0">
+			    <table class="table table-bordered" width="95%">
 <!-- 				<c:out value="${search.pageNum}"/>
 				<c:out value="${search.pageNo}"/>
 				<c:out value="${search.rowsNum}"/> -->
@@ -98,7 +98,7 @@
 			    <tr class="header">
 			    	<th></th>
                                 <th style="cursor: pointer" id="name-header"><a>Name</a> <span id="name-icon" aria-hidden="true"></span></th>
-                                <th style="cursor: pointer" id="uploaded-header"><a>Uploaded</a> <span id="uploaded-icon" aria-hidden="true"></span></th>
+                                <th style="cursor: pointer; min-width: 120px;" id="uploaded-header"><a>Uploaded</a> <span id="uploaded-icon" aria-hidden="true"></span></th>
                                 <th style="cursor: pointer" id="author-header"><a>Author</a> <span id="author-icon" aria-hidden="true"></span></th>
 			    </tr>
 			    <c:set var="rownumber" value="0"/>
