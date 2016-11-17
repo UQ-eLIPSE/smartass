@@ -19,12 +19,47 @@ describe('Template Table', function() {
         });
     });
 
+    describe('setIcon', function() {
+        it('setIcon should throw an error for an invalid mode', function() {
+            function errMethod() {
+                return template_table.setIcon('#temp', 'invalid');
+            }
+
+            expect(errMethod).to.throw(/Mode is not valid/);
+
+        });
+
+        it('setIcon should work for the parameter "ascending"', function() {
+            function errMethod() {
+                return template_table.setIcon('#temp', 'ascending');
+            }
+
+            expect(errMethod).to.not.throw(/Mode is not valid/);
+        });
+
+        it('setIcon should work for the parameter "descending"', function() {
+            function errMethod() {
+                return template_table.setIcon('#temp', 'descending');
+            }
+
+            expect(errMethod).to.not.throw(/Mode is not valid/);
+        });
+
+        it('setIcon should work for the parameter "none"', function() {
+            function errMethod() {
+                return template_table.setIcon('#temp', 'none');
+            }
+
+            expect(errMethod).to.not.throw(/Mode is not valid/);
+        });
+    });
+
     /**
      * Test the getInfo function
      */
     describe('getInfo', function() {
         // Test html string
-        var testHTML = '<tr class="row-light"> <td> <input id="selectedIds1" name="selectedIds" type="checkbox" value="87"><input type="hidden" name="_selectedIds" value="on"></td><td> <p><a href="template.htm?id=87">Test Title</a></p><p>Test Description</p><p> Download examples: <a href="/smartass-dev/download.htm?scope=1&amp;id=87&amp;kind=0">[questions]</a> <a href="/smartass-dev/download.htm?scope=1&amp;id=87&amp;kind=1">[solutions]</a> <a href="/smartass-dev/download.htm?scope=1&amp;id=87&amp;kind=2">[short answers]</a> </p></td><td>Test Date</td><td>Test Author</td></tr>';
+        var testHTML = '<tr class="row-light"> <td> <input id="selectedIds3" name="selectedIds" type="checkbox" value="87"><input type="hidden" name="_selectedIds" value="on"></td><td> <p><a href="template.htm?id=87">Test Title</a></p><p>Test Description</p><p> Download examples: <a href="/smartass-dev/download.htm?scope=1&amp;id=87&amp;kind=0">[questions]</a> <a href="/smartass-dev/download.htm?scope=1&amp;id=87&amp;kind=1">[solutions]</a> <a href="/smartass-dev/download.htm?scope=1&amp;id=87&amp;kind=2">[short answers]</a> </p></td><td>Test Date</td><td>Test Author</td></tr>';
 
         // Get the html row
         var row = $.parseHTML(testHTML)[0];
@@ -139,5 +174,36 @@ describe('Template Table', function() {
             template_table.tableRows = oldRows;
         });
 
+    });
+
+
+    describe('fuzzySearch', function() {
+
+        var testInfo = {
+            name: 'test string',
+            description: 'a description with information',
+            author: 'author',
+            uploaded: '2016'
+        };
+
+        it('"test" correctly matches to testInfo.name', function() {
+            expect(template_table.fuzzySearch('test', testInfo)).to.be.true;
+        });
+
+        it('"description" correctly matches to testInfo.description', function() {
+            expect(template_table.fuzzySearch('description', testInfo)).to.be.true;
+        });
+
+        it('"author" correctly matches to testInfo.author', function() {
+            expect(template_table.fuzzySearch('author', testInfo)).to.be.true;    
+        });
+
+        it('"2016" correctly matches to testInfo.uploaded', function() {
+            expect(template_table.fuzzySearch('2016', testInfo)).to.be.true;
+        });
+
+        it('"invalid" should not match to testInfo', function() {
+            expect(template_table.fuzzySearch('invalid', testInfo)).to.be.false;
+        });
     });
 });

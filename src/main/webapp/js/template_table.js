@@ -134,7 +134,7 @@ var template_table = {
             var info = scope.getInfo(item);
 
             // Do a fuzzy search on the text
-            if (fuzzy_search(keyword, info) || keyword == "") {
+            if (scope.fuzzySearch(keyword, info) || keyword == "") {
                 $(item).show();
             } else {
                 $(item).hide();
@@ -215,6 +215,33 @@ var template_table = {
     },
 
     /**
+     * Performs a fuzzy search on 'info' looking for something
+     * the matches 'searchTerm'
+     *
+     * @params {String} searchTerm The search term
+     * @params {Info} The info, as a javascript object
+     * @returns {Boolean} If the string matches or not
+     */
+    fuzzySearch: function(searchTerm, info) {
+        var string = info.name + " " + info.description + " " + info.uploaded + " " + info.author;
+        string = string.toLowerCase();
+        searchTerm = searchTerm.toLowerCase();
+
+        var searchTerms = searchTerm.split(' ');
+        var stringWords = string.split(' ');
+
+        for (var i = 0; i < searchTerms.length; i++) {
+            for (var j = 0; j < stringWords.length; j++) {
+                if (stringWords[j].includes(searchTerms[i])) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    },
+
+    /**
      * The init method
      *
      * Sets the table rows
@@ -269,31 +296,5 @@ var template_table = {
 
 };
 
-/**
- * Performs a fuzzy search on 'info' looking for something
- * the matches 'searchTerm'
- *
- * @params {String} searchTerm The search term
- * @params {Info} The info, as a javascript object
- * @returns {Boolean} If the string matches or not
- */
-function fuzzy_search(searchTerm, info) {
-    var string = info.name + " " + info.description + " " + info.uploaded + " " + info.author;
-    string = string.toLowerCase();
-    searchTerm = searchTerm.toLowerCase();
-
-    var searchTerms = searchTerm.split(' ');
-    var stringWords = string.split(' ');
-
-    for (var i = 0; i < searchTerms.length; i++) {
-        for (var j = 0; j < stringWords.length; j++) {
-            if (stringWords[j].includes(searchTerms[i])) {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
 
 template_table.init();
