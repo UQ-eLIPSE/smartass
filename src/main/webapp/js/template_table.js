@@ -133,8 +133,8 @@ var template_table = {
         $('.row-light, .row-dark').each(function(index, item) {
             var info = scope.getInfo(item);
 
-            // This could be improved with a fuzzy search library
-            if (info.name.includes(keyword) || keyword == "") {
+            // Do a fuzzy search on the text
+            if (fuzzy_search(keyword, info) || keyword == "") {
                 $(item).show();
             } else {
                 $(item).hide();
@@ -158,6 +158,63 @@ var template_table = {
     },
 
     /**
+     * Updates the icons for the sorting
+     * @param {String} The column to use {"name", "uploaded", "author"}
+     * @param {String} The mode, can be either {"none", "ascending", "descending'}
+     */
+    updateIcons: function(column, mode) {
+
+        this.setIcon("#name-icon", "none");
+        this.setIcon("#uploaded-icon", "none");
+        this.setIcon("#author-icon", "none");
+
+        switch (column) {
+            case "name":
+                this.setIcon("#name-icon", mode);
+                break;
+
+            case "uploaded":
+                this.setIcon("#uploaded-icon", mode);
+                break;
+
+            case "author":
+                this.setIcon("#author-icon", mode);
+                break;
+        }
+    },
+
+    /**
+     * Sets the icon, used for displaying what is being sorted
+     * @param {String} The jquery selector string
+     * @param {String} The mode, can be either {"none", "ascending", "descending'}
+     */
+    setIcon: function(jquerySelector, mode) {
+        var item = $(jquerySelector);
+
+        switch (mode) {
+            case "none":
+                item.removeClass();
+                break;
+
+            case "ascending":
+                item.removeClass();
+                item.addClass("glyphicon");
+                item.addClass("glyphicon-menu-up");
+                break;
+
+            case "descending":
+                item.removeClass();
+                item.addClass("glyphicon");
+                item.addClass("glyphicon-menu-down");
+                break;
+
+            default:
+                throw "Mode is not valid";
+                break;
+        }
+    },
+
+    /**
      * The init method
      *
      * Sets the table rows
@@ -170,8 +227,10 @@ var template_table = {
         $('#name-header').click(function() {
             if (scope.config.currentOrder == 'name-asc') {
                 scope.config.currentOrder = 'name-des';
+                scope.updateIcons('name', 'descending');
             } else {
                 scope.config.currentOrder = 'name-asc';
+                scope.updateIcons('name', 'ascending');
             }
 
             scope.sortAndUpdateTable(scope.config.currentOrder);
@@ -180,8 +239,10 @@ var template_table = {
         $('#uploaded-header').click(function() {
             if (scope.config.currentOrder == 'uploaded-asc') {
                 scope.config.currentOrder = 'uploaded-des';
+                scope.updateIcons('uploaded', 'descending');
             } else {
                 scope.config.currentOrder = 'uploaded-asc';
+                scope.updateIcons('uploaded', 'ascending');
             }
 
             scope.sortAndUpdateTable(scope.config.currentOrder);
@@ -190,8 +251,10 @@ var template_table = {
         $('#author-header').click(function() {
             if (scope.config.currentOrder == 'author-asc') {
                 scope.config.currentOrder = 'author-des';
+                scope.updateIcons('author', 'descending');
             } else {
                 scope.config.currentOrder = 'author-asc';
+                scope.updateIcons('author', 'ascending');
             }
 
             scope.sortAndUpdateTable(scope.config.currentOrder);
@@ -201,8 +264,36 @@ var template_table = {
         $('#nameFilter').keyup(function() {
             scope.filter($('#nameFilter').val());
         });
+
     }
 
 };
+
+/**
+ * Performs a fuzzy search on 'info' looking for something
+ * the matches 'searchTerm'
+ *
+ * @params {String} searchTerm The search term
+ * @params {Info} The info, as a javascript object
+ * @returns {Boolean} If the string matches or not
+ */
+function fuzzy_search(searchTerm, info) {
+    var string = info.name + " " + info.description + " " + info.uploaded + " " + info.author;
+    string = string.toLowerCase();
+    searchTerm = searchTerm.toLowerCase();
+
+    var searchTerms = searchTerm.split(' ');
+    var stringWords = string.split(' ');
+
+    for (var i = 0; i < searchTerms.length; i++) {
+        for (var j = 0; j < stringWords.length; j++) {
+            if (stringWords[j].includes(searchTerms[i])) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
 
 template_table.init();
