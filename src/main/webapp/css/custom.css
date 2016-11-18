@@ -53,6 +53,8 @@ margin: 20px 50px;
     padding: 0 50px;
 }
 
+/* This overrides bootstraps btn-warning style */
+
 .btn-warning {
     border: 1px solid #8cb800;
     background: #8cb800;
@@ -66,4 +68,40 @@ margin: 20px 50px;
 .btn-warning:active {
     border: 1px solid #39892f;
     background: #39892f;
+}
+
+.nav-logo {
+    min-height: 100px;
+    padding:5px 0 0 10px;;
+}
+
+.nav-logo-right {
+    margin: 20px 10px 0 0;
+}
+
+.donkey-logo {
+    position: relative;
+    margin-left: 600px;
+    z-index: -10;
+    margin-top: -57px;
+}
+
+#maincontentcontainer {
+    margin-top: 50px;
+}
+
+#footer {
+    width: 100%;
+    margin-top: 50px;
+    padding: 15px;
+}
+
+#footer h4 {
+    margin-left: 20px;
+}
+
+.elipse-logo {
+    width: 200px;
+    float: right;
+    margin-top: 40px;
 }

@@ -38,6 +38,7 @@
   <body onload="setControlsState('<c:out value="${template.selectedRow.kind}"/>', '<c:out value="${template.selectedRow.parent.kind}"/>')">
      <div class="container">
 
+        <h2>Assignment Editor</h2>
 
         <form:form modelAttribute="template">
 
@@ -50,9 +51,6 @@
             <div class="form-group">
               <table width="100%">
 
-                <tr>
-                  <td class="header" colspan="2"><h2>Assignment Editor</h2></td>
-                </tr>
 
                 <tr>
                   <td class="header" width="10px">
@@ -132,7 +130,8 @@
             function setControlsState(kind, parent_kind) {
                 document.getElementById("addRepeat").disabled = ('section'==kind || 'section'==parent_kind);
                 document.getElementById("addQuestion").disabled = ('section'==kind || 'section'==parent_kind);
-                document.getElementById("edit").disabled = ('call'==kind || ''==kind);
+                document.getElementById("edit").disabled = ('call'==kind || ''==kind || 'repeat-end'==kind);
+                document.getElementById("delete").disabled = ('repeat-end'==kind || 'section'==kind || 'section-end'==kind);
             }
 
             // Used in the assignment title class
@@ -140,6 +139,7 @@
             assignmentTitle.init(postUrl);
 
         </script>
+    <%@include file="../jsp/footer.jsp.inc" %>
   </body>
 
 </html>

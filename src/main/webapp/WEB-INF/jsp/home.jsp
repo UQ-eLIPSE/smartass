@@ -106,6 +106,7 @@
 
             </table>
         </div>
+        </div>
     </div>
 
     <div class="panel panel-default">
@@ -153,5 +154,7 @@
             </div>
         </div>
 		</c:if>
+		</div>
+    <%@include file="../jsp/footer.jsp.inc" %>
 </body>
 </html>
