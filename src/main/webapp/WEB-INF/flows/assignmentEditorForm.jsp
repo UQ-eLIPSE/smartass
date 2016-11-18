@@ -9,9 +9,8 @@
 
 
     <style type='text/css'>
-	table.clear { border: 0px; padding: 0px }
-	td.assignment-selector { background-color: #f0f0f0 }
-        td.assignment-content { background-color: #f0f0ff }
+        table.clear { border: 0px; padding: 0px }
+        td.assignment-selector {padding-bottom: 5px;}
         
         #titleIndicator {
             font-size: x-large;
