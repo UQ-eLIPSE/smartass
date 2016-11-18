@@ -67,7 +67,12 @@ var template_table = {
         },
 
         /* The current ordering of the sort */
-        currentOrder: 'name-asc'
+        currentOrder: 'name-asc',
+
+        validModes: ['selectForm', 'repository'],
+
+        /* The mode, can either be 'repository' or 'selectForm' */
+        mode: 'selectForm'
     },
 
     /**
@@ -78,6 +83,19 @@ var template_table = {
      * @returns An array of table elements
      */
     tableRows: [],
+
+    /**
+     * Sets the mode, used for making the code work with both
+     * the repository view and the select form
+     * @param {String} mode - The mode, can be either {'selectForm', 'repository'}
+     */
+    setMode: function(mode) {
+
+        if (this.config.validModes.includes(mode)) {
+            this.config.mode = mode;
+        }; 
+    },
+
 
     /**
      * Sorts a table by the given order
@@ -149,12 +167,29 @@ var template_table = {
      *          ['title', 'description', 'uploaded', 'author']
      */
     getInfo: function(row) {
-        return {
-            name: row.children[1].children[0].textContent.trim(),
-            description: row.children[1].children[1].textContent.trim(),
-            uploaded: row.children[2].textContent.trim(),
-            author: row.children[3].textContent.trim()
+
+        switch (this.config.mode) {
+            case 'repository':
+                return {
+                    name: row.children[0].children[0].textContent.trim(),
+                    description: row.children[0].children[1].textContent.trim(),
+                    uploaded: row.children[1].textContent.trim(),
+                    author: row.children[2].textContent.trim()
+                }
+
+            case 'selectForm':
+                return {
+                    name: row.children[1].children[0].textContent.trim(),
+                    description: row.children[1].children[1].textContent.trim(),
+                    uploaded: row.children[2].textContent.trim(),
+                    author: row.children[3].textContent.trim()
+                }
+
+            default:
+                return {};
+
         }
+
     },
 
     /**

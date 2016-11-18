@@ -17,6 +17,7 @@ package au.edu.uq.smartass.web.mvc;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.Integer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +43,8 @@ public class RepositoryListTemplatesController extends AbstractController {
     /** Class logger. */
     private static final Logger LOG = LoggerFactory.getLogger( RepositoryListTemplatesController.class );
 
-    private static int ROWS_PER_PAGE=20 ; //temporary! move this to application settings!  
+    // We set to maximum value, because javascript will handle the pagination client side
+    private static int ROWS_PER_PAGE = Integer.MAX_VALUE; //temporary! move this to application settings!  
 
     protected TemplatesDao templatesDao; 
 

@@ -73,42 +73,27 @@
 
     <div class="panel panel-default">
         <div class="panel-heading background-primary-color clearfix">
-            <h3 class="panel-title white">Recent Templates</h3>
+            <h3 class="panel-title white">Search Templates</h3>
+            <input id="nameFilter" class="form-control input-lg" placeholder="Search..."> <br>
+        </div>
+
         <form action="repository.htm">
         <div class="form-group">
-          <label class="white">Search by template name:</label>
-          <input class="form-control" maxlength=128 name=templ_filter size=55 title="Search by template name"
-                value="<c:out value="${templ_filter}"/>"> <br>
-          <label class="white">Search by keywords (use comma or blank as delimiter):</label>
-          <input class="form-control" maxlength=160 name=keyword_filter size=55 title="Search by keywords"
-          value="<c:out value="${keyword_filter}"/>"> <br>
-
-            <label class="white" for="sort">Sort by: </label>
-            <select class="form-control" id="sort">
-                <option>Name - Ascending</option>
-                <option>Name - Descending</option>
-                <option>Author Name - Ascending</option>
-                <option>Author Name - Descending</option>
-                <option>Date - Ascending</option>
-                <option>Date - Descending</option>
-            </select>
-
-          <button class="btn btn-warning pull-right" type=submit value="Search"><span class="glyphicon glyphicon-search"></span> Search</button>
         </div>
         </form>
 
         </div>
         <div class="panel-body">
-        <table class="table table-striped" width="95%" cellspacing="0">
+        <table class="table table-bordered" width="95%">
 
         <thead>
         <c:set var="page_url" value="repository.htm?classid=${selected_class.id}&templ_filter=${templ_filter}&keyword_filter=${keyword_filter}&"/>
-        <%@include file="pages.inc.jsp" %>
+        <!-- <%@include file="pages.inc.jsp" %> -->
 
         <tr class="header">
-            <th>Name</th>
-            <th>Uploaded</th>
-            <th>Author</th>
+            <th style="cursor: pointer" id="name-header"><a>Name</a> <span id="name-icon" aria-hidden="true"></span></th>
+            <th style="cursor: pointer; min-width: 120px;" id="uploaded-header"><a>Uploaded</a> <span id="uploaded-icon" aria-hidden="true"></span></th>
+            <th style="cursor: pointer" id="author-header"><a>Author</a> <span id="author-icon" aria-hidden="true"></span></th>
 
             <th width="10%" align="right">
                 <c:if test="${!empty user and !empty selected_class}">
@@ -150,7 +135,7 @@
         </c:forEach>
 
         <c:set var="page_url" value="repository.htm?classid=${selected_class.id}&templ_filter=${templ_filter}&keyword_filter=${keyword_filter}&"/>
-        <%@include file="pages.inc.jsp" %>
+        <!-- <%@include file="pages.inc.jsp" %> -->
 
         </table>
         </div>
@@ -158,5 +143,10 @@
     </td>
     </tr></table>
 </div>
+
+<script src="/smartass-dev/js/template_table.js"></script>
+<script>
+    template_table.setMode('repository');
+</script>
 </body>
 </html>
