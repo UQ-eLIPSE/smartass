@@ -229,18 +229,6 @@ public class AssignmentWizardController {
         it.setType("T");
         addons.add(it);
 
-        it = new AssignmentWizardItem();
-        it.setName("SOLUTION");
-        it.setTitle("Solutions sub-header");
-        it.setType("T");
-        addons.add(it);
-
-        it = new AssignmentWizardItem();
-        it.setName("SHORTANSWER");
-        it.setTitle("Short answers sub-header");
-        it.setType("T");
-        addons.add(it);
-
         repeat.setAddons(addons);
     }
 
