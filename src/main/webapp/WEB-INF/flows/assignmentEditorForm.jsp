@@ -137,7 +137,7 @@
              */
             function postTitle() {
                 // The current page's URL, from spring
-                var postUrl = "${flowExecutionUrl}";
+                var postUrl = window.location.origin + "${flowExecutionUrl}";
                 var title = $("#assignmentTitle").val();
 
                 setTitleIndicator('loading');
