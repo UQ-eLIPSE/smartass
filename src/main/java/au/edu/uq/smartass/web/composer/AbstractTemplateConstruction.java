@@ -51,7 +51,35 @@ public abstract class AbstractTemplateConstruction implements AssignmentConstruc
 
         /** Not all components should have Assignment Editor representation. */
         private boolean visible = true;
-        public boolean isVisible() { return visible; }
+        
+        // The old isVisible method
+        //public boolean isVisible() { return visible; }
+
+        /**
+         * Checks if the template should be displayed
+         * Uses a combination of the html content and the node name
+         * to check if it should be displayed
+         *
+         * @returns If the template should be displayed
+         */
+        public boolean isVisible() { 
+            String nodeName = node.getClass().getSimpleName();
+            String html = getHtml().trim();
+           
+            // Check inside the HTML to see if it should be made invisible
+            if (html.startsWith("%%") || html.startsWith("\\") || html.startsWith("END SOL") || 
+                    html.startsWith("END SHO") || html.startsWith("END QUE") || html.equals("")) {
+                return false;
+            }
+
+            // Check the node names to check if it should be invisible
+            if (nodeName.equals("ASTSection")) {
+                return false;
+            }
+        
+            return true;
+        }
+
         public void setVisible(boolean visible) { this.visible = visible; }
 
         /** A means of identifying the component. */

@@ -23,7 +23,7 @@ public class SimpleNode implements Node, Cloneable, Serializable {
 		text = new_text;
 	}
 
-	protected String getText() {
+	public String getText() {
 		return text;
 	}
 	
