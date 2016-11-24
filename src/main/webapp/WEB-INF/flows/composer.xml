@@ -16,10 +16,9 @@
         <evaluate expression="assignmentEditor.initAssignment(flowScope.template, flowScope.id, flowScope.mode, externalContext.sessionMap.user)"/>
 
         <!-- Create the assignment at the start of the application -->
-        <!-- <evaluate expression="assignmentWizardController.prepareWizard()" result="viewScope.items" /> -->
-        <evaluate expression="assignmentWizardController.prepareWizard()" />
-        <evaluate expression="assignmentWizardController.createAssignment(flowScope.template, 'default.tex', null, messageContext)" />
-        <!-- Give the assignment a default name -->
+        <evaluate expression="assignmentWizardController.prepareWizard(flowScope.id)"/>
+        <evaluate expression="assignmentWizardController.createAssignment(flowScope.id, flowScope.template, 'default.tex', null, messageContext)" />
+
         <evaluate expression="assignmentWizardController.setTitle(&quot;Assignment&quot;)" />
     </on-start>
 
