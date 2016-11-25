@@ -283,7 +283,7 @@
     </view-state>
 
     <view-state id="confirmSave" view="saveAssignmentForm.jsp" model="template">
-        <transition on="ok" to="finish">
+        <transition on="ok" to="assignmentEditor">
             <evaluate expression="assignmentEditor.saveAssignment(template, externalContext.sessionMap.user, messageContext)"/>
         </transition>
     </view-state>
