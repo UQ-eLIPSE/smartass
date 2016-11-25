@@ -115,7 +115,6 @@
             </c:if>
           </table>
         </div>
-      </div>
 
       <div class="panel panel-default">
         <c:if test="${(empty mode)}">
@@ -162,6 +161,7 @@
               </div>
             </c:if>
           </div>
+        </div>
         </div>
         <%@include file="../jsp/footer.jsp.inc" %>
       </body>

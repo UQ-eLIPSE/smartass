@@ -68,20 +68,15 @@
 		    <td valign="top">
                 <div class="panel panel-default">
                     <div class="panel-heading background-primary-color clearfix">
-                        <h3 class="panel-title white">Templates Found</h3>
-                    <label class="white">Search by template name:</label>
-                    <form:input cssClass="form-control" maxlength="128" path="nameFilter" size="55"/> <br>
-                    <label class="white">Search by keywords (use comma or blank as delimiter):</label>
-                    <form:input cssClass="form-control" maxlength="160" path="keywordsFilter" size="55"/> <br>
+                    <input id="nameFilter" class="form-control input-lg" placeholder="Search..."> <br>
                     <div class="pull-right">
-                        <button class="btn white" style="width:125" type="submit" name="_eventId_search" value="Search"><span class="glyphicon glyphicon-search"></span> Search</button>
                         <button class="btn btn-warning" type="submit" name="_eventId_add" value="Add to assignment"><span class="glyphicon glyphicon-plus-sign"></span> Add to Assignments</button>
                     <!-- <input style="width:125" type="submit" name="_eventId_cancel" value="Cancel"/> -->
                     </div>
                 </div>
 
                     <div class="panel-body">
-			    <table class="table" width="95%" cellspacing="0">
+			    <table class="table table-bordered" width="95%">
 <!-- 				<c:out value="${search.pageNum}"/>
 				<c:out value="${search.pageNo}"/>
 				<c:out value="${search.rowsNum}"/> -->
@@ -102,9 +97,9 @@
 
 			    <tr class="header">
 			    	<th></th>
-			    	<th>Name</th>
-			    	<th>Uploaded</th>
-			    	<th>Author</th>
+                                <th style="cursor: pointer" id="name-header"><a>Name</a> <span id="name-icon" aria-hidden="true"></span></th>
+                                <th style="cursor: pointer; min-width: 120px;" id="uploaded-header"><a>Uploaded</a> <span id="uploaded-icon" aria-hidden="true"></span></th>
+                                <th style="cursor: pointer" id="author-header"><a>Author</a> <span id="author-icon" aria-hidden="true"></span></th>
 			    </tr>
 			    <c:set var="rownumber" value="0"/>
 			    <c:forEach items="${search.templates}" var="t">
@@ -114,65 +109,50 @@
 			    	<c:if test="${(rownumber % 2) == 0}">
 			    		<tr class="row-light">
 			    	</c:if>
-						<td rowspan="3">
+						<td>
 			    			<form:checkbox path="selectedIds" value="${t.id}" />
 						</td>
 						<td>
-					    	<a href="<c:out value="template.htm?id=${t.id}"/>"> <c:out value="${t.name}"/> </a>
-						</td>
-			    		<td>
-			    			<c:out value="${t.dtuploaded}"/>
-						</td>
-			    		<td colspan><c:out value="${t.author.name}"/></td>
+                                                    <p><a href="<c:out value="template.htm?id=${t.id}"/>"> <c:out value="${t.name}"/> </a></p>
+
+                                                    <p><c:out value="${t.description}"/></p>
+                                                        <p>
+                                                        
+                                                            <c:if test="${!empty t.questions || !empty t.solutions || !empty t.shortanswers}">
+            
+                                                                    Download examples:
+                                                                    <c:if test="${!empty t.questions}">
+                                                                    <c:url var="url" value="/download.htm" >
+                                                                              <c:param name="scope" value="1" />
+                                                                              <c:param name="id" value="${t.id}" />
+                                                                              <c:param name="kind" value="0" />
+                                                                        </c:url>
+                                                                    <a href="<c:out value="${url}"/>">[questions]</a>
+                                                                    </c:if>
+                                                                    <c:if test="${!empty t.solutions}">
+                                                                    <c:url var="url" value="/download.htm" >
+                                                                              <c:param name="scope" value="1" />
+                                                                              <c:param name="id" value="${t.id}" />
+                                                                              <c:param name="kind" value="1" />
+                                                                        </c:url>
+                                                                    <a href="<c:out value="${url}"/>">[solutions]</a>
+                                                                    </c:if>
+                                                                    <c:if test="${!empty t.shortanswers}">
+                                                                    <c:url var="url" value="/download.htm" >
+                                                                              <c:param name="scope" value="1" />
+                                                                              <c:param name="id" value="${t.id}" />
+                                                                              <c:param name="kind" value="2" />
+                                                                        </c:url>
+                                                                    <a href="<c:out value="${url}"/>">[short answers]</a>
+                                                                    </c:if>
+                                                            </c:if>
+                                                        </p>
+                                                    </td>
+                                        <td>
+                                        <c:out value="${t.dtuploaded}"/>
+                                        </td>
+			    		<td><c:out value="${t.author.name}"/></td>
 			    	</tr>
-			    	<c:if test="${(rownumber % 2) == 1}">
-		    			<tr class="row-dark">
-			    	</c:if>
-			    	<c:if test="${(rownumber % 2) == 0}">
-		    			<tr class="row-light">
-			    	</c:if>
-					   	<td colspan=3>
-						    <c:out value="${t.description}"/>
-						</td>
-		    		</tr>
-			    	</tr>
-			    	<c:if test="${(rownumber % 2) == 1}">
-		    			<tr class="row-dark">
-			    	</c:if>
-			    	<c:if test="${(rownumber % 2) == 0}">
-		    			<tr class="row-light">
-			    	</c:if>
-					   	<td colspan=3>
-							<c:if test="${!empty t.questions || !empty t.solutions || !empty t.shortanswers}">
-	
-								Download examples:
-								<c:if test="${!empty t.questions}">
-							        <c:url var="url" value="/download.htm" >
-							  		  <c:param name="scope" value="1" />
-							  		  <c:param name="id" value="${t.id}" />
-							  		  <c:param name="kind" value="0" />
-								    </c:url>
-							        <a href="<c:out value="${url}"/>">[questions]</a>
-								</c:if>
-								<c:if test="${!empty t.solutions}">
-							        <c:url var="url" value="/download.htm" >
-							  		  <c:param name="scope" value="1" />
-							  		  <c:param name="id" value="${t.id}" />
-							  		  <c:param name="kind" value="1" />
-								    </c:url>
-							        <a href="<c:out value="${url}"/>">[solutions]</a>
-								</c:if>
-								<c:if test="${!empty t.shortanswers}">
-							        <c:url var="url" value="/download.htm" >
-							  		  <c:param name="scope" value="1" />
-							  		  <c:param name="id" value="${t.id}" />
-							  		  <c:param name="kind" value="2" />
-								    </c:url>
-							        <a href="<c:out value="${url}"/>">[short answers]</a>
-								</c:if>
-							</c:if>
-						</td>
-		    		</tr>
 			    	<c:set var="rownumber" value="${rownumber+1}"/>
 			    </c:forEach>
 
@@ -202,6 +182,8 @@
     	</tr>
 		</table>
 	</form:form>
-	</div>
+    </div>
+
+    <script src="/smartass-dev/js/template_table.js"></script>
   </body>
 </html>

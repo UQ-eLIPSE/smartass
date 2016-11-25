@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Collections;
+import java.lang.IllegalArgumentException;
+import java.lang.Integer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +23,12 @@ public class SelectTemplatesControl implements Serializable {
 	String nameFilter = "";
 	String keywordsFilter = "";
 
+        /**
+         * Possible orderings
+         */
+        HashMap<String, Comparator> orderings;
+        String currentOrdering;
+
 	List<TemplatesItemModel> templates;
 
 	private List<String> selectedIds = new ArrayList<String>();
@@ -26,10 +37,118 @@ public class SelectTemplatesControl implements Serializable {
 	int topclassid;
 	int pageNum;
 	int pageNo;
-	int rowsPerPage = 20;           //TODO: move this to app settings
+        
+        // @REVIEW Doing this will keep all the rows in a single page
+        // We will do the pagination in the client side javascript
+        // There might be a better way to do this
+        int rowsPerPage = Integer.MAX_VALUE;
+        
 	int rowsNum;
-	
-	
+
+        
+        /**
+         * Create a serializable comparator
+         */
+        class SerializableComparator<T> implements Serializable, Comparator {
+            public int compare(Object o1, Object o2) {
+                return 0;
+            }
+        };
+
+
+        public SelectTemplatesControl() {
+
+            super();
+
+            // Using hashset instead of enum for cleaner UI
+            orderings = new HashMap<String, Comparator>();
+            
+            SerializableComparator<TemplatesItemModel> nameAsc = new SerializableComparator<TemplatesItemModel>() {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    TemplatesItemModel t1 = (TemplatesItemModel) o1;
+                    TemplatesItemModel t2 = (TemplatesItemModel) o2;
+
+                    return t1.getName().compareTo(t2.getName());
+                }
+            };
+
+            SerializableComparator<TemplatesItemModel> nameDes = new SerializableComparator<TemplatesItemModel>() {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    TemplatesItemModel t1 = (TemplatesItemModel) o1;
+                    TemplatesItemModel t2 = (TemplatesItemModel) o2;
+
+                    return t2.getName().compareTo(t1.getName());
+                }
+            };
+
+            SerializableComparator<TemplatesItemModel> authAsc = new SerializableComparator<TemplatesItemModel>() {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    TemplatesItemModel t1 = (TemplatesItemModel) o1;
+                    TemplatesItemModel t2 = (TemplatesItemModel) o2;
+
+                    if (t1.getAuthor() == null || t2.getAuthor() == null) {
+                        return 0;
+                    }
+
+                    return t1.getAuthor().getName().compareTo(t2.getAuthor().getName());
+                }
+            };
+
+            SerializableComparator<TemplatesItemModel> authDes = new SerializableComparator<TemplatesItemModel>() {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    TemplatesItemModel t1 = (TemplatesItemModel) o1;
+                    TemplatesItemModel t2 = (TemplatesItemModel) o2;
+
+                    if (t1.getAuthor() == null || t2.getAuthor() == null) {
+                        return 0;
+                    }
+
+                    return t2.getAuthor().getName().compareTo(t1.getAuthor().getName());
+                }
+            };
+
+            // All the possible orderings
+            orderings.put("Name - Ascending", nameAsc);
+            orderings.put("Name - Descending", nameDes);
+            orderings.put("Author - Ascending", authAsc);
+            orderings.put("Author - Descending", authDes);
+            orderings.put("Date - Ascending", nameAsc);
+            orderings.put("Date - Descending", nameDes);
+
+            currentOrdering = "Name - Descending";
+
+        }
+
+        /**
+         * Returns the current ordering, as a string
+         * @returns Returns the current ordering
+         */
+        public String getOrdering() {
+            return currentOrdering;
+
+        }
+
+        /**
+         * Sets the ordering of the templates
+         * @param newOrder  The new ordering of the template, must be one of the keys
+         *                  in the 'ordering' hashmap
+         */
+        public void setOrdering(String newOrder) {
+            if (orderings.containsKey(newOrder)) {
+                currentOrdering = newOrder;
+            } else {
+                throw new IllegalArgumentException("'" + newOrder + "' is not a valid order");
+            }
+        }
+
 	public String getKeywordsFilter() {
 		return keywordsFilter;
 	}
@@ -46,6 +165,7 @@ public class SelectTemplatesControl implements Serializable {
 		this.nameFilter = nameFilter;
 	}
 
+        // TODO: This method doesn't seem to be used.
 	public List<TemplatesItemModel> getTempaltes() {
 		return templates;
 	}
@@ -63,6 +183,7 @@ public class SelectTemplatesControl implements Serializable {
 	}
 	
 	public List<TemplatesItemModel> getTemplates() {
+
 		return templates;
 	}
 	

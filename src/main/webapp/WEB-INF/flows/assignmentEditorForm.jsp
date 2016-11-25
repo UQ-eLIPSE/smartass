@@ -124,6 +124,8 @@
         </form:form>
         </div>
 
+        <script src="/smartass-dev/js/assignment_title.js"></script>
+
         <script type="text/javascript">
             function setControlsState(kind, parent_kind) {
                 document.getElementById("addRepeat").disabled = ('section'==kind || 'section'==parent_kind);
@@ -132,76 +134,9 @@
                 document.getElementById("delete").disabled = ('repeat-end'==kind || 'section'==kind || 'section-end'==kind);
             }
 
-            /**
-             * Posts the title of the assignment to the server
-             */
-            function postTitle() {
-                // The current page's URL, from spring
-                var postUrl = window.location.origin + "${flowExecutionUrl}";
-                var title = $("#assignmentTitle").val();
-
-                setTitleIndicator('loading');
-
-                var data = {"_eventId_setTitle": "Set Title", "assignmentTitle": title};
-
-                $.post(postUrl, data, function(resp) {
-                    var text = $('#assignmentTitle').val();
-                    if (text == "") {
-                        setTitleIndicator('notSet');
-                    } else {
-                        setTitleIndicator('set');
-                    }
-                });
-            }
-
-
-            /**
-             * Sets the indicator for the title (The spinner in the right hand side of the input box)
-             */
-            function setTitleIndicator(mode) {
-
-                var ind = $('#titleIndicator');
-
-                // Remove all the classes first
-                ind.removeClass();
-                ind.addClass('glyphicon form-control-feedback');
-
-                switch (mode) {
-                    case 'notSet':
-                        ind.addClass('glyphicon-remove');
-                        break;
-
-                    case 'loading':
-                        ind.addClass('glyphicon-refresh');
-                        ind.addClass('spin-anim');
-                        break;
-
-                    case 'set':
-                        ind.addClass('glyphicon-ok');
-                        break;
-
-                    default:
-                        ind.addClass('glyphicon-remove');
-                        break;
-                }
-            }
-
-            // Handle the assignment title button
-            $('#assignmentTitle').on('focusout', function() {
-                postTitle();
-            });
-
-            /**
-             * Sets the indicator to the correct icon
-             */
-            $(document).ready(function() {
-                var text = $('#assignmentTitle').val();
-                if (text == "") {
-                    setTitleIndicator('notSet');
-                } else {
-                    setTitleIndicator('set');
-                }
-            });
+            // Used in the assignment title class
+            var postUrl = "${flowExecutionUrl}";
+            assignmentTitle.init(postUrl);
 
         </script>
     <%@include file="../jsp/footer.jsp.inc" %>
