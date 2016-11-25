@@ -9,9 +9,8 @@
 
 
     <style type='text/css'>
-	table.clear { border: 0px; padding: 0px }
-	td.assignment-selector { background-color: #f0f0f0 }
-        td.assignment-content { background-color: #f0f0ff }
+        table.clear { border: 0px; padding: 0px }
+        td.assignment-selector {padding-bottom: 5px;}
         
         #titleIndicator {
             font-size: x-large;
@@ -107,7 +106,7 @@
                       <button type="submit" class="btn" name="_eventId_execute" value="Execute" disabled="disabled">Execute</button>
                     </c:if>
                     <c:if test="${canExecute}">
-                      <button type="submit" class="btn" name="_eventId_execute" value="Execute">Execute</button>
+                      <button type="submit" class="btn background-secondary-color" name="_eventId_execute" value="Execute">Execute</button>
                     </c:if>
                     <button style="width:125" type="submit" class="btn" name="_eventId_new" value="New assignment">New Assignment</button>
                     <!-- <button type="submit" class="btn" name="_eventId_upload" value="Upload">Upload</button> -->
@@ -124,6 +123,8 @@
         </form:form>
         </div>
 
+        <script src="/smartass-dev/js/assignment_title.js"></script>
+
         <script type="text/javascript">
             function setControlsState(kind, parent_kind) {
                 document.getElementById("addRepeat").disabled = ('section'==kind || 'section'==parent_kind);
@@ -132,78 +133,12 @@
                 document.getElementById("delete").disabled = ('repeat-end'==kind || 'section'==kind || 'section-end'==kind);
             }
 
-            /**
-             * Posts the title of the assignment to the server
-             */
-            function postTitle() {
-                // The current page's URL, from spring
-                var postUrl = window.location.origin + "${flowExecutionUrl}";
-                var title = $("#assignmentTitle").val();
-
-                setTitleIndicator('loading');
-
-                var data = {"_eventId_setTitle": "Set Title", "assignmentTitle": title};
-
-                $.post(postUrl, data, function(resp) {
-                    var text = $('#assignmentTitle').val();
-                    if (text == "") {
-                        setTitleIndicator('notSet');
-                    } else {
-                        setTitleIndicator('set');
-                    }
-                });
-            }
-
-
-            /**
-             * Sets the indicator for the title (The spinner in the right hand side of the input box)
-             */
-            function setTitleIndicator(mode) {
-
-                var ind = $('#titleIndicator');
-
-                // Remove all the classes first
-                ind.removeClass();
-                ind.addClass('glyphicon form-control-feedback');
-
-                switch (mode) {
-                    case 'notSet':
-                        ind.addClass('glyphicon-remove');
-                        break;
-
-                    case 'loading':
-                        ind.addClass('glyphicon-refresh');
-                        ind.addClass('spin-anim');
-                        break;
-
-                    case 'set':
-                        ind.addClass('glyphicon-ok');
-                        break;
-
-                    default:
-                        ind.addClass('glyphicon-remove');
-                        break;
-                }
-            }
-
-            // Handle the assignment title button
-            $('#assignmentTitle').on('focusout', function() {
-                postTitle();
-            });
-
-            /**
-             * Sets the indicator to the correct icon
-             */
-            $(document).ready(function() {
-                var text = $('#assignmentTitle').val();
-                if (text == "") {
-                    setTitleIndicator('notSet');
-                } else {
-                    setTitleIndicator('set');
-                }
-            });
+            // Used in the assignment title class
+            var postUrl = "${flowExecutionUrl}";
+            assignmentTitle.init(postUrl);
 
         </script>
+    <script src="/smartass-dev/js/process_question_list.js"></script>
     <%@include file="../jsp/footer.jsp.inc" %>
   </body>
 

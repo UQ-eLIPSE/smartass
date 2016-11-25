@@ -247,7 +247,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
                         AbstractTemplateConstruction item = it.next();
                         item.setIndex(idx);
 					LOG.info("::getRows() item {} is vis {} ", item.toString(), item.isVisible());
-						if (idx > 20 && !item.isVisible()) item.setVisible(true);
+						//if (idx > 20 && !item.isVisible()) item.setVisible(true);
                         if (item.isVisible()) items.add(item);
                 }
 				LOG.info("::getRows() components [\n{}\n]", components.toString());

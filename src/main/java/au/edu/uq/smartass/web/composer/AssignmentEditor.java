@@ -20,7 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
 
@@ -36,6 +37,7 @@ import au.edu.uq.smartass.web.jdbc.AssignmentsDao;
  */
 public class AssignmentEditor {
 
+    private static final Logger LOG = LoggerFactory.getLogger( AssignmentConstruct.class );
     AssignmentsDao dao;
     RepositoryStorage storage;
     
@@ -77,6 +79,7 @@ public class AssignmentEditor {
                         buf = new char[1024];
                       }
                       reader.close();
+                      LOG.debug("File data {}", fileData.toString());
                       assignment.setCode(fileData.toString());
                 }
             }
@@ -103,7 +106,7 @@ public class AssignmentEditor {
         }
         if(assignment.getName().length()==0) {
             mcontext.addMessage(new MessageBuilder().error().source("save").defaultText(
-                "\"Assignment name\" field is requiered!").build());
+                "\"Assignment name\" field is required!").build());
             return false;
         }
         AssignmentsItemModel it = dao.getItem(assignment.getName());
@@ -112,7 +115,7 @@ public class AssignmentEditor {
                 "The assignment with the name \"" + it.getName() + "\" is already exists!").build());
             return false;
         }
-
+        LOG.debug("Getting code: {}", assignment.getCode().toString());
         assignment.setUser(user);
         dao.updateItem(assignment);
         storage.setFile(0, Integer.toString(user.getId()), Integer.toString(assignment.getId()), 
