@@ -9,9 +9,8 @@
 
 
     <style type='text/css'>
-	table.clear { border: 0px; padding: 0px }
-	td.assignment-selector { background-color: #f0f0f0 }
-        td.assignment-content { background-color: #f0f0ff }
+        table.clear { border: 0px; padding: 0px }
+        td.assignment-selector {padding-bottom: 5px;}
         
         #titleIndicator {
             font-size: x-large;
@@ -107,7 +106,7 @@
                       <button type="submit" class="btn" name="_eventId_execute" value="Execute" disabled="disabled">Execute</button>
                     </c:if>
                     <c:if test="${canExecute}">
-                      <button type="submit" class="btn" name="_eventId_execute" value="Execute">Execute</button>
+                      <button type="submit" class="btn background-secondary-color" name="_eventId_execute" value="Execute">Execute</button>
                     </c:if>
                     <button style="width:125" type="submit" class="btn" name="_eventId_new" value="New assignment">New Assignment</button>
                     <!-- <button type="submit" class="btn" name="_eventId_upload" value="Upload">Upload</button> -->
@@ -139,6 +138,7 @@
             assignmentTitle.init(postUrl);
 
         </script>
+    <script src="/smartass-dev/js/process_question_list.js"></script>
     <%@include file="../jsp/footer.jsp.inc" %>
   </body>
 
