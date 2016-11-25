@@ -107,7 +107,6 @@
             </table>
         </div>
         </div>
-    </div>
 
     <div class="panel panel-default">
 		<c:if test="${(empty mode)}">

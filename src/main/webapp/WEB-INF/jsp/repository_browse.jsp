@@ -82,7 +82,6 @@
         </div>
         </form>
 
-        </div>
         <div class="panel-body">
         <table class="table table-bordered" width="95%">
 
@@ -95,11 +94,11 @@
             <th style="cursor: pointer; min-width: 120px;" id="uploaded-header"><a>Uploaded</a> <span id="uploaded-icon" aria-hidden="true"></span></th>
             <th style="cursor: pointer" id="author-header"><a>Author</a> <span id="author-icon" aria-hidden="true"></span></th>
 
-            <th width="10%" align="right">
-                <c:if test="${!empty user and !empty selected_class}">
+            <c:if test="${!empty user and !empty selected_class}">
+                <th width="10%" align="right">
                     <a href="repository-template-new.htm?classId=<c:out value="${selected_class.id}" />">[new]</a>
-                </c:if>
-            </th>
+                </th>
+            </c:if>
         </tr>
     </thead>
 
@@ -143,6 +142,7 @@
     </td>
     </tr></table>
 </div>
+        </div>
 
 <script src="/smartass-dev/js/template_table.js"></script>
 <script>
