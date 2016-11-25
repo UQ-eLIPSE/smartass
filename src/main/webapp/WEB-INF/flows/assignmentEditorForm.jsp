@@ -134,7 +134,7 @@
             }
 
             // Used in the assignment title class
-            var postUrl = "${flowExecutionUrl}";
+            var postUrl = window.location.origin + "${flowExecutionUrl}";
             assignmentTitle.init(postUrl);
 
         </script>
