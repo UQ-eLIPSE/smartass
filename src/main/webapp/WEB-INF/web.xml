@@ -129,6 +129,11 @@
     <error-page>
         <error-code>404</error-code>
         <location>/no-page-redirect.htm</location>
-    </error-page>   
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/flows/processException.jsp</location>
+    </error-page>
                   
 </web-app>
