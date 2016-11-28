@@ -33,7 +33,9 @@ import au.edu.uq.smartass.web.jdbc.DictionaryDao;
  * is the ancestor for all controllers that lists some objects from the repository.
  */
 public abstract class RepositoryListItemsController extends AbstractController {
-	public static int ROWS_PER_PAGE=20 ; //temporary! move this to application settings!
+    // We set max value so the server renders all the templates on a single page
+	// Clientside javascript handles pagination and searching, etc.
+	public static int ROWS_PER_PAGE=Integer.MAX_VALUE; //temporary! move this to application settings!
 	DictionaryDao dao;
 
 	@Override

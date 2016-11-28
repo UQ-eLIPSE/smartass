@@ -1,5 +1,14 @@
 /**
  * Handles operations on the template table
+ *
+ * To use, the page must have the following elements
+ * An input with id '#nameFilter', to be used for searching for components
+ * A table with rows of class '.table-row', which contains the content
+ * A table header with elements with ids '#name-header', '#uploaded-header' 
+ *  and '#author-header'
+ * The table headers must have a span inside of them for the sorting icon to
+ *  display, the id's must be '#name-icon', '#uploaded-icon' and '#author-icon'
+ *
  * @author eLIPSE
  * @requires jQuery
  */
@@ -66,13 +75,14 @@ var template_table = {
             }, 
         },
 
-        /* The current ordering of the sort */
+        /* The current ordering .table-rowof the sort */
         currentOrder: 'name-asc',
 
-        validModes: ['selectForm', 'repository'],
-
         /* The mode, can either be 'repository' or 'selectForm' */
-        mode: 'selectForm'
+        mode: 'selectForm',
+
+        /* The table row selector */
+        tableRowSelector: '.table-row',
     },
 
     /**
@@ -85,15 +95,17 @@ var template_table = {
     tableRows: [],
 
     /**
+     * The css table selector
+     */
+    tableSelector: '',
+
+    /**
      * Sets the mode, used for making the code work with both
      * the repository view and the select form
-     * @param {String} mode - The mode, can be either {'selectForm', 'repository'}
+     * @param {String} mode - The mode, can be either {'selectForm', 'repository', 'assignments'}
      */
     setMode: function(mode) {
-
-        if (this.config.validModes.includes(mode)) {
-            this.config.mode = mode;
-        }; 
+        this.config.mode = mode;
     },
 
 
@@ -118,13 +130,15 @@ var template_table = {
      */
     updateTable: function() {
 
-        // Remove the old elements
-        $('.row-light, .row-dark').remove();
+        var scope = this;
 
+        // Remove the old elements
+        $(this.config.tableRowSelector).remove();
 
         this.tableRows.forEach(function(row) {
             // Append to the table
-            $('.panel-body > table > tbody').append(row);
+            $(scope.tableSelector + " > tbody").append(row);
+            
         });
         
     },
@@ -135,7 +149,7 @@ var template_table = {
      */
     sortAndUpdateTable: function(sortOrder) {
         // Update the table rows, in case the user has selected a checkbox
-        this.tableRows = $('.row-light, .row-dark').get();
+        this.tableRows = this.getTableRows();
 
         this.sortTable(sortOrder);
 
@@ -148,7 +162,7 @@ var template_table = {
      */
     filter: function(keyword) {
         var scope = this;
-        $('.row-light, .row-dark').each(function(index, item) {
+        $(this.config.tableRowSelector).each(function(index, item) {
             var info = scope.getInfo(item);
 
             // Do a fuzzy search on the text
@@ -183,6 +197,14 @@ var template_table = {
                     description: row.children[1].children[1].textContent.trim(),
                     uploaded: row.children[2].textContent.trim(),
                     author: row.children[3].textContent.trim()
+                }
+
+            case 'assignments':
+                return {
+                    name: row.children[1].textContent.trim(),
+                    description: '',
+                    uploaded: row.children[0].textContent.trim(),
+                    author: row.children[2].textContent.trim()
                 }
 
             default:
@@ -258,7 +280,8 @@ var template_table = {
      * @returns {Boolean} If the string matches or not
      */
     fuzzySearch: function(searchTerm, info) {
-        var string = info.name + " " + info.description + " " + info.uploaded + " " + info.author;
+        var string = info.name + " " + info.description + " " + 
+            info.uploaded + " " + info.author;
         string = string.toLowerCase();
         searchTerm = searchTerm.toLowerCase();
 
@@ -277,14 +300,11 @@ var template_table = {
     },
 
     /**
-     * The init method
-     *
-     * Sets the table rows
+     * Setup the event handlers
      */
-    init: function() {
-        this.tableRows = $('.row-light, .row-dark').get();
-        var scope = this;
+    setupEventHandlers: function() {
 
+        var scope = this;
         // Handle clicking the header buttons to change the order
         $('#name-header').click(function() {
             if (scope.config.currentOrder == 'name-asc') {
@@ -326,10 +346,29 @@ var template_table = {
         $('#nameFilter').keyup(function() {
             scope.filter($('#nameFilter').val());
         });
+    },
+
+    /**
+     * Gets the table rows
+     */
+    getTableRows: function() {
+        return $(this.config.tableRowSelector).get();
+    },
+
+    /**
+     * The init method
+     *
+     * Sets the table rows
+     * @param tableSelector The table row selector, as a css selector
+     * @param mode The mode
+     */
+    init: function(tableSelector, mode) {
+        this.tableSelector = tableSelector;
+        this.tableRows = this.getTableRows();
+        this.setupEventHandlers();
+
+        this.setMode(mode);
 
     }
 
 };
-
-
-template_table.init();

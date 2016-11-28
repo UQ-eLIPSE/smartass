@@ -42,7 +42,9 @@ public class HomePageController extends AbstractController {
 	protected TemplatesDao templatesDao; 
 	protected AssignmentsDao assignmentsDao;
 	protected UsersDao usersDao;
-	public static int ROWS_PER_PAGE=20 ; //TODO: move this to application settings!  
+
+	// Render all assignments on the server side, handle the pagination with javascript
+	public static int ROWS_PER_PAGE = Integer.MAX_VALUE;
 
 	public HomePageController() {}
 	

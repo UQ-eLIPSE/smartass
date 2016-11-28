@@ -10,7 +10,7 @@
       <div class="header">
       </div>
 
-      <h2>Recent Assignments</h2>
+      <h2>Assignments</h2>
       <div class="panel panel-default">
         <div class="panel-heading background-primary-color clearfix">
           <c:if test="${mode=='recent' || empty mode}">
@@ -27,54 +27,36 @@
 
           <c:if test="${mode=='browse'}">
             <h3 class="panel-title white">Browse Assignments</h3>
-            <form action="index.htm?mode=browse" method="post">
               <div class="form-group">
-                <label class="white">Search by assignment name:</label><br>
-                <input class="form-control" maxlength=128 name=byname size=55 title="Search by assignment name" value="<c:out value="${assignments_byname}"/>"> <br>
-                <label class="white">Search by user:</label><br>
-                <input class="form-control" maxlength=128 name=byuser size=55 title="Search by user" value="<c:out value="${assignments_byuser}"/>"> <br>
-                <!-- 			                <label class="white">Search by tags:</label><br>
-                <input class="form-control" maxlength=128 name=bytags size=55 title="Search by tags" value="<c:out value="${assignments_bytags}"/>"> <br> -->
-                <button class="btn btn-warning pull-right" type=submit value="Search"><span class="glyphicon glyphicon-search"></span> Search</button>
+                <input id="nameFilter" class="form-control input-lg" placeholder="Search..." />
+                <!-- <button class="btn btn-warning pull-right" type=submit value="Search"><span class="glyphicon glyphicon-search"></span> Search</button> -->
               </div>
-            </form>
           </c:if>
         </div>
 
         <div class="panel-body">
-          <table width="95%" cellspacing="0" class="table">
-
-            <c:if test="${(mode=='recent') or (mode=='user') or (mode=='my') or (mode=='browse')}">
-              <tr>
-                <td colspan=3>
-                  <c:if test="${mode=='recent'}">
-                    <c:set var="page_url" value="index.htm?mode=${mode}&"/>
-                  </c:if>
-                  <c:if test="${mode=='browse'}">
-                    <c:set var="page_url" value="index.htm?mode=${mode}&byname=${byname}&byuser=${byuser}&bytags=${bytags}&"/>
-                  </c:if>
-                  <c:if test="${mode=='user'}">
-                    <c:set var="page_url" value="index.htm?mode=${mode}&id=${auser.id}&"/>
-                  </c:if>
-                  <c:if test="${mode=='my'}">
-                    <c:set var="page_url" value="index.htm?mode=${mode}&"/>
-                  </c:if>
-                  <%@include file="pages.inc.jsp" %>
-                </td>
-              </tr>
-            </c:if>
+          <table width="95%" class="table table-bordered" id="assignment-table">
 
             <thead>
               <tr class="header">
-                <th>Date</th>
-                <th>Name</th>
-                <th colspan=2>Author</th>
+                <th style="cursor: pointer" id="uploaded-header">
+                    <a>Date</a>
+                    <span id="uploaded-icon" aria-hidden="true"></span>
+                </th>
+                <th style="cursor: pointer" id="name-header">
+                    <a>Name</a>
+                    <span id="name-icon" aria-hidden="true"></span>
+                </th>
+                <th style="cursor: pointer" id="author-header" colspan=2>
+                    <a>Author</a>
+                    <span id="author-icon" aria-hidden="true"></span>
+                </th>
               </tr>
             </thead>
 
             <c:set var="rownumber" value="0"/>
             <c:forEach items="${assignments}" var="t">
-              <tr>
+              <tr class="table-row">
                 <td width="15%"><c:out value="${t.dtcreated}"/></td>
                 <td>
                   <c:out value="${t.name}"/>
@@ -94,25 +76,6 @@
               <c:set var="rownumber" value="${rownumber+1}"/>
             </c:forEach>
 
-            <c:if test="${(mode=='recent') or (mode=='user') or (mode=='my') or (mode=='browse')}">
-              <tr>
-                <td colspan=3>
-                  <c:if test="${mode=='recent'}">
-                    <c:set var="page_url" value="index.htm?mode=${mode}&"/>
-                  </c:if>
-                  <c:if test="${mode=='browse'}">
-                    <c:set var="page_url" value="index.htm?mode=${mode}&byname=${byname}&byuser=${byuser}&bytags=${bytags}&"/>
-                  </c:if>
-                  <c:if test="${mode=='user'}">
-                    <c:set var="page_url" value="index.htm?mode=${mode}&id=${auser.id}&"/>
-                  </c:if>
-                  <c:if test="${mode=='my'}">
-                    <c:set var="page_url" value="index.htm?mode=${mode}&"/>
-                  </c:if>
-                  <%@include file="pages.inc.jsp" %>
-                </td>
-              </tr>
-            </c:if>
           </table>
         </div>
 
@@ -132,12 +95,7 @@
               </thead>
               <c:set var="rownumber" value="0"/>
               <c:forEach items="${templates}" var="t">
-                <c:if test="${(rownumber % 2) == 1}">
-                  <tr class="row-dark">
-                  </c:if>
-                  <c:if test="${(rownumber % 2) == 0}">
-                    <tr class="row-light">
-                    </c:if>
+                  <tr class="table-row">
                     <td>
                       <c:url var="url" value="/template.htm" >
                         <c:param name="id" value="${t.id}" />
@@ -164,5 +122,10 @@
         </div>
         </div>
         <%@include file="../jsp/footer.jsp.inc" %>
+
+        <script src="/smartass-dev/js/template_table.js"></script>
+        <script>
+            template_table.init('#assignment-table', 'assignments');
+        </script>
       </body>
     </html>
