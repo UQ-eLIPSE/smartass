@@ -49,7 +49,7 @@ public class UserLoginController extends SimpleFormController {
 		
 		String redirectUrl = request.getParameter("url");
 		if(redirectUrl==null || redirectUrl.length()==0)
-			redirectUrl = "index.htm";
+			redirectUrl = "index.htm?mode=browse";
 		RedirectView exit = new RedirectView(redirectUrl); 
 		exit.setExposeModelAttributes(false);
 		return new ModelAndView(exit);
