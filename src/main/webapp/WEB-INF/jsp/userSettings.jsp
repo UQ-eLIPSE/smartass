@@ -102,8 +102,6 @@
 	<b>You should be logged in to edit your settings!</b><br><br>
 	<a href="login.htm">[log in]</a> <a href="undex.htm">[return to homepage]</a>
 </c:if>
+	<%@include file="footer.jsp.inc" %>
 </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-</head>
 </html>
