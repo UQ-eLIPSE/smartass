@@ -254,21 +254,12 @@ public class AssignmentWizardController {
     public void prepareNewRepeat(RepeatConstruction repeat) {
         List<AssignmentWizardItem> addons = new ArrayList<AssignmentWizardItem>();
         AssignmentWizardItem it = new AssignmentWizardItem();
+
         it.setName("QUESTION");
         it.setTitle("Questions sub-header");
         it.setType("T");
-        it.setValue("Answer each of the following questions, showing all working:");
         addons.add(it);
-        it = new AssignmentWizardItem();
-        it.setName("SOLUTION");
-        it.setTitle("Solutions sub-header");
-        it.setType("T");
-        addons.add(it);
-        it = new AssignmentWizardItem();
-        it.setName("SHORTANSWER");
-        it.setTitle("Short answers sub-header");
-        it.setType("T");
-        addons.add(it);
+
         repeat.setAddons(addons);
     }
 

@@ -171,7 +171,7 @@
 
         <view-state id="addCall" view="selectTemplatesForm.jsp"  model="search">
             <on-render>
-                <evaluate expression="(externalContext.sessionMap.user==null) ?20 : externalContext.sessionMap.user.rowsPerPage" result="search.rowsPerPage"/>
+                <!-- <evaluate expression="(externalContext.sessionMap.user==null) ?20 : externalContext.sessionMap.user.rowsPerPage" result="search.rowsPerPage"/> -->
                 <evaluate expression="classificationsDao.select(0)" result="viewScope.classs" />
                 <evaluate expression="classificationsDao.select(search.topclassid)" result="viewScope.sub_classs" />
                 <evaluate expression="templatesDao.countRows(search.nameFilter, search.keywordsFilter,search.classid)" result="flowScope.search.rowsNum" /> 
@@ -282,7 +282,7 @@
     </view-state>
 
     <view-state id="confirmSave" view="saveAssignmentForm.jsp" model="template">
-        <transition on="ok" to="finish">
+        <transition on="ok" to="assignmentEditor">
             <evaluate expression="assignmentEditor.saveAssignment(template, externalContext.sessionMap.user, messageContext)"/>
         </transition>
     </view-state>
