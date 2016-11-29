@@ -175,6 +175,30 @@ function add_classification(templateId, classificationId, cb) {
     });
 }
 
+function add_module(name, description, cb) {
+    connection.query({
+        sql: 'INSERT INTO modules (name, description) VALUES (?, ?)',
+        values: [name, description]
+    }, function(err, res, fields){
+        if (err)  {
+            throw err;
+        }
+        cb(res.insertId);
+    });
+}
+
+function add_relationship(moduleId, templateId, cb) {
+    connection.query({
+        sql: 'INSERT INTO templates_modules (template_id, module_id) VALUES (?, ?)',
+        values: [templateId, moduleId]
+    }, function(err, res, fields){
+        if (err)  {
+            throw err;
+        }
+        cb();
+    })
+}
+
 /**
  * Creates a new template in the database
  */
@@ -218,15 +242,27 @@ function main() {
     get_module_info(function(data) {
         create_template(data.moduleName, data.authorName, data.keywords, data.description, function(id) {
             console.log("Entry inserted with ID " + id);
+
+            data.templateId = id;
+
             get_classification_id(data.classification, function(classId){
                 console.log("Adding a classification with an id of " + classId);
-                add_classification(id, classId, function(res){
+                add_classification(data.templateId, classId, function(res){
                     console.log("Classification added ");
                 });
             });
+
+            add_module(data.moduleName, data.description, function(moduleId){
+                data.moduleId = moduleId
+                 add_relationship(data.moduleId, data.templateId, function() {
+                    console.log("Module Template Relationship Created");
+                 });
+            });
+
             save_template_file(data.moduleName, function() {
                 console.log("File saved");
             });
+
         });
     });
 }
