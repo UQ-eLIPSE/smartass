@@ -102,16 +102,24 @@ var template_table = {
     /**
      * Sets the mode, used for making the code work with both
      * the repository view and the select form
-     * @param {String} mode - The mode, can be either {'selectForm', 'repository', 'assignments'}
+     * @param {string} mode The mode, can be either {'selectForm', 'repository', 'assignments'}
      */
     setMode: function(mode) {
         this.config.mode = mode;
     },
 
+    /**
+     * Returns the current mode of the template_table, as set in the config.mode option
+     * @returns {string}
+     */
+    getMode: function() {
+        return this.config.mode;
+    },
+
 
     /**
      * Sorts a table by the given order
-     * @param sortOrder The sort order, must be one of the options 
+     * @param {string} sortOrder The sort order, must be one of the options 
      *                  within the 'sortOptions' variable
      */
     sortTable: function(sortOrder) {
@@ -126,7 +134,6 @@ var template_table = {
 
     /**
      * Updates the table on the DOM
-     *
      */
     updateTable: function() {
 
@@ -145,7 +152,7 @@ var template_table = {
 
     /**
      * Sorts and updates a table
-     *
+     * @param {string} sortOrder The sort order
      */
     sortAndUpdateTable: function(sortOrder) {
         // Update the table rows, in case the user has selected a checkbox
@@ -159,6 +166,7 @@ var template_table = {
 
     /**
      * Filters the table based on a keyword
+     * @param {string} keyword The string to search by
      */
     filter: function(keyword) {
         var scope = this;
@@ -177,7 +185,7 @@ var template_table = {
     /**
      * Gets the information of a row as a JSON object
      * @param row A row from the 'tableRows' variable
-     * @returns A JSON object containing the keys 
+     * @returns {json} A JSON object containing the keys 
      *          ['title', 'description', 'uploaded', 'author']
      */
     getInfo: function(row) {
@@ -216,8 +224,8 @@ var template_table = {
 
     /**
      * Updates the icons for the sorting
-     * @param {String} The column to use {"name", "uploaded", "author"}
-     * @param {String} The mode, can be either {"none", "ascending", "descending'}
+     * @param {string} The column to use {"name", "uploaded", "author"}
+     * @param {string} The mode, can be either {"none", "ascending", "descending'}
      */
     updateIcons: function(column, mode) {
 
@@ -242,8 +250,8 @@ var template_table = {
 
     /**
      * Sets the icon, used for displaying what is being sorted
-     * @param {String} The jquery selector string
-     * @param {String} The mode, can be either {"none", "ascending", "descending'}
+     * @param {string} The jquery selector string
+     * @param {string} The mode, can be either {"none", "ascending", "descending'}
      */
     setIcon: function(jquerySelector, mode) {
         var item = $(jquerySelector);
@@ -275,9 +283,9 @@ var template_table = {
      * Performs a fuzzy search on 'info' looking for something
      * the matches 'searchTerm'
      *
-     * @params {String} searchTerm The search term
-     * @params {Info} The info, as a javascript object
-     * @returns {Boolean} If the string matches or not
+     * @params {string} searchTerm The search term
+     * @params {json} The info, as a javascript object
+     * @returns {boolean} If the string matches or not
      */
     fuzzySearch: function(searchTerm, info) {
         var string = info.name + " " + info.description + " " + 
@@ -350,6 +358,7 @@ var template_table = {
 
     /**
      * Gets the table rows
+     * @returns {json}
      */
     getTableRows: function() {
         return $(this.config.tableRowSelector).get();
@@ -359,8 +368,8 @@ var template_table = {
      * The init method
      *
      * Sets the table rows
-     * @param tableSelector The table row selector, as a css selector
-     * @param mode The mode
+     * @param {string} tableSelector The table row selector, as a css selector
+     * @param {string} mode The mode
      */
     init: function(tableSelector, mode) {
         this.tableSelector = tableSelector;

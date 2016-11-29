@@ -54,6 +54,28 @@ describe('Template Table', function() {
         });
     });
 
+    describe('setMode', function() {
+        it ('Internal state should match expected', function() {
+            var currentMode = template_table.config.mode;
+            template_table.setMode('test mode');
+            expect(template_table.config.mode).to.equal('test mode');
+
+            // Reset to default
+            template_table.setMode(currentMode);
+        });
+
+        it ('getMode should match expected', function() {
+            var currentMode = template_table.config.mode;
+            template_table.setMode('test mode');
+            expect(template_table.getMode()).to.equal('test mode');
+
+            // Reset to default
+            template_table.setMode(currentMode);
+        });
+
+
+    });
+
     /**
      * Test the getInfo function
      */
@@ -78,6 +100,67 @@ describe('Template Table', function() {
             expect(data.description).to.equal(expected.description);
             expect(data.name).to.equal(expected.name);
             expect(data.uploaded).to.equal(expected.uploaded);
+        });
+    });
+
+    /**
+     * Tests the getInfo function for the repository mode
+     */
+    describe('getInfo for repository', function() {
+
+        var testHtml = "<tr class=\"table-row\"> <td> <a href=\"/smartass-dev/template.htm?id=220\"> name </a> <p>description</p></td><td> <p>date</p></td><td> <p>author</p></td></tr>";
+
+        var row = $.parseHTML(testHtml)[0];
+
+        var expected = {
+            author: 'author',
+            description: 'description',
+            name: 'name',
+            uploaded: 'date'
+        };
+
+        it('should return correct JSON', function() {
+            // Set the mode
+            template_table.setMode('repository');
+            
+            var actual = template_table.getInfo(row);
+
+            expect(actual.author).to.equal(expected.author);
+            expect(actual.description).to.equal(expected.description);
+            expect(actual.name).to.equal(expected.name);
+            expect(actual.uploaded).to.equal(expected.uploaded);
+
+            template_table.setMode('selectForm');
+        });
+    });
+
+    /**
+     * Tests getInfo for the assignment mode
+     */
+    describe('getInfo for assignments', function() {
+        var testHtml = "<tr class=\"table-row\"> <td width=\"15%\">date</td><td> name </td><td> author </td><td width=\"15%\"> <a href=\"composer.htm?new=1&amp;id=35\">copy</a> </td></tr>";
+
+        var row = $.parseHTML(testHtml)[0];
+
+        var expected = {
+            author: 'author',
+            description: '',
+            name: 'name',
+            uploaded: 'date'
+        };
+
+        it('should return correct JSON', function() {
+            // Set the mode
+            template_table.setMode('assignments');
+            
+            var actual = template_table.getInfo(row);
+
+            expect(actual.author).to.equal(expected.author);
+            expect(actual.description).to.equal(expected.description);
+            expect(actual.name).to.equal(expected.name);
+            expect(actual.uploaded).to.equal(expected.uploaded);
+
+            template_table.setMode('selectForm');
         });
     });
 
