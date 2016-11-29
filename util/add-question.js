@@ -144,7 +144,7 @@ function get_author_id(authorName, cb) {
 }
 
 function get_classification_id(classificationName, cb) {
-        console.log(classificationName);
+    console.log(classificationName);
     connection.query({
         sql: 'SELECT id, name FROM classifications WHERE name=?',
         values: [classificationName]
