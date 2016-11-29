@@ -6,6 +6,7 @@
   	<title>Smart Assignments | Repository | Authors</title>
 </head>
 <body>
+    <div class="container">
     <h2>Smart Assignments Repository - Authors</h2>
     <table width="100%"><tr class="menu"><td colspan=2>
 		<%@include file="top.inc.jsp" %>
@@ -99,8 +100,7 @@
 	    </c:if>
     </td>
     </tr></table>
+    </div>
+	<%@include file="footer.jsp.inc" %>
   </body>
- <head>
-	<%@include file="header.jsp.inc" %>
- </head>
 </html>
