@@ -127,6 +127,37 @@ public class AssignmentWizardController {
     }
 
     /**
+     * Same as above, but accepts an ID parameter used to check if the assignment is being loaded or created
+     */
+    public void prepareWizard(int id) throws IOException {
+        // Only create a new assignment if the id is 0
+        if (id == 0) {
+            prepareWizard("default.tex");
+        }
+        
+    }
+    
+    /**
+     * Creates a new assignment and checks if the id is set
+     */
+    public boolean createAssignment(
+            int id,
+            AssignmentConstruct assignment, 
+            String templateName, 
+            List<AssignmentWizardItem> items, 
+            MessageContext mcontext
+            ) throws IOException, ParseException {
+        
+        // If the assignment is not being loaded
+        if (id == 0) {
+            return createAssignment(assignment, templateName, items, mcontext);
+        }
+        
+        return true;
+    }
+
+
+    /**
      * Creates an assignment using data entered at wizard execution.
      * 
      * @param assignment		{@link AssignmentConstruct} that is to be built on the wizard data  
