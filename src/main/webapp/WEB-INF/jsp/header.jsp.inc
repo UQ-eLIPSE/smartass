@@ -27,15 +27,17 @@
 	    	<c:if test="${!empty user}">
 		    	<li><a href="logout.htm" class="white">Log Out</a></li>
 		    </c:if>
-		    <c:if test="${!empty user && user.adminRight}">
+		    <c:if test="${!empty user}">
 		    <li class="dropdown">
                       <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
                       <ul class="dropdown-menu">
 		    	        <li><a href="edituser.htm" class="">User Settings</a></li>
-		    	        <li><a href="repository-authors.htm" class="">Edit Authors</a></li>
-		    	        <li><a href="repository-classs.htm?parentid=0" class="">Edit Categories</a></li>
-		    	        <li><a href="repository-modules.htm" class="">Edit Modules</a></li>
-		    	        <li><a href="repository-files.htm" class="">Edit Files</a></li>
+		    	        <c:if test="${user.adminRight}">
+		    	            <li><a href="repository-authors.htm" class="">Edit Authors</a></li>
+		    	            <li><a href="repository-classs.htm?parentid=0" class="">Edit Categories</a></li>
+		    	            <li><a href="repository-modules.htm" class="">Edit Modules</a></li>
+		    	            <li><a href="repository-files.htm" class="">Edit Files</a></li>
+		    	        </c:if>
                       </ul>
                     </li>
 		    </c:if>

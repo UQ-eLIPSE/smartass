@@ -8,37 +8,7 @@
   <body>
   <div class="container">
     <h2>Smart Assignments Repository - Modules</h2>
-    <table width="100%"><tr class="menu"><td colspan=2>
-		<%@include file="top.inc.jsp" %>
-    </td></tr><tr>
-    <td valign="top" width="150" class="menu">
-	    <table>
-	    	<c:if test="${!empty user}">
-		    	<tr><td><a href="repository-authors.htm">[authors]</a></td></tr>
-		    	<tr><td>
-					<a href="repository-classs.htm?parentid=0">[categories]</a>
-				</td></tr>
-		    	<tr class="selected-menu"><td>[modules]</td></tr>
-		    	<tr><td>
-					<a href="repository-files.htm">[files]</a>
-				</td></tr>
-		    	<tr><td><hr></td></tr>
-			</c:if>
-	    	<tr><td><a href="repository.htm">[templates]</a></td></tr>
-	    	<c:if test="${!empty user && user.adminRight}">
-		    	<tr><td><hr></td></tr>
-		    	<tr><td>
-					<a href="repository-export.htm?all=1">[export]</a>
-				</td></tr>
-		    	<tr><td>
-					<a href="repository-import.htm">[import]</a>
-				</td></tr>
-		    	<tr><td>
-					<a href="backups.htm">[backups]</a>
-				</td></tr>
-			</c:if>
-	    </table>
-    </td>
+    <table width="100%"><tr class="menu">
     <td valign="top">
 		<c:if test="${(!empty user.name) && user.editRepositoryRight}">
 		      <div class="error">
