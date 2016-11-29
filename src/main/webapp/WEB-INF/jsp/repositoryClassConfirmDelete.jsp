@@ -30,6 +30,7 @@
 	</script>
 </head>
 <body onload="onLoad()">
+<div class="container">
 <c:if test="${(!empty user.name) && user.editRepositoryRight}">
 <form action="repository-class-delete.htm">
 	<table>
@@ -73,8 +74,7 @@
 	<b>To delete a category you need to log in as a user with appropriate rights!</b><br><br>
 	<a href="login.htm">[log in]</a> <a href="index.htm">[return to homepage]</a>
 </c:if>
+</div>
+	<%@include file="footer.jsp.inc" %>
 </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-</head>
 </html>
