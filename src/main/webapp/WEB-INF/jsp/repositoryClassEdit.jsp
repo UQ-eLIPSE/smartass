@@ -8,44 +8,32 @@
 <body>
 <div class="container">
 <c:if test="${(!empty user.name) && user.editRepositoryRight}">
-<form:form modelAttribute="item" >   
-	<table>
-		<tr class="header"><td colspan="2">
+<form:form modelAttribute="item" >
+    <div class="form-group clearfix">
 			<c:if test="${item.id==0}">
 				<h3>New category</h3>
 			</c:if>
 			<c:if test="${item.id!=0}">
 				<h3>Edit category</h3>
 			</c:if>
-		</td></tr>
 		<c:if test="${!empty item.parentModel}">
-			<tr>
-			    <td><b>Parent:</b></td>
-			    <td><c:out value="${item.parentModel.name}" /></td>
-			</tr>
+			    <label>Parent:</label>
+			    <label><c:out value="${item.parentModel.name}" /></label>
 		</c:if>
-		<tr>
-		    <td><b>* Name:</b></td>
-		    <td><form:input size="50" path="name" /></td>
-		</tr>
-		<tr>
-		    <td><b>Description:</b></td>
-		    <td><form:textarea rows="5" cols="70" path="description" /></td>
-		</tr>
-		<tr><td colspan="2">
-			Fields marked with "*" is required fields.<br><br>
-		</td></tr>
+		    <label>* Name:</label>
+		    <form:input cssClass="form-control" size="50" path="name" /></label>
 
-		<tr class="error"><td colspan="2">
+		    <label>Description:</label>
+		    <form:textarea cssClass="form-control" rows="5" cols="70" path="description" />
+			Fields marked with "*" is required fields.
+
 			<form:errors path="*" />
-		</td></tr>
 
-		<tr class="header">
-			<td><input type="submit" class="button" name="save" value="Save changes"></td>
-			<td><input type="button" class="button" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
-		</tr>
-	</table>
-    <input type="hidden" name="parentid" value="<c:out value="${item.parentModel.id}"/>">
+        <input type="hidden" name="parentid" value="<c:out value="${item.parentModel.id}"/>">
+    </div>
+			<div class="pull-right"><input type="submit" class="btn btn-warning" name="save" value="Save changes">
+			    <input type="button" class="btn" name="cancel" value="Cancel" onclick="history.go(-1);" />
+			</div>
 </form:form>
 </c:if>
 <c:if test="${(empty user.name) || !user.editRepositoryRight}">

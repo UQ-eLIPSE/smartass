@@ -32,42 +32,36 @@
 <body onload="onLoad()">
 <div class="container">
 <c:if test="${(!empty user.name) && user.editRepositoryRight}">
-<form action="repository-class-delete.htm">
-	<table>
-		<tr class="header"><td colspan="2">
+    <form action="repository-class-delete.htm">
 			<h3>Confirm category deletion</h3>
-		</td></tr>
-		<c:if test="${!empty item}">
+		    <c:if test="${!empty item}">
 			<input type="hidden" name="id" value="<c:out value="${item.id}"/>">
 			<input type="hidden" name="parentid" value="<c:out value="${item.parentModel.id}"/>">
 			<c:if test="${!empty item.parentModel}">
-				<tr>
-				    <td><b>Parent:</b></td>
-				    <td><c:out value="${item.parentModel.name}" /></td>
-				</tr>
+				    <label>Parent:</label>
+				    <label><c:out value="${item.parentModel.name}" /></label>
 			</c:if>
-			<tr>
-			    <td><b>Name:</b></td>
-			    <td><c:out value="${item.name}" /></td>
-			</tr>
-			<tr>
-			    <td><b>Description:</b></td>
-			    <td><c:out value="${item.description}" /></td>
-			</tr>
-			<tr><td colspan="2">
-				<input type="checkbox" name="confirmed" id="cbYes" value="yes" onclick="onClickConfirmation(event)">Yes, I really want to delete this category.<br><br>
-			</td></tr>
-	
-			<tr class="header">
-				<td><input type="submit" class="button" name="save" value="Delete" id="btSave"></td>
-				<td><input type="button" class="button" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
-			</tr>
+			    <label>Name:</label>
+			    <c:out value="${item.name}" />
+
+			    <label>Description:</label>
+			    <c:out value="${item.description}" />
+
+			    <div class="checkbox">
+			        <label>
+				        <input type="checkbox" name="confirmed" id="cbYes" value="yes" onclick="onClickConfirmation(event)">Yes, I really want to delete this category.
+				    </label>
+				</div>
+
+			<div class="">
+				<input type="submit" class="btn btn-danger" name="save" value="Delete" id="btSave">
+				<input type="button" class="btn" name="cancel" value="Cancel" onclick="history.go(-1);">
+			</div>
 		</c:if>
 		<c:if test="${empty item}">
-			<tr><td>Category does not exists.</td></tr>
-			<tr><td><a href="repository-classs.htm">[return to clasifications list]</a>
+			Category does not exists.
+			<a href="repository-classs.htm">[return to clasifications list]</a>
 		</c:if>
-	</table>
 </form>
 </c:if>
 <c:if test="${(empty user.name) || !user.editRepositoryRight}">

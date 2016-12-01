@@ -43,7 +43,11 @@
 			    <label>Description:</label>
 			    <c:out value="${item.description}" />
 
-				<div class="checkbox"><label><input type="checkbox" name="confirmed" id="cbYes" value="yes" onclick="onClickConfirmation(event)">Yes, I really want to delete this author.</label></div>
+				<div class="checkbox">
+				    <label><input type="checkbox" name="confirmed" id="cbYes" value="yes" onclick="onClickConfirmation(event)">
+				        Yes, I really want to delete this author.
+				    </label>
+				</div>
 
 				<input type="submit" class="btn btn-danger" name="save" id="btSave" value="Delete">
 				<input type="button" class="btn" name="cancel" value="Cancel" onclick="history.go(-1);">
