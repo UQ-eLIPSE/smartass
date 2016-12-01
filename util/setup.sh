@@ -9,6 +9,9 @@ printf "[?] Current working directory: %s\n" `pwd`
 printf "[+] Copying smartass properties file\n"
 cp src/main/webapp/WEB-INF/smartass-zone.properties src/main/webapp/WEB-INF/smartass.properties
 
+printf "[+] Copying Tomcat root application context\n"
+cp config/ROOT.xml /opt/local/share/tomcat/conf/ROOT.xml
+
 printf "[+] Copying data folder"
 sudo cp ./resource/data /var/www/smartass
 
