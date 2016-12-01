@@ -134,7 +134,9 @@ public class AssignmentEditor {
      */
     public String preprocessCode(AssignmentConstruct assignment) throws IOException {
 
-        if (!assignment.getDecorateWithLatex()) return assignment.getCode();
+        if (!assignment.getDecorateWithLatex()) {
+            return assignment.getCode();
+        }
 
         int enum_level = 0;
         int repeat_level = 0;
@@ -199,7 +201,8 @@ public class AssignmentEditor {
             }
         }
 
-        return buff.toString();
+        // Trim newline characters before returning
+        return buff.toString().trim();
     }
     
 
