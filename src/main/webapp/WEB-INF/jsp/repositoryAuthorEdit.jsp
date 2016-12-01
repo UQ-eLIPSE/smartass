@@ -8,37 +8,31 @@
 <body>
 <div class="container">
 <c:if test="${(!empty user.name) && user.editRepositoryRight}">
-<form:form modelAttribute="item" >   
-	<table>
-		<tr class="header"><td colspan="2">
+<form:form modelAttribute="item" >
+    <div class-"form-group">
 			<c:if test="${item.id==0}">
 				<h3>New author</h3>
 			</c:if>
 			<c:if test="${item.id!=0}">
 				<h3>Edit author</h3>
 			</c:if>
-		</td></tr>
-		<tr>
-		    <td><b>* Name:</b></td>
-		    <td><form:input size="50" path="name" /></td>
-		</tr>
-		<tr>
-		    <td>Description:</td>
-		    <td><form:textarea rows="5" cols="70" path="description" /></td>
-		</tr>
-		<tr><td colspan="2">
+		    <label>* Name:</label>
+		    <form:input cssClass="form-control" size="50" path="name" />
+
+		    <label>Description:</label>
+		    <form:textarea cssClass="form-control" rows="5" cols="70" path="description" />
 			Fields marked with "*" is required fields.<br><br>
-		</td></tr>
 
-		<tr class="error"><td colspan="2">
+		<div class="error"><td colspan="2">
 			<form:errors path="*" />
-		</td></tr>
+        </div>
 
-		<tr class="header">
-			<td><input type="submit" class="button" name="save" value="Save changes"></td>
-			<td><input type="button" class="button" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
-		</tr>
-	</table>
+        <div class="pull-right">
+			<td><input type="submit" class="btn btn-warning" name="save" value="Save changes"></td>
+			<td><input type="button" class="btn" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
+	    </div>
+
+	</div>
 </form:form>
 </c:if>
 <c:if test="${(empty user.name) || !user.editRepositoryRight}">
