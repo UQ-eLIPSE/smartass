@@ -8,249 +8,261 @@
 	<title>Smart Assignments Repository | Edit Template</title> 
 </head>
 <body>
+    <div class="container">
+
 	<form:form modelAttribute="template">   
-		<table>
-			<tr class="header"><td colspan=3>
-				<h2>Edit Template</h2>
-			</td></tr>
-			<tr>
-				<td><b>* Template name:</b></td>
-				<td><form:input path="name" size="100" /></td>
-			</tr>
-			<tr><td class="error" colspan="3">
-				<form:errors path="*"/>
-			</td></tr>
-			<tr>
-				<td><b>Keywords:</b></td>
-				<td><form:input path="keywords" size="100"/></td>
-			</tr>
-			<tr>
-				<td><b>Created:</b></td>
-	 			<td><form:input path="dtcreated"/> (date format is yyyy-mm-dd)</td>  
-			</tr>
-			<tr>
-				<td><b>Uploaded:</b></td>
-				<td><c:out value="${template.dtuploaded}"/></td>
-			</tr>
-			<tr>
-				<td><b>Description:</b></td>
-				<td><form:textarea rows="5" cols="70" path="description"/></td>
-			</tr>
-			
-			<tr class="header">
-				<td colspan=2><h3>Categories</h3> </td>
-				<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_addClass&parentid=0">[add]</a></td>
-			</tr>
-		    <c:set var="i" value="0"/>
-			<c:forEach items="${template.classifications}" var="m">
-				<tr>
-					<td colspan=2><c:out value="${m.fullName}"/></td>
-					<c:if test="${classCount>1}">
-					<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_removeClass&i=<c:out value="${i}"/>">[remove]</a></td>
-					</c:if>
-				</tr>
-			    <c:set var="i" value="${i+1}"/>
-			</c:forEach>
 
-			<c:if test="${!empty template.author}">
-				<tr class="header">
-					<td colspan=2><h3>* Author</h3></td>
-					<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_selectAuthor">[select]</a></td>
-				</tr>
-				<tr>
-					<td><b>Author's name:</b></td>
-					<td><c:out value="${template.author.name}"/></td>
-					<td>
-					</td>
-				</tr>
-				<tr>
-					<td><b>Description:</b></td>
-					<td><c:out value="${template.author.description}"/></td>
-					<td></td>
-				</tr>
-			</c:if>
+        <h2>Edit Template</h2>
 
-			<tr class="header">
-				<td colspan=2><h3>Modules</h3></td>
-				<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_addModule">[add]</a>
-			</tr>
-		    <c:set var="i" value="0"/>
-			<c:forEach items="${template.modules}" var="m">
-		    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-					<td><b>Module's name:</b></td>
-					<td><c:out value="${m.name}"/></td>
-					<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_removeModule&i=<c:out value="${i}"/>">[remove]</a></td>
-				</tr>
-		    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-					<td><b>Package:</b></td>
-					<td colspan=2><c:out value="${m.modulePackage}"/></td>
-				</tr>
-		    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-				    <td><b>Parameters:</b></td>
-					<td colspan=2><c:out value="${m.parameters}"/></td>
-				</tr>
-		    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-				    <td><b>Description:</b></td>
-					<td colspan=2><c:out value="${m.description}"/></td>
-				</tr>
-			    <c:set var="i" value="${i+1}"/>
-			</c:forEach>
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h3 class="panel-title">Overview</h3>
+            </div>
 
-			<tr class="header">
-				<td colspan=2><h3>Files</h3></td>
-				<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_addFile">[add]</a></td>
-			</tr>
-		    <c:set var="i" value="0"/>
-			<c:forEach items="${template.files}" var="m">
-		    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-					<td><b>File name:</b></td>
-					<td><c:out value="${m.name}"/></td>
-					<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_removeFile&i=<c:out value="${i}"/>">[remove]</a></td>
-				</tr>
-		    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-				    <td><b>Description:</b></td>
-					<td><c:out value="${m.description}"/></td>
-					<td></td>
-				</tr>
-			    <c:set var="i" value="${i+1}"/>
-			</c:forEach>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="template_name">* Template name:</label>
+                    <form:input path="name" id="template_name" cssClass="form-control"/>
+                    <div class="error">
+                        <form:errors path="*"/>
+                    </div>
+                </div>
 
-			<tr class="header"><td colspan=2>
-				<h3>Updates</h3> 
-				<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_addUpdate">[add]</a>
-			</td></tr>
-		    <c:set var="i" value="0"/>
-			<c:forEach items="${template.updates}" var="m">
-			    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-					<td><b>Date:</b></td>
-					<td><c:out value="${m.updateDate}"/></td>
-					<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_removeUpdate&i=<c:out value="${i}"/>">[remove]</a></td>
-				</tr> 
-		    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if> 
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-					<td><b>Author:</b></td>
-					<td><c:out value="${m.author.name}"/></td>
-					<td></td>
-				</tr>
-			    	<c:if test="${(i % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(i % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-				    <td><b>Comment:</b></td>
-					<td colspan="2"><c:out value="${m.comment}"/></td>
-				</tr> 
-			    <c:set var="i" value="${i+1}"/>
+                <div class="form-group">
+                    <label for="keywords">Keywords</label>
+                    <form:input path="keywords" id="keywords" cssClass="form-control"/>
+                </div>
 
-			</c:forEach>
+                <div class="form-group">
+                    <label for="created">Created (date format is yyyy-mm-dd)</label>
+                    <form:input path="dtcreated" id="created" cssClass="form-control"/>
+                </div>
 
-			<tr class="header">
-				<td colspan=2><h3>Examples</h3> </td>
-				<td><a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_uploadExamples">[upload]</a></td>
-			</tr>
-			<tr>
-				<td><b>Questions:</b></td>
-				<td><c:out value="${template.questions}"/></td>
-				<td><c:if test="${!empty template.questions}">
-			        <c:url var="url" value="/download.htm" >
-			  		  <c:param name="scope" value="1" />
-			  		  <c:param name="id" value="${template.id}" />
-			  		  <c:param name="kind" value="0" />
-				    </c:url>
-			        <a href="<c:out value="${url}"/>">[download]</a><br>
-			        <c:url var="url" value="/repository-template-edit.htm" >
-			  		  <c:param name="execution" value="${flowExecutionKey}" />
-			  		  <c:param name="_eventId_deleteExample" value="1" />
-			  		  <c:param name="kind" value="0" />
-				    </c:url>
-			        <a href="<c:out value="${url}"/>">[delete]</a><br>
-				</c:if></td>
-			</tr>
-			<tr>
-				<td><b>Solutions:</b></td>
-				<td><c:out value="${template.solutions}"/></td>
-				<td><c:if test="${!empty template.solutions}">
-			        <c:url var="url" value="/download.htm" >
-			  		  <c:param name="scope" value="1" />
-			  		  <c:param name="id" value="${template.id}" />
-			  		  <c:param name="kind" value="1" />
-				    </c:url>
-			        <a href="<c:out value="${url}"/>">[download]</a><br>
-			        <c:url var="url" value="/repository-template-edit.htm" >
-			  		  <c:param name="execution" value="${flowExecutionKey}" />
-			  		  <c:param name="_eventId_deleteExample" value="1" />
-			  		  <c:param name="kind" value="1" />
-				    </c:url>
-			        <a href="<c:out value="${url}"/>">[delete]</a><br>
-				</c:if></td>
-			</tr>
-			<tr>
-				<td><b>Short answers:</b></td>
-				<td><c:out value="${template.shortanswers}"/></td>
-				<td><c:if test="${!empty template.shortanswers}">
-			        <c:url var="url" value="/download.htm" >
-			  		  <c:param name="scope" value="1" />
-			  		  <c:param name="id" value="${template.id}" />
-			  		  <c:param name="kind" value="2" />
-				    </c:url>
-			        <a href="<c:out value="${url}"/>">[download]</a><br>
-			        <c:url var="url" value="/repository-template-edit.htm" >
-			  		  <c:param name="execution" value="${flowExecutionKey}" />
-			  		  <c:param name="_eventId_deleteExample" value="1" />
-			  		  <c:param name="kind" value="2" />
-				    </c:url>
-			        <a href="<c:out value="${url}"/>">[delete]</a><br>
-				</c:if></td>
-			</tr>
+                <div class="form-group">
+                    <label for="uploaded">Uploaded</label>
+                    <p id="uploaded" class="form-control-static">${template.dtuploaded}</p>
+                </div>
 
-			<tr><td>
-			</td></tr>
-			<tr><td colspan=3>
-				<i>* Required fields</i>
-			</td></tr>
-		</table>
-		<br>
-		<input style="width:125" type="submit" class="button" name="_eventId_save" value="Save"/>
-		<input style="width:125" type="submit" class="button" name="_eventId_cancel" value="Cancel"/>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <form:textarea path="description" id="description" cssClass="form-control"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h3 class="panel-title">Categories</h3>
+            </div>
+
+            <div class="panel-body">
+
+                <ul class="list-group">
+                    <c:set var="i" value="0"/>
+                    <c:forEach items="${template.classifications}" var="m">
+                            <li class="list-group-item">
+                                <c:out value="${m.fullName}"/>
+                                <c:if test="${classCount>1}">
+                                <a class="badge" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_removeClass&i=<c:out value="${i}"/>">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                                </c:if>
+                            </li>
+                        <c:set var="i" value="${i+1}"/>
+                    </c:forEach>
+                </ul>
+
+                <a class="btn btn-success" role="button" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_addClass&parentid=0">Add</a>
+            </div>
+        </div>
+
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h3 class="panel-title">Author</h3>
+            </div>
+
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>Author Name</dt>
+                    <dd><c:out value="${template.author.name}"/></dd>
+
+                    <dt>Description</dt>
+                    <dd><c:out value="${template.author.description}"/></dd>
+                </dl>
+
+                <a class="btn btn-default" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_selectAuthor">Change</a>
+            </div>
+        </div>
+
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h3 class="panel-title">Modules</h3>
+            </div>
+
+            <div class="panel-body">
+                <ul class="list-group">
+                    
+                    <c:set var="i" value="0"/>
+                    <c:forEach items="${template.modules}" var="m">
+                        <li class="list-group-item">
+                            <a class="btn btn-danger badge" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_removeModule&i=<c:out value="${i}"/>">Remove</a>
+                            <dl class="dl-horizontal">
+                                <dt>Module Name</dt>
+                                <dd>${m.name}</dd>
+
+                                <dt>Package</dt>
+                                <dd>${m.modulePackage}</dd>
+
+                                <dt>Parameters</dt>
+                                <dd>${m.parameters}</dd>
+
+                                <dt>Description</dt>
+                                <dd>${m.description}</dd>
+                            </dl>
+                        </li>
+			            <c:set var="i" value="${i+1}"/>
+                    </c:forEach>
+                </ul>
+
+                <a class="btn btn-success" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_addModule">Add</a>
+
+
+            </div>
+        </div>
+
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h3 class="panel-title">Files</h3>
+            </div>
+
+            <div class="panel-body">
+                <ul class="list-group">
+                <c:set var="i" value="0"/>
+                <c:forEach items="${template.files}" var="m">
+                    <li class="list-group-item">
+                        <a class="badge btn btn-danger" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_removeFile&i=<c:out value="${i}"/>">remove</a>
+                        <dl class="dl-horizontal">
+                            <dt>File name</dt>
+                            <dd>${m.name}</dd>
+
+                            <dt>Description</dt>
+                            <dd>${m.description}</dd>
+                        </dl>
+                    </li>
+
+                    <c:set var="i" value="${i+1}"/>
+                </c:forEach>
+                </ul>
+
+                <a class="btn btn-success" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_addFile">Add</a>
+            </div>
+        </div>
+
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h3 class="panel-title">Updates</h3>
+            </div>
+
+            <div class="panel-body">
+                <ul class="list-group">
+                <c:set var="i" value="0"/>
+                <c:forEach items="${template.updates}" var="m">
+                    <li class="list-group-item">
+                        <a class="badge btn btn-danger" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_removeUpdate&i=<c:out value="${i}"/>">remove</a>
+                        <dl class="dl-horizontal">
+                            <dt>Date</dt>
+                            <dd>${m.updateDate}</dd>
+
+                            <dt>Author</dt>
+                            <dd>${m.author.name}</dd>
+
+                            <dt>Comment</dt>
+                            <dd>${m.comment}</dd>
+                        </dl>
+                    </li>
+
+                    <c:set var="i" value="${i+1}"/>
+                </c:forEach>
+                </ul>
+
+                <a class="btn btn-success" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_addUpdate">Add</a>
+            </div>
+        </div>
+
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h3 class="panel-title">Examples</h3>
+            </div>
+
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item" style="line-height: 2.5;">
+                        <b>Questions:</b> ${template.questions}
+                        <div class="pull-right">
+                            <c:if test="${!empty template.questions}">
+                            <c:url var="url" value="/download.htm" >
+                                <c:param name="scope" value="1" />
+                                <c:param name="id" value="${template.id}" />
+                                <c:param name="kind" value="0" />
+                            </c:url>
+                            <a class="btn btn-default" href="<c:out value="${url}"/>">download</a>
+                            <c:url var="url" value="/repository-template-edit.htm" >
+                                <c:param name="execution" value="${flowExecutionKey}" />
+                                <c:param name="_eventId_deleteExample" value="1" />
+                                <c:param name="kind" value="0" />
+                            </c:url>
+                            <a class="btn btn-danger" href="<c:out value="${url}"/>">delete</a>
+                            </c:if>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item" style="line-height: 2.5;">
+                        <b>Solutions:</b> ${template.solutions}
+                        <div class="pull-right">
+                            <c:if test="${!empty template.solutions}">
+                            <c:url var="url" value="/download.htm" >
+                                <c:param name="scope" value="1" />
+                                <c:param name="id" value="${template.id}" />
+                                <c:param name="kind" value="1" />
+                            </c:url>
+                            <a class="btn btn-default" href="<c:out value="${url}"/>">download</a>
+                            <c:url var="url" value="/repository-template-edit.htm" >
+                                <c:param name="execution" value="${flowExecutionKey}" />
+                                <c:param name="_eventId_deleteExample" value="1" />
+                                <c:param name="kind" value="1" />
+                            </c:url>
+                            <a class="btn btn-danger" href="<c:out value="${url}"/>">delete</a>
+                            </c:if>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item" style="line-height: 2.5;">
+                        <b>Short Answers:</b> ${template.shortanswers}
+                        <div class="pull-right">
+                            <c:if test="${!empty template.shortanswers}">
+                            <c:url var="url" value="/download.htm" >
+                                <c:param name="scope" value="1" />
+                                <c:param name="id" value="${template.id}" />
+                                <c:param name="kind" value="2" />
+                            </c:url>
+                            <a class="btn btn-default" href="<c:out value="${url}"/>">download</a>
+                            <c:url var="url" value="/repository-template-edit.htm" >
+                                <c:param name="execution" value="${flowExecutionKey}" />
+                                <c:param name="_eventId_deleteExample" value="1" />
+                                <c:param name="kind" value="2" />
+                            </c:url>
+                            <a class="btn btn-danger" href="<c:out value="${url}"/>">delete</a>
+                            </c:if>
+                        </div>
+                    </li>
+                </ul>
+
+                <a class="btn btn-success" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_uploadExamples">Add</a>
+            </div>
+        </div>
+
+		<input style="width:125" type="submit" class="button btn btn-default" name="_eventId_save" value="Save"/>
+		<input style="width:125" type="submit" class="button btn btn-default" name="_eventId_cancel" value="Cancel"/>
 	</form:form>
+    </div>
 </body></html>
