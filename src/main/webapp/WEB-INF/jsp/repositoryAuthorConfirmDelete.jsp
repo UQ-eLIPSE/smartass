@@ -30,44 +30,40 @@
 	</script>
 </head>
 <body onload="onLoad()">
+<div class="container">
 <c:if test="${(!empty user.name) && user.editRepositoryRight}">
 <form action="repository-author-delete.htm">
-	<table>
-		<tr class="header"><td colspan="2">
+    <div class="form-group">
 			<h3>Confirm author deletion</h3>
-		</td></tr>
 		<c:if test="${!empty item}">
 			<input type="hidden" name="id" value="<c:out value="${item.id}"/>">
-			<tr>
-			    <td><b>Name:</b></td>
-			    <td><c:out value="${item.name}" /></td>
-			</tr>
-			<tr>
-			    <td><b>Description:</b></td>
-			    <td><c:out value="${item.description}" /></td>
-			</tr>
-			<tr><td colspan="2">
-				<input type="checkbox" name="confirmed" id="cbYes" value="yes" onclick="onClickConfirmation(event)">Yes, I really want to delete this author.<br><br>
-			</td></tr>
-	
-			<tr class="header">
-				<td><input type="submit" class="button" name="save" id="btSave" value="Delete"></td>
-				<td><input type="button" class="button" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
-			</tr>
+			    <label>Name:</label>
+			    <c:out value="${item.name}" />
+                <br />
+			    <label>Description:</label>
+			    <c:out value="${item.description}" />
+
+				<div class="checkbox">
+				    <label><input type="checkbox" name="confirmed" id="cbYes" value="yes" onclick="onClickConfirmation(event)">
+				        Yes, I really want to delete this author.
+				    </label>
+				</div>
+
+				<input type="submit" class="btn btn-danger" name="save" id="btSave" value="Delete">
+				<input type="button" class="btn" name="cancel" value="Cancel" onclick="history.go(-1);">
 		</c:if>
 		<c:if test="${empty item}">
-			<tr><td>Author does not exists.</td></tr>
-			<tr><td><a href="Repository-authors.htm">[return to authors list]</a>
+			Author does not exists.
+			<a href="Repository-authors.htm">return to authors list
 		</c:if>
-	</table>
+	</div>
 </form>
 </c:if>
 <c:if test="${(empty user.name) || !user.editRepositoryRight}">
 	<b>To delete authors you need to log in as a user with appropriate rights!</b><br><br>
 	<a href="login.htm">[log in]</a> <a href="index.htm">[return to homepage]</a>
 </c:if>
+</div>
+	<%@include file="footer.jsp.inc" %>
 </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-</head>
 </html>

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.prefs.Preferences;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import au.edu.uq.smartass.engine.Engine;
 import au.edu.uq.smartass.templates.TexReader;
@@ -303,6 +304,18 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
          * @return The assignment title
          */
         public String getAssignmentTitle() {
+            String code = getCode();
+            Pattern pattern = Pattern.compile("\\\\underline\\{\\{\\\\bf (.*?)\\}");
+            //Pattern pattern = Pattern.compile("(.*)");
+            Matcher matcher = pattern.matcher(code);
+
+            if (matcher.find()) {
+                assignmentTitle = matcher.group(1);
+
+                System.out.println("-------------- Assignment Title: " + assignmentTitle);
+            }
+
+
             return assignmentTitle;
         }
 
@@ -369,6 +382,9 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
                 setSelectedIndex( components.size() - 1 ); // Select last component.
 
 				LOG.info("::setCode()[ selectedIndex=>\n{}\n]", getSelectedIndex());
+
+        // Get the assignment name
+        getAssignmentTitle();
 	}
 
 	/**

@@ -8,6 +8,7 @@
 </script>
 </head>
 <body>
+<div class="container">
 <c:if test="${!empty user.name}">
 <form:form modelAttribute="editUser" >   
 	<table>
@@ -100,10 +101,9 @@
 </c:if>
 <c:if test="${empty user.name}">
 	<b>You should be logged in to edit your settings!</b><br><br>
-	<a href="login.htm">[log in]</a> <a href="undex.htm">[return to homepage]</a>
+	<a href="login.htm">[log in]</a> <a href="index.htm">Return to Homepage</a>
 </c:if>
+</div>
+	<%@include file="footer.jsp.inc" %>
 </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-</head>
 </html>

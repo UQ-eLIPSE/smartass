@@ -62,8 +62,6 @@
 	    </c:if>
     </td>
     </tr></table>
+	<%@include file="footer.jsp.inc" %>
   </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-</head>
 </html>
