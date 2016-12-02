@@ -70,11 +70,11 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	/** Assignment constructions collection */
 	private List<AbstractTemplateConstruction> components = new ArrayList<AbstractTemplateConstruction>();
 
-        /**
-         * The position of the currently selected component. 
-         * This value is set by the JSP form, but also causes the correct item to be selected when the form is rendered.
-         * It is manipulated in the back end as components are added and removed from the assignment.
-         */
+    /**
+     * The position of the currently selected component.
+     * This value is set by the JSP form, but also causes the correct item to be selected when the form is rendered.
+     * It is manipulated in the back end as components are added and removed from the assignment.
+     */
 	private int selectedIndex;
 
 	public void setSelectedIndex(int selectedIndex) { 
@@ -429,8 +429,8 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 				incrementSelectedIndex();
 
 			} else {
-                                LOG.warn( "::analyseNode()[ {} NOT recognised - Ignoring ... ]", node.getCode() );
-                        }
+                LOG.warn( "::analyseNode()[ {} NOT recognised - Ignoring ... ]", node.getCode() );
+            }
 		}
 			
 	}

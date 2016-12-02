@@ -18,7 +18,7 @@
 
         <ul class="nav navbar-nav navbar-right nav-logo-right">
             <li><a href="./index.html" class="white">Home</a></li>
-            <li><a href="index.htm" class="white">Assignments</a></li>
+            <li><a href="index.htm?mode=browse" class="white">Assignments</a></li>
             <li><a href="repository.htm" class="white">Repository</a></li>
 	    	<c:if test="${empty user}">
                 <li><a href="login.htm" class="white">Log In</a></li>

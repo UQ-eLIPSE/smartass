@@ -1,5 +1,14 @@
 /**
  * Handles operations on the template table
+ *
+ * To use, the page must have the following elements
+ * An input with id '#nameFilter', to be used for searching for components
+ * A table with rows of class '.table-row', which contains the content
+ * A table header with elements with ids '#name-header', '#uploaded-header' 
+ *  and '#author-header'
+ * The table headers must have a span inside of them for the sorting icon to
+ *  display, the id's must be '#name-icon', '#uploaded-icon' and '#author-icon'
+ *
  * @author eLIPSE
  * @requires jQuery
  */
@@ -66,13 +75,14 @@ var template_table = {
             }, 
         },
 
-        /* The current ordering of the sort */
+        /* The current ordering .table-rowof the sort */
         currentOrder: 'name-asc',
 
-        validModes: ['selectForm', 'repository'],
-
         /* The mode, can either be 'repository' or 'selectForm' */
-        mode: 'selectForm'
+        mode: 'selectForm',
+
+        /* The table row selector */
+        tableRowSelector: '.table-row',
     },
 
     /**
@@ -85,21 +95,31 @@ var template_table = {
     tableRows: [],
 
     /**
+     * The css table selector
+     */
+    tableSelector: '',
+
+    /**
      * Sets the mode, used for making the code work with both
      * the repository view and the select form
-     * @param {String} mode - The mode, can be either {'selectForm', 'repository'}
+     * @param {string} mode The mode, can be either {'selectForm', 'repository', 'assignments'}
      */
     setMode: function(mode) {
+        this.config.mode = mode;
+    },
 
-        if (this.config.validModes.includes(mode)) {
-            this.config.mode = mode;
-        }; 
+    /**
+     * Returns the current mode of the template_table, as set in the config.mode option
+     * @returns {string}
+     */
+    getMode: function() {
+        return this.config.mode;
     },
 
 
     /**
      * Sorts a table by the given order
-     * @param sortOrder The sort order, must be one of the options 
+     * @param {string} sortOrder The sort order, must be one of the options 
      *                  within the 'sortOptions' variable
      */
     sortTable: function(sortOrder) {
@@ -114,28 +134,29 @@ var template_table = {
 
     /**
      * Updates the table on the DOM
-     *
      */
     updateTable: function() {
 
-        // Remove the old elements
-        $('.row-light, .row-dark').remove();
+        var scope = this;
 
+        // Remove the old elements
+        $(this.config.tableRowSelector).remove();
 
         this.tableRows.forEach(function(row) {
             // Append to the table
-            $('.panel-body > table > tbody').append(row);
+            $(scope.tableSelector + " > tbody").append(row);
+            
         });
         
     },
 
     /**
      * Sorts and updates a table
-     *
+     * @param {string} sortOrder The sort order
      */
     sortAndUpdateTable: function(sortOrder) {
         // Update the table rows, in case the user has selected a checkbox
-        this.tableRows = $('.row-light, .row-dark').get();
+        this.tableRows = this.getTableRows();
 
         this.sortTable(sortOrder);
 
@@ -145,10 +166,11 @@ var template_table = {
 
     /**
      * Filters the table based on a keyword
+     * @param {string} keyword The string to search by
      */
     filter: function(keyword) {
         var scope = this;
-        $('.row-light, .row-dark').each(function(index, item) {
+        $(this.config.tableRowSelector).each(function(index, item) {
             var info = scope.getInfo(item);
 
             // Do a fuzzy search on the text
@@ -163,7 +185,7 @@ var template_table = {
     /**
      * Gets the information of a row as a JSON object
      * @param row A row from the 'tableRows' variable
-     * @returns A JSON object containing the keys 
+     * @returns {json} A JSON object containing the keys 
      *          ['title', 'description', 'uploaded', 'author']
      */
     getInfo: function(row) {
@@ -185,6 +207,14 @@ var template_table = {
                     author: row.children[3].textContent.trim()
                 }
 
+            case 'assignments':
+                return {
+                    name: row.children[1].textContent.trim(),
+                    description: '',
+                    uploaded: row.children[0].textContent.trim(),
+                    author: row.children[2].textContent.trim()
+                }
+
             default:
                 return {};
 
@@ -194,8 +224,8 @@ var template_table = {
 
     /**
      * Updates the icons for the sorting
-     * @param {String} The column to use {"name", "uploaded", "author"}
-     * @param {String} The mode, can be either {"none", "ascending", "descending'}
+     * @param {string} The column to use {"name", "uploaded", "author"}
+     * @param {string} The mode, can be either {"none", "ascending", "descending'}
      */
     updateIcons: function(column, mode) {
 
@@ -220,8 +250,8 @@ var template_table = {
 
     /**
      * Sets the icon, used for displaying what is being sorted
-     * @param {String} The jquery selector string
-     * @param {String} The mode, can be either {"none", "ascending", "descending'}
+     * @param {string} The jquery selector string
+     * @param {string} The mode, can be either {"none", "ascending", "descending'}
      */
     setIcon: function(jquerySelector, mode) {
         var item = $(jquerySelector);
@@ -253,12 +283,13 @@ var template_table = {
      * Performs a fuzzy search on 'info' looking for something
      * the matches 'searchTerm'
      *
-     * @params {String} searchTerm The search term
-     * @params {Info} The info, as a javascript object
-     * @returns {Boolean} If the string matches or not
+     * @params {string} searchTerm The search term
+     * @params {json} The info, as a javascript object
+     * @returns {boolean} If the string matches or not
      */
     fuzzySearch: function(searchTerm, info) {
-        var string = info.name + " " + info.description + " " + info.uploaded + " " + info.author;
+        var string = info.name + " " + info.description + " " + 
+            info.uploaded + " " + info.author;
         string = string.toLowerCase();
         searchTerm = searchTerm.toLowerCase();
 
@@ -277,14 +308,11 @@ var template_table = {
     },
 
     /**
-     * The init method
-     *
-     * Sets the table rows
+     * Setup the event handlers
      */
-    init: function() {
-        this.tableRows = $('.row-light, .row-dark').get();
-        var scope = this;
+    setupEventHandlers: function() {
 
+        var scope = this;
         // Handle clicking the header buttons to change the order
         $('#name-header').click(function() {
             if (scope.config.currentOrder == 'name-asc') {
@@ -326,10 +354,30 @@ var template_table = {
         $('#nameFilter').keyup(function() {
             scope.filter($('#nameFilter').val());
         });
+    },
+
+    /**
+     * Gets the table rows
+     * @returns {json}
+     */
+    getTableRows: function() {
+        return $(this.config.tableRowSelector).get();
+    },
+
+    /**
+     * The init method
+     *
+     * Sets the table rows
+     * @param {string} tableSelector The table row selector, as a css selector
+     * @param {string} mode The mode
+     */
+    init: function(tableSelector, mode) {
+        this.tableSelector = tableSelector;
+        this.tableRows = this.getTableRows();
+        this.setupEventHandlers();
+
+        this.setMode(mode);
 
     }
 
 };
-
-
-template_table.init();

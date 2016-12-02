@@ -76,7 +76,7 @@
                 </div>
 
                     <div class="panel-body">
-			    <table class="table table-bordered" width="95%">
+			    <table class="table table-bordered" id="template-table" width="95%">
 <!-- 				<c:out value="${search.pageNum}"/>
 				<c:out value="${search.pageNo}"/>
 				<c:out value="${search.rowsNum}"/> -->
@@ -103,12 +103,7 @@
 			    </tr>
 			    <c:set var="rownumber" value="0"/>
 			    <c:forEach items="${search.templates}" var="t">
-			    	<c:if test="${(rownumber % 2) == 1}">
-			    		<tr class="row-dark">
-			    	</c:if>
-			    	<c:if test="${(rownumber % 2) == 0}">
-			    		<tr class="row-light">
-			    	</c:if>
+                    <tr class="table-row">
 						<td>
 			    			<form:checkbox path="selectedIds" value="${t.id}" />
 						</td>
@@ -185,5 +180,8 @@
     </div>
 
     <script src="/smartass-dev/js/template_table.js"></script>
+    <script>
+        template_table.init('#template-table', 'selectForm');
+    </script>
   </body>
 </html>

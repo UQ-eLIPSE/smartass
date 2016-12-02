@@ -83,7 +83,7 @@
         </form>
 
         <div class="panel-body">
-        <table class="table table-bordered" width="95%">
+        <table class="table table-bordered" id="repo-table" width="95%">
 
         <thead>
         <c:set var="page_url" value="repository.htm?classid=${selected_class.id}&templ_filter=${templ_filter}&keyword_filter=${keyword_filter}&"/>
@@ -104,12 +104,7 @@
 
             <c:set var="rownumber" value="0"/>
             <c:forEach items="${templates}" var="t">
-              <c:if test="${(rownumber % 2) == 1}">
-                <tr class="row-dark">
-            </c:if>
-            <c:if test="${(rownumber % 2) == 0}">
-                <tr class="row-light">
-            </c:if>
+                <tr class="table-row">
             <td>
                     <c:url var="url" value="/template.htm" >
                       <c:param name="id" value="${t.id}" />
@@ -146,7 +141,7 @@
 
 <script src="/smartass-dev/js/template_table.js"></script>
 <script>
-    template_table.setMode('repository');
+    template_table.init('#repo-table', 'repository');
 </script>
     <%@include file="../jsp/footer.jsp.inc" %>
 </body>
