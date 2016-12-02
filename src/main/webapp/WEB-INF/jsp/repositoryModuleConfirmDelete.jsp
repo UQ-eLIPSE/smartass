@@ -33,42 +33,46 @@
 <div class="container">
 <c:if test="${(!empty user.name) && user.editRepositoryRight}">
 <form action="repository-module-delete.htm">
-	<table>
-		<tr class="header"><td colspan="2">
 			<h3>Confirm module deletion</h3>
-		</td></tr>
 		<c:if test="${!empty item}">
 			<input type="hidden" name="id" value="<c:out value="${item.id}"/>">
-			<tr>
-			    <td><b>Name:</b></td>
-			    <td><c:out value="${item.name}" /></td>
-			</tr>
-			<tr>
-			    <td><b>Package:</b></td>
-			    <td><c:out value="${item.modulePackage}" /></td>
-			</tr>
-			<tr>
-			    <td><b>Parameters:</b></td>
-			    <td><c:out value="${item.parameters}" /></td>
-			</tr>
-			<tr>
-			    <td><b>Description:</b></td>
-			    <td><c:out value="${item.description}" /></td>
-			</tr>
-			<tr><td colspan="2">
-				<input type="checkbox" name="confirmed" id="cbYes" value="yes" onclick="onClickConfirmation(event)">Yes, I really want to delete this module.<br><br>
-			</td></tr>
-	
-			<tr class="header">
-				<td><input type="submit" class="button" name="save" id="btSave" value="Delete"></td>
-				<td><input type="button" class="button" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
-			</tr>
+			<p>
+			    <h4>Name:</h4>
+			    <c:out value="${item.name}" />
+            </p>
+
+            <p>
+			    <h4>Package:</h4>
+			    <c:out value="${item.modulePackage}" />
+            </p>
+
+            <p>
+			    <h4>Parameters:</h4>
+			    <c:out value="${item.parameters}" />
+            </p>
+
+            <p>
+			    <h4>Description:</h4>
+			    <c:out value="${item.description}" />
+            </p>
+			    <div class="checkbox">
+			        <label>
+				        <input type="checkbox" name="confirmed" id="cbYes" value="yes" onclick="onClickConfirmation(event)">
+				        Yes, I really want to delete this module.
+				    </label>
+				</div>
+
+			<div class="pull-right">
+				<td><input type="submit" class="btn btn-danger" name="save" id="btSave" value="Delete"></td>
+				<td><input type="button" class="btn" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
+			</div>
+
 		</c:if>
+
 		<c:if test="${empty item}">
-			<tr><td>Author does not exists.</td></tr>
-			<tr><td><a href="Repository-authors.htm">[return to authors list]</a>
+			<label>Author does not exists.</label>
+			<a href="Repository-authors.htm">Return to Authors list</a>
 		</c:if>
-	</table>
 </form>
 </c:if>
 <c:if test="${(empty user.name) || !user.editRepositoryRight}">

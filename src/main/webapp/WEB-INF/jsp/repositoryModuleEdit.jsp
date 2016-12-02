@@ -9,44 +9,32 @@
 <div class="container">
 <c:if test="${(!empty user.name) && user.editRepositoryRight}">
 <form:form modelAttribute="item" >   
-	<table>
-		<tr class="header"><td colspan="2">
 			<c:if test="${item.id==0}">
 				<h3>New module</h3>
 			</c:if>
 			<c:if test="${item.id!=0}">
 				<h3>Edit module</h3>
 			</c:if>
-		</td></tr>
-		<tr valign="top">
-		    <td><b>* Name:</b></td>
-		    <td><form:input size="50" path="name" /></td>
-		</tr>
-		<tr valign="top">
-		    <td>Package:</td>
-		    <td><form:input size="50" path="modulePackage" /></td>
-		</tr>
-		<tr valign="top">
-		    <td>Parameters:</td>
-		    <td><form:textarea rows="8" cols="80" path="parameters" /></td>
-		</tr>
-		<tr valign="top">
-		    <td>Description:</td>
-		    <td><form:textarea rows="10" cols="80" path="description" /></td>
-		</tr>
-		<tr><td colspan="2">
+		    <label>* Name:</label>
+		    <form:input cssClass="form-control" size="50" path="name" /></td>
+
+		    <label>Package:</label>
+		    <form:input cssClass="form-control" size="50" path="modulePackage" />
+
+		    <label>Parameters:</label>
+		    <form:textarea cssClass="form-control" rows="8" cols="80" path="parameters" />
+
+		    <label>Description:</label>
+		    <form:textarea cssClass="form-control" rows="10" cols="80" path="description" />
+
 			Fields marked with "*" is required fields.<br><br>
-		</td></tr>
 
-		<tr class="error"><td colspan="2">
 			<form:errors path="*" />
-		</td></tr>
 
-		<tr class="header">
-			<td><input type="submit" class="button" name="save" value="Save changes"></td>
-			<td><input type="button" class="button" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
-		</tr>
-	</table>
+		<div class="pull-right">
+			<td><input type="submit" class="btn btn-warning" name="save" value="Save changes"></td>
+			<td><input type="button" class="btn" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
+		</div>
 </form:form>
 </c:if>
 <c:if test="${(empty user.name) || !user.editRepositoryRight}">

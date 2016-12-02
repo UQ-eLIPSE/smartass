@@ -8,30 +8,34 @@
   <body>
   <div class="container">
     <h2>Smart Assignments Repository - Modules</h2>
-    <table width="100%"><tr class="menu">
-    <td valign="top">
 		<c:if test="${(!empty user.name) && user.editRepositoryRight}">
 		      <div class="error">
 		      	<c:out value="${errors}"/>
 		      </div>
-		    <form action="repository-modules.htm">
-		      Search by module name or package: <br>
-		      <input maxlength=128 id="search" name="search" size=55 title="Search by module name or package" value="<c:out value="${lastsearch}"/>"> <br>
-		      <input type=submit value="Search">
-		    </form>
-	
-		    <table width="95%" cellspacing="0">
 
-			<c:set var="page_url" value="repository-modules.htm?search=${search}&"/>
-			<%@include file="pages.inc.jsp" %>
+		      <div class="panel panel-default">
 
-		    <tr class="header">
+		        <div class="panel-heading background-primary-color white clearfix">
+		            <form action="repository-modules.htm">
+		                <div class="form-group">
+		                    <label>Search by module name or package:</label>
+		                    <input  class="form-control" maxlength=128 id="search" name="search" size=55 title="Search by module name or package" value="<c:out value="${lastsearch}"/>"> <br>
+		                    <input class="btn btn-warning pull-right" type=submit value="Search">
+		                </div>
+		            </form>
+                </div>
+
+                <div class="panel-body">
+		    <table class="table" width="95%" cellspacing="0">
+
+		    <thead>
 		    	<th>Name</th>
 		    	<th>Package</th>
 		    	<th align="right">
-				    <a href="repository-module.htm?id=0"> [new] </a>
+				    <a href="repository-module.htm?id=0"> New </a>
 		    	</th>
-		    </tr>
+		    </thead>
+
 		    <c:set var="rownumber" value="0"/>
 		    <c:forEach items="${items}" var="i">
 		    	<c:if test="${(rownumber % 2) == 1}">
@@ -51,7 +55,7 @@
 					    <c:url var="url" value="/repository-module-delete-confirm.htm" >
 					  		<c:param name="id" value="${i.id}" />
 						</c:url>
-					    <a href="<c:out value="${url}"/>">[delete]</a>
+					    <a class="pull-right" href="<c:out value="${url}"/>">Delete</a>
 		    		</td>
 		    	</tr>
 		    <c:set var="rownumber" value="${rownumber+1}"/>
@@ -61,13 +65,13 @@
 			<%@include file="pages.inc.jsp" %>
 
 		    </table>
+		    </div>
+		    </div>
 	    </c:if>
 		<c:if test="${(empty user.name) || !user.editRepositoryRight}">
 			<b>To edit modules you need to log in as a user with appropriate rights!</b><br><br>
-			<a href="login.htm?url=repository-modules.htm">[log in]</a> <a href="index.htm">[return to homepage]</a>
+			<a href="login.htm?url=repository-modules.htm">log in</a> <a href="index.htm">return to homepage</a>
 	    </c:if>
-    </td>
-    </tr></table>
     </div>
 	<%@include file="footer.jsp.inc" %>
 </body>
