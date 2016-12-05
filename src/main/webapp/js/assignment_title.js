@@ -19,16 +19,25 @@ var assignmentTitle = {
 
         this.setTitleIndicator('loading');
 
-        var data = {"_eventId_setTitle": "Set Title", "assignmentTitle": title};
-
-        $.post(this.config.postUrl, data, function(resp) {
-            var text = $('#assignmentTitle').val();
-            if (text == "") {
-                scope.setTitleIndicator('notSet');
-            } else {
-                scope.setTitleIndicator('set');
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.status == 200) {
+                var text = $('#assignmentTitle').val();
+                if (text == "") {
+                    scope.setTitleIndicator('notSet');
+                } else {
+                    scope.setTitleIndicator('set');
+                }
             }
-        });
+        }
+        xmlhttp.open("POST", this.config.postUrl);
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
+        var formData = new FormData();
+        formData.append("_eventId_setTitle", "Set Title");
+        formData.append("assignmentTitle", title);
+
+        xmlhttp.send(formData);
     },
 
 
