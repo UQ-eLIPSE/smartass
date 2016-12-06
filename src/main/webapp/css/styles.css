@@ -1,0 +1,185 @@
+*, html {
+    margin: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    background: url("../img/uq.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 600px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    float: left;
+    margin: 10px;
+    font-style: none;
+    font-size: 4rem;
+}
+
+
+header h2 {
+    font-size: 6rem;
+    margin-bottom: 15px;
+}
+
+header .overlay {
+    background-color:rgba(73,7,94,0.93);
+    width: 100%;
+    height: 100%;
+}
+
+header nav {
+    float: right;
+    margin: 10px 40px 0 0;
+}
+
+.logo img {
+    float: left;
+    clear: left;
+    margin: 15px;
+}
+
+.center {
+    opcaity: 0;
+    width: 600px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -330px;
+    margin-left: -300px;
+    text-align: center;
+    font-style: italic;
+    animation-duration: 2s;
+    animation-name: fadeIn;
+    animation-fill-mode: forwards;
+}
+
+.white {
+    color: #fff;
+}
+    
+.btn {
+    width: 200px;
+    height: 50px;
+    background: #8cb800;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    opacity: 1;
+    margin-top: 30px;
+    border-radius: 50px;
+    font-size: 2.2rem;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.center p {
+    font-size: 1.7rem;
+}
+
+.center .btn {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.container {
+    color: rgb(79, 79, 79);
+    opacity: 0;
+    animation-delay: 1s;
+    animation-duration: 1s;
+    animation-name: fadeIn;
+    animation-fill-mode: forwards;
+}
+
+.container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+section {
+    margin: 30px 0 60px 0;
+    width: 100%;
+    float: left;
+}
+
+hr { 
+  border: 0; 
+  height: 1px; 
+  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); 
+  display: block;
+  clear: both;
+  margin: 15px 0;
+}
+
+section p {
+    font-size: 18px;
+    line-height: 1.625;
+}
+
+#footer {
+    background-color:rgba(73,7,94,1);
+    width: 100%;
+    margin-top: 50px;
+    padding: 15px;
+}
+
+#footer h4 {
+    margin-left: 20px;
+}
+
+#foot p {
+    color: #fff;
+}
+
+.elipse-logo {
+    width: 200px;
+    float: right;
+    margin-top: 40px;
+}
+
+.row {
+    margin-bottom: 50px;
+}
+
+span.glyphicon {
+    float: left;
+    clear: both;
+    width: 100%;
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 600px) {
+    .center h2 {
+        font-size: 3.8rem;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+}
