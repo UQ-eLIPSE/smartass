@@ -261,7 +261,7 @@
             </div>
         </div>
 
-		<input style="width:125" type="submit" class="button btn btn-default" name="_eventId_save" value="Save"/>
+		<input style="width:125" type="submit" class="button btn btn-primary" name="_eventId_save" value="Save"/>
 		<input style="width:125" type="submit" class="button btn btn-default" name="_eventId_cancel" value="Cancel"/>
 	</form:form>
     </div>

@@ -12,8 +12,14 @@
 		Edit Template | Add Update
 	</c:if>	
 	</title>
+    <style>
+        td {
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
 	<form:form method="POST" modelAttribute="item">
 		<table>
 			<tr class="header"><td colspan=2><h2>
@@ -33,7 +39,7 @@
 				<table>
 					<tr>
 						<td><b>* Update date:</b></td>
-						<td><form:input path="update.updateDate" /> (date format is yyyy-mm-dd)</td>
+						<td><form:input cssClass="form-control" path="update.updateDate" /> (date format is yyyy-mm-dd)</td>
 					</tr>
 					<tr>
 						<c:if test="${mode=='new'}">
@@ -43,7 +49,7 @@
 					</tr>
 					<tr>
 						<td><b>Comment:</b></td>
-						<td><form:textarea rows="5" cols="70" path="update.comment"/></td>
+						<td><form:textarea cssClass="form-control" rows="5" cols="70" path="update.comment"/></td>
 					</tr>
 				</table>
 			</td></tr>
@@ -52,20 +58,20 @@
 				<tr class="header"><td colspan="2"><h3>Search update author in the database</h3></td></tr>
 				<tr><td>
 			      Search by author name: 
-			      <form:input path="search" maxlength="128" id="search" title="Search by author name"/>
-				  <input type=submit class="button" name="_eventId_search" value="Search">
+			      <form:input cssClass="form-control" path="search" maxlength="128" id="search" title="Search by author name"/>
+				  <input type=submit class="button btn btn-primary" name="_eventId_search" value="Search">
 				</td></tr>
 
 				<c:if test="${!empty found}">
 					<tr><td colspan="2">
 						<c:if test="${mode=='new'}">
-							<input style="width:125" type="submit" class="button" name="_eventId_ok" value="Next"/>
-							<input style="width:125" type="button" class="button" value="Back" onclick="history.go(-1);"/>
+							<input style="width:125" type="submit" class="button btn btn-primary" name="_eventId_ok" value="Next"/>
+							<input style="width:125" type="button" class="button btn btn-default" value="Back" onclick="history.go(-1);"/>
 						</c:if>
 				   		<c:if test="${mode=='edit'}">
-							<input style="width:125" type="submit" class="button" name="_eventId_ok" value="Ok"/>
+							<input style="width:125" type="submit" class="button btn btn-primary" name="_eventId_ok" value="Ok"/>
 						</c:if>
-						<input style="width:125" type="submit" class="button" name="_eventId_cancel" value="Cancel"/>
+						<input style="width:125" type="submit" class="button btn btn-default" name="_eventId_cancel" value="Cancel"/>
 					</td></tr>
 				</c:if>
 
@@ -94,11 +100,11 @@
 					<table>
 						<tr>
 							<td><b>* Name:</b></td>
-							<td><form:input path="update.author.name"/></td>
+							<td><form:input cssClass="form-control" path="update.author.name"/></td>
 						</tr>
 						<tr>
 							<td><b>Description:</b></td>
-							<td><form:input path="update.author.description"/></td>
+							<td><form:input cssClass="form-control" path="update.author.description"/></td>
 						</tr>
 					</table>
 				</td></tr>
@@ -110,12 +116,13 @@
 		</table>		
    
 		<c:if test="${mode=='new'}">
-			<input style="width:125" type="submit" class="button" name="_eventId_ok" value="Next"/>
-			<input style="width:125" type="button" class="button" value="Back" onclick="history.go(-1);"/>
+			<input style="width:125" type="submit" class="button btn btn-primary" name="_eventId_ok" value="Next"/>
+			<input style="width:125" type="button" class="button btn btn-default" value="Back" onclick="history.go(-1);"/>
 		</c:if>
 		<c:if test="${mode=='edit'}">
-			<input style="width:125" type="submit" class="button" name="_eventId_ok" value="Ok"/>
+			<input style="width:125" type="submit" class="button btn btn-primary" name="_eventId_ok" value="Ok"/>
 		</c:if>
-		<input style="width:125" type="submit" class="button" name="_eventId_cancel" value="Cancel"/>
+		<input style="width:125" type="submit" class="button btn btn-default" name="_eventId_cancel" value="Cancel"/>
 	</form:form>
+</div>
 </body></html>

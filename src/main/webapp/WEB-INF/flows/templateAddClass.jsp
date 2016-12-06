@@ -7,55 +7,52 @@
 	<title>Smart Assignments Repository | Edit Template | Add a Category to the Template</title> 
 </head>
 <body>
-	<form:form method="POST" modelAttribute="item">
-		<table>
-			<tr class="header"><td colspan=2><h2>
-				Add a Category to the Template 
-			</h2></td></tr>
-			<tr class="header"><td colspan=2><h3>Search in Database</h3></td></tr>
-			<c:if test="${item.parentid!=0}">
-				<tr>
-	`				<td colspan=2>Parent category: <c:out value="${parent.name}"/></td>
-			</tr>
-			</c:if>
-			<tr>
-				<td colspan=2>Search a category:
-			    	<form:input path="search" maxlength="128" id="search" title="Search a category"/>
-					<input type=submit class="button" name="_eventId_search" value="Search">
-				</td>
-			</tr>
-			<c:if test="${item.parentid!=0}">
-				<tr><td colspan=2>
-					<a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_goDeep&parentid=0"> [top level] </a>
-				</td></tr>
-			</c:if>
-		    <c:set var="rownumber" value="0"/>
-		    <c:forEach items="${found}" var="i">
-		    	<c:if test="${(rownumber % 2) == 1}">
-		    		<tr class="row-dark">
-		    	</c:if>
-		    	<c:if test="${(rownumber % 2) == 0}">
-		    		<tr class="row-light">
-		    	</c:if>
-		    		<td>
-					    <form:radiobutton path="solution" value="${i.id}"/>
-		    			<c:out value="${i.name}"/>
-					</td>
-		    		<td width="25%" align="right">
-		    			<c:if test="${item.parentId==0}">
-						    <a href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_goDeep&parentid=<c:out value="${i.id}"/>"> [sub-categories] </a>
-						</c:if>
-		    		</td>
-		    	</tr>
-		    <c:set var="rownumber" value="${rownumber+1}"/>
-		    </c:forEach>
+    <div class="container">
+        <form:form method="POST" modelAttribute="item">
 
-			<tr><td class="error">
-				<form:errors path="*" />
-			</td></tr>
-		</table>		
-   
-		<input style="width:125" type="submit" class="button" name="_eventId_ok" value="Ok"/>
-		<input style="width:125" type="submit" class="button" name="_eventId_back" value="Cancel"/>
-	</form:form>
+            <h2>Add Category</h2>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Search in Database</div>
+                <div class="panel-body">
+                    <c:if test="${item.parentid!=0}">
+                        <p>Parent category: <b><c:out value="${parent.name}"/></b></p>
+                    </c:if>
+
+                    <div class="form-group">
+                        <label for="nameSearch">Search a category</label>
+                        <div class="input-group">
+                            <form:input path="search" maxlength="128" id="nameSearch" cssClass="form-control"/>
+                            <span class="input-group-btn">
+                                <input type=submit class="btn btn-primary" name="_eventId_search" value="Search">
+                            </span>
+
+                        </div>
+
+                        <br>
+                        <c:if test="${item.parentid!=0}">
+                                <a class="btn btn-default" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_goDeep&parentid=0">Top level</a>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="list-group">
+                <c:forEach items="${found}" var="i">
+                    <li class="list-group-item" style="line-height: 2.5;">
+                        <form:radiobutton path="solution" value="${i.id}"/>
+                        <c:out value="${i.name}"/>
+
+                        <c:if test="${item.parentId==0}">
+                            <a class="pull-right btn btn-primary" href="repository-template-edit.htm?execution=<c:out value="${flowExecutionKey}"/>&_eventId_goDeep&parentid=<c:out value="${i.id}"/>">Sub-categories</a>
+                        </c:if>
+                    </li>
+                </c:forEach>
+            </ul>
+
+            <input style="width:125" type="submit" class="button btn btn-primary" name="_eventId_ok" value="Ok"/>
+            <input style="width:125" type="submit" class="button btn btn-default" name="_eventId_back" value="Cancel"/>
+
+        </form:form>
+    </div>
 </body></html>
