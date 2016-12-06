@@ -41,7 +41,6 @@
                       </ul>
                     </li>
 		    </c:if>
-            <li><a href="index.htm?mode=browse" class="white">Browse Assignments</a></li>
             <li><a href="help.htm?context=ass-new" class="white" target="_blank">Help</a></li>
             <li><a href="./history.html" class="white"><span>History</span></a></li>
             <li><a href="composer.htm" class="white background-secondary-color"><span class="glyphicon glyphicon-plus-sign"></span> Create New</a></li>
