@@ -19,7 +19,7 @@
         <evaluate expression="assignmentWizardController.prepareWizard(flowScope.id)"/>
         <evaluate expression="assignmentWizardController.createAssignment(flowScope.id, flowScope.template, 'default.tex', null, messageContext)" />
 
-        <evaluate expression="assignmentWizardController.setTitle(&quot;Assignment&quot;)" />
+        <evaluate expression="assignmentWizardController.setTitle(&quot;&quot;)" />
     </on-start>
 
     <decision-state id="testUserLoggedIn">
