@@ -162,7 +162,7 @@ public class AssignmentEditor {
                 if(line.indexOf("%%CALL")==0)
                     buff.append("\\item\n");
                     call_count++;
-                if(call_count==1 && repeat_pos>=0) {
+                if(call_count==2 && repeat_pos>=0) {
                     buff.insert(call_pos, "\\begin{enumerate}\n");
                     buff.insert(repeat_pos, "\\item\n");
                     enum_level++;
