@@ -104,7 +104,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	
 
         /** */
-	private boolean decorateWithLatex;
+	private boolean decorateWithLatex = true;
 
 
 	/** Default constructor */
@@ -118,7 +118,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 		enter.setText("\n");
 		doc_node.jjtAddChild(enter, 0);
 
-                assignmentTitle = "";
+        assignmentTitle = "";
 	}
 	
 
@@ -260,7 +260,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	public boolean getDecorateWithLatex() { return decorateWithLatex; }
 	/** */
 	public void setDecorateWithLatex(boolean decorateWithLatex) {
-		this.decorateWithLatex = true;
+        // Deprecated
 	}
 	
 	/** Returns the selected assignment construction */
@@ -312,7 +312,6 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
             if (matcher.find()) {
                 assignmentTitle = matcher.group(1);
 
-                System.out.println("-------------- Assignment Title: " + assignmentTitle);
             }
 
 
