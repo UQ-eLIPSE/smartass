@@ -104,7 +104,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	
 
         /** */
-	private boolean decorateWithLatex;
+	private boolean decorateWithLatex = true;
 
 
 	/** Default constructor */
@@ -260,7 +260,7 @@ public class AssignmentConstruct extends AssignmentsItemModel implements Seriali
 	public boolean getDecorateWithLatex() { return decorateWithLatex; }
 	/** */
 	public void setDecorateWithLatex(boolean decorateWithLatex) {
-		this.decorateWithLatex = true;
+        // Deprecated
 	}
 	
 	/** Returns the selected assignment construction */
