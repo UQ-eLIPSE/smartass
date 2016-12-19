@@ -29,7 +29,7 @@
 		    </c:if>
 		    <c:if test="${!empty user}">
 		    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+                      <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Profile<span class="caret"></span></a>
                       <ul class="dropdown-menu">
 		    	        <li><a href="edituser.htm" class="">User Settings</a></li>
 		    	        <c:if test="${user.adminRight}">
