@@ -6,45 +6,34 @@
 	<title>Smart Assignments Repository | Delete Assignment</title> 
 </head>
 <body>
+    <div class="container">
 <c:if test="${(!empty user.name) && user.editAssignmentsRight && user.id==item.user.id}">
 <form action="assignment-delete.htm">
-	<table>
-		<tr class="header"><td colspan="2">
+    <div class="form-group">
 			<h2>Confirm Assignment Deletion</h2>
-		</td></tr>
 		<c:if test="${!empty item}">
 			<input type="hidden" name="id" value="<c:out value="${item.id}"/>">
-			<tr>
-			    <td><b>Name:</b></td>
-			    <td><c:out value="${item.name}" /></td>
-			</tr>
-			<tr>
-			    <td><b>Description:</b></td>
-			    <td><c:out value="${item.description}" /></td>
-			</tr>
-			<tr><td colspan="2">
-				<input type="checkbox" name="confirmed" value="yes">Yes, I really want to delete this assignment.<br><br>
-			</td></tr>
-	
-			<tr class="header">
-				<td><input type="submit" class="button" name="save" value="Delete"></td>
-				<td><input type="button" class="button" name="cancel" value="Cancel" onclick="history.go(-1);"></td>
-			</tr>
+			    <label>Name:</label>
+			    <c:out value="${item.name}" /><br />
+			    <label>Description:</label>
+			    <c:out value="${item.description}" /><br /><br />
+				<input cssClass="form-control" type="checkbox" name="confirmed" value="yes"> Yes, I really want to delete this assignment.<br><br>
+
+				<input type="submit" class="btn btn-danger" name="save" value="Delete" />
+				<input type="button" class="btn" name="cancel" value="Cancel" onclick="history.go(-1);" />
 		</c:if>
 		<c:if test="${empty item}">
-			<tr><td>Assignment does not exists.</td></tr>
-			<tr><td><a href="index.htm">[return to assignments list]</a>
+			Assignment does not exists.
+			<a href="index.htm">[return to assignments list]</a>
 		</c:if>
-	</table>
+		</div>
 </form>
 </c:if>
 <c:if test="${(empty user.name) || !user.editRepositoryRight}">
 	<b>To delete an assignment you need to log in as a user with appropriate rights!</b><br><br>
 	<a href="login.htm">[log in]</a> <a href="index.htm">[return to homepage]</a>
 </c:if>
+	</div>
+	    <%@include file="footer.jsp.inc" %>
 </body>
-<head>
-	<%@include file="header.jsp.inc" %>
-	<title>Smart Assignments Repository | Delete Assignment</title> 
-</head>
 </html>
