@@ -245,7 +245,8 @@ public class UserItemModel extends IntIdItemModel implements Serializable {
 	 * split to set of pages with given rows number at the page.   
 	 */
 	public void setRowsPerPage(int rowsPerPage) {
-		this.rowsPerPage = rowsPerPage;
+//		this.rowsPerPage = rowsPerPage;
+		this.rowsPerPage = Integer.MAX_VALUE;
 	}
 	
 	/**
