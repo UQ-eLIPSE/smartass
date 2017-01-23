@@ -16,12 +16,9 @@ origin/
 *.log
 
 #
-.gradle/
 
 #	. Gradle Wrapper .
-gradlew
 gradlew.bat
-gradle/
 
 #	. Library Dependencies (not under Maven) .
 lib/
