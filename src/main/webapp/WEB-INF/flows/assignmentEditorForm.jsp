@@ -108,7 +108,7 @@
                     <c:if test="${canExecute}">
                       <button type="submit" class="btn background-secondary-color" name="_eventId_execute" value="Execute">Execute</button>
                     </c:if>
-                    <button style="width:125" type="submit" class="btn" name="_eventId_new" value="New assignment">New Assignment</button>
+                    <button style="width:125" type="submit" class="btn" name="_eventId_clear" value="New assignment">New Assignment</button>
                     <!-- <button type="submit" class="btn" name="_eventId_upload" value="Upload">Upload</button> -->
                     <c:if test="${(!empty user.name) && user.editAssignmentsRight}">
                       <button type="submit" class="btn" name="_eventId_save" value="Save">Save</button>
