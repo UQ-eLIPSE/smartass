@@ -7,7 +7,7 @@
 <body>
     <div class="container">
         <h1>An error occurred.</h1>
-        <p>Please try again, if this problem persists contact elipse-developers@lists.eait.uq.edu.au</p>
+        <p>Please try again, if this problem persists contact <a href="mailto:elipse-developers@lists.eait.uq.edu.au">eLIPSE developers</a></p>
     </div>
 </body>
 </html>

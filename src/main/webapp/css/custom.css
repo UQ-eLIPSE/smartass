@@ -96,14 +96,23 @@ margin: 20px 50px;
     padding: 15px;
 }
 
+#footer a {
+    /*color: whitesmoke;*/
+    color: #d5bddd;
+}
+
+#footer hr {
+    border-top: 1px solid #5b206e;
+}
+
 #footer h4 {
-    margin-left: 20px;
+    /*margin-left: 20px;*/
 }
 
 .elipse-logo {
     width: 200px;
     float: right;
-    margin-top: 40px;
+    /*margin-top: 40px;*/
 }
 
 #nameFilter {

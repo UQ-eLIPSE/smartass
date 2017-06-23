@@ -123,7 +123,7 @@
         </form:form>
         </div>
 
-        <script src="/smartass-dev/js/assignment_title.js"></script>
+        <script src="/js/assignment_title.js"></script>
 
         <script type="text/javascript">
             function setControlsState(kind, parent_kind) {
@@ -138,7 +138,7 @@
             assignmentTitle.init(postUrl);
 
         </script>
-    <script src="/smartass-dev/js/process_question_list.js"></script>
+    <script src="/js/process_question_list.js"></script>
     <%@include file="../jsp/footer.jsp.inc" %>
   </body>
 

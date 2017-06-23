@@ -86,8 +86,8 @@ gretty {
 }
 
 war {
-	baseName = 'smartass-dev'
-//	version = '0.1.0'
+	baseName = 'ROOT'
+	//version = '0.1.0'
 }
 
 

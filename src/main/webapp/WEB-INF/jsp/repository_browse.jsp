@@ -139,7 +139,7 @@
 </div>
         </div>
 
-<script src="/smartass-dev/js/template_table.js"></script>
+<script src="/js/template_table.js"></script>
 <script>
     template_table.init('#repo-table', 'repository');
 </script>
