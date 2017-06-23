@@ -123,7 +123,7 @@
         </div>
         <%@include file="../jsp/footer.jsp.inc" %>
 
-        <script src="/smartass-dev/js/template_table.js"></script>
+        <script src="/js/template_table.js"></script>
         <script>
             template_table.init('#assignment-table', 'assignments');
         </script>

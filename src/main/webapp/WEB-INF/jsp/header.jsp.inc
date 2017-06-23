@@ -4,8 +4,8 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/custom.css" />
 
-<script src="/smartass-dev/js/jquery.min.js"></script>
-<script src="/smartass-dev/js/bootstrap.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 <nav class="navbar navbar-default no-radius background-primary-color nav-logo">
     <div class="container-fluid">
@@ -42,7 +42,7 @@
                     </li>
 		    </c:if>
             <li><a href="help.htm?context=ass-new" class="white" target="_blank">Help</a></li>
-            <li><a href="./history.html" class="white"><span>History</span></a></li>
+            <li><a href="./history.html" class="white"><span>About</span></a></li>
             <li><a href="composer.htm" class="white background-secondary-color"><span class="glyphicon glyphicon-plus-sign"></span> Create New</a></li>
         </ul>
     </div>

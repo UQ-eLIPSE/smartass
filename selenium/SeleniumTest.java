@@ -59,7 +59,7 @@ public class SeleniumTest {
 	 * @param driver The driver to use
 	 */
 	private void createAssignment(WebDriver driver) {
-		driver.get("http://localhost:8088/smartass-dev/");
+		driver.get("http://localhost:8088/smartass/");
 
 		clickLink(driver, "HOME");
 		clickLink(driver, "[create new]");
@@ -81,7 +81,7 @@ public class SeleniumTest {
 	@Test
 	public void testTemplates() {
 		WebDriver driver = new FirefoxDriver();
-		driver.get("http://localhost:8088/smartass-dev/");
+		driver.get("http://localhost:8088/smartass/");
 		clickLink(driver, "HOME");
 		clickLink(driver, "IntervalToInequalityTemplate");
 
@@ -118,7 +118,7 @@ public class SeleniumTest {
 	@Test
 	public void testRecentAssignments() {
 		WebDriver driver = new FirefoxDriver();
-		driver.get("http://localhost:8088/smartass-dev/");
+		driver.get("http://localhost:8088/smartass/");
 		clickLink(driver, "HOME");
 
 		String copyUrl = driver.findElement(By.linkText("[copy]")).getAttribute("href");
@@ -130,7 +130,7 @@ public class SeleniumTest {
 	@Test
 	public void testRepositories() {
 		WebDriver driver = new FirefoxDriver();
-		driver.get("http://localhost:8088/smartass-dev/");
+		driver.get("http://localhost:8088/smartass/");
 		clickLink(driver, "REPOSITORY");
 
 		clickLink(driver, "IntervalToInequalityTemplate");

@@ -56,7 +56,7 @@ public class HelpPagesDao extends JdbcDaoSupport {
 		if(items.size()==0) {
 			HelpPageItem item = new HelpPageItem();
 			item.setContext(context);
-			item.setText("The help for this page does not found!");
+			item.setText("The help for this page can not be found!");
 			item.setTitle("Unknown Page");
 			return item;
 		}
